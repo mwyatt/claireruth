@@ -35,28 +35,8 @@ class Error
 				echo 'A error has occurred. We all make mistakes. Please notify the administrator <a href="mailto:martin.wyatt@gmail.com">martin.wyatt@gmail.com</a>';
 				exit;		
 			case 'yes':
-				echo '[Type ' . $errorType . '] ' . $errorString . ' | ' . $errorFile . ' [Line ' . $errorLine . ']' . "\n";
-				// switch ($errorType) {
-				// 	case 2:
-				// 		print_r ($error);
-				// 		break;						
-				// 	case 8:
-				// 		print_r ($error);
-				// 		break;
-				// 	case 256:
-				// 		print_r ($error);
-				// 		break;
-				// 	case 512:
-				// 		print_r ($error);
-				// 		break;
-				// 	case 1024:
-				// 		print_r ($error);
-				// 		break;
-				// 	case 4096:
-				// 		print_r ($error);
-				// 		break;	
-				// }
-				// break;
+				// echo '[Type ' . $errorType . '] ' . $errorString . ' | ' . $errorFile . ' [Line ' . $errorLine . ']' . "\n";
+				// seems to provide an alternative error message when this is disabled?
 		}	
     }
 }

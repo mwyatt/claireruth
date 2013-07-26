@@ -118,7 +118,7 @@ class Controller extends Config
 	 * @param  string $path   extension of the base action
 	 * @return null          
 	 */
-	protected function route($scheme, $path = false) {		
+	public function route($scheme, $path = false) {		
 		header("Location: " . $this->config->getUrl($scheme) . $path);
 		exit;
 	}

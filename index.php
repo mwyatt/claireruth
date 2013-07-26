@@ -29,10 +29,12 @@ $config
 	->setObject($error)
 	->setObject($session);
 $controller = new Controller();
+
 // admin, ajax
 if ($controller->load(array($config->getUrl(0)), $config->getUrl(1), false, $database, $config)) {
 	exit;
 }
+
 // frontend
 if ($controller->load(array('front'), $config->getUrl(0), false, $database, $config)) {
 	exit;
