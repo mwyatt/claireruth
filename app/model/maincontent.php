@@ -32,10 +32,7 @@ class Model_Maincontent extends Model
 				, main_content.date_published
 				, main_content.status
 				, main_content.user_id
-				, main_content_meta.name as meta_name
-				, main_content_meta.value as meta_value
 			from main_content
-			left join main_content_meta on main_content_meta.content_id = main_content.id
 			left join main_user on main_user.id = main_content.user_id
 			" . ($where ? ' where main_content.type = :type ' : '') . "
 			" . ($id ? ' and main_content.id = :id ' : '') . "
@@ -67,10 +64,7 @@ class Model_Maincontent extends Model
 				, main_content.date_published
 				, main_content.status
 				, main_content.type
-				, main_content_meta.name as meta_name
-				, main_content_meta.value as meta_value
 			from main_content
-			left join main_content_meta on main_content_meta.content_id = main_content.id
 			left join main_user on main_user.id = main_content.user_id
 			where main_content.type = :type and main_content.status = 'visible'
 			order by main_content.date_published desc
@@ -96,10 +90,7 @@ class Model_Maincontent extends Model
 				, main_content.date_published
 				, main_content.status
 				, main_content.type
-				, main_content_meta.name as meta_name
-				, main_content_meta.value as meta_value
 			from main_content
-			left join main_content_meta on main_content_meta.content_id = main_content.id
 			left join main_user on main_user.id = main_content.user_id
 			where main_content.title like ? and main_content.status = 'visible'
 			order by main_content.date_published desc
@@ -119,10 +110,7 @@ class Model_Maincontent extends Model
 				, main_content.date_published
 				, main_content.status
 				, main_content.type
-				, main_content_meta.name as meta_name
-				, main_content_meta.value as meta_value
 			from main_content
-			left join main_content_meta on main_content_meta.content_id = main_content.id
 			left join main_user on main_user.id = main_content.user_id
 			where main_content.id = :id and main_content.status = 'visible'
 		");
@@ -144,39 +132,39 @@ class Model_Maincontent extends Model
 	// 	return $sth->rowCount();
 	// }
 
-	public function readMedia($id) {	
-		$sth = $this->database->dbh->prepare("	
-			select
-				main_content_meta.id
-				, main_content_meta.content_id
-				, main_content_meta.name
-				, main_content_meta.value
-			from main_content_meta
-			where main_content_meta.content_id = :id
-		");
-		$sth->execute(array(
-			':id' => $id
-		));	
-		$results = $sth->fetchAll(PDO::FETCH_ASSOC);
-		$sth = $this->database->dbh->prepare("	
-			select
-				id
-				, filename
-				, basename
-				, type
-				, date_published
-			from main_media
-			where main_media.id = :id
-		");
-		foreach ($results as $result) {
-			if ($result['name'] == 'media') {
-				$sth->execute(array(
-					':id' => $result['value']
-				));	
-			}
-		}
-		$this->data = $sth->fetchAll(PDO::FETCH_ASSOC);
-	}
+	// public function readMedia($id) {	
+	// 	$sth = $this->database->dbh->prepare("	
+	// 		select
+	// 			main_content_meta.id
+	// 			, main_content_meta.content_id
+	// 			, main_content_meta.name
+	// 			, main_content_meta.value
+	// 		from main_content_meta
+	// 		where main_content_meta.content_id = :id
+	// 	");
+	// 	$sth->execute(array(
+	// 		':id' => $id
+	// 	));	
+	// 	$results = $sth->fetchAll(PDO::FETCH_ASSOC);
+	// 	$sth = $this->database->dbh->prepare("	
+	// 		select
+	// 			id
+	// 			, filename
+	// 			, basename
+	// 			, type
+	// 			, date_published
+	// 		from main_media
+	// 		where main_media.id = :id
+	// 	");
+	// 	foreach ($results as $result) {
+	// 		if ($result['name'] == 'media') {
+	// 			$sth->execute(array(
+	// 				':id' => $result['value']
+	// 			));	
+	// 		}
+	// 	}
+	// 	$this->data = $sth->fetchAll(PDO::FETCH_ASSOC);
+	// }
 
 	public function readByTitleSlug($titleSlug) {
 		$sth = $this->database->dbh->prepare("	
@@ -189,17 +177,8 @@ class Model_Maincontent extends Model
 				, main_content.guid
 				, main_content.status
 				, main_content.type
-				, main_content_meta.name as meta_name
-				, main_content_meta.value as meta_value
-
 			from main_content
-
-			left join
-				main_content_meta on main_content_meta.content_id = main_content.id
-
-			left join
-				main_user on main_user.id = main_content.user_id
-
+			left join main_user on main_user.id = main_content.user_id
 			where
 				main_content.title_slug = :title_slug
 				and

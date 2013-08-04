@@ -79,7 +79,7 @@ class Controller extends Config
 	 * @param  object $config   
 	 * @return null           the controller is loaded into this scope
 	 */
-	public function load($names, $method, $view, $database, $config)	{
+	public function load($names, $method, $view, $database, $config) {
 		$path = $this->path;
 		$this->session = new Session();
 		$this->cache = new Cache(false);
@@ -101,7 +101,6 @@ class Controller extends Config
 		}
 		$controllerName = rtrim($controllerName, '_');
 		$path = rtrim($path, '/') . '.php';
-		// echo $controllerName;
 		if (is_file($path)) {
 			$controller = new $controllerName();
 			$controller->load(false, false, $this->view, $this->database, $this->config);

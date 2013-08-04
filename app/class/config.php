@@ -59,7 +59,9 @@ class Config
 
 
 	public function getOption($key) {
-		return (array_key_exists($key, $this->options) ? $this->options[$key] : false);
+		if (array_key_exists($key, $this->options)) {
+			return $this->options[$key];
+		}
 	}
 
 
@@ -208,44 +210,6 @@ class Config
 			}
 			return;
 		}
-		if ($one && $two && $three) {
-			if (is_array($this->data)) {
-				if (array_key_exists($one, $this->data)) {
-					if (is_array($this->data[$one])) {
-						if (array_key_exists($two, $this->data[$one])) {
-							if (is_array($this->data[$one][$two])) {
-								if (array_key_exists($three, $this->data[$one][$two])) {
-									return $this->data[$one][$two][$three];
-								}
-							} else {
-								return $this->data[$one][$two][$three];
-							}
-						}
-					} else {
-						return $this->data[$one][$two];
-					}
-				}
-			} else {
-				return $this->data;
-			}
-			return false;
-		}
-		if ($one && $two) {
-			if (is_array($this->data)) {
-				if (array_key_exists($one, $this->data)) {
-					if (is_array($this->data[$one])) {
-						if (array_key_exists($two, $this->data[$one])) {
-							return $this->data[$one][$two];
-						}
-					} else {
-						return $this->data[$one][$two];
-					}
-				}
-			} else {
-				return $this->data;
-			}
-			return false;
-		}
 		if ($one) {
 			if (is_array($this->data)) {
 				if (array_key_exists($one, $this->data)) {
@@ -256,7 +220,6 @@ class Config
 			}
 			return false;
 		}
-		// return $this->data;
 	}	
 
 

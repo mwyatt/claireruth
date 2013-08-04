@@ -17,7 +17,7 @@ class Controller_Front extends Controller
 
 	public function initialise() {
 		$menu = new Model_Mainmenu($this->database, $this->config);
-		$menu->division();
+		// $menu->division();
 		$this->view->setObject($menu);
 		if (array_key_exists('search', $_GET)) {
 			$this->search($_GET['search']);

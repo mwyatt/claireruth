@@ -138,8 +138,6 @@ class View extends Model
 	}	
 	
 	
-	/**
-	 */	
 	public function pathView() { 
 		return BASE_PATH . 'app/view/';
 	}	
@@ -149,6 +147,7 @@ class View extends Model
 		return $this->config->getUrl($key);
 	}
 	
+
 	/**
 	 * return base url
 	 */	
@@ -237,18 +236,13 @@ class View extends Model
 
 	// Returns body class
 	public function bodyClass() { 
-
 		$i = 1;
 		$class = '';
-
 		while ($this->getUrl($i)) {
 			$class .= $this->getUrl($i) . ' ';
 			$i ++;
 		}
-
 		return trim($class);
-
-
 		if (!$this->getUrl(1))
 			return 'home';
 //		$val = ( ? $this->getUrl(1) : );

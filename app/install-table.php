@@ -35,6 +35,10 @@ try {
 
 	// main focus is the blog posts, pages or any other content which
 	// requires a title and / or content
+	// status
+	// 		hidden
+	// 		deleted (new)
+	// 		visible
 	$database->dbh->query("
 		CREATE TABLE IF NOT EXISTS 
 			main_content
@@ -51,6 +55,10 @@ try {
 			)
 	");
 
+	/**
+	 * relational database between content and the media which is attached
+	 * the first media found in a query here will be the featured item?
+	 */
 	$database->dbh->query("
 		CREATE TABLE IF NOT EXISTS 
 			main_content_media
@@ -92,11 +100,6 @@ try {
 				, KEY (user_id)
 			)		
 	");
-
-	/**
-	 * @todo  need a new table for the relationship between content and media
-	 */
-	
 } catch (PDOException $e) { 
 	echo '<h1>Exception while Installing Tables</h1>';
 	echo $e;

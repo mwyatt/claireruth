@@ -315,24 +315,24 @@ class Model_Mainuser extends Model
 
 
 	public function permission() {
-		if (array_key_exists('form_login', $_POST)) {
-			if ($this->get('email') == 'martin.wyatt@gmail.com') {
-				$this->config->getObject('route')->home('admin/');
-			}
-			if ($this->get('email') == 'Realbluesman@tiscali.co.uk') {
-				$this->config->getObject('route')->home('admin/league/fixture/fulfill/');
-			}
-			if ($this->get('email') == 'hepworth_neil@hotmail.com') {
-				$this->config->getObject('route')->home('admin/content/press/');
-			}
-			if ($this->get('email') == 'gsaggers6@aol.com') {
-				$this->config->getObject('route')->home('admin/league/player/');
-			}
-			if ($this->get('email') == 'henryrawcliffe@sky.com') {
-				$this->config->getObject('route')->home('admin/content/minutes/');
-			}
-			$this->config->getObject('route')->home('admin/');
-		}
+		// if (array_key_exists('form_login', $_POST)) {
+		// 	if ($this->get('email') == 'martin.wyatt@gmail.com') {
+		// 		$this->config->getObject('route')->home('admin/');
+		// 	}
+		// 	if ($this->get('email') == 'Realbluesman@tiscali.co.uk') {
+		// 		$this->config->getObject('route')->home('admin/league/fixture/fulfill/');
+		// 	}
+		// 	if ($this->get('email') == 'hepworth_neil@hotmail.com') {
+		// 		$this->config->getObject('route')->home('admin/content/press/');
+		// 	}
+		// 	if ($this->get('email') == 'gsaggers6@aol.com') {
+		// 		$this->config->getObject('route')->home('admin/league/player/');
+		// 	}
+		// 	if ($this->get('email') == 'henryrawcliffe@sky.com') {
+		// 		$this->config->getObject('route')->home('admin/content/minutes/');
+		// 	}
+		// 	$this->config->getObject('route')->home('admin/');
+		// }
 		// $feedback = 'Access denied. Please contact the administrator if you require access <a href="mailto:martin.wyatt@gmail.com">martin.wyatt@gmail.com</a>';
 		// if ($this->get('email') == 'Realbluesman@tiscali.co.uk') {
 		// 	if ($this->config->getUrl(1) != 'league') {

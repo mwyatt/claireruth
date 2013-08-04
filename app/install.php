@@ -14,8 +14,8 @@
 $controller = new Controller($database, $config);
 if ($session->get('installing')) {
 	$user = new Model_Mainuser($database, $config);
-	require_once(BASE_PATH . 'install-table.php');
-	require_once(BASE_PATH . 'install-tabledata.php');
+	require_once(BASE_PATH . 'app/install-table.php');
+	require_once(BASE_PATH . 'app/install-table-data.php');
 	$session->getUnset('installing');
 	$controller->route('home');
 } else {
