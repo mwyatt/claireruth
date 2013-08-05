@@ -72,6 +72,24 @@ try {
 			)
 	");
 
+
+	/**
+	 * relates to the content table to allow the assignment of various
+	 * tags, on each load all unique ones will be found and then
+	 * displayed on front end
+	 */
+	$database->dbh->query("
+		CREATE TABLE IF NOT EXISTS 
+			main_content_tag
+			(
+				id INT UNSIGNED NOT NULL AUTO_INCREMENT
+				, content_id INT UNSIGNED NOT NULL
+				, name VARCHAR(255) NOT NULL DEFAULT ''
+				, PRIMARY KEY (id)
+				, KEY (content_id)
+			)
+	");
+
 	// concerns itself with all core options which need to be stored in
 	// permenant storage, (site title etc)
 	$database->dbh->query("

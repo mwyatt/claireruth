@@ -22,6 +22,12 @@ $session
 	->refreshExpire();
 $config = new Config();
 
+$xml = new SimpleXMLElement(file_get_contents(BASE_PATH . 'tumblr_claireruth.xml'));
+echo '<pre>';
+print_r($xml);
+echo '</pre>';
+exit;
+
 // install
 if (array_key_exists('install', $_GET)) {
 	require_once(BASE_PATH . 'app/install.php');
