@@ -35,6 +35,38 @@ try {
 			, ('site_telephone', '01234 567890')
 			, ('site_mobile', '01234 567890')
 	");	
+
+	$claireTumbleBlog = simplexml_load_string(file_get_contents(BASE_PATH . 'tumblr_claireruth.xml'));
+	$sqlValues = "";
+	foreach ($claireTumbleBlog->channel->item as $item) {
+		$sqlValues .= ", ('site_mobile', '01234 567890')"
+	    print_r($item->category);
+
+	    // title
+	    // content
+	    // 'post'
+	    // pubDate
+	    // 'visible'
+	    // '1'
+	    // 
+	    // category, each, domain == category, or domain == tag use arrkeyexits
+	}
+
+	exit;
+
+	$database->dbh->query("
+		INSERT INTO main_content
+			(
+				title
+				, html
+				, type
+				, date_published
+				, status
+				, user_id
+			)
+		VALUES
+			$sqlValues
+	");	
 } catch (PDOException $e) { 
 	echo '<h1>Exception while Installing Test Data</h1>';
 	echo $e;
