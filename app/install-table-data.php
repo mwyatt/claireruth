@@ -73,23 +73,17 @@ try {
 	    	, ':status' => 'visible'
 	    	, ':user_id' => 1
 	    ));
+		$contentLastInsertId = $database->dbh->lastInsertId();
 	    foreach ($item->category as $category) {
-	    	if (array_key_exists('nicename', $category)) {
+	    	if ($category->attributes()['nicename'] && $category->attributes()['domain'] == 'tag') {
 			    $sthTag->execute(array(
-			    	':content_id' => $item->title
-			    	, ':name' => $item->content
+			    	':content_id' => $contentLastInsertId
+			    	, ':name' => str_replace('-', ' ', $keyval['nicename'])
 			    ));
 	    	}
 	    }
-		// $encounterPartId['left'] = $this->database->dbh->lastInsertId();
-
-	    echo '<pre>';
-	    print_r($item->category);
-	    echo '</pre>';
-	    
-	    // category, each, domain == category, or domain == tag use arrkeyexits
 	}
-	    exit;
+	exit;
 } catch (PDOException $e) { 
 	echo '<h1>Exception while Installing Test Data</h1>';
 	echo $e;
