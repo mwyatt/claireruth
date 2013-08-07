@@ -36,7 +36,7 @@ try {
 			, ('site_mobile', '01234 567890')
 	");	
 	$claireTumbleBlog = simplexml_load_string(file_get_contents(BASE_PATH . 'tumblr_claireruth.xml'));
-	$sthMainContent = $database->dbh->prepare("
+	$sthContent = $database->dbh->prepare("
 		insert into main_content (
 			title
 			, html
@@ -54,22 +54,42 @@ try {
 			, :user_id
 		)
 	");	
-	foreach ($claireTumbleBlog->channel->item as $item) {
-		echo '<pre>';
-		print_r($item->pubDate);
-		echo '</pre>';
-		exit;
-		
-	    $sthMainContent->execute(array(
+	$sthTag = $database->dbh->prepare("
+		insert into main_content_tag (
+			content_id
+			, name
+		)
+		values (
+			:content_id
+			, :name
+		)
+	");	
+	foreach ($claireTumbleBlog->channel->item as $item) {	
+	    $sthContent->execute(array(
 	    	':title' => $item->title
 	    	, ':html' => $item->content
 	    	, ':type' => 'post'
-	    	, ':date_published' => $item->pubDate
+	    	, ':date_published' => strtotime($item->pubDate)
 	    	, ':status' => 'visible'
 	    	, ':user_id' => 1
 	    ));
+	    foreach ($item->category as $category) {
+	    	if (array_key_exists('nicename', $category)) {
+			    $sthTag->execute(array(
+			    	':content_id' => $item->title
+			    	, ':name' => $item->content
+			    ));
+	    	}
+	    }
+		// $encounterPartId['left'] = $this->database->dbh->lastInsertId();
+
+	    echo '<pre>';
+	    print_r($item->category);
+	    echo '</pre>';
+	    
 	    // category, each, domain == category, or domain == tag use arrkeyexits
 	}
+	    exit;
 } catch (PDOException $e) { 
 	echo '<h1>Exception while Installing Test Data</h1>';
 	echo $e;
