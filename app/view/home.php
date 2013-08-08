@@ -1,31 +1,4 @@
 <?php require_once('header.php'); ?>
-<?php 
-$covers[] = array(
-	'title' => 'Photo Gallery'
-	, 'guid' => $this->url('base') . 'gallery/'
-	, 'description' => 'View photos from the recent 2013 tournament.'
-	, 'button' => 'Go'
-);
-$covers[] = array(
-	'title' => 'Summer League'
-	, 'guid' => $this->url('base') . 'page/summer-league/'
-	, 'description' => 'Register your interest for the upcoming summer league.'
-	, 'button' => 'More Information'
-);
-$covers[] = array(
-	'title' => 'Player Performance'
-	, 'guid' => $this->url('base') . 'player/performance/'
-	, 'description' => 'Visit the player performance to see who has gained the most ranking points throughout the season.'
-	, 'button' => 'Go'
-);
-$covers[] = array(
-	'title' => 'Results archive'
-	, 'guid' => $this->url('base') . 'archive/'
-	, 'description' => 'What happened last year? Find out here.'
-	, 'button' => 'Vist the archive'
-);
-shuffle($covers);
-?>
 <?php if ($covers): ?>
 	
 <div class="cover">

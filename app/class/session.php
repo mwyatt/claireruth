@@ -16,6 +16,7 @@ class Session extends Config
 
 
 	public function start() {
+		session_name('example');
 		session_start();
 		return $this;
 	}

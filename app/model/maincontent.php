@@ -76,6 +76,11 @@ class Model_Maincontent extends Model
 		}
 		$sth->execute();
 		$this->data = $this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
+		echo '<pre>';
+		print_r($this->data);
+		echo '</pre>';
+		exit;
+		
 		return $this;
 	}	
 

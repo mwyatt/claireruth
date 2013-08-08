@@ -16,7 +16,7 @@ class Controller_Front extends Controller
 
 
 	public function initialise() {
-		$menu = new Model_Mainmenu($this->database, $this->config);
+		$menu = new model_mainmenu($this->database, $this->config);
 		// $menu->division();
 		$this->view->setObject($menu);
 		if (array_key_exists('search', $_GET)) {
@@ -26,10 +26,12 @@ class Controller_Front extends Controller
 
 
 	public function index() {
-		$press = new Model_maincontent($this->database, $this->config);
-		$press->readByType('press', 3);
+		$tags = new model_maincontent_tag($this->database, $this->config);
+		$tags->read();
+		$posts = new model_maincontent($this->database, $this->config);
+		$posts->readByType('post', 6);
 		$this->view
-			->setObject($press)
+			->setObject($posts)
 			->loadTemplate('home');
 	}
 
@@ -39,7 +41,7 @@ class Controller_Front extends Controller
 		if (! $query) {
 			$this->route('base');
 		}
-		$search = new Model_Search($this->database, $this->config);
+		$search = new model_search($this->database, $this->config);
 		$search->read($query);
 		$this->view
 			->setObject('search_query', $query)
@@ -69,7 +71,7 @@ class Controller_Front extends Controller
 
 
 	public function tablesAndResults() {
-		$division = new Model_Ttdivision($this->database, $this->config);
+		$division = new model_ttdivision($this->database, $this->config);
 		$division->read();
 		$this->view
 			->setMeta(array(		
@@ -82,7 +84,7 @@ class Controller_Front extends Controller
 
 	public function fredHoldenCup() {
 		$minuteCollection = array();
-		$cup = new Model_Maincontent($this->database, $this->config);
+		$cup = new model_maincontent($this->database, $this->config);
 		$media = new model_mainmedia($this->database, $this->config);
 		$cup->readByType('cup');
 		foreach ($cup->getData() as $minute) {
@@ -107,7 +109,7 @@ class Controller_Front extends Controller
 
 	public function page() {
 		if ($this->config->getUrl(1)) {
-			$page = new Model_Maincontent($this->database, $this->config);
+			$page = new model_maincontent($this->database, $this->config);
 			if (! $page->readByTitle(array($this->config->getUrl(1)))) {
 				$this->route('base');
 			}
@@ -130,7 +132,7 @@ class Controller_Front extends Controller
 	public function gallery() {
 		$folders = array();
 		$files = array();
-		$model = new Model_Maincontent($this->database, $this->config);
+		$model = new model_maincontent($this->database, $this->config);
 		$basePath = BASE_PATH . 'media/upload/gallery/';
 		$albumTitle = '';
 		foreach (new DirectoryIterator($basePath) as $order => $file) {
@@ -166,7 +168,7 @@ class Controller_Front extends Controller
 
 
 	public function archive() {
-		$archive = new Model_Ttarchive($this->database, $this->config);
+		$archive = new model_ttarchive($this->database, $this->config);
 		if ($this->config->getUrl(1)) {
 			$id = $this->getId($this->config->getUrl(1));
 			if (! $archive->readById(array($id))) {
@@ -190,7 +192,7 @@ class Controller_Front extends Controller
 
 
 	public function fixture() {
-		$fixture = new Model_Ttfixture($this->database, $this->config);
+		$fixture = new model_ttfixture($this->database, $this->config);
 		if ($this->config->getUrl(1)) {
 			$id = $this->getId($this->config->getUrl(1));
 			if (! $fixture->readSingleResult($id)) {

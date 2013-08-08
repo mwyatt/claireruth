@@ -12,11 +12,10 @@
  */
 
 $controller = new Controller($database, $config);
-if ($session->get('installing')) {
+if ($session->getUnset('installing')) {
 	$user = new Model_Mainuser($database, $config);
 	require_once(BASE_PATH . 'app/install-table.php');
 	require_once(BASE_PATH . 'app/install-table-data.php');
-	$session->getUnset('installing');
 	$controller->route('home');
 } else {
 	$files = glob(BASE_PATH . 'img/upload/'); // get all file names

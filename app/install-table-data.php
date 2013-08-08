@@ -78,12 +78,11 @@ try {
 	    	if ($category->attributes()['nicename'] && $category->attributes()['domain'] == 'tag') {
 			    $sthTag->execute(array(
 			    	':content_id' => $contentLastInsertId
-			    	, ':name' => str_replace('-', ' ', $keyval['nicename'])
+			    	, ':name' => str_replace('-', ' ', $category->attributes()['nicename'])
 			    ));
 	    	}
 	    }
 	}
-	exit;
 } catch (PDOException $e) { 
 	echo '<h1>Exception while Installing Test Data</h1>';
 	echo $e;
