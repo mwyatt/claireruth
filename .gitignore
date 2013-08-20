@@ -166,3 +166,6 @@ pip-log.txt
 media/upload/
 plugin/timthumb/cache/
 app/cache/
+.sass-cache/
+Guardfile
+compass/

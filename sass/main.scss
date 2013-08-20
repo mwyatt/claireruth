@@ -1,0 +1,8 @@
+$variable: red; 
+.button { 
+    background: blue;
+    background: $variable;
+}
+.example {
+	color: red;
+} 
