@@ -17,22 +17,24 @@ class Database
 	public $dbh;
 
 	
-	public static $credentials = array(
-		'host' => 'localhost',
-		'port' => '80',
-		'basename' => 'claireruth_rev1',
-		'username' => 'root',
-		'password' => 'root'
-	);
+	public $credentials;
 
 
-	public function __construct() {
+	/**
+	 * connects to the database
+	 */
+	public function __construct($credentials) {
+		$this->credentials = $credentials;
 		$this->connect();
 	}
 	
-	
+
+	/**
+	 * returns the static credentials
+	 * @return [type] [description]
+	 */
 	public function getCredentials() {
-		return self::$credentials;
+		return $this->credentials;
 	}
 	
 	

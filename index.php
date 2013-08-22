@@ -8,7 +8,7 @@
  */ 
 
 define('BASE_PATH', (string) (__DIR__ . '/'));
-require_once(BASE_PATH . 'app/config.php');
+require_once(BASE_PATH . 'config.php');
 require_once(BASE_PATH . 'app/class/autoloader.php');
 spl_autoload_register(array('Autoloader', 'load'));
 $error = new Error($errorReporting);

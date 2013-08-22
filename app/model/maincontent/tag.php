@@ -35,6 +35,4 @@ class Model_Maincontent_Tag extends Model
 		));	
 		return $results = $sth->fetchAll(PDO::FETCH_ASSOC);
 	}	
-
-
 }

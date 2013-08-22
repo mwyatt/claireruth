@@ -26,10 +26,11 @@ class Controller_Front extends Controller
 
 
 	public function index() {
-		$tags = new model_maincontent_tag($this->database, $this->config);
-		$tags->read();
+		// $tags = new model_maincontent_tag($this->database, $this->config);
+		// $tags->read();
 		$posts = new model_maincontent($this->database, $this->config);
-		$posts->readByType('post', 6);
+		$posts->read('post', false, false);
+		
 		$this->view
 			->setObject($posts)
 			->loadTemplate('home');

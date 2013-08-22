@@ -163,6 +163,7 @@ pip-log.txt
 .DS_Store
 
 # custom
+config.php
 media/upload/
 plugin/timthumb/cache/
 app/cache/

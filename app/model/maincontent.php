@@ -32,11 +32,12 @@ class Model_Maincontent extends Model
 				, main_content.date_published
 				, main_content.status
 				, main_content.user_id
+				, main_content_tag.name as tag_name
 			from main_content
 			left join main_user on main_user.id = main_content.user_id
+            left join main_content_tag on main_content_tag.content_id = main_content.id
 			" . ($where ? ' where main_content.type = :type ' : '') . "
 			" . ($id ? ' and main_content.id = :id ' : '') . "
-			group by main_content.id
 			order by main_content.date_published desc
 			" . ($limit ? ' limit :limit ' : '') . "
 		");
@@ -50,7 +51,20 @@ class Model_Maincontent extends Model
 			$sth->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
 		}
 		$sth->execute();	
-		$this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
+		$refinedContent = array();
+		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $content) {
+			if (! array_key_exists($content['id'], $refinedContent)) {
+				$refinedContent[$content['id']] = $content;
+			}
+			if (array_key_exists('tag_name', $refinedContent[$content['id']])) {
+				$refinedContent[$content['id']]['tag'][] = $content['tag_name'];
+			}
+		}
+		echo '<pre>';
+		print_r($refinedContent);
+		echo '</pre>';
+		exit;
+		
 		return $sth->rowCount();		
 	}	
 
