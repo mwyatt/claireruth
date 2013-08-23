@@ -1,0 +1,29 @@
+html.cssanimations .diva-unit { 
+    @include animation(introducing-diva 1s 1s ease both); 
+}
+
+// html.cssanimations .hint {
+//     @include animation(bring-in-from-right 500ms 1s ease infinite); 
+// }
+
+html.cssanimations .diva-unit .tag {
+    @include animation(fade-in 1s 2s ease both); 
+}
+
+html.cssanimations .laptop {
+    @include animation(fade-in 2s 3s ease both); 
+}
+
+html.cssanimations .features,
+html.cssanimations .hero {
+    @include animation(fade-in 1s 2s ease both); 
+}
+
+html.cssanimations .panel {
+    @include animation(fade-in 1s 0 ease both); 
+}
+
+html.cssanimations .buttons,
+html.cssanimations nav {
+    @include animation(drop-down 1s 0 ease both); 
+}

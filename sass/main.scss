@@ -1,8 +1,49 @@
-$variable: red; 
-.button { 
-    background: blue;
-    background: $variable;
+.wrap {}
+
+.full-width {
+    position: relative;
+    width: 960px;
+    margin: 0 auto;
 }
-.example {
-	color: red;
-} 
+
+body {
+    background: url('../media/45degreee_fabric.png') repeat;
+    font-family: /* 'Open Sans', 'Arial',  */'sans-serif';
+    line-height: 1.5em;
+    color: $color-typography-primary;
+    background-color: $color-primary;
+    font-size: 16px;
+}
+
+.button.primary {
+    @include button($color-primary, $color-white);
+}
+
+.button.secondary {
+    @include button($color-secondary, #42664b);
+}
+
+.logo {
+    background: url('../media/sprite-300.png') -43px -115px no-repeat;
+    text-indent: -99em;
+    display: block;
+    width: 214px;
+    height: 71px;
+    margin: 0 auto 30px;
+    overflow: hidden;
+}
+
+.post-single {
+
+    .title {}
+
+    .description {}
+
+    .date {}
+
+    .tags {}
+
+    .tag {}
+
+    .author {}
+}

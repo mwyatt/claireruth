@@ -1,0 +1,77 @@
+@-webkit-keyframes introducing-diva {
+
+	0% {
+		top: 8em;
+		@include opacity(0);
+		@include scale(.9);
+	}
+
+	10%,
+	50% {
+		@include scale(1.1);
+	}
+
+	100% {
+		@include opacity(1);
+		top: 21em;
+		@include scale(1);
+	}
+}
+
+@-webkit-keyframes bubble-in {
+
+	0% {
+		@include opacity(0);
+		@include scale(.9);
+	}
+
+	80% {
+		@include scale(1.1);
+	}
+
+	100% {
+		@include opacity(1);
+		@include scale(1);
+	}
+}
+
+@-webkit-keyframes fade-in {
+
+	0% {
+		@include opacity(0);
+	}
+
+	100% {
+		@include opacity(1);
+	}
+}
+
+@-webkit-keyframes drop-down {
+
+	0% {
+		@include translate(0, -3em);
+	}
+
+	100% {
+		@include translate(0, 0);
+	}
+}
+
+@-webkit-keyframes bring-in-from-right {
+
+	0% {
+		@include opacity(0);
+		right: -5em;
+	}
+
+	20%,
+	80% {
+		@include opacity(1);
+		right: 0;
+	}
+
+	100% {
+		right: 5em;
+		@include opacity(0);
+	}
+}

@@ -189,36 +189,25 @@ class Config
 
 
 	/**
-	 * master get function for interacting with $this->data
-	 * @todo  remember that if keys have been set, then they
-	 *        expect to be returned the correct data or false
-	 * @param  string|array  $one      
-	 * @param  string $two   
-	 * @param  string $three 
-	 * @return array|string|int            
+	 * attempting to satisfy the quick and sussinct retrival of
+	 * array elements, more readable than arraykey checks!
+	 * @param  array|string $one an array can be passed
+	 * @param  string $two key name
+	 * @return array|value       could be array or data!
 	 */
-	public function get($one = false, $two = false, $three = false) {	
-		if ($two === 0) {
-			if (array_key_exists($one, $this->data)) {
-				return $this->data[$one][$two][$three];
-			}
-			return false;
+	public function get($one = false, $two = false) {	
+		if (is_array($one) && $two) {
+			return $one[$two];
 		}
-		if (is_array($one)) {
-			if (array_key_exists($two, $one)) {
-				return $one[$two];
+		if ($two) {
+			if (array_key_exists($two, $this->data[$one])) {
+				return $this->data[$one][$two];
+			} else {
+				return;
 			}
-			return;
 		}
 		if ($one) {
-			if (is_array($this->data)) {
-				if (array_key_exists($one, $this->data)) {
-					return $this->data[$one];
-				}
-			} else {
-				return $this->data[$one];
-			}
-			return false;
+			return $this->data[$one];
 		}
 	}	
 

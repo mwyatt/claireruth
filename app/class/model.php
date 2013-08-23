@@ -231,7 +231,7 @@ abstract class Model extends Config
 	 * constructs a friendly guid using 3 components
 	 * @param  string $type 
 	 * @param  string $name 
-	 * @param  string $id   
+	 * @param  string $id   (optional)
 	 * @return string        the url
 	 */
 	public function getGuid($type = false, $name = false, $id = false) {

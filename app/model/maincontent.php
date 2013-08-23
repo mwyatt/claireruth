@@ -32,7 +32,9 @@ class Model_Maincontent extends Model
 				, main_content.date_published
 				, main_content.status
 				, main_content.user_id
+				, main_content_tag.id as tag_id
 				, main_content_tag.name as tag_name
+				, concat(main_user.first_name, ' ', main_user.last_name) as user_name
 			from main_content
 			left join main_user on main_user.id = main_content.user_id
             left join main_content_tag on main_content_tag.content_id = main_content.id
@@ -51,20 +53,18 @@ class Model_Maincontent extends Model
 			$sth->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
 		}
 		$sth->execute();	
-		$refinedContent = array();
 		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $content) {
-			if (! array_key_exists($content['id'], $refinedContent)) {
-				$refinedContent[$content['id']] = $content;
+			if (! array_key_exists($content['id'], $this->data)) {
+				$this->data[$content['id']] = $content;
 			}
-			if (array_key_exists('tag_name', $refinedContent[$content['id']])) {
-				$refinedContent[$content['id']]['tag'][] = $content['tag_name'];
+			if (array_key_exists('tag_name', $this->data[$content['id']]) && $content['tag_name']) {
+				$this->data[$content['id']]['tag'][] = array(
+					'id' => $content['tag_id']
+					, 'name' => $content['tag_name']
+					, 'guid' => $this->getGuid('tag', $content['tag_name'])
+				) ;
 			}
 		}
-		echo '<pre>';
-		print_r($refinedContent);
-		echo '</pre>';
-		exit;
-		
 		return $sth->rowCount();		
 	}	
 

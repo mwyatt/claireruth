@@ -1,0 +1,59 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
+
+::-moz-selection {
+    background: darken($color-white, 10%);
+    color: darken($color-white, 50%);
+    text-shadow: none;
+}
+ 
+::selection {
+    background: darken($color-white, 10%);
+    color: darken($color-white, 50%);
+    text-shadow: none;
+}
+
+::-webkit-input-placeholder {
+   color: $color-secondary; 
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: $color-secondary;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: $color-secondary;  
+} 
+ 
+:-ms-input-placeholder {  
+   color: $color-secondary;  
+}
+
+a,
+a:visited {
+    color: $color-primary;
+    text-decoration: none;
+}
+  
+a.hover,
+a:hover,
+a:focus { 
+    color: lighten($color-primary, 5%);
+    // text-decoration: underline;
+}
+
+a:hover {}
+
+a:active {}
+
+a:link {
+    -webkit-tap-highlight-color : $color-secondary;
+}
+
+*:focus {
+    outline: none;
+}
+
+// h1, h2, h3, h4, h5, h6 {
+//     color: $color-secondary;
+//     font-weight: 300;
+// }

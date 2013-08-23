@@ -58,16 +58,6 @@ class Controller_Admin extends Controller
 				$this->route('base', 'admin/recovery/');
 			}
 		}
-		if (array_key_exists('season', $_GET) && $_GET['season'] == 'start' && ! $this->config->getOption('season_start')) {
-			$userAction = new model_mainuser_action($this->database, $this->config);
-			$mainOption = new model_mainoption($this->database, $this->config);
-			$mainOption->update('season_status', 'started');
-			$ttfixture = new model_admin_ttfixture($this->database, $this->config);
-			$ttfixture->create();
-			$userAction->create($this->session->get('user', 'id'), 'create', 'All fixtures generated, season started');
-			$this->session->set('feedback', 'All fixtures generated. You may now <a href="' . $this->config->getUrl('base') . 'league/fixture/fulfill/" title="submit a scorecard">submit a scorecard</a>.');
-			$this->route('base', 'admin/league/fixture/fulfill/');
-		}
 		if (array_key_exists('code', $_GET) && $_GET['code'] == $this->session->get('password_recovery', 'code')) {
 			$this->view->loadTemplate('admin/login-reset');
 		}
@@ -96,11 +86,6 @@ class Controller_Admin extends Controller
 	}
 
 
-	public function league() {
-		$this->load(array('admin', 'league'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
-	}
-
-
 	public function media() {
 		$this->load(array('admin', 'media'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
 	}
@@ -120,38 +105,4 @@ class Controller_Admin extends Controller
 			->setObject($user)
 			->loadTemplate('admin/profile');
 	}
-	
-
-	// public function user() {
-	// 	$user = new Model_Ttuser($this->database, $this->config);
-		// if (array_key_exists('form_update', $_POST)) {
-		// 	$user->update($_GET['edit']);
-		// 	$this->route('current');
-		// }
-		// if (array_key_exists('edit', $_GET)) {
-		// 	if (! $user->readById(array($_GET['edit']))) {
-		// 		$this->route('current_noquery');
-		// 	}
-		// 	$division->read();
-		// 	$team = new Model_Ttteam($this->database, $this->config);
-		// 	$team->readByDivision($user->get('division_id'));
-		// 	$this->view	
-		// 		->setObject($division)
-		// 		->setObject($team)
-		// 		->setObject($user)
-		// 		->loadTemplate('admin/league/user-create-update');
-		// }
-	// 	$user->read();
-	// 	$this->view
-	// 		->setObject($user)
-	// 		->loadTemplate('admin/league/user');
-	// }
-
-	// public function settings() {
-	// 	$option = new Model_Mainoption($this->database, $this->config);
-	// 	$this->view
-	// 		->loadTemplate('admin/settings');
-	// }
-
-	
 }

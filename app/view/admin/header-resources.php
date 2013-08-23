@@ -4,7 +4,5 @@
 <meta name="keywords" content="<?php echo $this->getMeta('keywords'); ?>">
 <meta name="description" content="<?php echo $this->getMeta('description'); ?>">
 <meta name="viewport" content="width=device-width">
-<!-- <link rel="stylesheet" type="text/css" href="<?php echo $this->urlHome(); ?>css/admin/main.rev2.css"> -->
-<!-- <link rel="stylesheet/less" type="text/css" href="<?php echo $this->urlHome(); ?>css/admin/main.rev1.less"> -->
-<!-- <script src="<?php echo $this->urlHome(); ?>js/vendor/less-1.3.3.min.js"></script> -->
+<link href="<?php echo $this->urlHome(); ?>css/admin/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 <script src="<?php echo $this->urlHome(); ?>js/vendor/modernizr.custom.73218.js"></script>

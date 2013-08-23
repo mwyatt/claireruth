@@ -6,7 +6,6 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-
 define('BASE_PATH', (string) (__DIR__ . '/'));
 require_once(BASE_PATH . 'config.php');
 require_once(BASE_PATH . 'app/class/autoloader.php');

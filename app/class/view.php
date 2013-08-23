@@ -26,9 +26,9 @@ class View extends Model
 		$this->session = new Session($this->database, $this->config);
 		$options = $this->config->getoptions();
 		$this->setMeta(array(
-			'title' => $this->get($options, 'meta_title'),
-			'keywords' => $this->get($options, 'meta_keywords'),
-			'description' => $this->get($options, 'meta_description')
+			'title' => (array_key_exists('meta_title', $options) ? $options['meta_title'] : ''),
+			'keywords' => (array_key_exists('meta_keywords', $options) ? $options['meta_keywords'] : ''),
+			'description' => (array_key_exists('meta_description', $options) ? $options['meta_description'] : '')
 		));
 		$this->setObject('options', $options);
 	}
@@ -56,8 +56,6 @@ class View extends Model
 			return false;
 		}
 		$this->template = $path;
-		
-		// $this->config->url['history'] = $session->getPreviousUrl($this->config->url['current']);
 
 		// prepare common models
 		$this->header();
@@ -74,6 +72,7 @@ class View extends Model
 			}
 		}
 
+		// debug fun
 		// echo '<pre>';
 		// print_r($this->session->getData());
 		// print_r($this->config);
@@ -81,7 +80,6 @@ class View extends Model
 		// print_r($this->data);
 		// echo '</pre>';
 		// exit;
-
 
 		header('Content-type: text/html; charset=utf-8'); 
 		
