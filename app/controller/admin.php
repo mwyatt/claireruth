@@ -87,7 +87,7 @@ class Controller_Admin extends Controller
 
 
 	public function media() {
-		$this->load(array('admin', 'media'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
+		$this->view->loadTemplate('admin/media-index');
 	}
 	
 

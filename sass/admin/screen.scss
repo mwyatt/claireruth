@@ -1,8 +1,9 @@
+@import "../vendor/normalize";
 @import "../pallete";
 	@import "pallete";
 @import "../mixin";
 @import "../keyframe";
-@import "../button";
 @import "../typography";
 @import "../common";
+@import "plugin-media-browser";
 @import "main";

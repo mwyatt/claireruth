@@ -473,10 +473,10 @@ $(document).ready(function() {
 		formSubmit(e, this);
 	});
 	if ($('.content.media.index').length) {
-		$('.browser').mediaBrowser();
+		$('.media-browser').mediaBrowser();
 	}
 	if ($('.content.media.gallery').length) {
-		$('.browser').mediaBrowser({
+		$('.media-browser').mediaBrowser({
 			defaultDirectory: 'gallery/'
 		});
 	}

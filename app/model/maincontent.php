@@ -38,8 +38,10 @@ class Model_Maincontent extends Model
 			from main_content
 			left join main_user on main_user.id = main_content.user_id
             left join main_content_tag on main_content_tag.content_id = main_content.id
-			" . ($where ? ' where main_content.type = :type ' : '') . "
+			where main_content.status = 'visible'
+			" . ($where ? ' and main_content.type = :type ' : '') . "
 			" . ($id ? ' and main_content.id = :id ' : '') . "
+
 			order by main_content.date_published desc
 			" . ($limit ? ' limit :limit ' : '') . "
 		");
@@ -90,11 +92,6 @@ class Model_Maincontent extends Model
 		}
 		$sth->execute();
 		$this->data = $this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
-		echo '<pre>';
-		print_r($this->data);
-		echo '</pre>';
-		exit;
-		
 		return $this;
 	}	
 
@@ -141,49 +138,6 @@ class Model_Maincontent extends Model
 		return $this->data = $result;
 	}
 
-	// 	$this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
-	// 	$this->data = current($this->data);
-	// 	if (array_key_exists('media', $this->data)) {
-	// 		$this->data = $this->data['media'];
-	// 	} else {
-	// 		$this->data = false;
-	// 	}
-	// 	return $sth->rowCount();
-	// }
-
-	// public function readMedia($id) {	
-	// 	$sth = $this->database->dbh->prepare("	
-	// 		select
-	// 			main_content_meta.id
-	// 			, main_content_meta.content_id
-	// 			, main_content_meta.name
-	// 			, main_content_meta.value
-	// 		from main_content_meta
-	// 		where main_content_meta.content_id = :id
-	// 	");
-	// 	$sth->execute(array(
-	// 		':id' => $id
-	// 	));	
-	// 	$results = $sth->fetchAll(PDO::FETCH_ASSOC);
-	// 	$sth = $this->database->dbh->prepare("	
-	// 		select
-	// 			id
-	// 			, filename
-	// 			, basename
-	// 			, type
-	// 			, date_published
-	// 		from main_media
-	// 		where main_media.id = :id
-	// 	");
-	// 	foreach ($results as $result) {
-	// 		if ($result['name'] == 'media') {
-	// 			$sth->execute(array(
-	// 				':id' => $result['value']
-	// 			));	
-	// 		}
-	// 	}
-	// 	$this->data = $sth->fetchAll(PDO::FETCH_ASSOC);
-	// }
 
 	public function readByTitleSlug($titleSlug) {
 		$sth = $this->database->dbh->prepare("	
@@ -219,6 +173,4 @@ class Model_Maincontent extends Model
 		$this->data = current($this->data);
 		return $sth->rowCount();
 	}
-	
-
 }

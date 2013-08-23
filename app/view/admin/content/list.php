@@ -6,7 +6,7 @@
 		<a class="button new" href="<?php echo $this->url('current_noquery'); ?>new/" title="Create a new <?php echo ucfirst($this->urlSegment(2)); ?>">New</a>
 	</div>
 
-<?php if ($this->get('model_admin_maincontent')) : ?>
+<?php if ($this->get('model_maincontent')) : ?>
 
 	<table class="main" width="100%" cellspacing="0" cellpadding="0">
 		<thead>
@@ -19,7 +19,7 @@
 		</thead>
 		<tbody>
 
-	<?php foreach ($this->get('model_admin_maincontent') as $content) : ?>
+	<?php foreach ($this->get('model_maincontent') as $content) : ?>
 
 			<tr data-id="<?php echo $this->get($content, 'id'); ?>">
 				<td class="title">

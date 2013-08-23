@@ -17,8 +17,8 @@ class Controller_Admin_Content extends Controller
 
 	public function initialise() {
 		$userAction = new model_mainuser_action($this->database, $this->config);
-		$content = new Model_Admin_Maincontent($this->database, $this->config);
-		$media = new Model_Mainmedia($this->database, $this->config);
+		$content = new model_maincontent($this->database, $this->config);
+		$media = new model_mainmedia($this->database, $this->config);
 		if (array_key_exists('form_create', $_POST)) {
 			if ($id = $content->create()) {
 				$userAction->create($this->session->get('user', 'id'), 'create', ucfirst($_POST['type']) . ' / ' . $_POST['title']);
@@ -39,10 +39,11 @@ class Controller_Admin_Content extends Controller
 			$content->readById($_GET['edit']);
 			if (array_key_exists('media', $content->data)) {
 				$media->readById($content->data['media']);
-				$this->view->setObject($media);
+				// $this->view->;
 			}
 			$this->view
 				->setObject($content)
+				->setObject($media)
 				->loadTemplate('admin/content/create-update');
 		}
 		if (array_key_exists('delete', $_GET)) {
@@ -62,40 +63,19 @@ class Controller_Admin_Content extends Controller
 
 
 	public function page() {
-		$content = new Model_Admin_Maincontent($this->database, $this->config);
+		$content = new model_maincontent($this->database, $this->config);
 		$content->readByType($this->config->getUrl(2));
 		$this->view
 			->setObject($content)
 			->loadTemplate('admin/content/list');
 	}
 
-
-	public function minutes() {
-		$content = new Model_Admin_Maincontent($this->database, $this->config);
+	public function post() {
+		$content = new model_maincontent($this->database, $this->config);
 		$content->readByType($this->config->getUrl(2));
 		$this->view
 			->setObject($content)
 			->loadTemplate('admin/content/list');
 	}
-
-
-	public function cup() {
-		$content = new Model_Admin_Maincontent($this->database, $this->config);
-		$content->readByType($this->config->getUrl(2));
-		$this->view
-			->setObject($content)
-			->loadTemplate('admin/content/list');
-	}
-
-
-	public function press() {
-		$content = new Model_Admin_Maincontent($this->database, $this->config);
-		$content->readByType($this->config->getUrl(2));
-		$this->view
-			->setObject($content)
-			->loadTemplate('admin/content/list');
-	}
-
-	
 }
 	

@@ -1,0 +1,227 @@
+.media-browser {
+	position: relative;
+
+	.hide {
+		display: none;
+	}
+
+	.pdf,
+	.image {
+		margin: 0 0 1em;
+	}
+
+	.tree,
+	.back {
+		float: left;
+	}
+
+	.bread {
+		position: relative;
+		padding: 0;
+		margin: 0;
+		font-weight: bold;
+		cursor: default;
+		float: left;
+		width: 45%;
+	}
+
+	.img {
+		margin: 0 0 1em;
+		text-align: center;
+		line-height: 6.7em;
+		height: 5.3em;
+		overflow: hidden;
+
+		img {
+			max-width: 100%;
+			max-height: 5em;
+		}
+	}
+
+	.control {
+		float: none;
+		margin: 0 0 2em;
+	}
+
+	.back {
+		margin: 0 1em 0 0;
+		color: $color-primary;
+		display: inline;
+		font-size: 1em;
+		text-decoration: underline;
+		padding: 0;
+	}
+
+	.upload {
+		float: left;
+		margin: 0 0 0 3em;
+
+		label {
+			display: none;
+		}
+	}
+
+	.new {
+		background-color: darken($color-white, 5%);
+
+		input[type="text"],
+		.submit {
+			margin-top: 1.4em;
+			margin: 0 0 1em;
+		}
+
+		input[type="text"] {
+			display: block;
+			padding: .3em;
+			width: 90.5%;
+			float: left;
+		}
+
+		.submit {
+			float: right;
+			background-color: $color-primary;
+			color: $color-white;
+			text-decoration: none;
+			margin: 0;
+			padding: 0.4em 0.6em 0.5em;
+			font-size: 1em;
+			display: block;
+		}
+
+		.inner {
+			padding: 1em;
+		}
+
+		label {
+			font-weight: bold;
+			text-align: left;
+			// display: none;
+		}
+	}
+
+	label {
+		margin: 0 0 1em;
+		display: block;
+	}
+
+	a {
+		display: block;
+		cursor: pointer;
+		padding: .5em;
+		margin: .5em;
+		font-size: 1.2em;
+		font-weight: bold;
+	}
+
+	.attached .file {
+		float: left;
+		width: 29.3%;
+		margin: 1%;
+		padding: 1%;
+		height: 5em;
+		overflow: hidden;
+		// border: 1px solid darken($color-primary, 20%);
+		background-color: $color-white;
+
+		&:hover {
+		}
+
+		.remove {
+			font-size: .7em;
+		}
+
+		a {
+			float: right;
+		}
+
+		img {
+			float: left;
+			margin: 0 1em 1em 0;
+			max-width: 3em;
+		}
+
+		input {
+			margin: 0 0 1em;
+			width: 17.9em;
+			font-size: .7em;
+		}
+
+		input,
+		.remove {
+			float: right;
+			clear: right;
+		}
+	}
+
+	.new,
+	a.folder,
+	a.file {
+		position: relative;
+		float: left;
+		margin: 0.5em;
+		padding: 0.5em;
+		width: 16.6%;
+		height: 8em;
+		text-align: center;
+		font-size: 0.9em;
+	}
+
+	a.folder,
+	a.file {
+
+		&:hover {
+			// background-color: $color-primary;
+		}
+
+		p {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			margin: 0;
+			text-align: left;
+		}
+	}
+
+	.directory {
+		margin: 0 0 2em;
+		background-color: $color-white;
+
+		.remove {
+			position: absolute;
+			top: 1em;
+			right: 1em;
+			float: right;
+			background-color: $color-primary;
+			color: $color-white;
+			line-height: 1em;
+			padding: 0.1em 0.3em;
+
+			&:hover {
+				color: $color-white;
+			}
+		}
+
+		.icon {
+			background-image: url('../img/sprite-100.png');
+			display: block;
+		}
+
+		a.folder {
+
+			.icon {
+				background-position: -35px -38px;
+				width: 32px;
+				height: 24px;
+			}
+		}
+
+		a.file {
+
+			.icon {
+				background-position: -240px -38px;
+				width: 20px;
+				height: 24px;
+			}
+		}
+	}
+}

@@ -166,31 +166,16 @@ class Model_Mainmenu extends Model
 	 */
 	public function adminSub() {
 		$user = new model_mainuser($this->database, $this->config);
-		if ($user->get('email') == 'martin.wyatt@gmail.com') {
-			$className = 'Controller_' . ucfirst($this->config->getUrl(0)) . '_' . ucfirst($this->config->getUrl(1));
-			if (class_exists($className)) {
-				foreach ($this->getClassMethods($className) as $key => $method) {
-					if (($method !== 'initialise') && ($method !== 'index') && ($method !== 'load') && ($method !== '__construct')) {
-						$this->data['admin_sub'][$key]['name'] = ucfirst($method);
-						$this->data['admin_sub'][$key]['current'] = ($this->config->getUrl(2) == $method ? true : false);
-						$this->data['admin_sub'][$key]['guid'] = $this->config->getUrl('base') . $this->config->getUrl(0) . '/' . $this->config->getUrl(1). '/' . $method . '/';
-					}
+		$className = 'Controller_' . ucfirst($this->config->getUrl(0)) . '_' . ucfirst($this->config->getUrl(1));
+		if (class_exists($className)) {
+			foreach ($this->getClassMethods($className) as $key => $method) {
+				if (($method !== 'initialise') && ($method !== 'index') && ($method !== 'load') && ($method !== '__construct')) {
+					$this->data['admin_sub'][$key]['name'] = ucfirst($method);
+					$this->data['admin_sub'][$key]['current'] = ($this->config->getUrl(2) == $method ? true : false);
+					$this->data['admin_sub'][$key]['guid'] = $this->config->getUrl('base') . $this->config->getUrl(0) . '/' . $this->config->getUrl(1). '/' . $method . '/';
 				}
 			}
 		}
-		if ($user->get('email') == 'realbluesman@tiscali.co.uk') {
-			$className = 'Controller_' . ucfirst($this->config->getUrl(0)) . '_' . ucfirst($this->config->getUrl(1));
-			if (class_exists($className)) {
-				foreach ($this->getClassMethods($className) as $key => $method) {
-					if (($method !== 'initialise') && ($method !== 'index') && ($method !== 'load') && ($method !== '__construct')) {
-						$this->data['admin_sub'][$key]['name'] = ucfirst($method);
-						$this->data['admin_sub'][$key]['current'] = ($this->config->getUrl(2) == $method ? true : false);
-						$this->data['admin_sub'][$key]['guid'] = $this->config->getUrl('base') . $this->config->getUrl(0) . '/' . $this->config->getUrl(1). '/' . $method . '/';
-					}
-				}
-			}
-		}		
-		
 		return;
 	}
 

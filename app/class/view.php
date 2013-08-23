@@ -92,6 +92,10 @@ class View extends Model
 	}
 
 
+	/**
+	 * simply loads a template this has been used for the sitemap
+	 * @param  string $templateTitle 
+	 */
 	public function loadJustTemplate($templateTitle)
 	{			
 		$path = BASE_PATH . 'app/view/' . strtolower($templateTitle) . '.php';
@@ -125,6 +129,7 @@ class View extends Model
 		require_once($path);
 		exit;
 	}
+
 
 	/**
 	 * return feedback and unset session variable
@@ -187,12 +192,10 @@ class View extends Model
 	 * @return string           url
 	 */
 	public function media($fileName) {
-
-		if (is_file(BASE_PATH . 'img/upload/' . $fileName))
+		if (is_file(BASE_PATH . 'img/upload/' . $fileName)) {
 			return $this->config->getUrl('base') . 'img/upload/' . $fileName;
-		else
-			return 'http://placehold.it/200x200/';
-
+		}
+		return 'http://placehold.it/200x200/';
 	}
 	
 
@@ -221,33 +224,26 @@ class View extends Model
 	}
 
 
-	public function logoMvc() {
-
-		// logic here to add or remove a class and title="Open Homepage"
-		
-		$html =   '<a href="'.$this->urlHome().'">'
-				. '<img src="'.$this->urlMedia('i/logo.png').'">'
-				. '</a>';
-		echo $html;
-	}
-
-
-	// Returns body class
-	public function bodyClass() { 
-		$i = 1;
-		$class = '';
-		while ($this->getUrl($i)) {
-			$class .= $this->getUrl($i) . ' ';
-			$i ++;
+	/**
+	 * returns a body class using the parts of the url after the domain
+	 * @return string 
+	 */
+	public function getBodyClass() { 
+		$bodyClass = '';
+		foreach ($this->config->getUrl('path') as $path) {
+			$bodyClass .= $path . '-';
 		}
-		return trim($class);
-		if (!$this->getUrl(1))
-			return 'home';
-//		$val = ( ? $this->getUrl(1) : );
-//		return ' class="'.$val.'"';
+		return $bodyClass = rtrim($bodyClass, -1);
 	}
 
 
+	/**
+	 * sets the meta for a common page
+	 * title
+	 * description
+	 * keywords
+	 * @param array $metas 
+	 */
 	public function setMeta($metas) {		
 		foreach ($metas as $key => $meta) {
 			$titleAppend = '';
@@ -276,14 +272,4 @@ class View extends Model
 			return $this->meta[$key];
 		return false;
 	}
-
-
-	public function displayAverage($average) {
-		if (! $average) {
-			return '';
-		}
-		return $average . '&#37;';
-	}
-	
-
 } 
