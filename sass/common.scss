@@ -97,3 +97,18 @@
 .icon {
     display: block;
 }
+
+.drop {
+    @include box-shadow(0 1px 3px $color-gray-40);
+    @include border-radius(3px);
+    border: 1px solid $color-gray-30;
+    background: $color-white;
+    position: absolute;
+    padding: 1em;
+    top: 0;
+    left: 0;
+}
+
+.area {
+    position: relative;
+}

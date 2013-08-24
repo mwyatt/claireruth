@@ -16,12 +16,12 @@
 	margin: 0 0.5em 0.5em 0;
 	cursor: pointer;
 
-	:hover {
+	&:hover {
 		border-color: $color-gray-10;
 		background-color: $color-white;
 	}
 
-	:active {
+	&:active {
 		border-color: $color-gray-30;
 		background-color: $color-gray-20;
 	}
@@ -30,3 +30,8 @@
 .management-tag .search {
 	margin-bottom: 1em;
 }
+
+.management-tag .drop {
+	top: 3em;
+}
+

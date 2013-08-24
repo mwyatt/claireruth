@@ -32,7 +32,7 @@ var ajax = '<div class="ajax"></div>';
 				addTag(this);
 			});
 		}
-		function hiddenField(name) {
+		function addHiddenField(name) {
 			$(core).find('.tags').append('<input name="tag[]" type="hidden" value="' + name + '">');
 		}
 		function poll(query) {
@@ -44,7 +44,7 @@ var ajax = '<div class="ajax"></div>';
 				function(result) { 
 					clearDrop();
 					if (result) {
-						$(core).append('<div class="drop">' + result + '</div>');
+						$(core).find('.area').append('<div class="drop">' + result + '</div>');
 					}
 					events();
 				}
@@ -55,9 +55,11 @@ var ajax = '<div class="ajax"></div>';
 		}
 		function addTag(button) {
 			$(button).appendTo($(core).find('.tags'));
-			hiddenField($(button).html());
-			$(button).remove();
+			addHiddenField($(button).html());
 			events();
+			if (! $(core).find('.drop .tag').length) {
+				clearDrop();
+			};
 		}
 		function removeTag(button) {
 			$('input[type="hidden"][value="' + $(button).html() + '"]').remove();
@@ -553,10 +555,16 @@ $(document).ready(function() {
 		  useLineBreaks:  false
 		});
 	}
-	$(document).mouseup(removeModals);	
-	$(document).keyup(function(e) {
+	$('body').mouseup(function(e) {
+		removeModals();
+		if ($(e.target).closest('.drop').length == 0) {
+			$('.drop').remove();
+		}
+	});	
+	$('body').keyup(function(e) {
 		if (e.keyCode == 27) {
 			removeModals();
+			$('.drop').remove();
 		}
 	});	
 	function removeModals() {

@@ -664,6 +664,26 @@ a:link {
 .icon {
   display: block; }
 
+.drop {
+  -webkit-box-shadow: 0 1px 3px #999999;
+  -moz-box-shadow: 0 1px 3px #999999;
+  box-shadow: 0 1px 3px #999999;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #b3b3b3;
+  background: white;
+  position: absolute;
+  padding: 1em;
+  top: 0;
+  left: 0; }
+
+.area {
+  position: relative; }
+
 .media-browser {
   position: relative; }
   .media-browser .hide {
@@ -808,6 +828,28 @@ a:link {
       background-position: -240px -38px;
       width: 20px;
       height: 24px; }
+
+.management-tag .tag {
+  background-color: #e6e6e6;
+  border: 1px solid #cccccc;
+  float: left;
+  border-radius: 3px;
+  padding: 0.5em 0.7em 0.6em;
+  font-size: 0.8em;
+  margin: 0 0.5em 0.5em 0;
+  cursor: pointer; }
+  .management-tag .tag:hover {
+    border-color: #e6e6e6;
+    background-color: white; }
+  .management-tag .tag:active {
+    border-color: #b3b3b3;
+    background-color: #cccccc; }
+
+.management-tag .search {
+  margin-bottom: 1em; }
+
+.management-tag .drop {
+  top: 3em; }
 
 .ajax {
   background-image: url(../../media/ajax.gif); }
