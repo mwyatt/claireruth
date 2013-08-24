@@ -7,19 +7,7 @@
 	</div>
 	<div class="date"><?php echo date('d/m/Y', $content['date_published']); ?></div>
 
-<?php if (array_key_exists('tag', $content)): ?>
-	
-	<div class="tags">
-
-	<?php foreach ($content['tag'] as $tag): ?>
-		
-		<a href="<?php echo $tag['guid'] ?>" class="tag"><?php echo $tag['name'] ?></a>
-
-	<?php endforeach ?>
-		
-	</div>
-
-<?php endif ?>
+<?php require($this->pathView() . 'entity/tags.php'); ?>
 
 	<div class="author"><?php echo $content['user_name']; ?></div>
 

@@ -82,6 +82,26 @@
 <?php endif ?>
 
 		</div>
+		<div class="management-tag">
+			<label class="above" for="form-tag-search">Tag</label>
+			<input id="form-tag-search" type="text" name="tag_search" maxlength="100" value="">
+
+<?php if ($this->get('model_maincontent', 'tag')): ?>
+			
+			<div class="tags">
+
+	<?php foreach ($this->get('model_maincontent', 'tag') as $tag): ?>
+			
+				<div class="tag" data-id="<?php echo $tag['id'] ?>"><?php echo $tag['name'] ?></div>
+				<input name="tag[]" type="hidden" value="<?php echo $tag['name'] ?>">
+		
+	<?php endforeach ?>
+	
+			</div>
+
+<?php endif ?>
+
+		</div>
 
 		<div class="row">
 			<label for="status">Show on website</label>

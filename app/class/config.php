@@ -199,6 +199,9 @@ class Config
 		if (is_array($one) && $two) {
 			return $one[$two];
 		}
+		if (! array_key_exists($one, $this->data)) {
+			return;
+		}
 		if ($two) {
 			if (array_key_exists($two, $this->data[$one])) {
 				return $this->data[$one][$two];

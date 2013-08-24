@@ -35,4 +35,55 @@ class Model_Maincontent_Tag extends Model
 		));	
 		return $results = $sth->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+
+	/**
+	 * facilitates the assignment of each tag as an array to the
+	 * maincontent row which is passed through, this enables
+	 * each method of the maincontent to create the array
+	 * @param  array $row 
+	 * @return array      
+	 */
+	public function assign($row) {
+		$tags = array();
+		if (array_key_exists('tag_name', $row) && $row['tag_name']) {
+			$tags[] = array(
+				'id' => $row['tag_id']
+				, 'name' => $row['tag_name']
+				, 'guid' => $this->getGuid('tag', $row['tag_name'])
+			) ;
+		}
+		return $tags;
+	}
+
+
+	public function readUniqueLike($query = '') {	
+		if (! $query) {
+			return;
+		}
+		$matches = array();
+		$query = htmlspecialchars($query);
+		$words = explode(' ', $query);
+		$sth = $this->database->dbh->prepare("	
+			select
+				id
+				, content_id
+				, name
+			from main_content_tag
+			where
+				main_content_tag.name like ?
+			group by main_content_tag.name
+			order by main_content_tag.name desc
+		");
+		foreach ($words as $word) {
+			$sth->execute(array(
+				'%' . $word . '%'
+			));
+			while ($match = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$matches[$match['id']] = $match;
+			}
+		}
+		$this->data = $matches;
+		return count($this->getData());
+	}
 }

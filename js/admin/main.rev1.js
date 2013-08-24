@@ -1,5 +1,66 @@
 var ajax = '<div class="ajax"></div>';
 
+
+(function($) {
+    $.fn.tags = function(options) {
+		var core = this;
+		var defaults = {}
+		if (! $(core).length) {
+			return;
+		}
+		var time = 0;
+		events();
+		function events() {
+			$(core).find('#form-tag-search').off().on('keyup', function() {
+				clearTimeout(time);
+				if ($(this).val().length > 1) {
+					time = setTimeout(function() {
+						poll($(this).val());
+					}, 300);
+				}
+			});
+			$(core).find('.tags .tag').off().on('click', function() {
+				removeTag(this);
+			});
+			$(core).find('.drop .tag').off().on('click', function() {
+				addTag(this);
+			});
+		}
+		function hiddenField(name) {
+			$(core).find('.tags').append('<input name="tag[]" type="hidden" value="' + name + '">');
+		}
+		function poll(query) {
+			clearDrop();
+			$.get(
+				url.base + 'ajax/tag-management/',
+				{
+					query: query
+				},
+				function(result) { 
+					if (result) {
+						$(core).append('<div class="drop">' + result + '</div>');
+					}
+					events();
+				}
+			);
+		}
+		function clearDrop() {
+			$(core).find('.drop').remove();
+		}
+		function addTag(button) {
+			$(button).appendTo($(core).find('.tags'));
+			hiddenField($(button).html());
+			$(button).remove();
+			events();
+		}
+		function removeTag(button) {
+			$('input[type="hidden"][value="' + $(button).html() + '"]').remove();
+			$(button).remove();
+		}
+    }
+})(jQuery);
+
+
 /**
  * constructs a media browser area based on the options provided
  * can customise the root directory
@@ -462,13 +523,7 @@ $(document).ready(function() {
 	exclude.init();
 	select.init();
 	feedback.init();
-	$('.button.season-start').on('click', function() {
-		// e.preventDefault();
-		if (confirm('Once you \'start\' the season the fixtures will be generated and you will be unable to move teams to other divisions.')) {
-			return true;
-		}
-		return false;
-	});
+	$('.management-tag').tags();
 	$('form').find('a.submit').on('click', function(e) {
 		formSubmit(e, this);
 	});

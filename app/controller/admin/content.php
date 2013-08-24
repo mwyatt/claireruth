@@ -36,14 +36,9 @@ class Controller_Admin_Content extends Controller
 			$this->route('current');
 		}
 		if (array_key_exists('edit', $_GET)) {
-			$content->readById($_GET['edit']);
-			if (array_key_exists('media', $content->data)) {
-				$media->readById($content->data['media']);
-				// $this->view->;
-			}
+			$content->read('post', 0, $_GET['edit']);
 			$this->view
 				->setObject($content)
-				->setObject($media)
 				->loadTemplate('admin/content/create-update');
 		}
 		if (array_key_exists('delete', $_GET)) {

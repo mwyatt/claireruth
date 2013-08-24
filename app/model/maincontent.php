@@ -38,7 +38,8 @@ class Model_Maincontent extends Model
 			from main_content
 			left join main_user on main_user.id = main_content.user_id
             left join main_content_tag on main_content_tag.content_id = main_content.id
-			where main_content.status = 'visible'
+            where main_content.id != ''
+			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and main_content.status = :visible ') . "
 			" . ($where ? ' and main_content.type = :type ' : '') . "
 			" . ($id ? ' and main_content.id = :id ' : '') . "
 
@@ -54,7 +55,7 @@ class Model_Maincontent extends Model
 		if ($limit) {
 			$sth->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
 		}
-		$sth->execute();	
+		$sth->execute();				
 		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $content) {
 			if (! array_key_exists($content['id'], $this->data)) {
 				$this->data[$content['id']] = $content;
@@ -66,6 +67,9 @@ class Model_Maincontent extends Model
 					, 'guid' => $this->getGuid('tag', $content['tag_name'])
 				) ;
 			}
+		}
+		if ($id) {
+			$this->data = current($this->data);
 		}
 		return $sth->rowCount();		
 	}	
