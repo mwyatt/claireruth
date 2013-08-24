@@ -1,21 +1,27 @@
 var ajax = '<div class="ajax"></div>';
 
 
+/**
+ * tag management, search, add, remove
+ */
 (function($) {
     $.fn.tags = function(options) {
 		var core = this;
-		var defaults = {}
+		var defaults = {
+			timer: 0
+		}
+		var options = $.extend(defaults, options);
 		if (! $(core).length) {
 			return;
 		}
-		var time = 0;
 		events();
 		function events() {
 			$(core).find('#form-tag-search').off().on('keyup', function() {
-				clearTimeout(time);
+				var query = $(this).val();
+				clearTimeout(options.timer);
 				if ($(this).val().length > 1) {
-					time = setTimeout(function() {
-						poll($(this).val());
+					options.timer = setTimeout(function() {
+						poll(query);
 					}, 300);
 				}
 			});
@@ -30,13 +36,13 @@ var ajax = '<div class="ajax"></div>';
 			$(core).find('.tags').append('<input name="tag[]" type="hidden" value="' + name + '">');
 		}
 		function poll(query) {
-			clearDrop();
 			$.get(
 				url.base + 'ajax/tag-management/',
 				{
 					query: query
 				},
 				function(result) { 
+					clearDrop();
 					if (result) {
 						$(core).append('<div class="drop">' + result + '</div>');
 					}

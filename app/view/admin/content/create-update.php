@@ -84,7 +84,7 @@
 		</div>
 		<div class="management-tag">
 			<label class="above" for="form-tag-search">Tag</label>
-			<input id="form-tag-search" type="text" name="tag_search" maxlength="100" value="">
+			<input id="form-tag-search" class="search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
 
 <?php if ($this->get('model_maincontent', 'tag')): ?>
 			

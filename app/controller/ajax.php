@@ -16,7 +16,7 @@ class Controller_Ajax extends Controller
 
 	
 	public function index() {
-		$this->config->getObject('Route')->home();
+		// $this->config->getObject('Route')->home();
 	}
 
 
@@ -29,6 +29,11 @@ class Controller_Ajax extends Controller
 		$this->view
 			->setObject($maincontentTag)
 			->loadTemplate('ajax/tags');
+	}
+
+
+	public function mediaBrowser() {
+		$this->load(array('ajax', 'mediabrowser'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
 	}
 
 
