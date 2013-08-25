@@ -32,6 +32,7 @@
 }
 
 .management-tag .drop {
+	@include opacity(0);
+    @include animation(bubble-in 300ms 0 ease both); 
 	top: 3em;
 }
-

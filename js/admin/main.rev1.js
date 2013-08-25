@@ -16,7 +16,19 @@ var ajax = '<div class="ajax"></div>';
 		}
 		events();
 		function events() {
-			$(core).find('#form-tag-search').off().on('keyup', function() {
+
+			// hit enterkey to submit input as new tag
+			$(core).find('#form-tag-search').off().on('keypress', function(e) {
+				if (e.which == 13) {
+					clearDrop();
+			       	$('.tags').append('<div class="tag">' + $(this).val() + '</div>');
+					addHiddenField($(this).val());
+			       	$(this).val('');
+					events();
+				    return false;
+			    }
+			});
+			$(core).find('#form-tag-search').on('keyup', function(e) {
 				var query = $(this).val();
 				clearTimeout(options.timer);
 				if ($(this).val().length > 1) {
@@ -43,6 +55,9 @@ var ajax = '<div class="ajax"></div>';
 				},
 				function(result) { 
 					clearDrop();
+					if (! $('#form-tag-search').val()) {
+						return;
+					};
 					if (result) {
 						$(core).find('.area').append('<div class="drop">' + result + '</div>');
 					}
@@ -60,6 +75,7 @@ var ajax = '<div class="ajax"></div>';
 			if (! $(core).find('.drop .tag').length) {
 				clearDrop();
 			};
+			$('#form-tag-search').val('');
 		}
 		function removeTag(button) {
 			$('input[type="hidden"][value="' + $(button).html() + '"]').remove();

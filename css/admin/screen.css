@@ -543,6 +543,44 @@ table {
     -moz-opacity: 0;
     opacity: 0; } }
 
+html.cssanimations .diva-unit {
+  /*, $duration: 300ms, $delay: 0, $ease: ease*/
+  -webkit-animation: introducing-diva 1s 1s ease both;
+  -moz-animation: introducing-diva 1s 1s ease both;
+  -ms-animation: introducing-diva 1s 1s ease both; }
+
+html.cssanimations .diva-unit .tag {
+  /*, $duration: 300ms, $delay: 0, $ease: ease*/
+  -webkit-animation: fade-in 1s 2s ease both;
+  -moz-animation: fade-in 1s 2s ease both;
+  -ms-animation: fade-in 1s 2s ease both; }
+
+html.cssanimations .laptop {
+  /*, $duration: 300ms, $delay: 0, $ease: ease*/
+  -webkit-animation: fade-in 2s 3s ease both;
+  -moz-animation: fade-in 2s 3s ease both;
+  -ms-animation: fade-in 2s 3s ease both; }
+
+html.cssanimations .features,
+html.cssanimations .hero {
+  /*, $duration: 300ms, $delay: 0, $ease: ease*/
+  -webkit-animation: fade-in 1s 2s ease both;
+  -moz-animation: fade-in 1s 2s ease both;
+  -ms-animation: fade-in 1s 2s ease both; }
+
+html.cssanimations .panel {
+  /*, $duration: 300ms, $delay: 0, $ease: ease*/
+  -webkit-animation: fade-in 1s 0 ease both;
+  -moz-animation: fade-in 1s 0 ease both;
+  -ms-animation: fade-in 1s 0 ease both; }
+
+html.cssanimations .buttons,
+html.cssanimations nav {
+  /*, $duration: 300ms, $delay: 0, $ease: ease*/
+  -webkit-animation: drop-down 1s 0 ease both;
+  -moz-animation: drop-down 1s 0 ease both;
+  -ms-animation: drop-down 1s 0 ease both; }
+
 ::-moz-selection {
   background: #e6e6e6;
   color: grey;
@@ -849,6 +887,15 @@ a:link {
   margin-bottom: 1em; }
 
 .management-tag .drop {
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+  /*, $duration: 300ms, $delay: 0, $ease: ease*/
+  -webkit-animation: bubble-in 300ms 0 ease both;
+  -moz-animation: bubble-in 300ms 0 ease both;
+  -ms-animation: bubble-in 300ms 0 ease both;
   top: 3em; }
 
 .ajax {
