@@ -11,33 +11,38 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
 
-class Controller_Ajax_Mediabrowser extends Controller_Ajax
+class Controller_Ajax_Mediabrowser extends Controller
 {
 
 
-	public $guid = 'media/upload/';
+	// public $guid = 'media/upload/';
 
 
-	public $basePath = '';
+	// public $basePath = '';
 
 
-	public $currentPath;
+	// public $currentPath;
 
 
-	public function __construct() {
-		$this->basePath = BASE_PATH . $this->guid;
-		if (array_key_exists('path', $_GET)) {
-			$this->validate($_GET['path']);
-		}
+	// public function __construct() {
+	// 	$this->basePath = BASE_PATH . $this->guid;
+	// 	if (array_key_exists('path', $_GET)) {
+	// 		$this->validate($_GET['path']);
+	// 	}
+	// }
+
+
+	/**
+	 * default display for the media browser
+	 */
+	public function read() {
+		$mainmedia = new model_mainmedia($this->database, $this->config);
+		$mainmedia->read();
+		$this->view
+			->setObject($mainmedia)
+			->loadTemplate('admin/media/all');
 	}
 
-
-	public function validate($path) {
-		if (strpos($path, '..') !== false) {
-			exit;
-		}
-		return $this->currentPath = $path;
-	}
 
 
 	public function getDirectory() {
@@ -109,4 +114,10 @@ class Controller_Ajax_Mediabrowser extends Controller_Ajax
 	}
 
 
+	public function validate($path) {
+		if (strpos($path, '..') !== false) {
+			exit;
+		}
+		return $this->currentPath = $path;
+	}
 }

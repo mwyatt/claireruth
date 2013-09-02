@@ -61,20 +61,20 @@
 <?php if (! $this->get('model_mainmedia') || $this->urlSegment(2) != 'minutes'): ?>
 
 			<div class="row">
-				<label class="above" for="form_attach">Attach a file</label>
-				<input id="form_attach" type="file" name="media[]"<?php echo ($this->urlSegment(2) == 'minutes' || $this->urlSegment(2) == 'cup' ? '' : ' multiple') ?>>
+				<a href="<?php echo $this->url() ?>/ajax/media-browser/read/" class="button primary js-lightbox-media-browser">Attach files</a>
 			</div>
 
 <?php endif ?>
-<?php if ($this->get('model_mainmedia')): ?>
+<?php if ($this->get('model_maincontent', 'media')): ?>
 
 			<div class="attached">
 				<label class="above">Attached Media</label>
 				
-	<?php foreach ($this->get('model_mainmedia') as $media): ?>
-		
-				<div><a href="<?php echo $this->get($media, 'guid') ?>" target="_blank"><?php echo $this->get($media, 'path') ?></a></div>
+	<?php foreach ($this->get('model_maincontent', 'media') as $row): ?>
+		<?php include($this->pathView() . 'admin/media/item.php'); ?>
 
+				<input type="hidden" value="<?php echo $row['id'] ?>">
+		
 	<?php endforeach ?>
 
 			</div>

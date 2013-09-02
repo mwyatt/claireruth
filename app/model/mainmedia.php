@@ -34,7 +34,29 @@ class Model_Mainmedia extends Model
 
 	public $dir = 'media/upload/';
 
-	
+
+	public function read() {	
+		$baseurl = $this->config->getUrl('base');
+		$sth = $this->database->dbh->query("	
+			select
+				main_media.id
+				, main_media.title
+				, concat('$baseurl', '$this->dir', main_media.path) as path
+				, main_media.date_published
+				, concat(main_user.first_name, ' ', main_user.last_name) as user_full_name
+			from main_media
+			left join main_user on main_user.id = main_media.user_id
+		");
+		$this->data = $sth->fetchAll(PDO::FETCH_ASSOC);
+		return $sth->rowCount();
+	}	
+
+
+	public function getDir() {
+		return $this->dir;
+	}
+
+
 	public function deleteById($id) {	
 		// $sth = $this->database->dbh->prepare("
 		// 	select 
@@ -63,22 +85,7 @@ class Model_Mainmedia extends Model
 	}
 
 
-	public function read() {	
-		$sth = $this->database->dbh->query("	
-			select
-				id
-				, title
-				, path
-				, date_published
-				, user_id
-			from main_media
-		");
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			$row['guid'] = $this->getGuid('media', $row['path'], $this->dir);
-			$this->data[] = $row;
-		}
-		return $sth->rowCount();
-	}	
+
 
 
 	public function readById($ids) {	
@@ -185,12 +192,7 @@ class Model_Mainmedia extends Model
 	}
 	
 
-	/**
-	 * uploads the files and attaches them to the content id provided
-	 * @param  int $id the id of the recently created content
-	 * @return bool  
-	 */
-	public function uploadAttach($id) {
+	public function create() {
 		$files = $_FILES;
 		if (empty($files) || ! array_key_exists('media', $files)) {
 			return;

@@ -235,11 +235,11 @@ abstract class Model extends Config
 	 * @return string        the url
 	 */
 	public function getGuid($type = false, $name = false, $id = false) {
-		if ($type == 'timthumb') {
-			return $this->config->getUrl('base') . 'timthumb/?src=' . $this->config->getUrl('base') . $name;
-		}
+		// if ($type == 'timthumb') {
+		// 	return $this->config->getUrl('base') . 'timthumb/?src=' . $this->config->getUrl('base') . $name;
+		// }
 		if ($type == 'media') {
-			return $this->config->getUrl('base') . $id . $name;
+			return $this->config->getUrl('base') . $name;
 		}
 		$url = $this->config->getUrl('base') . $type . '/' . $this->urlFriendly($name) . '-' . $id . '/';
 		if (! $id) {

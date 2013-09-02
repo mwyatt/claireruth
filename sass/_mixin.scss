@@ -1,0 +1,44 @@
+@mixin gradient ($startColor: #eee, $endColor: white) {
+    background-color: $startColor;
+    background: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor));
+    background: -webkit-linear-gradient(top, $startColor, $endColor);
+    background: -moz-linear-gradient(top, $startColor, $endColor);
+    background: -ms-linear-gradient(top, $startColor, $endColor);
+    background: -o-linear-gradient(top, $startColor, $endColor);
+}
+
+
+@mixin horizontal-gradient ($startColor: #eee, $endColor: white) {
+    background-color: $startColor;
+    background-image: -webkit-gradient(linear, left top, right top, from($startColor), to($endColor));
+    background-image: -webkit-linear-gradient(left, $startColor, $endColor);
+    background-image: -moz-linear-gradient(left, $startColor, $endColor);
+    background-image: -ms-linear-gradient(left, $startColor, $endColor);
+    background-image: -o-linear-gradient(left, $startColor, $endColor);
+}
+
+
+/**
+ * $duration: 300ms, $delay: 0, $ease: ease
+ */
+@mixin animation ($string) {
+    -webkit-animation: $string;
+    -moz-animation:    $string;
+    -ms-animation:     $string;
+}
+
+
+@mixin perspective ($value: 1000) {
+    -webkit-perspective:    $value;
+    -moz-perspective:   $value;
+    -ms-perspective:    $value;
+    perspective:        $value;
+}
+
+
+@mixin transform-origin ($x:center, $y:center) {
+    -webkit-transform-origin: $x $y;
+    -moz-transform-origin:    $x $y;
+    -ms-transform-origin:     $x $y;
+    -o-transform-origin:      $x $y;
+}

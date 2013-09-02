@@ -34,10 +34,16 @@ class Model_Maincontent extends Model
 				, main_content.user_id
 				, main_content_tag.id as tag_id
 				, main_content_tag.name as tag_name
+				, main_media.id as media_id
+				, main_media.date_published as media_date_published
+				, main_media.path as media_path
+				, main_media.title as media_title
 				, concat(main_user.first_name, ' ', main_user.last_name) as user_name
 			from main_content
 			left join main_user on main_user.id = main_content.user_id
             left join main_content_tag on main_content_tag.content_id = main_content.id
+            left join main_content_media on main_content_media.content_id = main_content.id
+            left join main_media on main_media.id = main_content_media.media_id
             where main_content.id != ''
 			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and main_content.status = :visible ') . "
 			" . ($where ? ' and main_content.type = :type ' : '') . "
@@ -56,15 +62,24 @@ class Model_Maincontent extends Model
 			$sth->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
 		}
 		$sth->execute();				
-		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $content) {
-			if (! array_key_exists($content['id'], $this->data)) {
-				$this->data[$content['id']] = $content;
+		$mainmedia = new Model_Mainmedia($this->database, $this->config);
+		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
+			if (! array_key_exists($row['id'], $this->data)) {
+				$this->data[$row['id']] = $row;
 			}
-			if (array_key_exists('tag_name', $this->data[$content['id']]) && $content['tag_name']) {
-				$this->data[$content['id']]['tag'][] = array(
-					'id' => $content['tag_id']
-					, 'name' => $content['tag_name']
-					, 'guid' => $this->getGuid('tag', $content['tag_name'])
+			if (array_key_exists('tag_name', $this->data[$row['id']]) && $row['tag_name']) {
+				$this->data[$row['id']]['tag'][$row['tag_id']] = array(
+					'id' => $row['tag_id']
+					, 'name' => $row['tag_name']
+					, 'guid' => $this->getGuid('tag', $row['tag_name'])
+				) ;
+			}
+			if (array_key_exists('media_id', $this->data[$row['id']]) && $row['media_id']) {
+				$this->data[$row['id']]['media'][$row['media_id']] = array(
+					'id' => $row['media_id']
+					, 'title' => $row['media_title']
+					, 'date_published' => $row['media_date_published']
+					, 'path' => $this->getGuid('media', $mainmedia->getDir() . $row['media_path'])
 				) ;
 			}
 		}

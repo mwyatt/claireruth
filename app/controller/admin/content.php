@@ -20,18 +20,18 @@ class Controller_Admin_Content extends Controller
 		$content = new model_maincontent($this->database, $this->config);
 		$media = new model_mainmedia($this->database, $this->config);
 		if (array_key_exists('form_create', $_POST)) {
+			$content = new model_admin_maincontent($this->database, $this->config);
 			if ($id = $content->create()) {
 				$userAction->create($this->session->get('user', 'id'), 'create', ucfirst($_POST['type']) . ' / ' . $_POST['title']);
-				$media->uploadAttach($id);
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/?edit=' . $id);
 			} else {
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/');
 			}
 		}
 		if (array_key_exists('form_update', $_POST)) {
+			$content = new model_admin_maincontent($this->database, $this->config);
 			if ($content->update()) {
 				$userAction->create($this->session->get('user', 'id'), 'update', ucfirst($_POST['type']) . ' / ' . $_POST['title']);
-				$media->uploadAttach($_GET['edit']);
 			}
 			$this->route('current');
 		}
@@ -42,6 +42,7 @@ class Controller_Admin_Content extends Controller
 				->loadTemplate('admin/content/create-update');
 		}
 		if (array_key_exists('delete', $_GET)) {
+			$content = new model_admin_maincontent($this->database, $this->config);
 			$content->deleteById($_GET['delete']);
 			$userAction->create($this->session->get('user', 'id'), 'delete', 'main_content ' . $_GET['delete']);
 			$this->route('current_noquery');
@@ -59,7 +60,7 @@ class Controller_Admin_Content extends Controller
 
 	public function page() {
 		$content = new model_maincontent($this->database, $this->config);
-		$content->readByType($this->config->getUrl(2));
+		$content->read($this->config->getUrl(2));
 		$this->view
 			->setObject($content)
 			->loadTemplate('admin/content/list');
@@ -67,7 +68,7 @@ class Controller_Admin_Content extends Controller
 
 	public function post() {
 		$content = new model_maincontent($this->database, $this->config);
-		$content->readByType($this->config->getUrl(2));
+		$content->read($this->config->getUrl(2));
 		$this->view
 			->setObject($content)
 			->loadTemplate('admin/content/list');

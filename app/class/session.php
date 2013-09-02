@@ -119,7 +119,7 @@ class Session extends Config
 	 */
 	public function refreshExpire() {
 		if ($this->get('user', 'expire') && $this->get('user', 'expire') < time()) {
-			$this->getUnset('user');
+			// $this->getUnset('user');
 		} else {
 			if ($this->get('user')) {
 				$this->set('user', 'expire', time() + 600);

@@ -37,6 +37,37 @@ class Model_Maincontent_Tag extends Model
 	}
 
 
+	public function create($contentId, $names = array()) {	
+		$sth = $this->database->dbh->prepare("	
+			insert into main_content_tag (
+				content_id
+				, name
+			) values (
+				?
+				, ?
+			)
+		");
+		foreach ($names as $name) {
+			$sth->execute(array(
+				$contentId
+				, $name
+			));	
+		}
+		return $sth->rowCount();
+	}
+
+
+	public function deleteByContentId($id) {	
+		$sth = $this->database->dbh->prepare("	
+			delete from
+				main_content_tag
+			where main_content_tag.content_id = ?
+		");
+		$sth->execute(array($id));	
+		return $sth->rowCount();
+	}
+
+
 	/**
 	 * facilitates the assignment of each tag as an array to the
 	 * maincontent row which is passed through, this enables
@@ -44,17 +75,17 @@ class Model_Maincontent_Tag extends Model
 	 * @param  array $row 
 	 * @return array      
 	 */
-	public function assign($row) {
-		$tags = array();
-		if (array_key_exists('tag_name', $row) && $row['tag_name']) {
-			$tags[] = array(
-				'id' => $row['tag_id']
-				, 'name' => $row['tag_name']
-				, 'guid' => $this->getGuid('tag', $row['tag_name'])
-			) ;
-		}
-		return $tags;
-	}
+	// public function assign($row) {
+	// 	$tags = array();
+	// 	if (array_key_exists('tag_name', $row) && $row['tag_name']) {
+	// 		$tags[] = array(
+	// 			'id' => $row['tag_id']
+	// 			, 'name' => $row['tag_name']
+	// 			, 'guid' => $this->getGuid('tag', $row['tag_name'])
+	// 		) ;
+	// 	}
+	// 	return $tags;
+	// }
 
 
 	public function readUniqueLike($query = '') {	

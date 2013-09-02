@@ -65,10 +65,6 @@ class Model_Admin_Maincontent extends Model
 
 	public function create() {	
 		$user = new Model_Mainuser($this->database, $this->config);
-		if (! $this->validatePost(array('title'))) {
-			$this->session->set('feedback', 'All required fields must be filled');
-			return false;
-		}
 		$sth = $this->database->dbh->prepare("
 			insert into main_content (
 				title
@@ -96,6 +92,7 @@ class Model_Admin_Maincontent extends Model
 			, ':user_id' => $user->get('id')
 		));		
 		$lastId = $this->database->dbh->lastInsertId();
+		$this->addAttachment($lastId);
 		if ($sth->rowCount()) {
 			$this->session->set('feedback', ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
 			return $lastId;
@@ -105,8 +102,29 @@ class Model_Admin_Maincontent extends Model
 	}
 			
 				
+
+	public function addAttachment($contentId) {
+
+		// tag
+		$mainContentTag = new model_maincontent_tag($this->database, $this->config);
+		$mainContentTag->deleteByContentId($contentId);
+		if (array_key_exists('tag', $_POST)) {
+			$mainContentTag->create($contentId, $_POST['tag']);
+		}
+
+		// media
+		$mainContentMedia = new model_maincontent_media($this->database, $this->config);
+		$mainContentMedia->deleteByContentId($contentId);
+		if (array_key_exists('media', $_POST)) {
+			$mainContentMedia->create($contentId, $_POST['media']);
+		}
+	}
+
+
 	public function update() {
 		$user = new Model_Mainuser($this->database, $this->config);
+		$this->addAttachment($_GET['edit']);
+		// the content
 		$sth = $this->database->dbh->prepare("
 			select 
 				title
@@ -164,13 +182,14 @@ class Model_Admin_Maincontent extends Model
 		$sth->execute(array(
 			$id
 		));		
-		$sth = $this->database->dbh->prepare("
-			delete from main_content_meta
-			where content_id = ? 
-		");				
-		$sth->execute(array(
-			$id
-		));		
+		
+		// tag
+		$mainContentTag = new model_maincontent_tag($this->database, $this->config);
+		$mainContentTag->deleteByContentId($contentId);
+
+		// media
+		$mainContentMedia = new model_maincontent_media($this->database, $this->config);
+		$mainContentMedia->deleteByContentId($contentId);
 		$this->session->set('feedback', ucfirst($row['type']) . ' "' . $row['title'] . '" deleted');
 		return true;
 	}

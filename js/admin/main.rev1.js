@@ -2,6 +2,241 @@ var ajax = '<div class="ajax"></div>';
 
 
 /**
+ * lightbox
+ */
+(function($) {
+    $.fn.lightbox = function(options) {
+		var core = this;
+		var defaults = {
+			className: ''
+			, inline: false
+			, galleryClass: ''
+			, onComplete: ''
+			, resizeTimer: 0
+			, scrollTimer: 0
+			, timerDelay: 300
+			, maxWidth: 0
+		}
+		var options = $.extend(defaults, options);
+
+		// initialise common events
+		events();
+
+
+		/**
+		 * opens the lightbox and determines if it is a gallery or
+		 * not
+		 */
+		function open() {
+
+			// build lightbox if required
+			if (! $('.lightbox').length) {
+				build();
+			};
+
+			// reset classnames
+			$('.lightbox').attr('class', 'lightbox');
+
+			if (options.maxWidth) {
+				$('.lightbox').css('width', options.maxWidth + 'px');
+			};
+
+			if (options.className) {
+				$('.lightbox').addClass(options.className);
+			};
+
+			// inline?
+			if (options.inline) {
+				updateContentInline($(this).prop('href'));
+				$('.lightbox')
+					.addClass('inline');
+			};
+
+			// is a gallery avaliable?
+			if (options.galleryClass) {
+				$('.lightbox')
+					.removeClass('gallery')
+					.addClass('gallery');
+				$('.lightbox-gallery').html('');
+				$('.' + options.galleryClass)
+					.clone()
+					.appendTo('.lightbox-gallery');
+			};
+
+			// update the lightbox content with first image
+			if (! options.inline) {
+				updateContentHero($(this).prop('href'));
+			};
+
+			// build lightbox and prevent href activating
+			showLightbox();
+			lightboxEvents();
+			return false;
+		}
+
+
+		/**
+		 * setup all items wishing to launch lightbox
+		 */
+		function events() {
+			$.each($(core), function() {
+				$(this)
+					.off()
+					.on('click', open);
+			});
+		}
+
+
+		function lightboxEvents() {
+
+			// remove
+			$('.lightbox-blackout, .lightbox-anchor')
+				.off()
+				.on('click', hideLightbox);
+			$('.lightbox-remove')
+				.off()
+				.on('click', hideLightbox);
+
+			// click lightbox to remain
+			$('.lightbox')
+				.off()
+				.on('click', function(event) {
+					event.stopPropagation();
+				});
+
+			// setup gallery
+			$('.lightbox-gallery')
+				.children('.thumb')
+				.off()
+				.on('click', function(event) {
+					event.preventDefault();
+					updateContentHero($(this).prop('href'));
+				});
+		}
+
+
+		/**
+		 * process for booting up the lightbox
+		 * @return {[type]} [description]
+		 */
+		function showLightbox() {
+
+			// if the window resizes
+			// eventResize();
+			// $(window).resize(eventResize);
+
+			// if the window scrolls
+			eventScroll();
+			$(window).scroll(eventScroll);
+
+		    // show it
+			$('.lightbox-blackout, .lightbox-anchor').addClass('active');
+		}
+
+
+		/**
+		 * shutdown lightbox
+		 * @return {[type]} [description]
+		 */
+		function hideLightbox() {
+			$(window).off('resize', eventResize);
+			$(window).off('scroll', eventScroll);
+
+			// hide it
+			$('.lightbox-blackout, .lightbox-anchor').removeClass('active');
+		}
+
+
+		/**
+		 * handles the document resize
+		 */
+		function eventResize() {
+			clearTimeout(options.resizeTimer);
+			options.resizeTimer = setTimeout(function() {
+		    	$('.lightbox').height(document.documentElement.clientHeight - 200);
+			}, options.delay);
+		}
+
+		
+		/**
+		 * handles the document scroll
+		 */
+		function eventScroll() {
+			clearTimeout(options.scrollTimer);
+			options.scrollTimer = setTimeout(function() {
+		    	$('.lightbox').css('top', $(window).scrollTop() + 100);
+			}, options.delay);
+		}
+
+
+		/**
+		 * updates the main image in lightbox
+		 * @param  {string} largeUrl 
+		 */
+		function updateContentHero(largeUrl) {
+			$('.lightbox-content').html(
+				'<img src="' + largeUrl + '">'
+			);
+		}
+
+
+		/**
+		 * updates content area with ajax result
+		 * @param  {string} url 
+		 */
+		function updateContentInline(url) {
+			$('.lightbox-content').html(ajax);
+			$.get(
+				url,
+				function(result) {
+					$('.ajax').remove();
+					if (result) {
+						$('.lightbox-content').html(result);
+						if (options.onComplete) {
+							options.onComplete.call($('.lightbox'));
+						};
+					}
+				}
+			);
+		}
+
+
+		/**
+		 * builds the lightbox baseplate
+		 */
+		function build() {
+			$('body').append(
+				'<div class="lightbox-blackout"></div>'
+				+ '<div class="lightbox-anchor">'
+					+ '<div class="lightbox">'
+						+ '<span class="lightbox-remove">&times;</span>'
+						+ '<span class="lightbox-title"></span>'
+						+ '<div class="lightbox-content">'
+						+ '</div>'
+						+ '<div class="lightbox-gallery">'
+							+ '<div class="lightbox-gallery-item">'
+								+ '<img src="" alt="">'
+							+ '</div>'
+							+ '<div class="lightbox-gallery-item">'
+								+ '<img src="" alt="">'
+							+ '</div>'
+							+ '<div class="lightbox-gallery-item">'
+								+ '<img src="" alt="">'
+							+ '</div>'
+						+ '</div>'
+						+ '<div class="lightbox-control">'
+							+ '<span class="lightbox-next">Next</span>'
+							+ '<span class="lightbox-previous">Previous</span>'
+						+ '</div>'
+					+ '</div>'
+				+ '</div>'
+			);
+		}
+	}
+})(jQuery);
+
+
+/**
  * tag management, search, add, remove
  */
 (function($) {
@@ -87,155 +322,88 @@ var ajax = '<div class="ajax"></div>';
 
 /**
  * constructs a media browser area based on the options provided
- * can customise the root directory
- * requires a php ajax construct to upload and remove files
- * options
- * 		directory: string,
- * @param  {object} $ 
  */
 (function($){
 	$.fn.mediaBrowser = function(options) {
-		// @todo find a way to remove
-		if (! this.length) {
-			return;
-		};
-		var thisCore = this;
-		var html = {
-			base: '<div class="control clearfix">'
-				+ '<p class="bread">'
-					+ '<span class="tree"></span>'
-				+ '</p>'
-				+ '<div class="upload">'
-				    + '<label for="form_images">Upload Media</label>'
-				    + '<input id="form_images" type="file" name="images" multiple />'
-				    + '<div id="response"></div>'
-				    + '<ul id="image-list"></ul>'
-				+ '</div>'
-			+ '</div>'
-			+ '<div class="directory clearfix" ></div>'
-			, newFolder: '<div class="new">'
-					+ '<div class="inner clearfix">'
-						+ '<label for="form_create_folder">Create Folder</label>'
-						+ '<input id="form_create_folder" type="text">'
-						+ '<a class="submit">Create</a>'
-					+ '</div>'
-				+ '</div>'
-		}
-		var bread = [];
-		var defaults = {
-			defaultDirectory: ''
-			, thumbWidth: '250'
-			, thumbHeight: '200'
-		}
+		var core = this;
+		var defaults = {}
 		var options = $.extend(defaults, options);
-		$(thisCore).html(html.base);
-		getDirectory('');
-		var uploadFormData = false;
+
+
+		/**
+		 * can i bring this into the upload script?
+		 */
 		if (window.FormData) {
 	  		uploadFormData = new FormData();
-	  		// document.getElementById("btn").style.display = "none";
 		}
-		function getBread() {
-			var path = options.defaultDirectory + '';
-			for (var i = 0; i < bread.length; i++) {
-				path += bread[i];
-			}
-			return path;
-		}
-		function assignHandler() {
-			$(thisCore).find('.directory').find('.folder').off().on('click', function() {
-				getDirectory($(this).data('path'));
-			});
-			$(thisCore).find('.directory').find('.file').find('.remove').on('click', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				removeFile($(this).parent().data('path'));
-			});
-			$(thisCore).find('.directory').find('.folder').find('.remove').on('click', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				removeFolder($(this).parent().data('path'));
-			});
-			$(thisCore).find('.back').off().on('click', getPreviousDirectory);
-			$(thisCore).find('.directory').find('.submit').off().on('click', function() {
-				createFolder($(thisCore).find('.directory').find('input#form_create_folder').val());
-			});
-			$(thisCore).find('.directory').find('input').on('keyup', function(e) {
-				if (e.keyCode == 13) {
-					createFolder($(thisCore).find('.directory').find('input#form_create_folder').val());
-					e.preventDefault();
-					return false;
-				}
-			});
-			$('#form_images').on('change', upload);
-		}
-		function getDirectory(folder) {
-			$(thisCore).find('.directory').html(ajax);
-			if (folder) {
-				bread.push(folder);
-			};
-			$.getJSON(url.base + 'ajax/media-browser/get-directory?path=' + getBread(), function(results) {
-				$(thisCore).find('.ajax').remove();
-				if (results) {
-					$(thisCore).find('.back').remove();
-					$(thisCore).find('.directory').html('');
-					if (bread.length) {
-						$(thisCore).find('.bread').prepend('<a class="back">Back</a>');
-					};
-					$(thisCore).find('.bread').find('.tree').html(getBread());
-					if ('folder' in results) {
-						$.each(results.folder, function() {
-							$(thisCore).find('.directory').append('<a class="folder" data-path="' + this.basename + '/" title="/' + this.basename + '/"><div class="img"><img src="' + url.base + 'media/folder.png" alt="' + this.basename + '"></div><span title="Remove folder" class="remove">&times;</span><p>' + this.basename + '</p></a>');
+
+
+		setEvent();
+
+
+		/**
+		 * sets all events for common functions
+		 */
+		function setEvent() {
+			$('.media-items .item')
+				.off()
+				.on('click', function() {
+					$(this).toggleClass('selected');
+					$('.media-browser').addClass('change-made');
+					$('.media-browser .button.attach')
+						.off()
+						.on('click', function(event) {
+							attachSelections();
+
+							// dry violation
+							$('.lightbox-blackout, .lightbox-anchor').removeClass('active');
 						});
-					};
-					$(thisCore).find('.directory').append(html.newFolder);
-					if ('file' in results) {
-						$.each(results.file, function() {
-							this.extension = this.extension.toLowerCase();
-							if (this.extension == 'png' || this.extension == 'jpg' || this.extension == 'gif') {
-								$(thisCore).find('.directory').append('<a target=_blank" href="' + url.base + this.guid + '" class="clearfix file hide" data-path="' + getBread() + this.basename + '" title="' + this.basename + '"><div class="img"><img src="' + url.base + 'timthumb/?src=' + url.base + this.guid + '&w=' + options.thumbWidth + '&h=' + options.thumbHeight + '" alt="' + this.basename + '"></div><span title="Remove file" class="remove">&times;</span><p>' + this.basename + '</p></a>');
-							}
-							if (this.extension == 'pdf') {
-								$(thisCore).find('.directory').append('<a class="clearfix file hide" data-path="' + this.path + '" title="' + this.basename + '"><div class="img"><img src="img/icon-pdf.png" alt="' + this.basename + '"></div><span title="Remove file" class="remove">&times;</span><p>' + this.basename + '</p></a>');
-							}
-						});
-					};
-					assignHandler();
-					bringIn();
-				}
-			});
+				});
+			$('.row.media .item').removeClass('selected');
+			$('.row.media .item')
+				.off()
+				.on('click', function() {
+					$(this)
+						.parent()
+						.find('[value="' + $(this).data('id') + '"]')
+						.remove();
+					$(this).remove();
+				});
 		}
+
+
+		/**
+		 * adds a hidden field and attaches dom structure to create-update
+		 */
+		function attachSelections() {
+
+			// cleanup past attachments
+			$('.content .row.media input[type="hidden"]').remove();
+			$('.content .row.media .item').remove();
+
+			// add new ones
+			$.each($(core).find('.selected'), function() {
+				$('.content .row.media').append('<input name="media[]" type="hidden" value="' + $(this).data('id') + '">');
+				$(this).appendTo('.content .row.media');
+			});
+			setEvent();
+		}
+
+
+		/**
+		 * fancy bring in animation for items, not needed
+		 */
 		function bringIn() {
 			$(thisCore).find('.hide').each(function(index) {
 				$(this).delay(100 * index).fadeIn(300);
 			});
 		}
-		function getPreviousDirectory() {
-			if (bread.length) {
-				bread.splice(-1, 1);
-			};
-		    getDirectory('');
-		}
-		function createFolder(folderName) {
-			if (! /\S/.test(folderName)) {
-				return;
-			}
-			folderName = folderName.replace(/\s/g, '-').toLowerCase();
-			$.getJSON(url.base + 'ajax/media-browser/create-folder?path=' + getBread() + folderName + '/', function(results) {
-				if (results) {
-					getDirectory('');
-				};
-			});
-		}
-		function removeFolder(path) {
-			if (confirm('Are you sure you want to remove this folder? "' + path + '". Note: If the folder contains files or folders it will not be removed.')) {
-				$.getJSON(url.base + 'ajax/media-browser/remove-folder?path=' + getBread() + path, function(results) {
-					if (results) {
-						getDirectory('');
-					};
-				});
-			}
-		}
+
+
+		/**
+		 * removes the file from the specified path
+		 * @param  {string} path 
+		 */
 		function removeFile(path) {
 			if (confirm('Are you sure you want to remove this file? "' + path + '". This can\'t be undone.')) {
 				$.getJSON(url.base + 'ajax/media-browser/remove-file?path=' + path, function(results) {
@@ -245,6 +413,11 @@ var ajax = '<div class="ajax"></div>';
 				});
 			}
 		}
+
+
+		/**
+		 * uploads the files which have been selected in the form
+		 */
 		function upload() {
 	 		document.getElementById("response").innerHTML = "Uploading..."
 	 		var i = 0;
@@ -544,6 +717,11 @@ $(document).ready(function() {
 	$.ajaxSetup ({  
 		cache: false
 	});
+	$('.js-lightbox-media-browser').lightbox({
+		inline: true
+		, className: 'media-browser'
+		, onComplete: $.fn.mediaBrowser
+	});
 	exclude.init();
 	select.init();
 	feedback.init();
@@ -560,10 +738,8 @@ $(document).ready(function() {
 		});
 	}
 	if (
-		$('.content.page.create').length
-		|| $('.content.page.update').length
-		|| $('.content.press.create').length
-		|| $('.content.press.update').length
+		$('.content.create').length
+		|| $('.content.update').length
 	) {
 		var editor = new wysihtml5.Editor("form_html", {
 		  toolbar:        "toolbar",
@@ -571,12 +747,12 @@ $(document).ready(function() {
 		  useLineBreaks:  false
 		});
 	}
-	$('body').mouseup(function(e) {
-		removeModals();
-		if ($(e.target).closest('.drop').length == 0) {
-			$('.drop').remove();
-		}
-	});	
+	// $('body').mouseup(function(e) {
+	// 	removeModals();
+	// 	if ($(e.target).closest('.drop').length == 0) {
+	// 		$('.drop').remove();
+	// 	}
+	// });	
 	$('body').keyup(function(e) {
 		if (e.keyCode == 27) {
 			removeModals();
