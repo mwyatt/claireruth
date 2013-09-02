@@ -73,7 +73,7 @@
 	<?php foreach ($this->get('model_maincontent', 'media') as $row): ?>
 		<?php include($this->pathView() . 'admin/media/item.php'); ?>
 
-				<input type="hidden" value="<?php echo $row['id'] ?>">
+				<input type="hidden" name="media[]" value="<?php echo $row['id'] ?>">
 		
 	<?php endforeach ?>
 

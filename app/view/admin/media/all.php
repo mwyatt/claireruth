@@ -5,12 +5,7 @@
 	</div>
 	<input type="text" class="search-filter">
 	<span class="button attach">Attach</span>
-	<div class="upload">
-	    <label for="form_images">Upload Media</label>
-	    <input id="form_images" type="file" name="images" multiple />
-	    <div id="response"></div>
-	    <ul id="image-list"></ul>
-	</div>
+    <input id="upload" type="file" name="images" multiple />
 
 <?php if (array_key_exists('model_mainmedia', $this->data)): ?>
     

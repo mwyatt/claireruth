@@ -93,7 +93,6 @@ class Model_Maincontent_Tag extends Model
 			return;
 		}
 		$matches = array();
-		$query = htmlspecialchars($query);
 		$words = explode(' ', $query);
 		$sth = $this->database->dbh->prepare("	
 			select

@@ -328,16 +328,6 @@ var ajax = '<div class="ajax"></div>';
 		var core = this;
 		var defaults = {}
 		var options = $.extend(defaults, options);
-
-
-		/**
-		 * can i bring this into the upload script?
-		 */
-		if (window.FormData) {
-	  		uploadFormData = new FormData();
-		}
-
-
 		setEvent();
 
 
@@ -345,6 +335,7 @@ var ajax = '<div class="ajax"></div>';
 		 * sets all events for common functions
 		 */
 		function setEvent() {
+		 	$('.media-browser #upload').on("change", upload);
 			$('.media-items .item')
 				.off()
 				.on('click', function() {
@@ -419,7 +410,21 @@ var ajax = '<div class="ajax"></div>';
 		 * uploads the files which have been selected in the form
 		 */
 		function upload() {
+
+
+			/**
+			 * can i bring this into the upload script?
+			 */
+			if (window.FormData) {
+		  		uploadFormData = new FormData();
+			}
+
+			
 	 		document.getElementById("response").innerHTML = "Uploading..."
+
+
+
+	 		
 	 		var i = 0;
 	 		var len = this.files.length;
 	 		var img;
