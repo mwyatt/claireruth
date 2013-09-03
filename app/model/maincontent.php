@@ -33,7 +33,7 @@ class Model_Maincontent extends Model
 				, main_content.status
 				, main_content.user_id
 				, main_content_tag.id as tag_id
-				, main_content_tag.name as tag_name
+				, main_content_tag.tag_id as tag_name
 				, main_media.id as media_id
 				, main_media.date_published as media_date_published
 				, main_media.path as media_path

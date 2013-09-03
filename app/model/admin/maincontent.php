@@ -57,17 +57,17 @@ class Model_Admin_Maincontent extends Model
 	public function addAttachment($contentId) {
 
 		// tag
-		$mainContentTag = new model_maincontent_tag($this->database, $this->config);
-		$mainContentTag->deleteByContentId($contentId);
+		$maincontentmany = new model_maincontent_many($this->database, $this->config, 'tag');
+		$maincontentmany->deleteByContentId($contentId);
 		if (array_key_exists('tag', $_POST)) {
-			$mainContentTag->create($contentId, $_POST['tag']);
+			$maincontentmany->create($contentId, $_POST['tag']);
 		}
 
 		// media
-		$mainContentMedia = new model_maincontent_media($this->database, $this->config);
-		$mainContentMedia->deleteByContentId($contentId);
+		$maincontentmany = new model_maincontent_many($this->database, $this->config, 'media');
+		$maincontentmany->deleteByContentId($contentId);
 		if (array_key_exists('media', $_POST)) {
-			$mainContentMedia->create($contentId, $_POST['media']);
+			$maincontentmany->create($contentId, $_POST['media']);
 		}
 	}
 

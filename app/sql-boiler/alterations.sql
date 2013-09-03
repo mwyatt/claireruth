@@ -1,1 +1,0 @@
-ALTER TABLE `main_content_tag` CHANGE `name` `tag_id` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''
