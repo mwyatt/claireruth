@@ -14,55 +14,6 @@ class Model_Admin_Maincontent extends Model
 {
 
 
-	public function readByType($type) {	
-		$sth = $this->database->dbh->prepare("	
-			select
-				main_content.id
-				, main_content.title
-				, main_content.html
-				, main_content.date_published
-				, main_content.status
-				, main_content.type
-				, main_content_meta.name as meta_name
-				, main_content_meta.value as meta_value
-			from main_content
-			left join main_content_meta on main_content_meta.content_id = main_content.id
-			left join main_user on main_user.id = main_content.user_id
-			where main_content.type = :type
-			order by main_content.date_published desc
-		");
-		$sth->execute(array(
-			':type' => $type
-		));	
-		return $this->data = $this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
-	}
-
-
-	public function readById($id) {	
-		$sth = $this->database->dbh->prepare("	
-			select
-				main_content.id
-				, main_content.title
-				, main_content.html
-				, main_content.date_published
-				, main_content.status
-				, main_content.type
-				, main_content_meta.name as meta_name
-				, main_content_meta.value as meta_value
-			from main_content
-			left join main_content_meta on main_content_meta.content_id = main_content.id
-			left join main_user on main_user.id = main_content.user_id
-			where main_content.id = :id
-		");
-		$sth->execute(array(
-			':id' => $id
-		));	
-		$result = $this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
-		$result = current($result);
-		return $this->data = $result;
-	}
-
-
 	public function create() {	
 		$user = new Model_Mainuser($this->database, $this->config);
 		$sth = $this->database->dbh->prepare("

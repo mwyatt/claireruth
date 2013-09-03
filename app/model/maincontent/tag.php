@@ -21,11 +21,11 @@ class Model_Maincontent_Tag extends Model
 			select
 				id
 				, content_id
-				, name
+				, tag_id
 			from main_content_tag
 			" . ($contentId ? ' where main_content.id = :content_id ' : '') . "
-			group by main_content_tag.name
-			order by main_content_tag.name desc
+			group by main_content_tag.tag_id
+			order by main_content_tag.tag_id desc
 		");
 		if ($contentId) {
 			$sth->bindValue(':content_id', $id, PDO::PARAM_STR);
@@ -37,57 +37,11 @@ class Model_Maincontent_Tag extends Model
 	}
 
 
-	public function create($contentId, $names = array()) {	
-		$sth = $this->database->dbh->prepare("	
-			insert into main_content_tag (
-				content_id
-				, name
-			) values (
-				?
-				, ?
-			)
-		");
-		foreach ($names as $name) {
-			$sth->execute(array(
-				$contentId
-				, $name
-			));	
-		}
-		return $sth->rowCount();
-	}
-
-
-	public function deleteByContentId($id) {	
-		$sth = $this->database->dbh->prepare("	
-			delete from
-				main_content_tag
-			where main_content_tag.content_id = ?
-		");
-		$sth->execute(array($id));	
-		return $sth->rowCount();
-	}
-
-
 	/**
-	 * facilitates the assignment of each tag as an array to the
-	 * maincontent row which is passed through, this enables
-	 * each method of the maincontent to create the array
-	 * @param  array $row 
-	 * @return array      
+	 * gets unique tags based on a search query
+	 * @param  string $query 
+	 * @return int        total results
 	 */
-	// public function assign($row) {
-	// 	$tags = array();
-	// 	if (array_key_exists('tag_name', $row) && $row['tag_name']) {
-	// 		$tags[] = array(
-	// 			'id' => $row['tag_id']
-	// 			, 'name' => $row['tag_name']
-	// 			, 'guid' => $this->getGuid('tag', $row['tag_name'])
-	// 		) ;
-	// 	}
-	// 	return $tags;
-	// }
-
-
 	public function readUniqueLike($query = '') {	
 		if (! $query) {
 			return;
@@ -98,12 +52,12 @@ class Model_Maincontent_Tag extends Model
 			select
 				id
 				, content_id
-				, name
+				, tag_id
 			from main_content_tag
 			where
-				main_content_tag.name like ?
-			group by main_content_tag.name
-			order by main_content_tag.name desc
+				main_content_tag.tag_id like ?
+			group by main_content_tag.tag_id
+			order by main_content_tag.tag_id desc
 		");
 		foreach ($words as $word) {
 			$sth->execute(array(
