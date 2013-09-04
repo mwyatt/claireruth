@@ -9,32 +9,20 @@
 class Model_Mainmedia extends Model
 {
 	
-	
-	protected $tick = 0;
 
-
-	public $upload;
-
-
-	public $error;
-
-
-	// public $thumb = array(
-	// 	'small' => array(
-	// 		'width' => 250, 'height' => 250
-	// 	),
-	// 	'medium' => array(
-	// 		'width' => 450, 'height' => 450
-	// 	),
-	// 	'large' => array(
-	// 		'width' => 650, 'height' => 650
-	// 	)
-	// );
-
-
+	/**
+	 * base location for all media
+	 * which is added after the website
+	 * is installed
+	 * @var string
+	 */
 	public $dir = 'media/upload/';
 
 
+	/**
+	 * reads out all media
+	 * @return int total rows bringing through
+	 */
 	public function read() {	
 		$baseurl = $this->config->getUrl('base');
 		$sth = $this->database->dbh->query("	
@@ -50,10 +38,93 @@ class Model_Mainmedia extends Model
 		$this->data = $sth->fetchAll(PDO::FETCH_ASSOC);
 		return $sth->rowCount();
 	}	
+	
 
+	/**
+	 * passed $_FILES, uploads and creates entries in db
+	 * @return bool true on success
+	 */
+	public function create() {
+		$files = $_FILES;
+		if (empty($files) || ! array_key_exists('media', $files)) {
+			return;
+		}
+		$files = $this->tidyFiles($files['media']);
+		$sthMedia = $this->database->dbh->prepare("
+			insert into main_media (
+				path
+				, date_published
+				, user_id
+			)
+			values (
+				:path
+				, :date_published
+				, :user_id
+			)
+		");		
+		$sthContentMeta = $this->database->dbh->prepare("
+			insert into main_content_meta (
+				content_id
+				, name
+				, value
+			)
+			values (
+				:content_id
+				, :name
+				, :value
+			)
+		");			
+		foreach ($files as $key => $file) {
+			$fileInformation = pathinfo($file['name']);
+			$filePath = BASE_PATH . $this->dir . $fileInformation['basename'];
 
-	public function getDir() {
-		return $this->dir;
+			if ($file['error']) {
+				return false;
+			}
+
+			if (
+				$file['type'] != 'image/gif'
+				&& $file['type'] != 'image/png'
+				&& $file['type'] != 'image/jpeg'
+				&& $file['type'] != 'image/pjpeg'
+				&& $file['type'] != 'image/jpeg'
+				&& $file['type'] != 'image/pjpeg'
+				&& $file['type'] != 'application/pdf'
+			) {
+				$this->session->set('feedback', 'File must be .gif, .jpg, .png or .pdf');
+				return false;
+			}
+
+			if (file_exists($filePath)) {
+				$this->session->set('feedback', 'Unable to upload file "' . $file['name'] . '" because it already exists');
+				return false;
+			}
+
+			if ($file['size'] > 2000000 /* 2mb */) {
+				$this->session->set('feedback', 'Unable to upload file "' . $file['name'] . '" because it is too big');
+				return false;
+			}
+
+			if (! move_uploaded_file($file['tmp_name'], $filePath)) {
+				$this->session->set('feedback', 'While moving the temporary file an error occured');
+				return false;
+			}
+
+			$sthMedia->execute(array(
+				':path' => $fileInformation['basename']
+				, ':date_published' => time()
+				, ':user_id' => $this->session->get('user', 'id')
+			));
+
+			$mediaId = $this->database->dbh->lastInsertId();
+
+			$sthContentMeta->execute(array(
+				':content_id' => $id
+				, ':name' => 'media'
+				, ':value' => $mediaId
+			));
+		}
+		return true;
 	}
 
 
@@ -85,7 +156,19 @@ class Model_Mainmedia extends Model
 	}
 
 
-
+	/**
+	 * tidies up the files array to more readable format
+	 * @param  array $array $_FILES['media'] preferrably
+	 * @return array        the sorted array
+	 */
+	public function tidyFiles($array) {	
+		foreach($array as $key => $files) {
+			foreach($files as $i => $val) {
+				$new[$i][$key] = $val;    
+			}    
+		}
+		return $new;
+	}
 
 
 	public function readById($ids) {	
@@ -135,145 +218,5 @@ class Model_Mainmedia extends Model
 			$rows[$key]['guid'] = $this->getGuid('media', $row['basename'], $this->dir);
 		}
 		return $rows;
-	}
-	
-	
-	public function getExtension($val)
-	{	
-		$val = explode('.', $val); // split via '.'
-		$val = end($val);
-		$val = strtolower('.'.$val); // .JPG -> .jpg
-		return ($val ? $val : false);	
-	}
-	
-	
-	public function getTitle($val)
-	{	
-		$val = explode('.', $val); // split via '.
-		array_pop($val);
-		$val = implode($val);
-		return ($val ? $val : false);			
-	}
-	
-	public function getFilename($val)
-	{	
-		$val = explode('.', $val); // split via '.
-		array_pop($val);
-		$val = implode($val);
-		$val = $this->getObject('View')->urlFriendly($val); // convert to friendly
-		return ($val ? $val : false);			
-	}
-	
-	
-	public function getError()
-	{	
-		return ($this->error ? $this->error : false);
-	}
-	
-	
-	public function getUpload()
-	{	
-		return ($this->upload ? $this->upload : false);
-	}
-	
-
-	/**
-	 * tidies up the files array to more readable format
-	 * @param  array $array $_FILES['media'] preferrably
-	 * @return array        the sorted array
-	 */
-	public function tidyFiles($array) {	
-		foreach($array as $key => $files) {
-			foreach($files as $i => $val) {
-				$new[$i][$key] = $val;    
-			}    
-		}
-		return $new;
-	}
-	
-
-	public function create() {
-		$files = $_FILES;
-		if (empty($files) || ! array_key_exists('media', $files)) {
-			return;
-		}
-		$uploadPath = BASE_PATH . $this->dir;
-		$files = $this->tidyFiles($files['media']);
-		
-		$sthMedia = $this->database->dbh->prepare("
-			insert into main_media (
-				path
-				, date_published
-				, user_id
-			)
-			values (
-				:path
-				, :date_published
-				, :user_id
-			)
-		");		
-		$sthContentMeta = $this->database->dbh->prepare("
-			insert into main_content_meta (
-				content_id
-				, name
-				, value
-			)
-			values (
-				:content_id
-				, :name
-				, :value
-			)
-		");			
-		foreach ($files as $key => $file) {
-			$fileInformation = pathinfo($file['name']);
-			$filePath = $uploadPath . $fileInformation['basename'];
-
-			if ($file['error']) {
-				return false;
-			}
-
-			if (
-				$file['type'] != 'image/gif'
-				&& $file['type'] != 'image/png'
-				&& $file['type'] != 'image/jpeg'
-				&& $file['type'] != 'image/pjpeg'
-				&& $file['type'] != 'image/jpeg'
-				&& $file['type'] != 'image/pjpeg'
-				&& $file['type'] != 'application/pdf'
-			) {
-				$this->session->set('feedback', 'File must be .gif, .jpg, .png or .pdf');
-				return false;
-			}
-
-			if (file_exists($filePath)) {
-				$this->session->set('feedback', 'Unable to upload file "' . $file['name'] . '" because it already exists');
-				return false;
-			}
-
-			if ($file['size'] > 2000000 /* 2mb */) {
-				$this->session->set('feedback', 'Unable to upload file "' . $file['name'] . '" because it is too big');
-				return false;
-			}
-
-			if (! move_uploaded_file($file['tmp_name'], $filePath)) {
-				$this->session->set('feedback', 'While moving the temporary file an error occured');
-				return false;
-			}
-
-			$sthMedia->execute(array(
-				':path' => $fileInformation['basename']
-				, ':date_published' => time()
-				, ':user_id' => $this->session->get('user', 'id')
-			));
-
-			$mediaId = $this->database->dbh->lastInsertId();
-
-			$sthContentMeta->execute(array(
-				':content_id' => $id
-				, ':name' => 'media'
-				, ':value' => $mediaId
-			));
-		}
-		return true;
 	}
 }

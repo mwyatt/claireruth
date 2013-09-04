@@ -46,7 +46,7 @@ var ajax = '<div class="ajax"></div>';
 		}
 		function next() {
 			info.current += 1;
-			if (info.current == info.total) {
+			if (info.current > info.total) {
 				info.current = 0;
 			};
 			$.each($(core).find('a'), function(index) {

@@ -21,7 +21,7 @@ class Model_Maincontent_Tag extends Model
 			select
 				id
 				, content_id
-				, tag_id
+				, tag_id as name
 			from main_content_tag
 			" . ($contentId ? ' where main_content.id = :content_id ' : '') . "
 			group by main_content_tag.tag_id
@@ -52,7 +52,7 @@ class Model_Maincontent_Tag extends Model
 			select
 				id
 				, content_id
-				, tag_id
+				, tag_id as name
 			from main_content_tag
 			where
 				main_content_tag.tag_id like ?

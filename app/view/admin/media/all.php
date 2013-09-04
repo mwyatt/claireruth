@@ -3,15 +3,15 @@
 		<span class="tab-select">Choose Files</span>
 		<span class="tab-upload">Upload Files</span>
 	</div>
-	<input type="text" class="search-filter">
-	<span class="button attach">Attach</span>
-    <input id="upload" type="file" name="images" multiple />
+    <div class="tab-select-content">
+		<input type="text" class="search-filter">
+		<span class="button attach">Attach</span>
 
-<?php if (array_key_exists('model_mainmedia', $this->data)): ?>
+<?php if ($this->get('model_mainmedia')): ?>
     
 	<div class="media-items">
 
-    <?php foreach ($this->data['model_mainmedia'] as $row): ?>
+    <?php foreach ($this->get('model_mainmedia') as $row): ?>
 		<?php require($this->pathView() . 'admin/media/item.php'); ?>
     <?php endforeach ?>
 
@@ -19,4 +19,9 @@
 
 <?php endif ?>
 
+	</div>
+	<div class="tab-upload-content">
+	    <input type="file" name="media" multiple />
+		
+	</div>
 </div>

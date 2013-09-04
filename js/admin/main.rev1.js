@@ -335,7 +335,7 @@ var ajax = '<div class="ajax"></div>';
 		 * sets all events for common functions
 		 */
 		function setEvent() {
-		 	$('.media-browser #upload').on("change", upload);
+		 	$('.media-browser input[type="file"]').on("change", upload);
 			$('.media-items .item')
 				.off()
 				.on('click', function() {
@@ -410,56 +410,38 @@ var ajax = '<div class="ajax"></div>';
 		 * uploads the files which have been selected in the form
 		 */
 		function upload() {
-
-
-			/**
-			 * can i bring this into the upload script?
-			 */
+			var uploadFormData = false;
 			if (window.FormData) {
 		  		uploadFormData = new FormData();
 			}
-
-			
-	 		document.getElementById("response").innerHTML = "Uploading..."
-
-
-
-	 		
-	 		var i = 0;
-	 		var len = this.files.length;
-	 		var img;
-	 		var reader;
-	 		var file;
-			for ( ; i < len; i++ ) {
+			var file;
+			$('.media-browser .tab-upload-content').append('<p>loading</p>');
+			for (var i = 0; i < this.files.length; i++ ) {
 				file = this.files[i];
-				// if (window.FileReader) {
-				// 	reader = new FileReader();
-				// 	reader.readAsDataURL(file);
-				// }
 				if (uploadFormData) {
 					uploadFormData.append("images[]", file);
 				}
 			}
 			if (uploadFormData) {
 				$.ajax({
-					url: url.base + 'ajax/media-browser/upload?path=' + getBread(),
+					url: url.base + 'ajax/media-browser/upload/',
 					type: 'POST',
 					data: uploadFormData,
 					processData: false,
 					contentType: false,
 					timeout: 60000,
-					success: function (res) {
-						document.getElementById("response").innerHTML = res; 
-						$('#form_images').remove();
-						$('.upload').find('label').after('<input id="form_images" type="file" name="images" multiple />');
-						uploadFormData = new FormData();
-						$('#form_images').on('change', upload);
-						getDirectory('');
+					success: function (result) {
+
+						// reset the upload field
+						$('.media-browser input[type="file"]').remove();
+						$('.media-browser .tab-upload-content').append('<input id="form_images" type="file" name="images" multiple />');
+				  		uploadFormData = new FormData();
+						setEvent();
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
-						// console.log(jqXHR);
-						console.log(textStatus);
-						// console.log(errorThrown);
+						// alert(jqXHR);
+						alert(textStatus);
+						// alert(errorThrown);
 					}
 				});
 			}
