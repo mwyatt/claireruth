@@ -54,7 +54,7 @@ class Controller_Ajax_Mediabrowser extends Controller
 			// each form can ajax update those seperate entries
 			// 
 		} else {
-			echo '<form action="http://localhost/github/claireruth/ajax/media-browser/upload/" method="post" accept-charset="utf-8" enctype="multipart/form-data">';
+			echo '<form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">';
 			echo '<input id="form_images" type="file" name="media[]" multiple />';
 			echo '<input type="submit" />';
 			echo '</form>';
