@@ -1,0 +1,1 @@
+ALTER TABLE `main_media`  ADD `type` VARCHAR(20) NOT NULL AFTER `path`

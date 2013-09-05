@@ -45,8 +45,20 @@ class Controller_Ajax_Mediabrowser extends Controller
 
 
 	public function upload() {
-		$mainmedia = new model_mainmedia($this->database, $this->config);
-		$mainmedia->create();
+		if ($_FILES) {
+			$mainmedia = new model_mainmedia($this->database, $this->config);
+			$mainmedia->create();
+
+			// handle the generation of forms here in a seperate method somehow
+			// perhaps the create method returns an array of ids? then
+			// each form can ajax update those seperate entries
+			// 
+		} else {
+			echo '<form action="http://localhost/github/claireruth/ajax/media-browser/upload/" method="post" accept-charset="utf-8" enctype="multipart/form-data">';
+			echo '<input id="form_images" type="file" name="media[]" multiple />';
+			echo '<input type="submit" />';
+			echo '</form>';
+		}
 	}
 
 

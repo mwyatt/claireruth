@@ -50,6 +50,11 @@ class Model_Mainmedia extends Model
 			return;
 		}
 		$files = $this->tidyFiles($files['media']);
+		echo '<pre>';
+		print_r($files);
+		echo '</pre>';
+		exit;
+		
 		$sthMedia = $this->database->dbh->prepare("
 			insert into main_media (
 				path
