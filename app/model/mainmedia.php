@@ -24,27 +24,41 @@ class Model_Mainmedia extends Model
 	 * @return int total rows bringing through
 	 */
 	public function read() {	
-		$baseurl = $this->config->getUrl('base');
+		$baseurl = $this->config->getUrl('base'); 
 		$sth = $this->database->dbh->query("	
 			select
 				main_media.id
 				, main_media.title
 				, concat('$baseurl', '$this->dir', main_media.path) as path
+				, main_media.type
 				, main_media.date_published
 				, concat(main_user.first_name, ' ', main_user.last_name) as user_full_name
 			from main_media
 			left join main_user on main_user.id = main_media.user_id
 		");
-		$this->data = $sth->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
+			if ($row['type'] != 'application/pdf') {
+				$row['thumb_150'] = $this->getGuid('thumb', $row['path'] . '&w=150&h=120');
+				$row['thumb_350'] = $this->getGuid('thumb', $row['path'] . '&w=350&h=220');
+				$row['thumb_760'] = $this->getGuid('thumb', $row['path'] . '&w=760&h=540');
+			}
+			$this->data[] = $row;
+		}
 		return $sth->rowCount();
 	}	
 	
 
 	/**
-	 * passed $_FILES, uploads and creates entries in db
-	 * @return bool true on success
+	 * looking for $_FILES['media'], uploads and creates entries in db
+	 * any errors are stored in session->feedback_array
+	 * @return array 	mass array filled with all the data which
+	 *                  would be found in the database anyway
+	 *                  can be used to generate the form for ajax
+	 *                  uploader
 	 */
 	public function create() {
+		$errorMessage = array();
+		$successData = array();
 		$files = $_FILES;
 		if (empty($files) || ! array_key_exists('media', $files)) {
 			return;
@@ -52,36 +66,31 @@ class Model_Mainmedia extends Model
 		$files = $this->tidyFiles($files['media']);
 		$sthMedia = $this->database->dbh->prepare("
 			insert into main_media (
-				path
+				title
+				, description
+				, path
+				, type
 				, date_published
 				, user_id
 			)
 			values (
-				:path
-				, :date_published
-				, :user_id
+				?, ?, ?, ?, ?, ?
 			)
 		");		
-		$sthContentMeta = $this->database->dbh->prepare("
-			insert into main_content_meta (
-				content_id
-				, name
-				, value
-			)
-			values (
-				:content_id
-				, :name
-				, :value
-			)
-		");			
 		foreach ($files as $key => $file) {
+			$valid = true;
 			$fileInformation = pathinfo($file['name']);
-			$filePath = BASE_PATH . $this->dir . $fileInformation['basename'];
+			$filePath = BASE_PATH . $this->dir . $this->urlFriendly($fileInformation['filename']) . '.' . $fileInformation['extension'];
+			$filePathWithoutBase = $this->urlFriendly($fileInformation['filename']) . '.' . $fileInformation['extension'];
+			$fileNameFriendly = $this->urlFriendly($fileInformation['filename']);
 
+			// any error at all
 			if ($file['error']) {
-				return false;
+				$errorMessage[$fileNameFriendly] = 'general error found';
+				continue;
 			}
 
+			// file must be image or pdf
 			if (
 				$file['type'] != 'image/gif'
 				&& $file['type'] != 'image/png'
@@ -91,40 +100,55 @@ class Model_Mainmedia extends Model
 				&& $file['type'] != 'image/pjpeg'
 				&& $file['type'] != 'application/pdf'
 			) {
-				$this->session->set('feedback', 'File must be .gif, .jpg, .png or .pdf');
-				return false;
+				$errorMessage[$fileNameFriendly] = 'file must be .gif, .jpg, .png or .pdf';
+				continue;
 			}
 
+			// check for duplication
 			if (file_exists($filePath)) {
-				$this->session->set('feedback', 'Unable to upload file "' . $file['name'] . '" because it already exists');
-				return false;
+				$errorMessage[$fileNameFriendly] = '"' . $fileInformation['filename'] . '" already exists, please rename it';
+				$this->session->set('feedback', '');
+				continue;
 			}
 
-			if ($file['size'] > 2000000 /* 2mb */) {
-				$this->session->set('feedback', 'Unable to upload file "' . $file['name'] . '" because it is too big');
-				return false;
+			// check its not too big
+			if ($file['size'] > 5000000 /* 5mb */) {
+				$errorMessage[$fileNameFriendly] = 'file is too big';
+				$this->session->set('feedback', '');
+				continue;
 			}
 
+			// check it is possible to move from tmp
 			if (! move_uploaded_file($file['tmp_name'], $filePath)) {
-				$this->session->set('feedback', 'While moving the temporary file an error occured');
-				return false;
+				$errorMessage[$fileNameFriendly] = 'while moving the temporary file an error occured, try again';
+				continue;
 			}
 
-			$sthMedia->execute(array(
-				':path' => $fileInformation['basename']
-				, ':date_published' => time()
-				, ':user_id' => $this->session->get('user', 'id')
-			));
+			// store if all is ok
+			if ($valid) {
+				$returnDataAndInsert = array(
+					$fileInformation['basename']
+					, $fileInformation['basename']
+					, $filePathWithoutBase
+					, $file['type']
+					, time()
+					, $this->session->get('user', 'id')
+				);
 
-			$mediaId = $this->database->dbh->lastInsertId();
+				// database
+				$sthMedia->execute($returnDataAndInsert);
 
-			$sthContentMeta->execute(array(
-				':content_id' => $id
-				, ':name' => 'media'
-				, ':value' => $mediaId
-			));
+				// for return information
+				$returnDataAndInsert['id'] = $this->database->dbh->lastInsertId();
+				$successData[] = $returnDataAndInsert;
+			}
 		}
-		return true;
+
+		// error messages can be accessed if required
+		if ($errorMessage) {
+			$this->session->set('feedback_array', $errorMessage);
+		}
+		return $successData;
 	}
 
 

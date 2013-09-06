@@ -1,6 +1,6 @@
 <div class="item" data-id="<?php echo (array_key_exists('id', $row) ? $row['id'] : '') ?>">
 	<p class="thumb">
-		<img src="<?php echo (array_key_exists('path', $row) ? $row['path'] : '') ?>" alt="<?php echo (array_key_exists('title', $row) ? $row['title'] : '') ?>">
+		<img src="<?php echo (array_key_exists('thumb_150', $row) ? $row['thumb_150'] : '') ?>" alt="<?php echo (array_key_exists('title', $row) ? $row['title'] : '') ?>">
 	</p>
 	<p class="title"><?php echo (array_key_exists('title', $row) ? $row['title'] : '') ?></p>
 	<span class="date-published"><?php echo (array_key_exists('date_published', $row) ? $row['date_published'] : '') ?></span>

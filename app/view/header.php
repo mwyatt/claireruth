@@ -17,19 +17,19 @@
         <div class="wrap">
             <header class="main">
                 <a href="<?php echo $this->urlHome() ?>page/contact-us/" class="button contact-us">Contact us</a>
-                <a class="logo" href="<?php echo $this->urlHome(); ?>">
-                    <img src="<?php echo $this->urlHome(); ?>media/logov2.png" alt="<?php echo $this->get('options', 'site_title'); ?> Logo">
-                    <span class="full-text"><?php echo $this->get('options', 'site_title'); ?></span>
+                <a class="logo" href="<?php echo $this->urlHome(); ?>" title="<?php echo $this->get('options', 'site_title'); ?> Logo">
+
+<?php include(BASE_PATH . 'media/logo.svg'); ?>
+
                 </a>
-                <div class="container-search">
-                    <form class="form-search" method="get">
-                        <label for="form-search" class="label">Search</label>
-                        <input id="form-search" type="text" name="search" type="search" maxlength="75">
-                        <a href="#" class="submit button primary">Search</a>
-                        <input type="submit">
-                        <span class="icon close"></span>
-                    </form> 
-                </div>
+                <form class="search" method="get">
+                    <label for="search-text" class="label">Search</label>
+                    <input id="search-text" type="text" name="search" type="text" maxlength="75">
+                    <a href="#" class="submit button primary">Search</a>
+                    <input type="submit">
+                    <span class="icon close"></span>
+                </form> 
+                <a href="#" class="button secondary">l'histoire complète</a>
                 <nav class="sub">
                     <label>Menu</label>
                     <div class="inner">

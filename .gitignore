@@ -165,7 +165,7 @@ pip-log.txt
 # custom
 config.php
 media/upload/
-plugin/timthumb/cache/
+thumb/cache/
 app/cache/
 .sass-cache/
 Guardfile

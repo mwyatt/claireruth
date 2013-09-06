@@ -113,3 +113,15 @@
 .area {
     position: relative;
 }
+
+
+/**
+ * js must be active for main submit buttons to hide away
+ * @type {String}
+ */
+html.js input[type="submit"] {
+    position: absolute;
+    left: -999em;
+    width: 1px;
+    height: 1px;
+}

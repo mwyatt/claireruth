@@ -27,7 +27,7 @@ class Controller_Front extends Controller
 
 	public function index() {
 		$mainContent = new model_maincontent($this->database, $this->config);
-		$mainContent->read('post');
+		$mainContent->read('post', 10);
 		$this->view
 			->setObject($mainContent)
 			->loadTemplate('home');

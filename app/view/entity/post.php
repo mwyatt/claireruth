@@ -1,14 +1,22 @@
-<article class="<?php echo $content['type']; ?>-single" data-id="<?php echo $content['id']; ?>">
-	<h2 class="title"><?php echo $content['title']; ?></h2>
+<article class="<?php echo $row['type']; ?>-single" data-id="<?php echo $row['id']; ?>">
+	<h2 class="title"><?php echo $row['title']; ?></h2>
 	<div class="description">
 
-<?php echo $content['html']; ?>
+<?php echo $row['html']; ?>
 
 	</div>
-	<div class="date"><?php echo date('d/m/Y', $content['date_published']); ?></div>
+	<div class="date"><?php echo date('d/m/Y', $row['date_published']); ?></div>
 
 <?php require($this->pathView() . 'entity/tags.php'); ?>
+<?php if ($this->get($row, 'media')): ?>
+	<?php $media = current($row['media']) ?>
+	
+	<a href="<?php echo $row['guid'] ?>" class="thumb">
+		<img src="<?php echo $media['thumb_150'] ?>" alt="<?php echo $media['title'] ?>">
+	</a>
 
-	<div class="author"><?php echo $content['user_name']; ?></div>
+<?php endif ?>
+
+	<div class="author"><?php echo $row['user_name']; ?></div>
 
 </article>

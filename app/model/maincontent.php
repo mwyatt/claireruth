@@ -22,7 +22,7 @@ class Model_Maincontent extends Model
 	 * @param  string $limit the amount of content required
 	 * @return null        data property will be set
 	 */
-	public function read($where = '', $limit = 0, $id = false) {	
+	public function read($where = '', $limit = 0, $id = 0) {	
 		$sth = $this->database->dbh->prepare("	
 			select
 				main_content.id
@@ -45,12 +45,12 @@ class Model_Maincontent extends Model
             left join main_content_media on main_content_media.content_id = main_content.id
             left join main_media on main_media.id = main_content_media.media_id
             where main_content.id != ''
-			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and main_content.status = :visible ') . "
+			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and main_content.status = \'visible\'') . "
 			" . ($where ? ' and main_content.type = :type ' : '') . "
 			" . ($id ? ' and main_content.id = :id ' : '') . "
 
 			order by main_content.date_published desc
-			" . ($limit ? ' limit :limit ' : '') . "
+			" . ($limit ? ' limit 0, :limit ' : '') . "
 		");
 		if ($id) {
 			$sth->bindValue(':id', $id, PDO::PARAM_STR);
@@ -62,9 +62,10 @@ class Model_Maincontent extends Model
 			$sth->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
 		}
 		$sth->execute();				
-		$mainmedia = new Model_Mainmedia($this->database, $this->config);
+		$mainmedia = new model_mainmedia($this->database, $this->config);
 		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
 			if (! array_key_exists($row['id'], $this->data)) {
+				$row['guid'] = $this->getGuid('post', $row['title'], $row['id']);
 				$this->data[$row['id']] = $row;
 			}
 			if (array_key_exists('tag_name', $this->data[$row['id']]) && $row['tag_name']) {
@@ -79,7 +80,10 @@ class Model_Maincontent extends Model
 					'id' => $row['media_id']
 					, 'title' => $row['media_title']
 					, 'date_published' => $row['media_date_published']
-					, 'path' => $this->getGuid('media', $mainmedia->getDir() . $row['media_path'])
+					, 'path' => $this->getGuid('media', $mainmedia->dir . $row['media_path'])
+					, 'thumb_150' => $this->getGuid('thumb', $this->config->getUrl('base') . $mainmedia->dir . $row['media_path'] . '&w=150&h=120')
+					, 'thumb_350' => $this->getGuid('thumb', $this->config->getUrl('base') . $mainmedia->dir . $row['media_path'] . '&w=350&h=220')
+					, 'thumb_760' => $this->getGuid('thumb', $this->config->getUrl('base') . $mainmedia->dir . $row['media_path'] . '&w=760&h=540')
 				) ;
 			}
 		}

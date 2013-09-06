@@ -1,0 +1,25 @@
+input,
+input[type="password"],
+textarea {
+    @include border-radius(3px);
+    @include transition(border-color 300ms);
+    border: 1px solid $color-secondary;
+    color: $color-secondary;
+    padding: 0.4em 0.5em 0.3em;
+    margin: 0;
+
+    &:focus {
+        @include box-shadow(0 0 3px $color-gray-20);
+        border-color: $color-secondary;
+        color: $color-secondary;
+    }
+}
+
+.row.invalid input {
+    border-color: $color-tertiary;
+}
+
+.row.invalid label {
+    color: $color-tertiary;
+    font-weight: bold;
+}

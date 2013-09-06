@@ -127,7 +127,7 @@ var ajax = '<div class="ajax"></div>';
 
 			// if the window scrolls
 			eventScroll();
-			$(window).scroll(eventScroll);
+			// $(window).scroll(eventScroll);
 
 		    // show it
 			$('.lightbox-blackout, .lightbox-anchor').addClass('active');
@@ -415,11 +415,11 @@ var ajax = '<div class="ajax"></div>';
 		  		uploadFormData = new FormData();
 			}
 			var file;
-			$('.media-browser .tab-upload-content').append('<p>loading</p>');
+			$('.media-browser .tab-upload-content').append(ajax);
 			for (var i = 0; i < this.files.length; i++ ) {
 				file = this.files[i];
 				if (uploadFormData) {
-					uploadFormData.append("images[]", file);
+					uploadFormData.append("media[]", file);
 				}
 			}
 			if (uploadFormData) {
@@ -433,8 +433,12 @@ var ajax = '<div class="ajax"></div>';
 					success: function (result) {
 
 						// reset the upload field
-						$('.media-browser input[type="file"]').remove();
-						$('.media-browser .tab-upload-content').append('<input id="form_images" type="file" name="images" multiple />');
+						$('.media-browser input[type="file"], .ajax').remove();
+
+						// add new upload field and result
+						$('.media-browser .tab-upload-content')
+							.append('<input id="form_images" type="file" name="media[]" multiple />')
+							.append(result);
 				  		uploadFormData = new FormData();
 						setEvent();
 					},

@@ -44,20 +44,24 @@ class Controller_Ajax_Mediabrowser extends Controller
 	}
 
 
+	/**
+	 * handles the uploading of data
+	 * @return string the forms and error messages required to update
+	 */
 	public function upload() {
 		if ($_FILES) {
 			$mainmedia = new model_mainmedia($this->database, $this->config);
-			$mainmedia->create();
-
-			// handle the generation of forms here in a seperate method somehow
-			// perhaps the create method returns an array of ids? then
-			// each form can ajax update those seperate entries
-			// 
-		} else {
-			echo '<form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">';
-			echo '<input id="form_images" type="file" name="media[]" multiple />';
-			echo '<input type="submit" />';
-			echo '</form>';
+			if ($successData = $mainmedia->create()) {
+				$this->view
+					->setObject('feedback', $this->session->getUnset('feedback_array'))
+					->setObject('media', $successData)
+					->loadTemplate('admin/media/generate-forms');
+			} else {
+				$this->view
+					->setObject('feedback', $this->session->getUnset('feedback_array'))
+					->setObject('media', $successData)
+					->loadTemplate('admin/media/generate-forms');
+			}
 		}
 	}
 

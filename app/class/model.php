@@ -229,18 +229,25 @@ abstract class Model extends Config
 
 	/**
 	 * constructs a friendly guid using 3 components
+	 * special urls will only use type and name
 	 * @param  string $type 
 	 * @param  string $name 
 	 * @param  string $id   (optional)
 	 * @return string        the url
 	 */
 	public function getGuid($type = false, $name = false, $id = false) {
-		// if ($type == 'timthumb') {
-		// 	return $this->config->getUrl('base') . 'timthumb/?src=' . $this->config->getUrl('base') . $name;
-		// }
+
+		// tim
+		if ($type == 'thumb') {
+			return $this->config->getUrl('base') . 'thumb/?src=' . $name;
+		}
+		
+		// media
 		if ($type == 'media') {
 			return $this->config->getUrl('base') . $name;
 		}
+
+		// normal
 		$url = $this->config->getUrl('base') . $type . '/' . $this->urlFriendly($name) . '-' . $id . '/';
 		if (! $id) {
 			$url = str_replace('-/', '/', $url);

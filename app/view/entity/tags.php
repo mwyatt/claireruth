@@ -1,8 +1,8 @@
-<?php if (array_key_exists('tag', $content)): ?>
+<?php if (array_key_exists('tag', $row)): ?>
 	
 	<div class="tags">
 
-	<?php foreach ($content['tag'] as $tag): ?>
+	<?php foreach ($row['tag'] as $tag): ?>
 		<?php require($this->pathView() . 'entity/tag.php'); ?>
 	<?php endforeach ?>
 		

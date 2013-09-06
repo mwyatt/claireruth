@@ -42,3 +42,32 @@
     -ms-transform-origin:     $x $y;
     -o-transform-origin:      $x $y;
 }
+
+
+/**
+ * allows generation of buttons, this can then be used to set
+ * core classes like .button.primary
+ * @type {[type]}
+ */
+@mixin button($color-background: red, $color-text: white) {
+    @include border-radius(99em);
+    @include text-shadow(0 -1px 0 darken($color-background, 5%));
+    background-color: $color-background;
+    color: $color-text;
+    border-bottom-color: darken($color-background, 10%);
+    padding: 0.3em 0.9em 0.5em;
+    border-bottom: 1px solid;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    &:hover {
+        background-color: lighten($color-background, 10%);
+        border-bottom-color: darken($color-background, 0%);
+    }
+
+    &:active {
+        background-color: darken($color-background, 10%);
+        border-bottom-color: darken($color-background, 20%);
+    }
+}

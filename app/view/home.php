@@ -6,7 +6,7 @@
     
 	<div class="posts">
 
-    <?php foreach ($this->data['model_maincontent'] as $content): ?>
+    <?php foreach ($this->data['model_maincontent'] as $row): ?>
 		<?php require($this->pathView() . 'entity/post.php'); ?>
     <?php endforeach ?>
 

@@ -22,6 +22,5 @@
 	</div>
 	<div class="tab-upload-content">
 	    <input type="file" name="media" multiple />
-		
 	</div>
 </div>
