@@ -713,6 +713,7 @@ $(document).ready(function() {
 		, className: 'media-browser'
 		, onComplete: $.fn.mediaBrowser
 	});
+	$('.media-browser').mediaBrowser();
 	exclude.init();
 	select.init();
 	feedback.init();
@@ -720,9 +721,6 @@ $(document).ready(function() {
 	$('form').find('a.submit').on('click', function(e) {
 		formSubmit(e, this);
 	});
-	if ($('.content.media.index').length) {
-		$('.media-browser').mediaBrowser();
-	}
 	if ($('.content.media.gallery').length) {
 		$('.media-browser').mediaBrowser({
 			defaultDirectory: 'gallery/'
