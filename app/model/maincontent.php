@@ -39,7 +39,20 @@ class Model_Maincontent extends Model
 				, main_media.path as media_path
 				, main_media.title as media_title
 				, concat(main_user.first_name, ' ', main_user.last_name) as user_name
-			from main_content
+			from
+				(
+					select
+						main_content.id
+						, main_content.title
+						, main_content.html
+						, main_content.type
+						, main_content.date_published
+						, main_content.status
+						, main_content.user_id
+					from main_content
+					order by main_content.date_published desc
+					" . ($limit ? ' limit 0, :limit ' : '') . "
+				) as main_content
 			left join main_user on main_user.id = main_content.user_id
             left join main_content_tag on main_content_tag.content_id = main_content.id
             left join main_content_media on main_content_media.content_id = main_content.id
@@ -48,9 +61,6 @@ class Model_Maincontent extends Model
 			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and main_content.status = \'visible\'') . "
 			" . ($where ? ' and main_content.type = :type ' : '') . "
 			" . ($id ? ' and main_content.id = :id ' : '') . "
-
-			order by main_content.date_published desc
-			" . ($limit ? ' limit 0, :limit ' : '') . "
 		");
 		if ($id) {
 			$sth->bindValue(':id', $id, PDO::PARAM_STR);
