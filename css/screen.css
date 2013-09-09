@@ -1145,7 +1145,18 @@ body {
   max-height: 100%;
 }
 
-/* line 59, ../sass/screen.scss */
+/* line 44, ../sass/screen.scss */
+.post {
+  background: blue;
+}
+@media screen and (min-width: 435px) {
+  /* line 44, ../sass/screen.scss */
+  .post {
+    background-color: red;
+  }
+}
+
+/* line 76, ../sass/screen.scss */
 .top {
   display: none;
 }

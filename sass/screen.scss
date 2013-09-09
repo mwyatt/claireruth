@@ -41,19 +41,36 @@ body {
     }
 }
 
-.post-single {
+.post {
+    background: blue;
 
-    .title {}
+    .post-title {}
 
-    .description {}
+    .post-description {}
 
-    .date {}
+    .post-date {}
 
-    .tags {}
+    .post-tags {}
 
-    .tag {}
+    .post-tag {}
 
-    .author {}
+    .post-author {}
+
+    @media screen and (min-width: 435px) {
+        background-color: red;
+    }
+
+    @media screen and (min-width: 481px) {}
+
+    @media screen and (min-width: 583px) {}
+
+    @media screen and (min-width: 697px) {}
+
+    @media screen and (min-width: 975px) {}
+
+    @media screen and (min-width: 996px) {}
+
+    @media screen and (min-width: 1340px) {}
 }   
 
 .top {

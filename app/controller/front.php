@@ -16,6 +16,13 @@ class Controller_Front extends Controller
 
 
 	public function initialise() {
+		// $content = new model_maincontent_tag($this->database, $this->config);
+		// $content->readUniqueLike('pokemon');
+		// echo '<pre>';
+		// print_r($content->data);
+		// echo '</pre>';
+		// exit;
+		
 		$menu = new model_mainmenu($this->database, $this->config);
 		// $menu->division();
 		$this->view->setObject($menu);
