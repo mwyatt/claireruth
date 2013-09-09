@@ -8,7 +8,7 @@
 	<div class="date"><?php echo date('d/m/Y', $row['date_published']); ?></div>
 
 <?php require($this->pathView() . 'entity/tags.php'); ?>
-<?php if ($this->get($row, 'media')): ?>
+<?php if (array_key_exists('media', $row)): ?>
 	<?php $media = current($row['media']) ?>
 	
 	<a href="<?php echo $row['guid'] ?>" class="thumb">

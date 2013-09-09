@@ -32,35 +32,16 @@ class Model_Maincontent extends Model
 				, main_content.date_published
 				, main_content.status
 				, main_content.user_id
-				, main_content_tag.id as tag_id
-				, main_content_tag.tag_id as tag_name
-				, main_media.id as media_id
-				, main_media.date_published as media_date_published
-				, main_media.path as media_path
-				, main_media.title as media_title
 				, concat(main_user.first_name, ' ', main_user.last_name) as user_name
-			from
-				(
-					select
-						main_content.id
-						, main_content.title
-						, main_content.html
-						, main_content.type
-						, main_content.date_published
-						, main_content.status
-						, main_content.user_id
-					from main_content
-					order by main_content.date_published desc
-					" . ($limit ? ' limit 0, :limit ' : '') . "
-				) as main_content
+			from main_content
 			left join main_user on main_user.id = main_content.user_id
-            left join main_content_tag on main_content_tag.content_id = main_content.id
-            left join main_content_media on main_content_media.content_id = main_content.id
-            left join main_media on main_media.id = main_content_media.media_id
             where main_content.id != ''
 			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and main_content.status = \'visible\'') . "
 			" . ($where ? ' and main_content.type = :type ' : '') . "
 			" . ($id ? ' and main_content.id = :id ' : '') . "
+			group by main_content.id
+			order by main_content.date_published desc
+			" . ($limit ? ' limit 0, :limit ' : '') . "
 		");
 		if ($id) {
 			$sth->bindValue(':id', $id, PDO::PARAM_STR);
@@ -72,29 +53,21 @@ class Model_Maincontent extends Model
 			$sth->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
 		}
 		$sth->execute();				
-		$mainmedia = new model_mainmedia($this->database, $this->config);
-		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
-			if (! array_key_exists($row['id'], $this->data)) {
-				$row['guid'] = $this->getGuid('post', $row['title'], $row['id']);
-				$this->data[$row['id']] = $row;
+		$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($contents as $content) {
+			$contentIds[] = $content['id'];
+		}
+		$mainMedia = new model_mainmedia($this->database, $this->config);
+		$mainContentTag = new model_maincontent_tag($this->database, $this->config);
+		$medias = $mainMedia->read($contentIds);
+		$tags = $mainContentTag->read($contentIds);
+		foreach ($contents as $content) {
+			$this->data[$content['id']] = $content;
+			if (array_key_exists($content['id'], $tags)) {
+				$this->data[$content['id']]['tag'] = $tags[$content['id']];
 			}
-			if (array_key_exists('tag_name', $this->data[$row['id']]) && $row['tag_name']) {
-				$this->data[$row['id']]['tag'][$row['tag_id']] = array(
-					'id' => $row['tag_id']
-					, 'name' => $row['tag_name']
-					, 'guid' => $this->getGuid('tag', $row['tag_name'])
-				) ;
-			}
-			if (array_key_exists('media_id', $this->data[$row['id']]) && $row['media_id']) {
-				$this->data[$row['id']]['media'][$row['media_id']] = array(
-					'id' => $row['media_id']
-					, 'title' => $row['media_title']
-					, 'date_published' => $row['media_date_published']
-					, 'path' => $this->getGuid('media', $mainmedia->dir . $row['media_path'])
-					, 'thumb_150' => $this->getGuid('thumb', $this->config->getUrl('base') . $mainmedia->dir . $row['media_path'] . '&w=150&h=120')
-					, 'thumb_350' => $this->getGuid('thumb', $this->config->getUrl('base') . $mainmedia->dir . $row['media_path'] . '&w=350&h=220')
-					, 'thumb_760' => $this->getGuid('thumb', $this->config->getUrl('base') . $mainmedia->dir . $row['media_path'] . '&w=760&h=540')
-				) ;
+			if (array_key_exists($content['id'], $medias)) {
+				$this->data[$content['id']]['media'] = $medias[$content['id']];
 			}
 		}
 		if ($id) {

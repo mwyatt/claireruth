@@ -23,9 +23,9 @@ class Model_Mainmedia extends Model
 	 * reads out all media
 	 * @return int total rows bringing through
 	 */
-	public function read() {	
+	public function read($contentIds = array()) {	
 		$baseurl = $this->config->getUrl('base'); 
-		$sth = $this->database->dbh->query("	
+		$sth = $this->database->dbh->prepare("	
 			select
 				main_media.id
 				, main_media.title
@@ -34,8 +34,23 @@ class Model_Mainmedia extends Model
 				, main_media.date_published
 				, concat(main_user.first_name, ' ', main_user.last_name) as user_full_name
 			from main_media
+			left join main_content_media on main_content_media.content_id = main_media.id
 			left join main_user on main_user.id = main_media.user_id
+			" . ($contentIds ? ' where main_content_media.content_id = :content_id ' : '') . "
+			group by main_media.id
 		");
+		if ($contentIds) {
+			foreach ($contentIds as $contentId) {
+				$sth->execute(array(
+					':content_id' => $contentId
+				));	
+				if ($sth->rowCount()) {
+					$this->data[$contentId] = $sth->fetchAll(PDO::FETCH_ASSOC);
+				}
+			}
+			return $this->data;
+		}
+		$sth->execute();				
 		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
 			if ($row['type'] != 'application/pdf') {
 				$row['thumb_150'] = $this->getGuid('thumb', $row['path'] . '&w=150&h=120');

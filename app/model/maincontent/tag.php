@@ -16,24 +16,28 @@ class Model_Maincontent_Tag extends Model
 	 * @return array             
 	 * @todo build guid so that tags can be navigated to             
 	 */
-	public function read($contentId = 0) {	
+	public function read($contentIds = array()) {	
 		$sth = $this->database->dbh->prepare("	
 			select
 				id
 				, content_id
 				, tag_id as name
 			from main_content_tag
-			" . ($contentId ? ' where main_content.id = :content_id ' : '') . "
+			where main_content_tag.content_id = ?
 			group by main_content_tag.tag_id
 			order by main_content_tag.tag_id desc
 		");
-		if ($contentId) {
-			$sth->bindValue(':content_id', $id, PDO::PARAM_STR);
+		if (count($contentIds) == 1) {
+			$sth->execute(array(current($contentIds)));	
+			return $results = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
-		$sth->execute(array(
-			':id' => $id
-		));	
-		return $results = $sth->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($contentIds as $contentId) {
+			$sth->execute(array($contentId));	
+			if ($sth->rowCount()) {
+				$this->data[$contentId] = $sth->fetchAll(PDO::FETCH_ASSOC);
+			}
+		}
+		return $this->data;
 	}
 
 
