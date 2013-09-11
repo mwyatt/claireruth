@@ -14,8 +14,24 @@ class View extends Model
 {
 
 
+	/**
+	 * the name of the template loaded
+	 * @var string
+	 */
 	public $template;
+
+
+	/**
+	 * session information
+	 * @var object
+	 */
 	public $session;
+
+
+	/**
+	 * page meta information
+	 * @var array
+	 */
 	public $meta = array();
 	
 	
@@ -39,16 +55,18 @@ class View extends Model
 	 * @param  string $templateTitle 
 	 * @return bool                
 	 */
-	public function loadTemplate($templateTitle)
-	{			
+	public function loadTemplate($templateTitle) {			
 		$path = BASE_PATH . 'app/view';
-		if (is_array($templateTitle)) {
-			foreach ($templateTitle as $title) {
-				$path .= '/' . $title;
-			}
-		} else {
-			$path = BASE_PATH . 'app/view/' . strtolower($templateTitle);
-		}
+
+		// if (is_array($templateTitle)) {
+		// 	foreach ($templateTitle as $title) {
+		// 		$path .= '/' . $title;
+		// 	}
+		// } else {
+		// 	$path = BASE_PATH . 'app/view/' . strtolower($templateTitle);
+		// }
+			
+		$path = BASE_PATH . 'app/view/' . strtolower($templateTitle);
 		$path .= '.php';
 		$cache = new Cache($this->database, $this->config)	;
 		if (!file_exists($path)) {
@@ -141,86 +159,34 @@ class View extends Model
 	}	
 	
 	
+	/**
+	 * grabs base path for the view folder, used for headers, footers
+	 * and all includes within the view templates
+	 * @return string 
+	 */
 	public function pathView() { 
 		return BASE_PATH . 'app/view/';
 	}	
 	
 
+	/**
+	 * flexible url return, defualts to the base url of the website
+	 * @param  string $key 
+	 * @return string      
+	 */
 	public function url($key = 'base') {
 		return $this->config->getUrl($key);
 	}
 	
 
 	/**
-	 * return base url
-	 */	
-	public function urlHome() { 
-		return $this->config->getUrl('base');
-	}	
-
-	
-	public function urlSegment($index) { 
-		return $this->config->getUrl($index);
-	}	
-	
-	
-	/**
-	 * return current url
+	 * gets a users latest tweet!
+	 * @param  string $user username
+	 * @return string       the tweet
 	 */
-	public function urlCurrent() {
-		return $this->config->getUrl('current');
-	}	
-	
-	
-	public function urlPrevious() {
-		return $this->config->getUrl('history');
-	}	
-	
-	
-	/**
-	 * pull /asset/
-	 */
-	public function asset($ext = null) { 
-		$base = $this->getUrl('base').'asset/';
-		return ($ext == null ? $base : $base.$ext);
-	}
-	
-	
-	/**
-	 * builds image url using filename
-	 * @param  string $fileName from mainMedia data results
-	 * @return string           url
-	 */
-	public function media($fileName) {
-		if (is_file(BASE_PATH . 'img/upload/' . $fileName)) {
-			return $this->config->getUrl('base') . 'img/upload/' . $fileName;
-		}
-		return 'http://placehold.it/200x200/';
-	}
-	
-
-	/**
-	 * performs explode() on a string with the given delimiter
-	 * and trims all whitespace for the elements
-	 */
-	function explodeTrim($str, $delimiter = ',') { 
-	    if ( is_string($delimiter) ) { 
-	        $str = trim(preg_replace('|\\s*(?:' . preg_quote($delimiter) . ')\\s*|', $delimiter, $str)); 
-	        return explode($delimiter, $str); 
-	    } 
-	    return $str; 
-	} 
-
-
 	public function latestTweet($user) {
 		$xml = simplexml_load_file("http://twitter.com/statuses/user_timeline/$user.xml?count=1");
 		echo $xml->status->text[0];
-	}
-
-
-	public function urlTag($ext = null) { 
-		$base = $this->getUrl('base').$this->getUrl(1).'/tags/';
-		return ($ext == null ? $base : $base.$ext);
 	}
 
 

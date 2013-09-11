@@ -15,7 +15,7 @@
 
        	<div class="wrap">
     		<div class="content login clearfix">
-    			<a class="logo" href="<?php echo $this->urlHome(); ?>" title="Open Homepage"><span>4</span></a>
+    			<a class="logo" href="<?php echo $this->url(); ?>" title="Open Homepage"><span>4</span></a>
     			<form method="post" name="form_login">
     				<input type="hidden" name="form_login" value="true">
 
@@ -34,12 +34,12 @@
                         <a href="#" class="submit button">Login</a>
                     </div>
                     <div class="row">
-                        <p><a href="<?php echo $this->urlHome() ?>admin/recovery/" class="forgot-password">Forgot password?</a></p>
+                        <p><a href="<?php echo $this->url() ?>admin/recovery/" class="forgot-password">Forgot password?</a></p>
                     </div>
                 </form>
     		</div>
-            <script src="<?php echo $this->urlHome(); ?>js/vendor/jquery-1.8.2.min.js"></script>
-            <script src="<?php echo $this->urlHome(); ?>js/admin/main.rev1.js"></script>
+            <script src="<?php echo $this->url(); ?>js/vendor/jquery-1.8.2.min.js"></script>
+            <script src="<?php echo $this->url(); ?>js/admin/main.rev1.js"></script>
     	</div>
     </body>
 </html>

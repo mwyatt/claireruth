@@ -1,8 +1,8 @@
 <?php require_once($this->pathView() . 'admin/header.php'); ?>
 
-<div class="content <?php echo $this->urlSegment(2); ?> <?php echo ($this->get('model_ttplayer') ? 'update' : 'create'); ?>" data-id="<?php echo $this->get('model_ttplayer', 'id'); ?>">
+<div class="content <?php echo $this->url(2); ?> <?php echo ($this->get('model_ttplayer') ? 'update' : 'create'); ?>" data-id="<?php echo $this->get('model_ttplayer', 'id'); ?>">
 	<a href="<?php echo $this->url('current_noquery') ?>" class="button back">Back</a>
-	<h1><?php echo ($this->get('model_ttplayer') ? 'Update ' . ucfirst($this->urlSegment(2)) . ' ' . $this->get('model_ttplayer', 'full_name') : 'Create new ' . ucfirst($this->urlSegment(2))); ?></h1>
+	<h1><?php echo ($this->get('model_ttplayer') ? 'Update ' . ucfirst($this->url(2)) . ' ' . $this->get('model_ttplayer', 'full_name') : 'Create new ' . ucfirst($this->url(2))); ?></h1>
 	<form class="main" method="post">
 		<div class="row">		
 			<label class="above" for="form-first-name">First name</label>

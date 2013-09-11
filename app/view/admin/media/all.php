@@ -12,7 +12,7 @@
 	<div class="media-items">
 
     <?php foreach ($this->get('model_mainmedia') as $row): ?>
-		<?php require($this->pathView() . 'admin/media/item.php'); ?>
+		<?php require($this->pathView() . 'content-media.php'); ?>
     <?php endforeach ?>
 
 	</div>

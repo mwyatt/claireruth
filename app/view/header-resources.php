@@ -4,8 +4,8 @@
 <meta name="keywords" content="<?php echo $this->getMeta('keywords'); ?>">
 <meta name="description" content="<?php echo $this->getMeta('description'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="<?php echo $this->urlHome(); ?>css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
-<!-- <link rel="stylesheet/less" type="text/css" href="<?php echo $this->urlHome(); ?>css/main.less">
-<script src="<?php echo $this->urlHome(); ?>js/vendor/less-1.3.3.min.js"></script> -->
-<script src="<?php echo $this->urlHome(); ?>js/vendor/respond.min.js"></script>
-<script src="<?php echo $this->urlHome(); ?>js/vendor/modernizr.custom.73218.js"></script>
+<link href="<?php echo $this->url(); ?>css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+<!-- <link rel="stylesheet/less" type="text/css" href="<?php echo $this->url(); ?>css/main.less">
+<script src="<?php echo $this->url(); ?>js/vendor/less-1.3.3.min.js"></script> -->
+<script src="<?php echo $this->url(); ?>js/vendor/respond.min.js"></script>
+<script src="<?php echo $this->url(); ?>js/vendor/modernizr.custom.73218.js"></script>

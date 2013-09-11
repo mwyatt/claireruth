@@ -1,7 +1,7 @@
 <li class="row" data-id="<?php echo $posts->getRow('id'); ?>" data-type="<?php echo $posts->getRow('type'); ?>">
 
 	<div class="title">
-		<a href="<?php echo $view->urlCurrent(
+		<a href="<?php echo $view->url('current'
 			'?edit='.$posts->getRow('id')
 		); ?>" title="Edit <?php echo $posts->getRow('title'); ?>"><?php echo $posts->getRow('title'); ?></a>
 	</div>

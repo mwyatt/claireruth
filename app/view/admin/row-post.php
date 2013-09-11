@@ -3,7 +3,7 @@
 	<div class="cell tick js-tick"><span></span></div>
 	
 	<div class="cell title">
-		<a href="<?php echo $this->urlCurrent() . '?edit=' . $post->getRow('id'); ?>" title="Edit <?php echo $post->getRow('title'); ?>"><?php echo $post->getRow('title'); ?></a>
+		<a href="<?php echo $this->url('current') . '?edit=' . $post->getRow('id'); ?>" title="Edit <?php echo $post->getRow('title'); ?>"><?php echo $post->getRow('title'); ?></a>
 	</div>
 	
 	<div class="cell date"><?php echo date("dS M Y", strtotime($post->getRow('date_published'))); ?></div>

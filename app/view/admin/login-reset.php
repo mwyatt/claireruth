@@ -30,8 +30,8 @@
                     </div>
                 </form>
     		</div>
-            <script src="<?php echo $this->urlHome(); ?>js/vendor/jquery-1.8.2.min.js"></script>
-            <script src="<?php echo $this->urlHome(); ?>js/admin/main.js"></script>
+            <script src="<?php echo $this->url(); ?>js/vendor/jquery-1.8.2.min.js"></script>
+            <script src="<?php echo $this->url(); ?>js/admin/main.js"></script>
     	</div>
     </body>
 </html>

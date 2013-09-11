@@ -39,7 +39,7 @@
 	<?php require_once($this->pathView() . 'nothing-yet-fixture.php'); ?>
 <?php endif; ?>	
 
-	<p><a href="<?php echo $this->urlHome() ?>player/">Can't find the player your looking for?</a></p>
+	<p><a href="<?php echo $this->url() ?>player/">Can't find the player your looking for?</a></p>
 </div>
 
 <?php require_once($this->pathView() . 'footer.php'); ?>
