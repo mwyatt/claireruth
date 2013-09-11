@@ -1,3 +1,18 @@
+<!-- 
+main_content.id
+, main_content.title
+, main_content.html
+, main_content.type
+, main_content.date_published
+, main_content.status
+, main_content.user_id
+, concat(main_user.first_name, ' ', main_user.last_name) as user_name
+tag
+media
+
+ -->
+
+
 <article class="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>">
 	<h2 class="post-title"><?php echo $row['title']; ?></h2>
 	<div class="post-description">
