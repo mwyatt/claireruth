@@ -1,9 +1,9 @@
 <?php require_once($this->pathView() . 'admin/header.php'); ?>
 
-<div class="content main-content<?php echo $this->urlSegment(2) ?>">
-	<h1><?php echo ucfirst($this->urlSegment(2)); ?></h1>
+<div class="content main-content<?php echo $this->url(2) ?>">
+	<h1><?php echo ucfirst($this->url(2)); ?></h1>
 	<div class="clearfix text-right row">
-		<a class="button new" href="<?php echo $this->url('current_noquery'); ?>new/" title="Create a new <?php echo ucfirst($this->urlSegment(2)); ?>">New</a>
+		<a class="button new" href="<?php echo $this->url('current_noquery'); ?>new/" title="Create a new <?php echo ucfirst($this->url(2)); ?>">New</a>
 	</div>
 
 <?php if ($this->get('model_maincontent')) : ?>
@@ -44,7 +44,7 @@
 <?php else: ?>
 	
 	<div class="nothing-yet">
-		<p>No <?php echo ucfirst($this->urlSegment(2)); ?> have been created yet, why not <a href="<?php echo $this->url('current_noquery'); ?>new/">create</a> one now?</p>
+		<p>No <?php echo ucfirst($this->url(2)); ?> have been created yet, why not <a href="<?php echo $this->url('current_noquery'); ?>new/">create</a> one now?</p>
 	</div>
 	
 <?php endif ?>

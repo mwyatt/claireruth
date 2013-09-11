@@ -50,7 +50,7 @@
 
 	<div class="notice season-status clearfix">
 	    <h3>Season Status</h3>
-	    <p>This season has not yet started. Please ensure all <a href="<?php echo $this->urlHome() ?>admin/league/team/" title="Team management">teams</a> are in the correct divisions. Once you 'start' the season the fixtures will be generated and you will be unable to move <a href="<?php echo $this->urlHome() ?>admin/league/team/" title="Team management">teams</a> to other divisions.</p>
+	    <p>This season has not yet started. Please ensure all <a href="<?php echo $this->url() ?>admin/league/team/" title="Team management">teams</a> are in the correct divisions. Once you 'start' the season the fixtures will be generated and you will be unable to move <a href="<?php echo $this->url() ?>admin/league/team/" title="Team management">teams</a> to other divisions.</p>
 	    <a href="<?php echo $this->url('current_noquery') ?>?season=start" class="button season-start right">Start season</a>
 	</div>
 

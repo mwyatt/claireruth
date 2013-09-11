@@ -1,7 +1,7 @@
 <?php require_once($this->pathView() . 'admin/header.php'); ?>
 
 <div class="settings page">
-	<h1><?php echo ucfirst($this->urlSegment(1)); ?></h1>
+	<h1><?php echo ucfirst($this->url(1)); ?></h1>
 	<table class="main" width="100%" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>

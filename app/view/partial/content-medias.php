@@ -1,6 +1,6 @@
 <?php if (array_key_exists('media', $row)): ?>
 	
-	<div class="medias">
+	<div class="content-<?php echo $row['type']; ?>-medias">
 
 	<?php foreach ($row['media'] as $media): ?>
 		<?php require($this->pathView() . 'entity/media.php'); ?>

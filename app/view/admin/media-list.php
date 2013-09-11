@@ -26,7 +26,7 @@
 			<td><?php echo date('j D M Y', $mainMedia->getRow('date_published')); ?></td>
 			<td><?php echo $mainMedia->getRow('type'); ?></td>
 			<td><?php echo $mainMedia->getRow('user_id'); ?></td>
-			<td><a href="<?php echo $this->urlCurrent(); ?>?delete=<?php echo $mainMedia->getRow('id'); ?>" title="Delete <?php echo $mainMedia->getRow('file_name'); ?>">Delete</a></td>
+			<td><a href="<?php echo $this->url('current'); ?>?delete=<?php echo $mainMedia->getRow('id'); ?>" title="Delete <?php echo $mainMedia->getRow('file_name'); ?>">Delete</a></td>
 		</tr>	
 
 		<?php endwhile; ?>

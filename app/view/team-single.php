@@ -60,7 +60,7 @@
 			</tr>		
 		</table>
 		<div class="clearfix row">
-			<a href="<?php echo $this->urlHome() . 'division/' . $this->get('division', 'name') . '/league/' ?>" class="button right">League Table</a>
+			<a href="<?php echo $this->url() . 'division/' . $this->get('division', 'name') . '/league/' ?>" class="button right">League Table</a>
 		</div>
 	</div>
 
@@ -99,7 +99,7 @@
 			</tbody>			
 		</table>
 		<div class="clearfix row">
-			<a href="<?php echo $this->urlHome() . 'division/' . $this->get('division', 'name') . '/merit/' ?>" class="button right">Merit Table</a>
+			<a href="<?php echo $this->url() . 'division/' . $this->get('division', 'name') . '/merit/' ?>" class="button right">Merit Table</a>
 		</div>
 	</div>
 

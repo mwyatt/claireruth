@@ -1,15 +1,15 @@
 <?php require_once($this->pathView() . 'admin/header.php'); ?>
 
-<div class="content <?php echo $this->urlSegment(2); ?> <?php echo ($this->get('model_maincontent') ? 'update' : 'create'); ?>" data-id="<?php echo $this->get('model_maincontent', 'id'); ?>">
+<div class="content <?php echo $this->url(2); ?> <?php echo ($this->get('model_maincontent') ? 'update' : 'create'); ?>" data-id="<?php echo $this->get('model_maincontent', 'id'); ?>">
 	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
-	<h1><?php echo ($this->get('model_maincontent') ? 'Update ' . ucfirst($this->urlSegment(2)) . ' ' . $this->get('model_maincontent', 'title') : 'Create new ' . ucfirst($this->urlSegment(2))); ?></h1>
+	<h1><?php echo ($this->get('model_maincontent') ? 'Update ' . ucfirst($this->url(2)) . ' ' . $this->get('model_maincontent', 'title') : 'Create new ' . ucfirst($this->url(2))); ?></h1>
 	<form class="main" method="post" enctype="multipart/form-data">
 		<div class="row">	
 			<label class="above" for="form_title">Title</label>
 			<input id="form_title" class="required" type="text" name="title" maxlength="75" value="<?php echo $this->get('model_maincontent', 'title'); ?>" autofocus="autofocus">
 		</div>			
 
-<?php if ($this->urlSegment(2) != 'minutes' && $this->urlSegment(2) != 'cup'): ?>
+<?php if ($this->url(2) != 'minutes' && $this->url(2) != 'cup'): ?>
 
 		<div class="row">
 			<label class="above" for="form_html">Content</label>
@@ -58,7 +58,7 @@
 
 		<div class="row media">
 
-<?php if (! $this->get('model_mainmedia') || $this->urlSegment(2) != 'minutes'): ?>
+<?php if (! $this->get('model_mainmedia') || $this->url(2) != 'minutes'): ?>
 
 			<div class="row">
 				<a href="<?php echo $this->url() ?>/ajax/media-browser/read/" class="button primary js-lightbox-media-browser">Attach files</a>
@@ -106,7 +106,7 @@
 			<input id="status" type="checkbox" name="status" value="visible"<?php echo ($this->get('model_maincontent', 'status') == 'visible' ? ' checked' : ''); ?>>
 		</div>
 		<input name="form_<?php echo ($this->get('model_maincontent') ? 'update' : 'create'); ?>" type="hidden" value="true">
-		<input name="type" type="hidden" value="<?php echo $this->urlSegment(2); ?>">
+		<input name="type" type="hidden" value="<?php echo $this->url(2); ?>">
 		<a href="#" class="submit button">Save</a>
 		<input type="submit">
 	</form>
