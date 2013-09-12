@@ -164,9 +164,14 @@ class View extends Model
 	 * and all includes within the view templates
 	 * @return string 
 	 */
-	public function pathView() { 
-		return BASE_PATH . 'app/view/';
+	public function pathView($template = '') { 
+		$path = BASE_PATH . 'app/view/';
+		if ($template) {
+			$path .= $template . '.php';
+		}
+		return $path;
 	}	
+
 	
 
 	/**

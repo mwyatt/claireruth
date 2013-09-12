@@ -3,7 +3,7 @@
 	<div class="tags">
 
 	<?php foreach ($row['tag'] as $tag): ?>
-		<?php require($this->pathView() . 'entity/tag.php'); ?>
+		<?php include($this->pathView('partial/content-tag')); ?>
 	<?php endforeach ?>
 		
 	</div>

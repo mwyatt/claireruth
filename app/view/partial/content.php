@@ -7,12 +7,11 @@
 	</div>
 	<span class="content-<?php echo $row['type']; ?>-date"><?php echo date('d/m/Y', $row['date_published']); ?></span>
 
-<?php require($this->pathView() . 'entity/tags.php'); ?>
-
+<?php include($this->pathView('partial/content-tags')); ?>
 <?php if (array_key_exists('media', $row)): ?>
 	<?php $media = current($row['media']) ?>
 	
-	<a href="<?php echo $row['guid'] ?>" class="content-<?php echo $row['type']; ?>-thumb">
+	<a href="<?php echo $media['guid'] ?>" class="content-<?php echo $media['type']; ?>-thumb">
 		<img src="<?php echo $media['thumb_150'] ?>" alt="<?php echo $media['title'] ?>">
 	</a>
 
