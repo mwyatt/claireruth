@@ -1,5 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic);
+@import "sprite/*.png";
+@include all-sprite-sprites; 
+$sprite-map: sprite-map("sprite/*.png");
 @import "global";
 @import "form";
+@import "header";
+@import "content-post";
 
 .wrap {
     padding: 1em;
@@ -18,6 +24,7 @@ body {
     color: $color-typography-primary;
     background-color: $color-primary;
     font-size: 16px;
+    font-family: 'Droid Serif', serif;
 }
 
 .button.primary {
@@ -27,51 +34,6 @@ body {
 .button.secondary {
     @include button($color-secondary, #42664b);
 }
-
-.logo {
-    display: block;
-    width: 214px;
-    height: 71px;
-    margin: 0 auto 30px;
-    overflow: hidden;
-
-    img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-}
-
-.post {
-    background: blue;
-
-    .post-title {}
-
-    .post-description {}
-
-    .post-date {}
-
-    .post-tags {}
-
-    .post-tag {}
-
-    .post-author {}
-
-    @media screen and (min-width: 435px) {
-        background-color: red;
-    }
-
-    @media screen and (min-width: 481px) {}
-
-    @media screen and (min-width: 583px) {}
-
-    @media screen and (min-width: 697px) {}
-
-    @media screen and (min-width: 975px) {}
-
-    @media screen and (min-width: 996px) {}
-
-    @media screen and (min-width: 1340px) {}
-}   
 
 .top {
     display: none;

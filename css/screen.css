@@ -1,4 +1,21 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
+/* line 55, sprite/*.png */
+.sprite-sprite, .sprite-bookstack, .sprite-flower, .propos-flower {
+  background-image: url('/media/sprite-s6495869aa8.png');
+  background-repeat: no-repeat;
+}
+
+/* line 77, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-0.13.alpha.4/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.sprite-bookstack {
+  background-position: 0 0;
+}
+
+/* line 77, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-0.13.alpha.4/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.sprite-flower, .propos-flower {
+  background-position: 0 -62px;
+}
+
 /*! normalize.css v1.0.2 | MIT License | git.io/normalize */
 /* ==========================================================================
    HTML5 display definitions
@@ -677,30 +694,30 @@ table {
 
 /* line 15, ../sass/_typography.scss */
 ::-webkit-input-placeholder {
-  color: #ca3566;
+  color: #995799;
 }
 
 /* line 19, ../sass/_typography.scss */
 :-moz-placeholder {
   /* Firefox 18- */
-  color: #ca3566;
+  color: #995799;
 }
 
 /* line 23, ../sass/_typography.scss */
 ::-moz-placeholder {
   /* Firefox 19+ */
-  color: #ca3566;
+  color: #995799;
 }
 
 /* line 27, ../sass/_typography.scss */
 :-ms-input-placeholder {
-  color: #ca3566;
+  color: #995799;
 }
 
 /* line 32, ../sass/_typography.scss */
 a,
 a:visited {
-  color: #cc6699;
+  color: #ca3566;
   text-decoration: none;
 }
 
@@ -708,12 +725,12 @@ a:visited {
 a.hover,
 a:hover,
 a:focus {
-  color: #d279a6;
+  color: #cf4975;
 }
 
 /* line 48, ../sass/_typography.scss */
 a:link {
-  -webkit-tap-highlight-color: #ca3566;
+  -webkit-tap-highlight-color: #995799;
 }
 
 /* line 52, ../sass/_typography.scss */
@@ -1030,8 +1047,8 @@ textarea {
   -moz-transition: border-color 300ms;
   -o-transition: border-color 300ms;
   transition: border-color 300ms;
-  border: 1px solid #ca3566;
-  color: #ca3566;
+  border: 1px solid #995799;
+  color: #995799;
   padding: 0.4em 0.5em 0.3em;
   margin: 0;
 }
@@ -1042,8 +1059,8 @@ textarea:focus {
   -webkit-box-shadow: 0 0 3px #cccccc;
   -moz-box-shadow: 0 0 3px #cccccc;
   box-shadow: 0 0 3px #cccccc;
-  border-color: #ca3566;
-  color: #ca3566;
+  border-color: #995799;
+  color: #995799;
 }
 
 /* line 18, ../sass/_form.scss */
@@ -1057,62 +1074,114 @@ textarea:focus {
   font-weight: bold;
 }
 
-/* line 4, ../sass/screen.scss */
+/* line 1, ../sass/_header.scss */
+.logo {
+  display: block;
+  width: 214px;
+  height: 71px;
+  margin: 0 auto 30px;
+  overflow: hidden;
+}
+/* line 8, ../sass/_header.scss */
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* line 18, ../sass/_header.scss */
+.propos-lettering {
+  -webkit-transform: rotate(10deg);
+  -moz-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  -o-transform: rotate(10deg);
+  transform: rotate(10deg);
+}
+
+/* line 22, ../sass/_header.scss */
+.propos-flower {
+  display: block;
+  width: 87px;
+  height: 87px;
+}
+
+/* line 1, ../sass/_content-post.scss */
+.content-post {
+  border: 1px solid #e6e6e6;
+  background: white;
+  position: relative;
+  padding: 1em;
+  border-radius: 0.4em;
+  margin: 1em;
+  -webkit-box-shadow: 0 0 3px gray;
+}
+@media screen and (min-width: 435px) {
+  /* line 1, ../sass/_content-post.scss */
+  .content-post {
+    background-color: red;
+  }
+}
+
+/* line 27, ../sass/_content-post.scss */
+.content-post-title {
+  margin-top: 0;
+}
+
+/* line 31, ../sass/_content-post.scss */
+.content-post-html {
+  display: none;
+}
+
+/* line 35, ../sass/_content-post.scss */
+.content-post-date {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}
+
+/* line 47, ../sass/_content-post.scss */
+.content-post .tag {
+  background: #eee;
+  padding: 0.3em 0.8em;
+  font-size: 0.8em;
+  border-radius: 0.4em;
+  display: block;
+  float: left;
+  margin: 0.2em;
+  border: 1px solid #ccc;
+  text-transform: lowercase;
+}
+
+/* line 10, ../sass/screen.scss */
 .wrap {
   padding: 1em;
 }
 
-/* line 8, ../sass/screen.scss */
+/* line 14, ../sass/screen.scss */
 .full-width {
   position: relative;
   width: 960px;
   margin: 0 auto;
 }
 
-/* line 14, ../sass/screen.scss */
+/* line 20, ../sass/screen.scss */
 body {
   background: url("../media/45degreee_fabric.png") repeat;
   font-family: 'sans-serif';
   line-height: 1.5em;
   color: #646e77;
-  background-color: #cc6699;
+  background-color: #ca3566;
   font-size: 16px;
+  font-family: 'Droid Serif', serif;
 }
 
-/* line 23, ../sass/screen.scss */
+/* line 30, ../sass/screen.scss */
 .button.primary {
-  -webkit-border-radius: 99em;
-  -moz-border-radius: 99em;
-  border-radius: 99em;
-  text-shadow: 0 -1px 0 #c6538c;
-  background-color: #cc6699;
-  color: white;
-  border-bottom-color: #bf4080;
-  padding: 0.3em 0.9em 0.5em;
-  border-bottom: 1px solid;
-  cursor: pointer;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-/* line 64, ../sass/_mixin.scss */
-.button.primary:hover {
-  background-color: #d98cb3;
-  border-bottom-color: #cc6699;
-}
-/* line 69, ../sass/_mixin.scss */
-.button.primary:active {
-  background-color: #bf4080;
-  border-bottom-color: #993366;
-}
-
-/* line 27, ../sass/screen.scss */
-.button.secondary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
   border-radius: 99em;
   text-shadow: 0 -1px 0 #b6305c;
   background-color: #ca3566;
-  color: #42664b;
+  color: white;
   border-bottom-color: #a22a52;
   padding: 0.3em 0.9em 0.5em;
   border-bottom: 1px solid;
@@ -1121,42 +1190,43 @@ body {
   text-transform: uppercase;
 }
 /* line 64, ../sass/_mixin.scss */
-.button.secondary:hover {
+.button.primary:hover {
   background-color: #d55d85;
   border-bottom-color: #ca3566;
 }
 /* line 69, ../sass/_mixin.scss */
-.button.secondary:active {
+.button.primary:active {
   background-color: #a22a52;
   border-bottom-color: #79203d;
 }
 
-/* line 31, ../sass/screen.scss */
-.logo {
-  display: block;
-  width: 214px;
-  height: 71px;
-  margin: 0 auto 30px;
-  overflow: hidden;
+/* line 34, ../sass/screen.scss */
+.button.secondary {
+  -webkit-border-radius: 99em;
+  -moz-border-radius: 99em;
+  border-radius: 99em;
+  text-shadow: 0 -1px 0 #894e89;
+  background-color: #995799;
+  color: #42664b;
+  border-bottom-color: #784578;
+  padding: 0.3em 0.9em 0.5em;
+  border-bottom: 1px solid;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
 }
+/* line 64, ../sass/_mixin.scss */
+.button.secondary:hover {
+  background-color: #b073b0;
+  border-bottom-color: #995799;
+}
+/* line 69, ../sass/_mixin.scss */
+.button.secondary:active {
+  background-color: #784578;
+  border-bottom-color: #583258;
+}
+
 /* line 38, ../sass/screen.scss */
-.logo img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-/* line 44, ../sass/screen.scss */
-.post {
-  background: blue;
-}
-@media screen and (min-width: 435px) {
-  /* line 44, ../sass/screen.scss */
-  .post {
-    background-color: red;
-  }
-}
-
-/* line 76, ../sass/screen.scss */
 .top {
   display: none;
 }

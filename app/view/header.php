@@ -16,7 +16,10 @@
         <a href="#" class="top"><span class="icon"></span>Top</a>
         <div class="wrap">
             <header class="main">
-                <a href="<?php echo $this->url() ?>page/contact-us/" class="button contact-us">Contact us</a>
+                <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
+                    <span class="propos-lettering">á propos de moi</span>
+                    <span class="propos-flower"></span>
+                </a>
                 <a class="logo" href="<?php echo $this->url(); ?>" title="<?php echo $this->get('options', 'site_title'); ?> Logo">
 
 <?php include(BASE_PATH . 'media/logo.svg'); ?>
@@ -30,15 +33,4 @@
                     <span class="icon close"></span>
                 </form> 
                 <a href="#" class="button secondary">l'histoire complète</a>
-                <nav class="sub">
-                    <label>Menu</label>
-                    <div class="inner">
-                        <span class="close"></span>
-                        <a href="<?php echo $this->url(); ?>page/coaching/">Coaching</a>
-                        <a href="<?php echo $this->url(); ?>page/schools/">Schools</a>
-                        <a href="<?php echo $this->url(); ?>page/town-teams/">Town Teams</a>
-                        <a href="<?php echo $this->url(); ?>page/summer-league/">Summer League</a>
-                        <a href="<?php echo $this->url(); ?>page/local-clubs/">Local Clubs</a>
-                    </div>
-                </nav> 
             </header>

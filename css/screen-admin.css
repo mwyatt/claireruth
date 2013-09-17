@@ -677,30 +677,30 @@ table {
 
 /* line 15, ../sass/_typography.scss */
 ::-webkit-input-placeholder {
-  color: #ca3566;
+  color: #995799;
 }
 
 /* line 19, ../sass/_typography.scss */
 :-moz-placeholder {
   /* Firefox 18- */
-  color: #ca3566;
+  color: #995799;
 }
 
 /* line 23, ../sass/_typography.scss */
 ::-moz-placeholder {
   /* Firefox 19+ */
-  color: #ca3566;
+  color: #995799;
 }
 
 /* line 27, ../sass/_typography.scss */
 :-ms-input-placeholder {
-  color: #ca3566;
+  color: #995799;
 }
 
 /* line 32, ../sass/_typography.scss */
 a,
 a:visited {
-  color: #cc6699;
+  color: #ca3566;
   text-decoration: none;
 }
 
@@ -708,12 +708,12 @@ a:visited {
 a.hover,
 a:hover,
 a:focus {
-  color: #d279a6;
+  color: #cf4975;
 }
 
 /* line 48, ../sass/_typography.scss */
 a:link {
-  -webkit-tap-highlight-color: #ca3566;
+  -webkit-tap-highlight-color: #995799;
 }
 
 /* line 52, ../sass/_typography.scss */
@@ -1157,27 +1157,27 @@ html.js input[type="submit"] {
 
 /* line 15, ../sass/screen-admin.scss */
 ::selection {
-  background: #cc6699;
-  color: #cc6699;
+  background: #ca3566;
+  color: #ca3566;
   text-shadow: none;
 }
 
 /* line 22, ../sass/screen-admin.scss */
 a,
 a:visited {
-  color: #cc6699;
+  color: #ca3566;
   text-decoration: none;
 }
 
 /* line 28, ../sass/screen-admin.scss */
 a:hover,
 a:focus {
-  color: #e6b3cc;
+  color: #df86a3;
 }
 
 /* line 32, ../sass/screen-admin.scss */
 a:focus {
-  border-color: #cc6699 !important;
+  border-color: #ca3566 !important;
 }
 
 /* line 40, ../sass/screen-admin.scss */
@@ -1327,7 +1327,7 @@ a.button:active,
   right: 0;
   top: -2em;
   font-size: .7em;
-  color: #ca3566;
+  color: #995799;
 }
 /* line 148, ../sass/screen-admin.scss */
 .content.league.fixtures .card div {
@@ -1533,8 +1533,8 @@ table.main td {
 .content.fixtures.fulfill .row.excluded input,
 .content.fixtures.fulfill .row.excluded label[for^="encounter"] {
   text-decoration: line-through;
-  color: #cc6699;
-  border-color: #cc6699;
+  color: #ca3566;
+  border-color: #ca3566;
 }
 /* line 356, ../sass/screen-admin.scss */
 .content.fixtures.update .team,

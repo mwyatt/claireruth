@@ -1,3 +1,4 @@
+// global
 $color-white: #ffffff;
 $color-gray-10: darken($color-white, 10%);
 $color-gray-20: darken($color-white, 20%);
@@ -10,12 +11,20 @@ $color-gray-80: darken($color-white, 80%);
 $color-gray-90: darken($color-white, 90%);
 $color-black: #000000;
 
-$color-primary: #cc6699;
-$color-secondary: #ca3566;
+// project specific
+$color-primary: #ca3566;
+$color-primary-02: #cc6699;
+$color-primary-compliment: #8c616f;
+$color-secondary: #995799;
+$color-secondary-compliment: #cf90a2;
 $color-tertiary: #669933;
+$color-tertiary-compliment: #b9d9c1;
+$color-quantenary: #edddc7;
+
+// typographic
 $color-typography-primary: #646e77;
 $color-typography-tertiary: #669933;
 
-
+// /admin/
 $color-admin-primary: #ff5512;
 $color-admin-secondary: #474747;
