@@ -87,15 +87,9 @@
 			<div class="area">
 				<input id="form-tag-search" class="search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
 			</div>
-			<div class="tags">
 
-<?php if ($this->get('model_maincontent', 'tag')): ?>
-	<?php foreach ($this->get('model_maincontent', 'tag') as $tag): ?>
-			
-				<div class="tag" data-id="<?php echo $tag['id'] ?>"><?php echo $tag['name'] ?></div>
-				<input name="tag[]" type="hidden" value="<?php echo $tag['name'] ?>">
-		
-	<?php endforeach ?>
+<?php if ($row['tag'] = $this->get('model_maincontent', 'tag')): ?>
+	<?php include($this->pathView('partial/content-tags')); ?>
 <?php endif ?>
 	
 			</div>

@@ -27,10 +27,6 @@ class Model_Maincontent_Tag extends Model
 			group by main_content_tag.tag_id
 			order by main_content_tag.tag_id desc
 		");
-		if (count($contentIds) == 1) {
-			$sth->execute(array(current($contentIds)));	
-			return $results = $sth->fetchAll(PDO::FETCH_ASSOC);
-		}
 		foreach ($contentIds as $contentId) {
 			$sth->execute(array($contentId));	
 			if ($sth->rowCount()) {

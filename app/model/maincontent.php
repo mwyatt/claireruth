@@ -22,7 +22,7 @@ class Model_Maincontent extends Model
 	 * @param  string $limit the amount of content required
 	 * @return null        data property will be set
 	 */
-	public function read($where = '', $limit = 0, $id = 0) {	
+	public function read($where = '', $limit = array(0, 10), $id = 0) {	
 		$sth = $this->database->dbh->prepare("	
 			select
 				main_content.id
@@ -41,7 +41,7 @@ class Model_Maincontent extends Model
 			" . ($id ? ' and main_content.id = :id ' : '') . "
 			group by main_content.id
 			order by main_content.date_published desc
-			" . ($limit ? ' limit 0, :limit ' : '') . "
+			" . ($limit ? ' limit :limit_start, :limit_end ' : '') . "
 		");
 		if ($id) {
 			$sth->bindValue(':id', $id, PDO::PARAM_STR);
@@ -50,7 +50,8 @@ class Model_Maincontent extends Model
 			$sth->bindValue(':type', $where, PDO::PARAM_STR);
 		}
 		if ($limit) {
-			$sth->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+			$sth->bindValue(':limit_start', (int) current($limit), PDO::PARAM_INT);
+			$sth->bindValue(':limit_end', (int) next($limit), PDO::PARAM_INT);
 		}
 		$sth->execute();				
 		$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -61,7 +62,10 @@ class Model_Maincontent extends Model
 		$mainContentTag = new model_maincontent_tag($this->database, $this->config);
 		$medias = $mainMedia->read($contentIds);
 		$tags = $mainContentTag->read($contentIds);
+
+		// generate guid, append media or tags where applicable
 		foreach ($contents as $content) {
+			$content['guid'] = $this->getGuid($content['type'], $content['title'], $content['id']);
 			$this->data[$content['id']] = $content;
 			if (array_key_exists($content['id'], $tags)) {
 				$this->data[$content['id']]['tag'] = $tags[$content['id']];
