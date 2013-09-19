@@ -7,16 +7,8 @@
 		<input type="text" class="search-filter">
 		<span class="button attach">Attach</span>
 
-<?php if ($this->get('model_mainmedia')): ?>
-    
-	<div class="media-items">
-
-    <?php foreach ($this->get('model_mainmedia') as $row): ?>
-		<?php require($this->pathView() . 'content-media.php'); ?>
-    <?php endforeach ?>
-
-	</div>
-
+<?php if ($row['media'] = $this->get('model_mainmedia')): ?>
+	<?php include($this->pathView('partial/content-medias')); ?>
 <?php endif ?>
 
 	</div>

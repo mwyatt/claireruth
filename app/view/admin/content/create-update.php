@@ -70,8 +70,8 @@
 			<div class="attached">
 				<label class="above">Attached Media</label>
 				
-	<?php foreach ($this->get('model_maincontent', 'media') as $row): ?>
-		<?php include($this->pathView() . 'admin/media/item.php'); ?>
+	<?php foreach ($this->get('model_maincontent', 'media') as $key => $row): ?>
+		<?php include($this->pathView('partial/content-media')); ?>
 
 				<input type="hidden" name="media[]" value="<?php echo $row['id'] ?>">
 		
@@ -87,11 +87,16 @@
 			<div class="area">
 				<input id="form-tag-search" class="search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
 			</div>
-
-<?php if ($row['tag'] = $this->get('model_maincontent', 'tag')): ?>
-	<?php include($this->pathView('partial/content-tags')); ?>
-<?php endif ?>
 	
+<?php if ($rows = $this->get('model_maincontent', 'tag')): ?>
+	<?php foreach ($rows as $row): ?>
+		<?php include($this->pathView('partial/content-tags')); ?>
+			
+			<input name="tag[]" type="hidden" value="<?php echo $row['name'] ?>">
+		
+	<?php endforeach ?>
+<?php endif ?>
+
 			</div>
 		</div>
 

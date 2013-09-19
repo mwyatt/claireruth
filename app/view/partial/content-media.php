@@ -1,4 +1,4 @@
-<div class="content-media content-media-<?php echo $mediaKey ?>" data-id="<?php echo (array_key_exists('id', $row) ? $row['id'] : '') ?>">
+<div class="content-media content-media-<?php echo $key ?>" data-id="<?php echo (array_key_exists('id', $row) ? $row['id'] : '') ?>">
 	<div class="content-media-thumb">
 		<img src="<?php echo (array_key_exists('thumb_150', $row) ? $row['thumb_150'] : '') ?>" alt="<?php echo (array_key_exists('title', $row) ? $row['title'] : '') ?>">
 	</div>
