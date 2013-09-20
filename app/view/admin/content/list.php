@@ -7,7 +7,7 @@
 	</div>
 
 <?php if ($this->get('model_maincontent')) : ?>
-	<?php foreach ($this->get('model_maincontent') as $row) : ?>
+	<?php foreach ($this->get('model_maincontent') as $rowContent) : ?>
 		<?php include($this->pathView('admin/partial/content')); ?>
 	<?php endforeach; ?>
 <?php else: ?>

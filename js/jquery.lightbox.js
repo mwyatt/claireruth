@@ -29,7 +29,8 @@
 		 * opens the lightbox and determines if it is a gallery or
 		 * not
 		 */
-		function open() {
+		function open(event) {
+			event.preventDefault();
 
 			// build lightbox if required
 			if (! $('.lightbox').length) {
@@ -37,7 +38,7 @@
 			};
 
 			// reset height
-			$('.lightbox-content').css('height', '');
+			$('.lightbox, .lightbox-content').css('height', '');
 
 			// reset classnames
 			$('.lightbox').attr('class', 'lightbox');
@@ -50,7 +51,10 @@
 			// always overwrite the title
 			if (options.title) {
 				$('.lightbox-title').html(options.title);
-			};
+				$('.lightbox-title').removeClass('hide');
+			} else {
+				$('.lightbox-title').addClass('hide');
+			}
 
 			// custom class added
 			if (options.className) {
@@ -329,7 +333,7 @@
 				+ '<div class="lightbox-anchor">'
 					+ '<div class="lightbox">'
 						+ '<span class="lightbox-remove">&times;</span>'
-						+ (options.title ? '<p class="lightbox-title"><a href="#" class="lightbox-title-link">' + options.title + '</a></p>' : '')
+						+ '<p class="lightbox-title"><a href="#" class="lightbox-title-link"></a></p>'
 						+ '<div class="lightbox-content">'
 						+ '</div>'
 						+ '<div class="lightbox-gallery">'

@@ -34,7 +34,7 @@ class Model_Mainmedia extends Model
 				, main_media.date_published
 				, concat(main_user.first_name, ' ', main_user.last_name) as user_full_name
 			from main_media
-			left join main_content_media on main_content_media.content_id = main_media.id
+			left join main_content_media on main_content_media.media_id = main_media.id
 			left join main_user on main_user.id = main_media.user_id
 			" . ($contentIds ? ' where main_content_media.content_id = :content_id ' : '') . "
 			group by main_media.id
@@ -44,24 +44,36 @@ class Model_Mainmedia extends Model
 				$sth->execute(array(
 					':content_id' => $contentId
 				));	
-				if ($sth->rowCount()) {
-					$this->data[$contentId] = $sth->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
+					$row = $this->addThumb($row);
+					$this->data[$contentId][] = $row;
 				}
 			}
 			return $this->data;
 		}
 		$sth->execute();				
 		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
-			if ($row['type'] != 'application/pdf') {
-				$row['thumb_150'] = $this->getGuid('thumb', $row['path'] . '&w=150&h=120');
-				$row['thumb_350'] = $this->getGuid('thumb', $row['path'] . '&w=350&h=220');
-				$row['thumb_760'] = $this->getGuid('thumb', $row['path'] . '&w=760&h=540');
-			}
+			$row = $this->addThumb($row);
 			$this->data[] = $row;
 		}
 		return $sth->rowCount();
 	}	
 	
+
+	/**
+	 * appends thumbnail information if it is an image
+	 * @param array $row modified row
+	 */
+	public function addThumb($row)
+	{
+		if ($row['type'] != 'application/pdf') {
+			$row['thumb_150'] = $this->getGuid('thumb', $row['path'] . '&w=150&h=120');
+			$row['thumb_350'] = $this->getGuid('thumb', $row['path'] . '&w=350&h=220');
+			$row['thumb_760'] = $this->getGuid('thumb', $row['path'] . '&w=760&h=540');
+		}
+		return $row;
+	}
+
 
 	/**
 	 * looking for $_FILES['media'], uploads and creates entries in db

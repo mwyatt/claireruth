@@ -1,4 +1,4 @@
-<div class="media-browser view-select">
+<div class="media-browser view-select js-media-browser">
 	<div class="tabs">
 		<span class="tab-select">Choose Files</span>
 		<span class="tab-upload">Upload Files</span>
@@ -8,7 +8,7 @@
 		<span class="button attach">Attach</span>
 
 <?php if ($row['media'] = $this->get('model_mainmedia')): ?>
-	<?php include($this->pathView('partial/content-medias')); ?>
+	<?php include($this->pathAdminView('partial/content-medias')); ?>
 <?php endif ?>
 
 	</div>

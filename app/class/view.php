@@ -172,6 +172,15 @@ class View extends Model
 		return $path;
 	}	
 
+
+	/**
+	 * appends admin to the path
+	 * @param  string $template 
+	 * @return string           
+	 */
+	public function pathAdminView($template = '') { 
+		return $this->pathView('admin/' . $template);
+	}	
 	
 
 	/**

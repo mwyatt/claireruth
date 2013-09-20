@@ -14,7 +14,6 @@ class Model_Maincontent_Tag extends Model
 	 * gets all tags or by specific content id
 	 * @param  integer $contentId 
 	 * @return array             
-	 * @todo build guid so that tags can be navigated to             
 	 */
 	public function read($contentIds = array()) {	
 		$sth = $this->database->dbh->prepare("	
@@ -30,7 +29,10 @@ class Model_Maincontent_Tag extends Model
 		foreach ($contentIds as $contentId) {
 			$sth->execute(array($contentId));	
 			if ($sth->rowCount()) {
-				$this->data[$contentId] = $sth->fetchAll(PDO::FETCH_ASSOC);
+				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+					$row['guid'] = $this->getGuid('tag', $row['name']);
+					$this->data[$contentId][] = $row;
+				}
 			}
 		}
 		return $this->data;
@@ -63,11 +65,12 @@ class Model_Maincontent_Tag extends Model
 			$sth->execute(array(
 				'%' . $word . '%'
 			));
-			while ($match = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$matches[$match['id']] = $match;
+			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$row['guid'] = $this->getGuid('tag', $row['name']);
+				$rows[$row['id']] = $row;
 			}
 		}
-		$this->data = $matches;
+		$this->data = $rows;
 		return count($this->getData());
 	}
 }

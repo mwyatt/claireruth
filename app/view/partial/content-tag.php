@@ -1,1 +1,1 @@
-<a href="<?php echo $tag['guid'] ?>" class="tag"><?php echo $tag['name'] ?></a>
+<a href="<?php echo $rowTag['guid'] ?>" class="tag"><?php echo $rowTag['name'] ?></a>

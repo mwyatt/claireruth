@@ -13,23 +13,23 @@
 		 * sets all events for common functions
 		 */
 		function setEvent() {
-		 	$('.media-browser input[type="file"]').on("change", upload);
-			$('.media-items .item')
+		 	$('.js-media-browser input[type="file"]').on("change", upload);
+			$('.js-media-item')
 				.off()
 				.on('click', function() {
 					$(this).toggleClass('selected');
-					$('.media-browser').addClass('change-made');
-					$('.media-browser .button.attach')
+					$('.js-media-browser').addClass('change-made');
+					$('.js-media-browser .button.attach')
 						.off()
 						.on('click', function(event) {
 							attachSelections();
 
-							// dry violation
-							$('.lightbox-blackout, .lightbox-anchor').removeClass('active');
+							// need public functions
+							$('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
 						});
 				});
-			$('.row.media .item').removeClass('selected');
-			$('.row.media .item')
+			$('.content .js-media-item').removeClass('selected');
+			$('.content .js-media-item')
 				.off()
 				.on('click', function() {
 					$(this)
@@ -48,7 +48,7 @@
 
 			// cleanup past attachments
 			$('.content .row.media input[type="hidden"]').remove();
-			$('.content .row.media .item').remove();
+			$('.content .js-media-item').remove();
 
 			// add new ones
 			$.each($(core).find('.selected'), function() {
@@ -75,7 +75,7 @@
 		 */
 		function removeFile(path) {
 			if (confirm('Are you sure you want to remove this file? "' + path + '". This can\'t be undone.')) {
-				$.getJSON(url.base + 'ajax/media-browser/remove-file?path=' + path, function(results) {
+				$.getJSON($('body').data('url-base') + 'ajax/media-browser/remove-file?path=' + path, function(results) {
 					if (results) {
 						getDirectory('');
 					};
@@ -93,7 +93,7 @@
 		  		uploadFormData = new FormData();
 			}
 			var file;
-			$('.media-browser .tab-upload-content').append(ajax);
+			$('.js-media-browser .tab-upload-content').append(ajax);
 			for (var i = 0; i < this.files.length; i++ ) {
 				file = this.files[i];
 				if (uploadFormData) {
@@ -102,7 +102,7 @@
 			}
 			if (uploadFormData) {
 				$.ajax({
-					url: url.base + 'ajax/media-browser/upload/',
+					url: $('body').data('url-base') + 'ajax/media-browser/upload/',
 					type: 'POST',
 					data: uploadFormData,
 					processData: false,
@@ -111,10 +111,10 @@
 					success: function (result) {
 
 						// reset the upload field
-						$('.media-browser input[type="file"], .ajax').remove();
+						$('.js-media-browser input[type="file"], .ajax').remove();
 
 						// add new upload field and result
-						$('.media-browser .tab-upload-content')
+						$('.js-media-browser .tab-upload-content')
 							.append('<input id="form_images" type="file" name="media[]" multiple />')
 							.append(result);
 				  		uploadFormData = new FormData();

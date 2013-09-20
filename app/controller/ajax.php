@@ -28,7 +28,7 @@ class Controller_Ajax extends Controller
 		$maincontentTag->readUniqueLike($_GET['query']);
 		$this->view
 			->setObject($maincontentTag)
-			->loadTemplate('ajax/tags');
+			->loadTemplate('admin/ajax/tag/query-result');
 	}
 
 

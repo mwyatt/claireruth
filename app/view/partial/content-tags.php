@@ -1,8 +1,8 @@
-<?php if (array_key_exists('tag', $row)): ?>
+<?php if (array_key_exists('tag', $rowContent)): ?>
 	
 	<div class="tags">
 
-	<?php foreach ($row['tag'] as $tag): ?>
+	<?php foreach ($rowContent['tag'] as $rowTag): ?>
 		<?php include($this->pathView('partial/content-tag')); ?>
 	<?php endforeach ?>
 		

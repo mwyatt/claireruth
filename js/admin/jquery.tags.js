@@ -34,10 +34,12 @@
 					}, 300);
 				}
 			});
-			$(core).find('.tags .tag').off().on('click', function() {
+			$(core).find('.tags .tag').off().on('click', function(event) {
+				event.preventDefault();
 				removeTag(this);
 			});
-			$(core).find('.drop .tag').off().on('click', function() {
+			$(core).find('.drop .tag').off().on('click', function(event) {
+				event.preventDefault();
 				addTag(this);
 			});
 		}
@@ -46,7 +48,7 @@
 		}
 		function poll(query) {
 			$.get(
-				url.base + 'ajax/tag-management/',
+				$('body').data('url-base') + 'ajax/tag-management/',
 				{
 					query: query
 				},

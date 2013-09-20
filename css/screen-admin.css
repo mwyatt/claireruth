@@ -802,22 +802,21 @@ a:link {
 }
 
 /* line 70, ../sass/_reusable.scss */
-.clearfix:before, .row:before, .lightbox:before, .lightbox-gallery:before,
+.clearfix:before, .row:before, .lightbox:before,
 .clearfix:after,
 .row:after,
-.lightbox:after,
-.lightbox-gallery:after {
+.lightbox:after {
   content: " ";
   display: table;
 }
 
 /* line 75, ../sass/_reusable.scss */
-.clearfix:after, .row:after, .lightbox:after, .lightbox-gallery:after {
+.clearfix:after, .row:after, .lightbox:after {
   clear: both;
 }
 
 /* line 79, ../sass/_reusable.scss */
-.clearfix, .row, .lightbox, .lightbox-gallery {
+.clearfix, .row, .lightbox {
   *zoom: 1;
 }
 
@@ -876,7 +875,7 @@ html.js input[type="submit"] {
   height: 1px;
 }
 
-/* line 2, ../sass/_plugin-lightbox.scss */
+/* line 2, ../sass/_lightbox.scss */
 .lightbox-blackout,
 .lightbox-anchor {
   z-index: 3;
@@ -885,13 +884,13 @@ html.js input[type="submit"] {
   left: 0;
   width: 100%;
 }
-/* line 10, ../sass/_plugin-lightbox.scss */
-.lightbox-blackout.active,
-.lightbox-anchor.active {
+/* line 9, ../sass/_lightbox.scss */
+.lightbox-blackout.is-active,
+.lightbox-anchor.is-active {
   display: block;
 }
 
-/* line 15, ../sass/_plugin-lightbox.scss */
+/* line 19, ../sass/_lightbox.scss */
 .lightbox-blackout {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
   opacity: 0.7;
@@ -900,17 +899,13 @@ html.js input[type="submit"] {
   position: fixed;
 }
 
-/* line 22, ../sass/_plugin-lightbox.scss */
+/* line 26, ../sass/_lightbox.scss */
 .lightbox-anchor {
   position: absolute;
 }
 
-/* line 26, ../sass/_plugin-lightbox.scss */
+/* line 30, ../sass/_lightbox.scss */
 .lightbox {
-  -webkit-transition: top, height 500ms;
-  -moz-transition: top, height 500ms;
-  -o-transition: top, height 500ms;
-  transition: top, height 500ms;
   -webkit-box-shadow: 0 0 3px black;
   -moz-box-shadow: 0 0 3px black;
   box-shadow: 0 0 3px black;
@@ -918,47 +913,73 @@ html.js input[type="submit"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: white;
-  width: 950px;
   position: relative;
   margin: 0 auto;
   padding: 1em;
 }
-/* line 37, ../sass/_plugin-lightbox.scss */
-.lightbox.gallery .lightbox-gallery {
+/* line 43, ../sass/_lightbox.scss */
+.lightbox.gallery .lightbox-content {
+  float: right;
+  width: 78%;
+}
+/* line 49, ../sass/_lightbox.scss */
+.lightbox.gallery .lightbox-control, .lightbox.gallery .lightbox-gallery {
   display: block;
 }
-/* line 41, ../sass/_plugin-lightbox.scss */
+/* line 53, ../sass/_lightbox.scss */
 .lightbox.inline .lightbox-content {
   text-align: left;
 }
-/* line 45, ../sass/_plugin-lightbox.scss */
-.lightbox img {
-  max-width: 100%;
-  max-height: 32em;
-}
 
-/* line 51, ../sass/_plugin-lightbox.scss */
+/* line 58, ../sass/_lightbox.scss */
 .lightbox-title {
-  margin: 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* line 62, ../sass/_lightbox.scss */
+.lightbox-title:hover {
+  color: #ca3566;
 }
 
-/* line 55, ../sass/_plugin-lightbox.scss */
+/* line 67, ../sass/_lightbox.scss */
+.lightbox-title-link {
+  border-bottom-color: #ca3566;
+  font-weight: bold;
+}
+
+/* line 72, ../sass/_lightbox.scss */
 .lightbox-content {
+  position: relative;
   text-align: center;
   max-height: 100%;
 }
+/* line 77, ../sass/_lightbox.scss */
+.lightbox-content img {
+  position: absolute;
+  max-width: 100%;
+  height: auto;
+}
 
-/* line 60, ../sass/_plugin-lightbox.scss */
+/* line 84, ../sass/_lightbox.scss */
 .lightbox-gallery {
-  border-top: 1px solid #e6e6e6;
-  padding: 1em 0;
+  border-right: 1px solid #995799;
+  padding: 1em;
+  float: left;
+  width: 16%;
   display: none;
 }
-/* line 66, ../sass/_plugin-lightbox.scss */
-.lightbox-gallery .thumb {
+/* line 91, ../sass/_lightbox.scss */
+.lightbox-gallery img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* line 97, ../sass/_lightbox.scss */
+.lightbox-gallery-item {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  border-color: #ca3566;
   display: block;
   width: 50px;
   height: 50px;
@@ -968,22 +989,71 @@ html.js input[type="submit"] {
   border: 1px solid;
   padding: 0.7em;
 }
+/* line 109, ../sass/_lightbox.scss */
+.lightbox-gallery-item.is-active {
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  -o-transform: scale(1.05);
+  transform: scale(1.05);
+  -webkit-box-shadow: 0 0 3px #995799;
+  -moz-box-shadow: 0 0 3px #995799;
+  box-shadow: 0 0 3px #995799;
+  border-color: #995799;
+  cursor: default;
+}
 
-/* line 81, ../sass/_plugin-lightbox.scss */
+/* line 117, ../sass/_lightbox.scss */
 .lightbox-control {
   display: none;
 }
 
-/* line 86, ../sass/_plugin-lightbox.scss */
+/* line 122, ../sass/_lightbox.scss */
 .lightbox-next,
 .lightbox-previous {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+  border: 1px solid #995799;
   display: block;
-  width: 20px;
-  height: 20px;
-  background-color: red;
+  margin-top: -91px;
+  text-indent: -99em;
+  overflow: hidden;
+  cursor: pointer;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 3em;
+  height: 3em;
+  position: absolute;
+  bottom: 1em;
+}
+/* line 138, ../sass/_lightbox.scss */
+.lightbox-next:hover,
+.lightbox-previous:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+/* line 142, ../sass/_lightbox.scss */
+.lightbox-next:active,
+.lightbox-previous:active {
+  background-color: #e6e6e6;
 }
 
-/* line 97, ../sass/_plugin-lightbox.scss */
+/* line 147, ../sass/_lightbox.scss */
+.lightbox-next {
+  background-image: url('/media/lightbox/control-next.png');
+  right: 1em;
+}
+
+/* line 152, ../sass/_lightbox.scss */
+.lightbox-previous {
+  background-image: url('/media/lightbox/control-previous.png');
+  left: 1em;
+}
+
+/* line 157, ../sass/_lightbox.scss */
 .lightbox-remove {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -1002,35 +1072,35 @@ html.js input[type="submit"] {
   height: 1em;
   cursor: pointer;
   z-index: 2;
-  border: 1px solid #b3b3b3;
+  border: 1px solid #cf90a2;
   background-color: white;
 }
-/* line 117, ../sass/_plugin-lightbox.scss */
+/* line 177, ../sass/_lightbox.scss */
 .lightbox-remove:hover, .lightbox-remove:active {
   color: white;
   border-color: white;
 }
-/* line 122, ../sass/_plugin-lightbox.scss */
+/* line 182, ../sass/_lightbox.scss */
 .lightbox-remove:hover {
-  background-color: #e6e6e6;
+  background-color: #cf90a2;
 }
-/* line 126, ../sass/_plugin-lightbox.scss */
+/* line 186, ../sass/_lightbox.scss */
 .lightbox-remove:active {
-  background-color: #e6e6e6;
+  background-color: #995799;
 }
 
-/* line 3, ../sass/_plugin-media-browser.scss */
+/* line 3, ../sass/_media-browser.scss */
 .media-browser .button.attach {
   display: none;
 }
-/* line 7, ../sass/_plugin-media-browser.scss */
+/* line 7, ../sass/_media-browser.scss */
 .media-browser.change-made .button.attach {
   display: block;
 }
 
-/* line 13, ../sass/_plugin-media-browser.scss */
-.row.media .item,
-.media-browser .item {
+/* line 13, ../sass/_media-browser.scss */
+.row.media .content-media,
+.media-browser .content-media {
   float: left;
   width: 14%;
   margin: 1em;
@@ -1041,52 +1111,52 @@ html.js input[type="submit"] {
   overflow: hidden;
   cursor: pointer;
 }
-/* line 24, ../sass/_plugin-media-browser.scss */
-.row.media .item:hover,
-.media-browser .item:hover {
+/* line 24, ../sass/_media-browser.scss */
+.row.media .content-media:hover,
+.media-browser .content-media:hover {
   background-color: pink;
 }
-/* line 28, ../sass/_plugin-media-browser.scss */
-.row.media .item.selected,
-.media-browser .item.selected {
+/* line 28, ../sass/_media-browser.scss */
+.row.media .content-media.selected,
+.media-browser .content-media.selected {
   background-color: black;
 }
-/* line 32, ../sass/_plugin-media-browser.scss */
-.row.media .item .thumb,
-.media-browser .item .thumb {
+/* line 32, ../sass/_media-browser.scss */
+.row.media .content-media .content-media-thumb,
+.media-browser .content-media .content-media-thumb {
   text-align: center;
   display: block;
   max-height: 5em;
 }
-/* line 38, ../sass/_plugin-media-browser.scss */
-.row.media .item img,
-.media-browser .item img {
+/* line 38, ../sass/_media-browser.scss */
+.row.media .content-media img,
+.media-browser .content-media img {
   max-width: 100%;
   max-height: 100%;
 }
-/* line 43, ../sass/_plugin-media-browser.scss */
-.row.media .item .title,
-.media-browser .item .title {
+/* line 43, ../sass/_media-browser.scss */
+.row.media .content-media .content-media-title,
+.media-browser .content-media .content-media-title {
   font-weight: 600;
 }
-/* line 47, ../sass/_plugin-media-browser.scss */
-.row.media .item .date-published,
-.media-browser .item .date-published {
+/* line 47, ../sass/_media-browser.scss */
+.row.media .content-media .content-media-date-published,
+.media-browser .content-media .content-media-date-published {
   position: absolute;
   bottom: 1em;
   left: 1em;
   font-style: italic;
 }
-/* line 54, ../sass/_plugin-media-browser.scss */
-.row.media .item .author,
-.media-browser .item .author {
+/* line 54, ../sass/_media-browser.scss */
+.row.media .content-media .content-media-author,
+.media-browser .content-media .content-media-author {
   position: absolute;
   bottom: 1em;
   right: 1em;
 }
-/* line 60, ../sass/_plugin-media-browser.scss */
-.row.media .item .delete,
-.media-browser .item .delete {
+/* line 60, ../sass/_media-browser.scss */
+.row.media .content-media .content-media-delete,
+.media-browser .content-media .content-media-delete {
   color: red;
   font-weight: bold;
   position: absolute;
@@ -1100,9 +1170,9 @@ html.js input[type="submit"] {
   text-align: center;
   background: #eee;
 }
-/* line 75, ../sass/_plugin-media-browser.scss */
-.row.media .item .tick,
-.media-browser .item .tick {
+/* line 75, ../sass/_media-browser.scss */
+.row.media .content-media .content-media-tick,
+.media-browser .content-media .content-media-tick {
   position: absolute;
   top: 0em;
   left: 0em;
@@ -1113,7 +1183,7 @@ html.js input[type="submit"] {
   background: #F00;
 }
 
-/* line 9, ../sass/_plugin-tag.scss */
+/* line 9, ../sass/_tag.scss */
 .management-tag .tag {
   background-color: #e6e6e6;
   border: 1px solid #cccccc;
@@ -1124,23 +1194,23 @@ html.js input[type="submit"] {
   margin: 0 0.5em 0.5em 0;
   cursor: pointer;
 }
-/* line 19, ../sass/_plugin-tag.scss */
+/* line 19, ../sass/_tag.scss */
 .management-tag .tag:hover {
   border-color: #e6e6e6;
   background-color: white;
 }
-/* line 24, ../sass/_plugin-tag.scss */
+/* line 24, ../sass/_tag.scss */
 .management-tag .tag:active {
   border-color: #b3b3b3;
   background-color: #cccccc;
 }
 
-/* line 30, ../sass/_plugin-tag.scss */
+/* line 30, ../sass/_tag.scss */
 .management-tag .search {
   margin-bottom: 1em;
 }
 
-/* line 34, ../sass/_plugin-tag.scss */
+/* line 34, ../sass/_tag.scss */
 .management-tag .drop {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;

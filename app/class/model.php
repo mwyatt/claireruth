@@ -249,6 +249,8 @@ abstract class Model extends Config
 
 		// normal
 		$url = $this->config->getUrl('base') . $type . '/' . $this->urlFriendly($name) . '-' . $id . '/';
+
+		// if lacking id then strip away dash at end
 		if (! $id) {
 			$url = str_replace('-/', '/', $url);
 		}

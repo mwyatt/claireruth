@@ -9,8 +9,8 @@
 	}
 }
 
-.row.media .item,
-.media-browser .item {
+.row.media .content-media,
+.media-browser .content-media {
 	float: left;
 	width: 14%;
 	margin: 1em;
@@ -29,7 +29,7 @@
 		background-color: black;
 	}
 
-	.thumb {
+	.content-media-thumb {
 		text-align: center;
 		display: block;
 		max-height: 5em;
@@ -40,24 +40,24 @@
 		max-height: 100%;
 	}
 
-	.title {
+	.content-media-title {
 		font-weight: 600;
 	}
 
-	.date-published {
+	.content-media-date-published {
 		position: absolute;
 		bottom: 1em;
 		left: 1em;
 		font-style: italic;
 	}
 
-	.author {
+	.content-media-author {
 		position: absolute;
 		bottom: 1em;
 		right: 1em;
 	}
 
-	.delete {
+	.content-media-delete {
 		color: red;
 		font-weight: bold;
 		position: absolute;
@@ -72,7 +72,7 @@
 		background: #eee;
 	}
 
-	.tick {
+	.content-media-tick {
 		position: absolute;
 		top: 0em;
 		left: 0em;

@@ -22,7 +22,7 @@ class Model_Maincontent extends Model
 	 * @param  string $limit the amount of content required
 	 * @return null        data property will be set
 	 */
-	public function read($where = '', $limit = array(0, 10), $id = 0) {	
+	public function read($where = '', $limit = array(), $id = 0) {	
 		$sth = $this->database->dbh->prepare("	
 			select
 				main_content.id
@@ -55,6 +55,7 @@ class Model_Maincontent extends Model
 		}
 		$sth->execute();				
 		$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
+		$contentIds = array();
 		foreach ($contents as $content) {
 			$contentIds[] = $content['id'];
 		}

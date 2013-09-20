@@ -819,22 +819,21 @@ a:link {
 }
 
 /* line 70, ../sass/_reusable.scss */
-.clearfix:before, .row:before, .lightbox:before, .lightbox-gallery:before,
+.clearfix:before, .row:before, .lightbox:before,
 .clearfix:after,
 .row:after,
-.lightbox:after,
-.lightbox-gallery:after {
+.lightbox:after {
   content: " ";
   display: table;
 }
 
 /* line 75, ../sass/_reusable.scss */
-.clearfix:after, .row:after, .lightbox:after, .lightbox-gallery:after {
+.clearfix:after, .row:after, .lightbox:after {
   clear: both;
 }
 
 /* line 79, ../sass/_reusable.scss */
-.clearfix, .row, .lightbox, .lightbox-gallery {
+.clearfix, .row, .lightbox {
   *zoom: 1;
 }
 
@@ -893,7 +892,7 @@ html.js input[type="submit"] {
   height: 1px;
 }
 
-/* line 2, ../sass/_plugin-lightbox.scss */
+/* line 2, ../sass/_lightbox.scss */
 .lightbox-blackout,
 .lightbox-anchor {
   z-index: 3;
@@ -902,13 +901,13 @@ html.js input[type="submit"] {
   left: 0;
   width: 100%;
 }
-/* line 10, ../sass/_plugin-lightbox.scss */
-.lightbox-blackout.active,
-.lightbox-anchor.active {
+/* line 9, ../sass/_lightbox.scss */
+.lightbox-blackout.is-active,
+.lightbox-anchor.is-active {
   display: block;
 }
 
-/* line 15, ../sass/_plugin-lightbox.scss */
+/* line 19, ../sass/_lightbox.scss */
 .lightbox-blackout {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
   opacity: 0.7;
@@ -917,17 +916,13 @@ html.js input[type="submit"] {
   position: fixed;
 }
 
-/* line 22, ../sass/_plugin-lightbox.scss */
+/* line 26, ../sass/_lightbox.scss */
 .lightbox-anchor {
   position: absolute;
 }
 
-/* line 26, ../sass/_plugin-lightbox.scss */
+/* line 30, ../sass/_lightbox.scss */
 .lightbox {
-  -webkit-transition: top, height 500ms;
-  -moz-transition: top, height 500ms;
-  -o-transition: top, height 500ms;
-  transition: top, height 500ms;
   -webkit-box-shadow: 0 0 3px black;
   -moz-box-shadow: 0 0 3px black;
   box-shadow: 0 0 3px black;
@@ -935,47 +930,73 @@ html.js input[type="submit"] {
   -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: white;
-  width: 950px;
   position: relative;
   margin: 0 auto;
   padding: 1em;
 }
-/* line 37, ../sass/_plugin-lightbox.scss */
-.lightbox.gallery .lightbox-gallery {
+/* line 43, ../sass/_lightbox.scss */
+.lightbox.gallery .lightbox-content {
+  float: right;
+  width: 78%;
+}
+/* line 49, ../sass/_lightbox.scss */
+.lightbox.gallery .lightbox-control, .lightbox.gallery .lightbox-gallery {
   display: block;
 }
-/* line 41, ../sass/_plugin-lightbox.scss */
+/* line 53, ../sass/_lightbox.scss */
 .lightbox.inline .lightbox-content {
   text-align: left;
 }
-/* line 45, ../sass/_plugin-lightbox.scss */
-.lightbox img {
-  max-width: 100%;
-  max-height: 32em;
-}
 
-/* line 51, ../sass/_plugin-lightbox.scss */
+/* line 58, ../sass/_lightbox.scss */
 .lightbox-title {
-  margin: 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* line 62, ../sass/_lightbox.scss */
+.lightbox-title:hover {
+  color: #ca3566;
 }
 
-/* line 55, ../sass/_plugin-lightbox.scss */
+/* line 67, ../sass/_lightbox.scss */
+.lightbox-title-link {
+  border-bottom-color: #ca3566;
+  font-weight: bold;
+}
+
+/* line 72, ../sass/_lightbox.scss */
 .lightbox-content {
+  position: relative;
   text-align: center;
   max-height: 100%;
 }
+/* line 77, ../sass/_lightbox.scss */
+.lightbox-content img {
+  position: absolute;
+  max-width: 100%;
+  height: auto;
+}
 
-/* line 60, ../sass/_plugin-lightbox.scss */
+/* line 84, ../sass/_lightbox.scss */
 .lightbox-gallery {
-  border-top: 1px solid #e6e6e6;
-  padding: 1em 0;
+  border-right: 1px solid #995799;
+  padding: 1em;
+  float: left;
+  width: 16%;
   display: none;
 }
-/* line 66, ../sass/_plugin-lightbox.scss */
-.lightbox-gallery .thumb {
+/* line 91, ../sass/_lightbox.scss */
+.lightbox-gallery img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* line 97, ../sass/_lightbox.scss */
+.lightbox-gallery-item {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  border-color: #ca3566;
   display: block;
   width: 50px;
   height: 50px;
@@ -985,22 +1006,71 @@ html.js input[type="submit"] {
   border: 1px solid;
   padding: 0.7em;
 }
+/* line 109, ../sass/_lightbox.scss */
+.lightbox-gallery-item.is-active {
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  -o-transform: scale(1.05);
+  transform: scale(1.05);
+  -webkit-box-shadow: 0 0 3px #995799;
+  -moz-box-shadow: 0 0 3px #995799;
+  box-shadow: 0 0 3px #995799;
+  border-color: #995799;
+  cursor: default;
+}
 
-/* line 81, ../sass/_plugin-lightbox.scss */
+/* line 117, ../sass/_lightbox.scss */
 .lightbox-control {
   display: none;
 }
 
-/* line 86, ../sass/_plugin-lightbox.scss */
+/* line 122, ../sass/_lightbox.scss */
 .lightbox-next,
 .lightbox-previous {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+  border: 1px solid #995799;
   display: block;
-  width: 20px;
-  height: 20px;
-  background-color: red;
+  margin-top: -91px;
+  text-indent: -99em;
+  overflow: hidden;
+  cursor: pointer;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 3em;
+  height: 3em;
+  position: absolute;
+  bottom: 1em;
+}
+/* line 138, ../sass/_lightbox.scss */
+.lightbox-next:hover,
+.lightbox-previous:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+/* line 142, ../sass/_lightbox.scss */
+.lightbox-next:active,
+.lightbox-previous:active {
+  background-color: #e6e6e6;
 }
 
-/* line 97, ../sass/_plugin-lightbox.scss */
+/* line 147, ../sass/_lightbox.scss */
+.lightbox-next {
+  background-image: url('/media/lightbox/control-next.png');
+  right: 1em;
+}
+
+/* line 152, ../sass/_lightbox.scss */
+.lightbox-previous {
+  background-image: url('/media/lightbox/control-previous.png');
+  left: 1em;
+}
+
+/* line 157, ../sass/_lightbox.scss */
 .lightbox-remove {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -1019,21 +1089,21 @@ html.js input[type="submit"] {
   height: 1em;
   cursor: pointer;
   z-index: 2;
-  border: 1px solid #b3b3b3;
+  border: 1px solid #cf90a2;
   background-color: white;
 }
-/* line 117, ../sass/_plugin-lightbox.scss */
+/* line 177, ../sass/_lightbox.scss */
 .lightbox-remove:hover, .lightbox-remove:active {
   color: white;
   border-color: white;
 }
-/* line 122, ../sass/_plugin-lightbox.scss */
+/* line 182, ../sass/_lightbox.scss */
 .lightbox-remove:hover {
-  background-color: #e6e6e6;
+  background-color: #cf90a2;
 }
-/* line 126, ../sass/_plugin-lightbox.scss */
+/* line 186, ../sass/_lightbox.scss */
 .lightbox-remove:active {
-  background-color: #e6e6e6;
+  background-color: #995799;
 }
 
 /* line 3, ../sass/_form.scss */

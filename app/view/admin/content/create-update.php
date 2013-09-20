@@ -65,15 +65,14 @@
 			</div>
 
 <?php endif ?>
-<?php if ($this->get('model_maincontent', 'media')): ?>
-
+<?php if ($row['media'] = $this->get('model_maincontent', 'media')): ?>
+			
 			<div class="attached">
-				<label class="above">Attached Media</label>
-				
-	<?php foreach ($this->get('model_maincontent', 'media') as $key => $row): ?>
-		<?php include($this->pathView('partial/content-media')); ?>
 
-				<input type="hidden" name="media[]" value="<?php echo $row['id'] ?>">
+	<?php include($this->pathView('partial/content-medias')); ?>
+	<?php foreach ($this->get('model_maincontent', 'media') as $media): ?>
+
+			<input type="hidden" name="media[]" value="<?php echo $media['id'] ?>">
 		
 	<?php endforeach ?>
 
@@ -82,24 +81,22 @@
 <?php endif ?>
 
 		</div>
-		<div class="management-tag">
+		<div class="row management-tag">
 			<label class="above" for="form-tag-search">Tag</label>
 			<div class="area">
 				<input id="form-tag-search" class="search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
 			</div>
 	
-<?php if ($rows = $this->get('model_maincontent', 'tag')): ?>
-	<?php foreach ($rows as $row): ?>
-		<?php include($this->pathView('partial/content-tags')); ?>
+<?php if ($row['tag'] = $this->get('model_maincontent', 'tag')): ?>
+	<?php include($this->pathView('partial/content-tags')); ?>
+	<?php foreach ($this->get('model_maincontent', 'tag') as $tag): ?>
 			
-			<input name="tag[]" type="hidden" value="<?php echo $row['name'] ?>">
+			<input name="tag[]" type="hidden" value="<?php echo $tag['name'] ?>">
 		
 	<?php endforeach ?>
 <?php endif ?>
 
-			</div>
 		</div>
-
 		<div class="row">
 			<label for="status">Show on website</label>
 			<input id="status" type="checkbox" name="status" value="visible"<?php echo ($this->get('model_maincontent', 'status') == 'visible' ? ' checked' : ''); ?>>
