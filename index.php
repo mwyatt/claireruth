@@ -10,21 +10,21 @@ define('BASE_PATH', (string) (__DIR__ . '/'));
 require_once(BASE_PATH . 'config.php');
 require_once(BASE_PATH . 'app/class/autoloader.php');
 spl_autoload_register(array('Autoloader', 'load'));
-$error = new Error($errorReporting);
-$database = new Database($credentials);
-$session = new Session();
+$error = new error($errorReporting);
+$database = new database($credentials);
+$session = new session();
 $session
 	->start()
 	->refreshExpire();
-$config = new Config();
-$mainOption = new Model_Mainoption($database, $config);
+$config = new config();
+$mainOption = new model_options($database, $config);
 $mainOption->read();
 $config
 	->setOptions($mainOption->getData())
 	->setUrl()
 	->setObject($error)
 	->setObject($session);
-$controller = new Controller();
+$controller = new controller();
 
 // admin, ajax
 if ($controller->load(array($config->getUrl(0)), $config->getUrl(1), false, $database, $config)) {

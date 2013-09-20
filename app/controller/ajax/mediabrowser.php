@@ -36,7 +36,7 @@ class Controller_Ajax_Mediabrowser extends Controller
 	 * default display for the media browser
 	 */
 	public function read() {
-		$mainmedia = new model_mainmedia($this->database, $this->config);
+		$mainmedia = new model_media($this->database, $this->config);
 		$mainmedia->read();
 		$this->view
 			->setObject($mainmedia)
@@ -50,7 +50,7 @@ class Controller_Ajax_Mediabrowser extends Controller
 	 */
 	public function upload() {
 		if ($_FILES) {
-			$mainmedia = new model_mainmedia($this->database, $this->config);
+			$mainmedia = new model_media($this->database, $this->config);
 			if ($successData = $mainmedia->create()) {
 				$this->view
 					->setObject('feedback', $this->session->getUnset('feedback_array'))

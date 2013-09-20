@@ -16,11 +16,11 @@ class Controller_Admin extends Controller
 
 
 	public function initialise() {
-		$menu = new Model_Mainmenu($this->database, $this->config);
+		$menu = new Model_menu($this->database, $this->config);
 		$menu->admin();
 		$menu->adminSub();
 		$this->view->setObject($menu);
-		$user = new Model_Mainuser($this->database, $this->config);
+		$user = new Model_user($this->database, $this->config);
 		if ($user->isLogged() && $user->get('level') < 10) {
 			$accessTo = $user->getPermission($user->get('level'));
 			if ($this->config->getUrl(2) && ! in_array($this->config->getUrl(2), $accessTo)) {
@@ -92,8 +92,8 @@ class Controller_Admin extends Controller
 	
 
 	public function profile() {
-		$userAction = new model_mainuser_action($this->database, $this->config);
-		$user = new model_mainuser($this->database, $this->config);
+		$userAction = new model_user_action($this->database, $this->config);
+		$user = new model_user($this->database, $this->config);
 		if (array_key_exists('form_update', $_POST)) {
 			$user->updateById($this->session->get('user', 'id'));
 			$this->route('current');

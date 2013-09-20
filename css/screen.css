@@ -1184,32 +1184,22 @@ textarea:focus {
   margin: 1em;
   -webkit-box-shadow: 0 0 3px gray;
 }
-@media screen and (min-width: 435px) {
-  /* line 1, ../sass/_content-post.scss */
-  .content-post {
-    background-color: red;
-  }
-}
-
-/* line 27, ../sass/_content-post.scss */
-.content-post-title {
+/* line 10, ../sass/_content-post.scss */
+.content-post .content-post-title {
   margin-top: 0;
 }
-
-/* line 31, ../sass/_content-post.scss */
-.content-post-html {
+/* line 14, ../sass/_content-post.scss */
+.content-post .content-post-html {
   display: none;
 }
-
-/* line 35, ../sass/_content-post.scss */
-.content-post-date {
+/* line 18, ../sass/_content-post.scss */
+.content-post .content-post-date {
   position: absolute;
   bottom: 1em;
   right: 1em;
 }
-
-/* line 47, ../sass/_content-post.scss */
-.content-post .tag {
+/* line 30, ../sass/_content-post.scss */
+.content-post .content-post .tag {
   background: #eee;
   padding: 0.3em 0.8em;
   font-size: 0.8em;
@@ -1219,6 +1209,12 @@ textarea:focus {
   margin: 0.2em;
   border: 1px solid #ccc;
   text-transform: lowercase;
+}
+@media screen and (min-width: 435px) {
+  /* line 1, ../sass/_content-post.scss */
+  .content-post {
+    background-color: red;
+  }
 }
 
 /* line 10, ../sass/screen.scss */

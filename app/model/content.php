@@ -10,7 +10,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Maincontent extends Model
+class Model_Content extends Model
 {	
 
 
@@ -25,22 +25,22 @@ class Model_Maincontent extends Model
 	public function read($where = '', $limit = array(), $id = 0) {	
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_content.id
-				, main_content.title
-				, main_content.html
-				, main_content.type
-				, main_content.date_published
-				, main_content.status
-				, main_content.user_id
-				, concat(main_user.first_name, ' ', main_user.last_name) as user_name
-			from main_content
-			left join main_user on main_user.id = main_content.user_id
-            where main_content.id != ''
-			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and main_content.status = \'visible\'') . "
-			" . ($where ? ' and main_content.type = :type ' : '') . "
-			" . ($id ? ' and main_content.id = :id ' : '') . "
-			group by main_content.id
-			order by main_content.date_published desc
+				content.id
+				, content.title
+				, content.html
+				, content.type
+				, content.date_published
+				, content.status
+				, content.user_id
+				, concat(user.first_name, ' ', user.last_name) as user_name
+			from content
+			left join user on user.id = content.user_id
+            where content.id != ''
+			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and content.status = \'visible\'') . "
+			" . ($where ? ' and content.type = :type ' : '') . "
+			" . ($id ? ' and content.id = :id ' : '') . "
+			group by content.id
+			order by content.date_published desc
 			" . ($limit ? ' limit :limit_start, :limit_end ' : '') . "
 		");
 		if ($id) {
@@ -59,8 +59,8 @@ class Model_Maincontent extends Model
 		foreach ($contents as $content) {
 			$contentIds[] = $content['id'];
 		}
-		$mainMedia = new model_mainmedia($this->database, $this->config);
-		$mainContentTag = new model_maincontent_tag($this->database, $this->config);
+		$mainMedia = new model_media($this->database, $this->config);
+		$mainContentTag = new model_content_tag($this->database, $this->config);
 		$medias = $mainMedia->read($contentIds);
 		$tags = $mainContentTag->read($contentIds);
 
@@ -85,16 +85,16 @@ class Model_Maincontent extends Model
 	public function readByType($type, $limit = 0) {	
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_content.id
-				, main_content.title
-				, main_content.html
-				, main_content.date_published
-				, main_content.status
-				, main_content.type
-			from main_content
-			left join main_user on main_user.id = main_content.user_id
-			where main_content.type = :type and main_content.status = 'visible'
-			order by main_content.date_published desc
+				content.id
+				, content.title
+				, content.html
+				, content.date_published
+				, content.status
+				, content.type
+			from content
+			left join user on user.id = content.user_id
+			where content.type = :type and content.status = 'visible'
+			order by content.date_published desc
 			" . ($limit ? ' limit :limit ' : '') . "
 		");
 		$sth->bindValue(':type', $type, PDO::PARAM_STR);
@@ -111,16 +111,16 @@ class Model_Maincontent extends Model
 		$title = str_replace('-', ' ', $title)	;
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_content.id
-				, main_content.title
-				, main_content.html
-				, main_content.date_published
-				, main_content.status
-				, main_content.type
-			from main_content
-			left join main_user on main_user.id = main_content.user_id
-			where main_content.title like ? and main_content.status = 'visible'
-			order by main_content.date_published desc
+				content.id
+				, content.title
+				, content.html
+				, content.date_published
+				, content.status
+				, content.type
+			from content
+			left join user on user.id = content.user_id
+			where content.title like ? and content.status = 'visible'
+			order by content.date_published desc
 		");
 		$sth->execute(array('%' . current($title) . '%'));	
 		$this->data = $this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
@@ -131,15 +131,15 @@ class Model_Maincontent extends Model
 	public function readById($id) {	
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_content.id
-				, main_content.title
-				, main_content.html
-				, main_content.date_published
-				, main_content.status
-				, main_content.type
-			from main_content
-			left join main_user on main_user.id = main_content.user_id
-			where main_content.id = :id and main_content.status = 'visible'
+				content.id
+				, content.title
+				, content.html
+				, content.date_published
+				, content.status
+				, content.type
+			from content
+			left join user on user.id = content.user_id
+			where content.id = :id and content.status = 'visible'
 		");
 		$sth->execute(array(
 			':id' => $id
@@ -153,20 +153,20 @@ class Model_Maincontent extends Model
 	public function readByTitleSlug($titleSlug) {
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_content.id
-				, main_content.title
-				, main_content.title_slug
-				, main_content.html
-				, main_content.date_published
-				, main_content.guid
-				, main_content.status
-				, main_content.type
-			from main_content
-			left join main_user on main_user.id = main_content.user_id
+				content.id
+				, content.title
+				, content.title_slug
+				, content.html
+				, content.date_published
+				, content.guid
+				, content.status
+				, content.type
+			from content
+			left join user on user.id = content.user_id
 			where
-				main_content.title_slug = :title_slug
+				content.title_slug = :title_slug
 				and
-				main_content.type = 'page'
+				content.type = 'page'
 		");
 		$sth->execute(array(
 			':title_slug' => $titleSlug

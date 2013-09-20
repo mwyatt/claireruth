@@ -6,9 +6,9 @@
 		<a class="button new" href="<?php echo $this->url('current_noquery'); ?>new/" title="Create a new <?php echo ucfirst($this->url(2)); ?>">New</a>
 	</div>
 
-<?php if ($this->get('model_maincontent')) : ?>
-	<?php foreach ($this->get('model_maincontent') as $rowContent) : ?>
-		<?php include($this->pathView('admin/partial/content')); ?>
+<?php if ($this->get('model_content')) : ?>
+	<?php foreach ($this->get('model_content') as $rowContent) : ?>
+		<?php include($this->pathView('partial/content')); ?>
 	<?php endforeach; ?>
 <?php else: ?>
 	

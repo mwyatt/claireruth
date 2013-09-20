@@ -9,20 +9,20 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Mainuser_Action extends Model
+class Model_User_Action extends Model
 {
 
 
 	public function read() {
 		$sth = $this->database->dbh->prepare("
 			select
-				main_user_action.id
-				, main_user_action.description
-				, main_user_action.user_id
-				, main_user_action.time
-				, main_user_action.action
-			from main_user_action
-			left join main_user on main_user_action.user_id = main_user.id
+				user_action.id
+				, user_action.description
+				, user_action.user_id
+				, user_action.time
+				, user_action.action
+			from user_action
+			left join user on user_action.user_id = user.id
 		");				
 		$sth->bindParam(1, $id, PDO::PARAM_INT);
 		$sth->bindParam(2, $id, PDO::PARAM_INT);
@@ -41,14 +41,14 @@ class Model_Mainuser_Action extends Model
 	public function readById($ids) {
 		$sth = $this->database->dbh->prepare("
 			select
-				main_user_action.id
-				, main_user_action.description
-				, main_user_action.user_id
-				, main_user_action.time
-				, main_user_action.action
-			from main_user_action
-			left join main_user on main_user_action.user_id = main_user.id
-			where main_user_action.user_id = ?
+				user_action.id
+				, user_action.description
+				, user_action.user_id
+				, user_action.time
+				, user_action.action
+			from user_action
+			left join user on user_action.user_id = user.id
+			where user_action.user_id = ?
 		");				
 		foreach ($ids as $id) {
 			$sth->execute(array($id));
@@ -60,7 +60,7 @@ class Model_Mainuser_Action extends Model
 
 	public function create($userId, $action, $description) {
 		$sth = $this->database->dbh->prepare("
-			insert into main_user_action (
+			insert into user_action (
 				description
 				, user_id
 				, action

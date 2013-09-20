@@ -18,14 +18,14 @@ class Controller_Admin_League extends Controller
 	public function index() {
 		$division = new Model_Ttdivision($this->database, $this->config);
 		$division->read();
-		$user = new Model_Mainuser($this->database, $this->config);
+		$user = new Model_user($this->database, $this->config);
 		$this->view->setObject($division);
 		$this->view->loadTemplate('admin/league');
 	}
 
 
 	public function player() {
-		$userAction = new model_mainuser_action($this->database, $this->config);
+		$userAction = new model_user_action($this->database, $this->config);
 		$player = new Model_Ttplayer($this->database, $this->config);
 		$division = new Model_Ttdivision($this->database, $this->config);
 		if (array_key_exists('form_update', $_POST)) {
@@ -70,7 +70,7 @@ class Controller_Admin_League extends Controller
 
 
 	public function team() {
-		$userAction = new model_mainuser_action($this->database, $this->config);
+		$userAction = new model_user_action($this->database, $this->config);
 		$team = new Model_Ttteam($this->database, $this->config);
 		$weekday = new Model_Ttteam($this->database, $this->config);
 		$division = new Model_Ttdivision($this->database, $this->config);
@@ -128,7 +128,7 @@ class Controller_Admin_League extends Controller
 
 
 	public function fixture() {
-		$userAction = new model_mainuser_action($this->database, $this->config);
+		$userAction = new model_user_action($this->database, $this->config);
 		$encounterStructure = new Model_Ttfixture($this->database, $this->config);
 		$adminFixture = new Model_Admin_Ttfixture($this->database, $this->config);
 		$fixture = new Model_Ttfixture($this->database, $this->config);

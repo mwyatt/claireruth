@@ -7,7 +7,7 @@
 		<input type="text" class="search-filter">
 		<span class="button attach">Attach</span>
 
-<?php if ($row['media'] = $this->get('model_mainmedia')): ?>
+<?php if ($rowContent['media'] = $this->get('model_media')): ?>
 	<?php include($this->pathAdminView('partial/content-medias')); ?>
 <?php endif ?>
 

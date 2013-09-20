@@ -24,7 +24,7 @@ class Controller_Ajax extends Controller
 		if (! array_key_exists('query', $_GET)) {
 			return;
 		}
-		$maincontentTag = new model_maincontent_tag($this->database, $this->config);
+		$maincontentTag = new model_content_tag($this->database, $this->config);
 		$maincontentTag->readUniqueLike($_GET['query']);
 		$this->view
 			->setObject($maincontentTag)

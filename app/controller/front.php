@@ -16,7 +16,7 @@ class Controller_Front extends Controller
 
 
 	public function initialise() {
-		$menu = new model_mainmenu($this->database, $this->config);
+		$menu = new model_menu($this->database, $this->config);
 		$this->view->setObject($menu);
 		if (array_key_exists('search', $_GET)) {
 			$this->search($_GET['search']);
@@ -25,7 +25,7 @@ class Controller_Front extends Controller
 
 
 	public function index() {
-		$mainContent = new model_maincontent($this->database, $this->config);
+		$mainContent = new model_content($this->database, $this->config);
 		$mainContent->read('post', array(0, 3));
 		$this->view
 			->setObject($mainContent)
@@ -54,7 +54,7 @@ class Controller_Front extends Controller
 
 	public function page() {
 		if ($this->config->getUrl(1)) {
-			$page = new model_maincontent($this->database, $this->config);
+			$page = new model_content($this->database, $this->config);
 			if (! $page->readByTitle(array($this->config->getUrl(1)))) {
 				$this->route('base');
 			}
@@ -71,7 +71,7 @@ class Controller_Front extends Controller
 
 	public function sitemapxml() {
 		header('Content-Type: application/xml');
-		$content = new model_maincontent($this->database, $this->config);
+		$content = new model_content($this->database, $this->config);
 		$player = new model_ttplayer($this->database, $this->config);
 		$team = new model_ttteam($this->database, $this->config);
 		$fixture = new model_ttfixture($this->database, $this->config);
@@ -81,10 +81,10 @@ class Controller_Front extends Controller
 			->setObject('model_ttdivision', $division->read()->getData())
 			->setObject('model_ttteam', $team->read()->getData())
 			->setObject('model_ttplayer', $player->read()->getData())
-			->setObject('model_maincontent_cup', $content->readByType('cup')->getData())
-			->setObject('model_maincontent_minutes', $content->readByType('minutes')->getData())
-			->setObject('model_maincontent_page', $content->readByType('page')->getData())
-			->setObject('model_maincontent_press', $content->readByType('press')->getData())
+			->setObject('model_content_cup', $content->readByType('cup')->getData())
+			->setObject('model_content_minutes', $content->readByType('minutes')->getData())
+			->setObject('model_content_page', $content->readByType('page')->getData())
+			->setObject('model_content_press', $content->readByType('press')->getData())
 			->loadJustTemplate('sitemap');
 	}
 

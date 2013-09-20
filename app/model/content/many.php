@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Maincontent_Many extends Model
+class Model_Content_Many extends Model
 {	
 
 
@@ -15,7 +15,7 @@ class Model_Maincontent_Many extends Model
 	 * within methods
 	 * @var string
 	 */
-	public $tableName = 'main_content_';
+	public $tableName = 'content_';
 
 
 	/**
@@ -29,8 +29,8 @@ class Model_Maincontent_Many extends Model
 	/**
 	 * extends the model constructer but adds the identifier
 	 * this allows for a dynamic model which handles
-	 * main_content_media
-	 * main_content_identifier
+	 * content_media
+	 * content_identifier
 	 * tables
 	 * @param object $database   
 	 * @param object $config     
@@ -57,7 +57,7 @@ class Model_Maincontent_Many extends Model
 				, content_id
 				, $this->colName
 			from $this->tableName
-			" . ($contentId ? ' where main_content.id = :content_id ' : '') . "
+			" . ($contentId ? ' where content.id = :content_id ' : '') . "
 			group by $this->tableName.name
 			order by $this->tableName.name desc
 		");

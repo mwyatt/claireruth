@@ -16,11 +16,11 @@ class Controller_Admin_Content extends Controller
 
 
 	public function initialise() {
-		$userAction = new model_mainuser_action($this->database, $this->config);
-		$content = new model_maincontent($this->database, $this->config);
-		$media = new model_mainmedia($this->database, $this->config);
+		$userAction = new model_user_action($this->database, $this->config);
+		$content = new model_content($this->database, $this->config);
+		$media = new model_media($this->database, $this->config);
 		if (array_key_exists('form_create', $_POST)) {
-			$content = new model_admin_maincontent($this->database, $this->config);
+			$content = new model_admin_content($this->database, $this->config);
 			if ($id = $content->create()) {
 				$userAction->create($this->session->get('user', 'id'), 'create', ucfirst($_POST['type']) . ' / ' . $_POST['title']);
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/?edit=' . $id);
@@ -29,7 +29,7 @@ class Controller_Admin_Content extends Controller
 			}
 		}
 		if (array_key_exists('form_update', $_POST)) {
-			$content = new model_admin_maincontent($this->database, $this->config);
+			$content = new model_admin_content($this->database, $this->config);
 			if ($content->update()) {
 				$userAction->create($this->session->get('user', 'id'), 'update', ucfirst($_POST['type']) . ' / ' . $_POST['title']);
 			}
@@ -42,9 +42,9 @@ class Controller_Admin_Content extends Controller
 				->loadTemplate('admin/content/create-update');
 		}
 		if (array_key_exists('delete', $_GET)) {
-			$content = new model_admin_maincontent($this->database, $this->config);
+			$content = new model_admin_content($this->database, $this->config);
 			$content->deleteById($_GET['delete']);
-			$userAction->create($this->session->get('user', 'id'), 'delete', 'main_content ' . $_GET['delete']);
+			$userAction->create($this->session->get('user', 'id'), 'delete', 'content ' . $_GET['delete']);
 			$this->route('current_noquery');
 		}
 		if ($this->config->getUrl(3) == 'new') {
@@ -59,7 +59,7 @@ class Controller_Admin_Content extends Controller
 
 
 	public function page() {
-		$content = new model_maincontent($this->database, $this->config);
+		$content = new model_content($this->database, $this->config);
 		$content->read($this->config->getUrl(2));
 		$this->view
 			->setObject($content)
@@ -67,7 +67,7 @@ class Controller_Admin_Content extends Controller
 	}
 
 	public function post() {
-		$content = new model_maincontent($this->database, $this->config);
+		$content = new model_content($this->database, $this->config);
 		$content->read($this->config->getUrl(2));
 		$this->view
 			->setObject($content)

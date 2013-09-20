@@ -1,8 +1,8 @@
-<?php if ($this->get('row_contents')): ?>
+<?php if ($rowContents): ?>
 	
 	<div class="contents">
 
-	<?php foreach ($this->get('row_contents') as $rowContent): ?>
+	<?php foreach ($rowContents as $rowContent): ?>
 		<?php require($this->pathView('partial/content')); ?>
 	<?php endforeach ?>
 		

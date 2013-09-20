@@ -10,7 +10,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Mainmenu extends Model
+class Model_Menu extends Model
 {
 
 
@@ -165,7 +165,7 @@ class Model_Mainmenu extends Model
 	 * @return html the menu
 	 */
 	public function adminSub() {
-		$user = new model_mainuser($this->database, $this->config);
+		$user = new model_user($this->database, $this->config);
 		$className = 'Controller_' . ucfirst($this->config->getUrl(0)) . '_' . ucfirst($this->config->getUrl(1));
 		if (class_exists($className)) {
 			foreach ($this->getClassMethods($className) as $key => $method) {
@@ -191,7 +191,7 @@ class Model_Mainmenu extends Model
 			, 'current' => ($this->config->getUrl(1) == '' ? true : false)
 			, 'guid' => $this->config->getUrl('admin')
 		);
-		$user = new model_mainuser($this->database, $this->config);
+		$user = new model_user($this->database, $this->config);
 		if ($accessTo = $user->getPermission($user->get('level'))) {
 			foreach ($this->getClassMethods('controller_admin') as $adminMethod) {
 				foreach ($this->getClassMethods('controller_admin_' . $adminMethod) as $method) {

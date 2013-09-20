@@ -17,10 +17,10 @@
         <header class="main clearfix">
             <a class="title" href="<?php echo $this->url(); ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title'); ?></a>
             
-<?php if (array_key_exists('model_mainuser', $this->data)): ?>
+<?php if (array_key_exists('model_user', $this->data)): ?>
 
 			<div class="user">
-				<a href="#" class="name"><?php echo ($this->data['model_mainuser']['first_name'] ? $this->data['model_mainuser']['first_name'] . ' ' . $this->data['model_mainuser']['last_name'] : $this->data['model_mainuser']['email']); ?></a>
+				<a href="#" class="name"><?php echo ($this->data['model_user']['first_name'] ? $this->data['model_user']['first_name'] . ' ' . $this->data['model_user']['last_name'] : $this->data['model_user']['email']); ?></a>
 				<ul>
                     <li><a href="<?php echo $this->url() ?>admin/profile/">Profile</a></li>
 					<li><a href="?logout=true">Logout</a></li>
@@ -29,12 +29,12 @@
 
 <?php endif ?>
 
-<?php if ($this->get('model_mainmenu', 'admin')): ?>
+<?php if ($this->get('model_menu', 'admin')): ?>
     
             <nav class="main">
                 <ul>
 
-    <?php foreach ($this->get('model_mainmenu', 'admin') as $item): ?>
+    <?php foreach ($this->get('model_menu', 'admin') as $item): ?>
 
                     <li<?php echo ($this->get($item, 'current') ? ' class="current"' : '') ?>><a class="button" href="<?php echo $this->get($item, 'guid') ?>"><?php echo $this->get($item, 'name') ?></a></li>
         
@@ -44,12 +44,12 @@
             </nav>
 
 <?php endif ?>
-<?php if ($this->get('model_mainmenu', 'admin_sub')): ?>
+<?php if ($this->get('model_menu', 'admin_sub')): ?>
     
             <nav class="sub">
                 <ul>
 
-    <?php foreach ($this->get('model_mainmenu', 'admin_sub') as $item): ?>
+    <?php foreach ($this->get('model_menu', 'admin_sub') as $item): ?>
 
                     <li<?php echo ($this->get($item, 'current') ? ' class="current"' : '') ?>><a href="<?php echo $this->get($item, 'guid') ?>"><?php echo $this->get($item, 'name') ?></a></li>
         

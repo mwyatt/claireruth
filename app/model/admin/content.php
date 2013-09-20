@@ -10,14 +10,14 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Admin_Maincontent extends Model
+class Model_Admin_Content extends Model
 {
 
 
 	public function create() {	
-		$user = new Model_Mainuser($this->database, $this->config);
+		$user = new Model_user($this->database, $this->config);
 		$sth = $this->database->dbh->prepare("
-			insert into main_content (
+			insert into content (
 				title
 				, html
 				, type
@@ -57,14 +57,14 @@ class Model_Admin_Maincontent extends Model
 	public function addAttachment($contentId) {
 
 		// tag
-		$maincontentmany = new model_maincontent_many($this->database, $this->config, 'tag');
+		$maincontentmany = new model_content_many($this->database, $this->config, 'tag');
 		$maincontentmany->deleteByContentId($contentId);
 		if (array_key_exists('tag', $_POST)) {
 			$maincontentmany->create($contentId, $_POST['tag']);
 		}
 
 		// media
-		$maincontentmany = new model_maincontent_many($this->database, $this->config, 'media');
+		$maincontentmany = new model_content_many($this->database, $this->config, 'media');
 		$maincontentmany->deleteByContentId($contentId);
 		if (array_key_exists('media', $_POST)) {
 			$maincontentmany->create($contentId, $_POST['media']);
@@ -73,7 +73,7 @@ class Model_Admin_Maincontent extends Model
 
 
 	public function update() {
-		$user = new Model_Mainuser($this->database, $this->config);
+		$user = new Model_user($this->database, $this->config);
 		$this->addAttachment($_GET['edit']);
 		// the content
 		$sth = $this->database->dbh->prepare("
@@ -84,7 +84,7 @@ class Model_Admin_Maincontent extends Model
 				, date_published
 				, status
 				, user_id
-			from main_content
+			from content
 			where id = ?
 		");				
 		$sth->execute(array(
@@ -92,7 +92,7 @@ class Model_Admin_Maincontent extends Model
 		));		
 		$row = $sth->fetch(PDO::FETCH_ASSOC);
 		$sth = $this->database->dbh->prepare("
-			update main_content set
+			update content set
 				title = ?
 				, html = ?
 				, status = ?
@@ -119,7 +119,7 @@ class Model_Admin_Maincontent extends Model
 				, date_published
 				, status
 				, user_id
-			from main_content
+			from content
 			where id = ?
 		");	
 		$sth->execute(array(
@@ -127,7 +127,7 @@ class Model_Admin_Maincontent extends Model
 		));		
 		$row = $sth->fetch(PDO::FETCH_ASSOC);
 		$sth = $this->database->dbh->prepare("
-			delete from main_content
+			delete from content
 			where id = ? 
 		");				
 		$sth->execute(array(
@@ -135,11 +135,11 @@ class Model_Admin_Maincontent extends Model
 		));		
 		
 		// tag
-		$mainContentTag = new model_maincontent_tag($this->database, $this->config);
+		$mainContentTag = new model_content_tag($this->database, $this->config);
 		$mainContentTag->deleteByContentId($contentId);
 
 		// media
-		$mainContentMedia = new model_maincontent_media($this->database, $this->config);
+		$mainContentMedia = new model_content_media($this->database, $this->config);
 		$mainContentMedia->deleteByContentId($contentId);
 		$this->session->set('feedback', ucfirst($row['type']) . ' "' . $row['title'] . '" deleted');
 		return true;

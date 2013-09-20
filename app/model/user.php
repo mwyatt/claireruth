@@ -10,7 +10,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Mainuser extends Model
+class Model_User extends Model
 {
 
 
@@ -47,7 +47,7 @@ class Model_Mainuser extends Model
 	//   */
 	// public function insertMeta($user_id) {	
 	// 	$sth = $this->database->dbh->prepare("
-	// 		INSERT INTO main_user_meta
+	// 		INSERT INTO user_meta
 	// 			(user_id, name, value)
 	// 		values
 	// 			('$user_id', :name, :value)
@@ -71,15 +71,15 @@ class Model_Mainuser extends Model
 	// public function readById($id) {
 	// 	$sql = "
 	// 		select
-	// 			main_user.id
-	// 			, main_user.email
-	// 			, main_user.password
-	// 			, main_user.date_registered
-	// 			, main_user.level
-	// 			, main_user_meta.name as meta_name
-	// 			, main_user_meta.value as meta_value
-	// 		from main_user				
-	// 		left join main_user_meta on main_user.id = main_user_meta.user_id
+	// 			user.id
+	// 			, user.email
+	// 			, user.password
+	// 			, user.date_registered
+	// 			, user.level
+	// 			, user_meta.name as meta_name
+	// 			, user_meta.value as meta_value
+	// 		from user				
+	// 		left join user_meta on user.id = user_meta.user_id
 	// 		where email = :email
 	// 	";
 	// }
@@ -99,11 +99,11 @@ class Model_Mainuser extends Model
 				, name
 				, value
 			FROM
-				main_user
+				user
 			LEFT JOIN
-				main_user_meta
+				user_meta
 			ON
-				user.id = main_user_meta.user_id
+				user.id = user_meta.user_id
 		");
 		
 		// Process Result Rows
@@ -120,7 +120,7 @@ class Model_Mainuser extends Model
 	//   */
 	// public function insert($level = 1) {	
 	// 	$sth = $this->database->dbh->prepare("
-	// 		INSERT INTO main_user
+	// 		INSERT INTO user
 	// 			(email, password, level)
 	// 		values
 	// 			(:email, :password, :level)
@@ -143,14 +143,14 @@ class Model_Mainuser extends Model
 	public function refreshUserSession($id) {	
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_user.id
-				, main_user.email
-				, main_user.first_name
-				, main_user.last_name
-				, main_user.date_registered
-				, main_user.level
-			from main_user				
-			where main_user.id = ?
+				user.id
+				, user.email
+				, user.first_name
+				, user.last_name
+				, user.date_registered
+				, user.level
+			from user				
+			where user.id = ?
 		");		
 		$sth->execute(array($id));
 		$session = new Session();
@@ -166,15 +166,15 @@ class Model_Mainuser extends Model
 	public function readByEmail($email) {	
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_user.id
-				, main_user.email
-				, main_user.first_name
-				, main_user.last_name
-				, main_user.password
-				, main_user.date_registered
-				, main_user.level
-			from main_user				
-			where main_user.email = ?
+				user.id
+				, user.email
+				, user.first_name
+				, user.last_name
+				, user.password
+				, user.date_registered
+				, user.level
+			from user				
+			where user.email = ?
 		");		
 		$sth->execute(array($email));
 		$this->setData($sth->fetch(PDO::FETCH_ASSOC));
@@ -209,9 +209,9 @@ class Model_Mainuser extends Model
 	public function passwordRecover($emailAddress) {
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_user.email
-			from main_user				
-			where main_user.email = ?
+				user.email
+			from user				
+			where user.email = ?
 		");		
 		$sth->execute(array($emailAddress));
 		if ($sth->rowCount()) {
@@ -235,10 +235,10 @@ class Model_Mainuser extends Model
 			return false;
 		}
 		$sth = $this->database->dbh->prepare("	
-			update main_user set
-				main_user.password = ?
+			update user set
+				user.password = ?
 			where
-				main_user.email = ?
+				user.email = ?
 		");	
 		$sth->execute(array(
 			crypt($password)
@@ -365,14 +365,14 @@ class Model_Mainuser extends Model
 	{	
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_user.id
-				, main_user.email
-				, main_user.first_name
-				, main_user.last_name
-				, unix_timestamp(main_user.date_registered) as date_registered
-				, main_user.level
-			from main_user				
-			where main_user.id = ?
+				user.id
+				, user.email
+				, user.first_name
+				, user.last_name
+				, unix_timestamp(user.date_registered) as date_registered
+				, user.level
+			from user				
+			where user.id = ?
 		");		
 		$sth->execute(array($id));
 		if ($this->data = $sth->fetch(PDO::FETCH_ASSOC)) {
@@ -384,10 +384,10 @@ class Model_Mainuser extends Model
 
 	public function updateById($id) {
 		$sth = $this->database->dbh->prepare("
-			update main_user set
-				main_user.email = ?
-				, main_user.first_name = ?
-				, main_user.last_name = ?
+			update user set
+				user.email = ?
+				, user.first_name = ?
+				, user.last_name = ?
 			where
 				id = ?
 		");				
@@ -399,8 +399,8 @@ class Model_Mainuser extends Model
 		));		
 		if (array_key_exists('password', $_POST) && $_POST['password']) {
 			$sth = $this->database->dbh->prepare("
-				update main_user set
-					main_user.password = ?
+				update user set
+					user.password = ?
 				where
 					id = ?
 			");				

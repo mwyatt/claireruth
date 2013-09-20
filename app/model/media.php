@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-class Model_Mainmedia extends Model
+class Model_Media extends Model
 {
 	
 
@@ -27,17 +27,17 @@ class Model_Mainmedia extends Model
 		$baseurl = $this->config->getUrl('base'); 
 		$sth = $this->database->dbh->prepare("	
 			select
-				main_media.id
-				, main_media.title
-				, concat('$baseurl', '$this->dir', main_media.path) as path
-				, main_media.type
-				, main_media.date_published
-				, concat(main_user.first_name, ' ', main_user.last_name) as user_full_name
-			from main_media
-			left join main_content_media on main_content_media.media_id = main_media.id
-			left join main_user on main_user.id = main_media.user_id
-			" . ($contentIds ? ' where main_content_media.content_id = :content_id ' : '') . "
-			group by main_media.id
+				media.id
+				, media.title
+				, concat('$baseurl', '$this->dir', media.path) as path
+				, media.type
+				, media.date_published
+				, concat(user.first_name, ' ', user.last_name) as user_full_name
+			from media
+			left join content_media on content_media.media_id = media.id
+			left join user on user.id = media.user_id
+			" . ($contentIds ? ' where content_media.content_id = :content_id ' : '') . "
+			group by media.id
 		");
 		if ($contentIds) {
 			foreach ($contentIds as $contentId) {
@@ -92,7 +92,7 @@ class Model_Mainmedia extends Model
 		}
 		$files = $this->tidyFiles($files['media']);
 		$sthMedia = $this->database->dbh->prepare("
-			insert into main_media (
+			insert into media (
 				title
 				, description
 				, path
@@ -187,18 +187,18 @@ class Model_Mainmedia extends Model
 		// 		, path
 		// 		, date_published
 		// 		, user_id
-		// 	from main_media
+		// 	from media
 		// 	where id = ?
 		// ");	
 		// $sth->execute(array($id));		
 		// $row = $sth->fetch(PDO::FETCH_ASSOC);
 		$sth = $this->database->dbh->prepare("
-			delete from main_media
+			delete from media
 			where id = ? 
 		");				
 		$sth->execute(array($id));		
 		$sth = $this->database->dbh->prepare("
-			delete from main_content_meta
+			delete from content_meta
 			where content_id = ? and name = 'media'
 		");				
 		$sth->execute(array($id));		
@@ -234,7 +234,7 @@ class Model_Mainmedia extends Model
 				, path
 				, date_published
 				, user_id
-			from main_media
+			from media
 			where id = ?
 		");
 		foreach ($ids as $id) {
@@ -255,8 +255,8 @@ class Model_Mainmedia extends Model
 				, path
 				, date_published
 				, user_id
-			from main_media
-			where main_media.path like ?
+			from media
+			where media.path like ?
 		");
 		$sth->execute(array('%' . $path . '%'));
 		$this->data = $sth->fetchAll(PDO::FETCH_OBJ);

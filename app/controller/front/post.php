@@ -15,7 +15,7 @@ class Controller_Front_Post extends Controller
 
 
 	public function index() {
-		$content = new Model_Maincontent($this->database, $this->config);
+		$content = new Model_content($this->database, $this->config);
 		if ($this->config->getUrl(1)) {
 			if (! $content->read('post', false, $this->getId($this->config->getUrl(1)))) {
 				$this->route('404');
@@ -24,17 +24,17 @@ class Controller_Front_Post extends Controller
 				->setMeta(array(		
 					'title' => $content->get('title')
 				))
-				->setObject('row_content', $content->getData())
+				->setObject($content)
 				->loadTemplate('content-single');
 		}
 		$content->read('post');
+		$firstContent = $content->getData();
 		$this->view
 			->setMeta(array(		
 				'title' => 'All posts'
 			))
-			->setObject('row_contents', $content->getData())
+			->setObject('first_content', current($firstContent))
+			->setObject($content)
 			->loadTemplate('content');
 	}
-
-	
 }

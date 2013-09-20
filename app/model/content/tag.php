@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Maincontent_Tag extends Model
+class Model_Content_Tag extends Model
 {	
 
 
@@ -21,10 +21,10 @@ class Model_Maincontent_Tag extends Model
 				id
 				, content_id
 				, tag_id as name
-			from main_content_tag
-			where main_content_tag.content_id = ?
-			group by main_content_tag.tag_id
-			order by main_content_tag.tag_id desc
+			from content_tag
+			where content_tag.content_id = ?
+			group by content_tag.tag_id
+			order by content_tag.tag_id desc
 		");
 		foreach ($contentIds as $contentId) {
 			$sth->execute(array($contentId));	
@@ -55,11 +55,11 @@ class Model_Maincontent_Tag extends Model
 				id
 				, content_id
 				, tag_id as name
-			from main_content_tag
+			from content_tag
 			where
-				main_content_tag.tag_id like ?
-			group by main_content_tag.tag_id
-			order by main_content_tag.tag_id desc
+				content_tag.tag_id like ?
+			group by content_tag.tag_id
+			order by content_tag.tag_id desc
 		");
 		foreach ($words as $word) {
 			$sth->execute(array(

@@ -16,8 +16,8 @@ class Controller_Front_Minutes extends Controller
 
 	public function index() {
 		$minuteCollection = array();
-		$minutes = new Model_Maincontent($this->database, $this->config);
-		$media = new model_mainmedia($this->database, $this->config);
+		$minutes = new Model_content($this->database, $this->config);
+		$media = new model_media($this->database, $this->config);
 		$minutes->readByType('minutes');
 		foreach ($minutes->getData() as $minute) {
 			if (! array_key_exists('media', $minute)) {

@@ -46,8 +46,8 @@
 
 	<?php endforeach ?>
 <?php endif ?>
-<?php if ($this->get('model_maincontent_page')): ?>
-	<?php foreach ($this->get('model_maincontent_page') as $row): ?>
+<?php if ($this->get('model_content_page')): ?>
+	<?php foreach ($this->get('model_content_page') as $row): ?>
 		
 	<url>
 		<loc><?php echo $row['guid'] ?></loc>
@@ -57,8 +57,8 @@
 
 	<?php endforeach ?>
 <?php endif ?>
-<?php if ($this->get('model_maincontent_press')): ?>
-	<?php foreach ($this->get('model_maincontent_press') as $row): ?>
+<?php if ($this->get('model_content_press')): ?>
+	<?php foreach ($this->get('model_content_press') as $row): ?>
 		
 	<url>
 		<loc><?php echo $row['guid'] ?></loc>
@@ -68,8 +68,8 @@
 
 	<?php endforeach ?>
 <?php endif ?>
-<?php if ($this->get('model_maincontent_minutes')): ?>
-	<?php foreach ($this->get('model_maincontent_minutes') as $row): ?>
+<?php if ($this->get('model_content_minutes')): ?>
+	<?php foreach ($this->get('model_content_minutes') as $row): ?>
 		
 	<url>
 		<loc><?php echo $row['guid'] ?></loc>
@@ -79,8 +79,8 @@
 
 	<?php endforeach ?>
 <?php endif ?>
-<?php if ($this->get('model_maincontent_cup')): ?>
-	<?php foreach ($this->get('model_maincontent_cup') as $row): ?>
+<?php if ($this->get('model_content_cup')): ?>
+	<?php foreach ($this->get('model_content_cup') as $row): ?>
 		
 	<url>
 		<loc><?php echo $row['guid'] ?></loc>

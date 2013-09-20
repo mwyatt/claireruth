@@ -41,9 +41,9 @@ class Model_Ads extends Model
 	// 			, m.description as media_description
 	// 			, m.filename as media_filename
 	// 		FROM
-	// 			main_ads AS a
+	// 			ads AS a
 	// 		LEFT JOIN
-	// 			main_media AS m
+	// 			media AS m
 	// 		ON
 	// 			a.media_id = m.id
 	// 		WHERE	

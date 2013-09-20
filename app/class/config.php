@@ -31,7 +31,7 @@ class Config
 	public $objects;
 
 	/**
-	 * full set of options data from the main_options table
+	 * full set of options data from the options table
 	 * @var array
 	 */
 	public $options;

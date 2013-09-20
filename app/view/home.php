@@ -2,17 +2,8 @@
 
 <div class="content home clearfix">
 
-<?php if (array_key_exists('model_maincontent', $this->data)): ?>
-    
-	<div class="posts">
-
-    <?php foreach ($this->data['model_maincontent'] as $row): ?>
-		<?php include($this->pathView('partial/content')); ?>
-    <?php endforeach ?>
-
-	</div>
-
-<?php endif ?>
+<?php $rowContents = $this->get('model_content') ?>
+<?php include($this->pathView('partial/contents')); ?>
 
 </div>
 
