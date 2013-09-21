@@ -46,13 +46,13 @@ class Model_Admin_Content extends Model
 		$this->addAttachment($lastId);
 		if ($sth->rowCount()) {
 			$this->session->set('feedback', ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
+			$this->createTotal();
 			return $lastId;
 		}
 		$this->session->set('feedback', 'Problem while creating ' . ucfirst($_POST['type']));
 		return false;
 	}
 			
-				
 
 	public function addAttachment($contentId) {
 
@@ -75,6 +75,7 @@ class Model_Admin_Content extends Model
 	public function update() {
 		$user = new Model_user($this->database, $this->config);
 		$this->addAttachment($_GET['edit']);
+		
 		// the content
 		$sth = $this->database->dbh->prepare("
 			select 
@@ -106,6 +107,7 @@ class Model_Admin_Content extends Model
 			, (array_key_exists('edit', $_GET) ? $_GET['edit'] : '')
 		));		
 		$this->session->set('feedback', ucfirst($row['type']) . ' "' . $row['title'] . '" updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
+		$this->createTotal();
 		return true;
 	}
 
@@ -142,8 +144,25 @@ class Model_Admin_Content extends Model
 		$mainContentMedia = new model_content_media($this->database, $this->config);
 		$mainContentMedia->deleteByContentId($contentId);
 		$this->session->set('feedback', ucfirst($row['type']) . ' "' . $row['title'] . '" deleted');
+		$this->createTotal();
 		return true;
 	}
 
 
+	/**
+	 * sets the total rowcount in options table
+	 * @return bool 
+	 */
+	public function createTotal()
+	{
+		$sth = $this->database->dbh->query("	
+			select
+				content.id
+			from content
+			where
+				content.status = 'visible'
+		");
+		$modelOptions = new Model_options($this->database, $this->config);
+		return $modelOptions->create(array('model_content_rowcount' => $sth->rowCount()));
+	}
 }

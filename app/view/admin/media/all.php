@@ -8,7 +8,7 @@
 		<span class="button attach">Attach</span>
 
 <?php if ($rowContent['media'] = $this->get('model_media')): ?>
-	<?php include($this->pathAdminView('partial/content-medias')); ?>
+	<?php include($this->pathView('partial/content-medias')); ?>
 <?php endif ?>
 
 	</div>

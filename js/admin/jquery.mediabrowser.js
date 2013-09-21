@@ -15,12 +15,12 @@
 		function setEvent() {
 		 	$('.js-media-browser input[type="file"]').on("change", upload);
 			$('.js-media-item')
-				.off()
+				.off('click')
 				.on('click', function() {
 					$(this).toggleClass('selected');
 					$('.js-media-browser').addClass('change-made');
 					$('.js-media-browser .button.attach')
-						.off()
+						.off('click')
 						.on('click', function(event) {
 							attachSelections();
 
@@ -30,12 +30,11 @@
 				});
 			$('.content .js-media-item').removeClass('selected');
 			$('.content .js-media-item')
-				.off()
+				.off('click')
 				.on('click', function() {
-					$(this)
-						.parent()
-						.find('[value="' + $(this).data('id') + '"]')
-						.remove();
+
+					// remove hidden field and the media item
+					$('[name="media[]"][value="' + $(this).data('id') + '"]').remove();
 					$(this).remove();
 				});
 		}

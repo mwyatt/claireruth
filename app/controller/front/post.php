@@ -27,6 +27,7 @@ class Controller_Front_Post extends Controller
 				->setObject($content)
 				->loadTemplate('content-single');
 		}
+		$page = new model_page($this->database, $this->config, 'content');
 		$content->read('post');
 		$firstContent = $content->getData();
 		$this->view
@@ -34,6 +35,7 @@ class Controller_Front_Post extends Controller
 				'title' => 'All posts'
 			))
 			->setObject('first_content', current($firstContent))
+			->setObject($page)
 			->setObject($content)
 			->loadTemplate('content');
 	}
