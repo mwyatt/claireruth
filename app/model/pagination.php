@@ -1,10 +1,6 @@
 <?php
 
 /**
- * Limiting Queries and production of pagination HTML
- *
- * PHP version 5
- * 
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -13,28 +9,113 @@
 class Model_Pagination extends Model
 {
 
-	public $SQL;
-	public $pageLimit = 2;
+
+	public $tableName;
+
+
 	public $pageCurrent = 1;
+
+
+	public $maxPerPage = 3;
+
+
 	public $totalRows;
+
+
+	public $possiblePages;
 	
-	
+
 	/**
-	 * Constructor
-	 *
-	 * @param object $DBH Database handle
-	 * @return void
-	 */	
-	public function __construct($DBH) {
-		$this->DBH = $DBH;
-		
-		// Check Page
+	 * always initiates with the session, database and config
+	 * @param object $database 
+	 * @param object $config   
+	 */
+	public function __construct($database, $config, $tableName) {
+		$this->session = new Session();
+		$this->database = $database;
+		$this->config = $config;
+		$this->tableName = $tableName;
+		$this->totalRows = $this->config->getOption('model_' . $this->tableName . '_rowcount');
+
+		// check validity
 		if (($this->sanitizePage())) {
 			$this->pageCurrent = $_GET['page'];
 		}
+
+        $this->setPossiblePages();
+		$this->setPagination();
+	}
+
+
+
+	public function setPossiblePages()
+	{
+		$this->possiblePages = ceil($this->totalRows / $this->maxPerPage);
+	}
+
+
+	public function getLimit()
+	{
+		$bottom = ($this->maxPerPage * ($this->pageCurrent - 1));
+		$top = $bottom + $this->maxPerPage;
+		return array($bottom, $top);
+	}
+
+
+	/**
+	 * constructs an array to allow the user to paginate
+	 * possibly have 2 options, one with full pagination
+	 * another with just next and previous
+	 * @return array 
+	 */
+	public function setPagination()
+	{
+        $this->data[] = array(
+            'name' => 'previous'
+            , 'current' => ($this->pageCurrent == $this->pageCurrent - 1 ? true : false)
+            , 'guid' => $this->getGuid($this->pageCurrent - 1)
+        );
+        for ($i = 1; $i <= $this->possiblePages; $i++) { 
+            $this->data[] = array(
+                'name' => 'page'
+                , 'current' => ($this->pageCurrent == $i ? true : false)
+                , 'guid' => $this->getGuid($i)
+            );
+        }
+        $this->data[] = array(
+            'name' => 'next'
+            , 'current' => ($this->pageCurrent == $this->pageCurrent + 1 ? true : false)
+            , 'guid' => $this->getGuid($this->pageCurrent + 1)
+        );
+        return $this->data;
+	}
+	
+
+    /**
+     * returns a url without any queries except the page
+     * number
+     * @param  int $pageNumber 
+     * @return string             url
+     */
+    public function getGuid($type = false, $name = false, $id = false)
+    {
+        return $this->config->getUrl('current_noquery') . ($type ? '?page=' . $type : '');
+    }
+
+	
+	/**
+	 * Next Page
+	 *
+	 * @return string|false The array value or false if it does not exist
+	 */	
+	public function nextPage()
+	{
+		return $this->pageCurrent++;
 	}
 	
 	
+
+
 	/**
 	 * Check Page GET Variable
 	 *
@@ -60,48 +141,6 @@ class Model_Pagination extends Model
 			return $valid;
 		}
 	}
-	
-	
-	/**
-	 * Next Page
-	 *
-	 * @return string|false The array value or false if it does not exist
-	 */	
-	public function nextPage()
-	{
-		return $this->pageCurrent++;
-	}
-	
-	
-	/**
-	 * 
-	 *
-	 * @param string $key The array key to return
-	 * @return string|false The array value or false if it does not exist
-	 */	
-	public function select()
-	{
-		$STH = $DBH->query("
-			SELECT
-				COUNT(id)
-			FROM
-				content
-			WHERE
-				type = 'post'
-			AND
-				status = 'visible'
-			ORDER BY
-				date_published DESC
-		");
-
-		$value = $STH->fetch(PDO::FETCH_NUM);
-
-		echo '<pre>';
-		print_r ($value);
-		echo '</pre>';
-		exit;		
-	}
-	
 }
 
 

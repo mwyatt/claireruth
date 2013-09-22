@@ -27,15 +27,15 @@ class Controller_Front_Post extends Controller
 				->setObject($content)
 				->loadTemplate('content-single');
 		}
-		$page = new model_page($this->database, $this->config, 'content');
-		$content->read('post');
+		$pagination = new model_pagination($this->database, $this->config, 'content');
+		$content->read('post', $pagination->getLimit());
 		$firstContent = $content->getData();
 		$this->view
 			->setMeta(array(		
 				'title' => 'All posts'
 			))
 			->setObject('first_content', current($firstContent))
-			->setObject($page)
+			->setObject($pagination)
 			->setObject($content)
 			->loadTemplate('content');
 	}
