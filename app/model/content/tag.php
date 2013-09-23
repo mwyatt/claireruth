@@ -73,4 +73,38 @@ class Model_Content_Tag extends Model
 		$this->data = $rows;
 		return count($this->getData());
 	}
+
+
+	/**
+	 * reads all content ids for a certain tag
+	 * @param  string $query tag name
+	 * @return array        contentids
+	 */
+	public function readContent($query = '') {	
+		$contentIds = array();
+		if (! $query) {
+			return;
+		}
+		$matches = array();
+		$words = explode(' ', $query);
+		$sth = $this->database->dbh->prepare("	
+			select
+				id
+				, content_id
+				, tag_id as name
+			from content_tag
+			where
+				content_tag.tag_id like ?
+		");
+		foreach ($words as $word) {
+			$sth->execute(array(
+				'%' . $word . '%'
+			));
+			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$contentIds[] = $row['content_id'];
+			}
+		}
+		$this->data = $contentIds = array_unique($contentIds);
+		return count($this->getData());
+	}
 }

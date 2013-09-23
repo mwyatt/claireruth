@@ -79,7 +79,7 @@ class View extends Model
 		$this->header();
 		foreach ($this->objects as $title => $object) {
 			$titles[] = $title; // temp
-			if ($object instanceof Model) {
+			if (is_object($object) && property_exists($object, 'data')) {
 				if ($object->getData()) {
 					$this->data[$title] = $object->getData();
 				} else {

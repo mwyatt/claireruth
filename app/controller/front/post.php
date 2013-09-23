@@ -27,7 +27,7 @@ class Controller_Front_Post extends Controller
 				->setObject($content)
 				->loadTemplate('content-single');
 		}
-		$pagination = new model_pagination($this->database, $this->config, 'content');
+		$pagination = new pagination($this->database, $this->config, 'content');
 		$content->read('post', $pagination->getLimit());
 		$firstContent = $content->getData();
 		$this->view

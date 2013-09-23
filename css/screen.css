@@ -1210,12 +1210,6 @@ textarea:focus {
   border: 1px solid #ccc;
   text-transform: lowercase;
 }
-@media screen and (min-width: 435px) {
-  /* line 1, ../sass/_content-post.scss */
-  .content-post {
-    background-color: red;
-  }
-}
 
 /* line 10, ../sass/screen.scss */
 .wrap {

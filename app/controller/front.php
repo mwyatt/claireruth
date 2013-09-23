@@ -47,6 +47,11 @@ class Controller_Front extends Controller
 	}
 
 
+	public function tag() {
+		$this->load(array('front', 'tag'), $this->config->getUrl(1), $this->view, $this->database, $this->config);
+	}
+
+
 	public function post() {
 		$this->load(array('front', 'post'), $this->config->getUrl(1), $this->view, $this->database, $this->config);
 	}

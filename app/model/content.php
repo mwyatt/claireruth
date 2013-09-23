@@ -22,7 +22,7 @@ class Model_Content extends Model
 	 * @param  string $limit the amount of content required
 	 * @return null        data property will be set
 	 */
-	public function read($where = '', $limit = array(), $id = 0) {	
+	public function read($where = '', $limit = array(), $ids = array()) {	
 		$sth = $this->database->dbh->prepare("	
 			select
 				content.id
@@ -38,14 +38,11 @@ class Model_Content extends Model
             where content.id != ''
 			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and content.status = \'visible\'') . "
 			" . ($where ? ' and content.type = :type ' : '') . "
-			" . ($id ? ' and content.id = :id ' : '') . "
+			" . ($ids ? ' and content.id = :id ' : '') . "
 			group by content.id
 			order by content.date_published desc
 			" . ($limit ? ' limit :limit_start, :limit_end ' : '') . "
 		");
-		if ($id) {
-			$sth->bindValue(':id', $id, PDO::PARAM_STR);
-		}
 		if ($where) {
 			$sth->bindValue(':type', $where, PDO::PARAM_STR);
 		}
@@ -53,8 +50,18 @@ class Model_Content extends Model
 			$sth->bindValue(':limit_start', (int) current($limit), PDO::PARAM_INT);
 			$sth->bindValue(':limit_end', (int) next($limit), PDO::PARAM_INT);
 		}
-		$sth->execute();				
-		$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
+		if ($ids) {
+			foreach ($ids as $id) {
+				$sth->bindValue(':id', $id, PDO::PARAM_STR);
+				$sth->execute();				
+				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+					$contents[] = $row;
+				}
+			}
+		} else {
+			$sth->execute();				
+			$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
+		}
 		$contentIds = array();
 		foreach ($contents as $content) {
 			$contentIds[] = $content['id'];
@@ -74,9 +81,6 @@ class Model_Content extends Model
 			if (array_key_exists($content['id'], $medias)) {
 				$this->data[$content['id']]['media'] = $medias[$content['id']];
 			}
-		}
-		if ($id) {
-			$this->data = current($this->data);
 		}
 		return $sth->rowCount();		
 	}	
