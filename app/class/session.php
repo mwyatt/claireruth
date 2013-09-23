@@ -84,7 +84,6 @@ class Session extends Config
 			return true;
 		else
 			return false;
-
 	}
 
 

@@ -25,6 +25,20 @@ class Controller_Front extends Controller
 
 
 	public function index() {
+		$model = new model($this->database, $this->config, 'user_action');
+		$model->genericCreate(
+			array(
+				'description' => 'example'
+				, 'user_id' => 'example'
+				, 'time' => 'example'
+				, 'action' => 'example'
+			)
+		);
+		exit;
+
+
+
+		
 		$mainContent = new model_content($this->database, $this->config);
 		$mainContent->read('post', array(0, 3));
 		$this->view

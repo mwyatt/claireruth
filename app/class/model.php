@@ -10,7 +10,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-abstract class Model extends Config
+class Model extends Config
 {
 
 
@@ -34,6 +34,7 @@ abstract class Model extends Config
 	 */
 	public $session;
 
+
 	/**
 	 * returned data from sql requests
 	 * @var array
@@ -42,10 +43,12 @@ abstract class Model extends Config
 
 
 	/**
-	 * depreciated?
-	 * @var array
+	 * if class is used generically then the table
+	 * name will be used to identify which table
+	 * to hit with methods
+	 * @var string
 	 */
-	// public $dataRow;
+	public $tableName;
 
 	
 	/**
@@ -53,13 +56,105 @@ abstract class Model extends Config
 	 * @param object $database 
 	 * @param object $config   
 	 */
-	public function __construct($database, $config) {
+	public function __construct($database, $config, $tableName = '') {
 		$this->session = new Session();
 		$this->database = $database;
 		$this->config = $config;
+		if ($tableName) {
+			$this->tableName = $tableName;
+		}
 	}
+
+
 	
+	// 	how will validation work?
+
+	// update -> where, array('col_name' => value, )
+	public function genericUpdate($colValues = array())
+	{
+
+		// create colstring 
+		$valList = '';
+		foreach ($colValues as $col => $val) {
+			$cols[] = $col;
+			$vals[] = $val;
+			$valList .= ', ?';
+		}
+		$colList = implode(', ', $cols);
+		$valList = ltrim($valList, ', ');
+
+		// prepare
+		$sth = $this->database->dbh->prepare("
+			insert into {$this->getTableName()} (
+				$colList
+			) values (
+				$valList
+			)
+		");				
+		$sth->execute($vals);
+		return $sth->rowCount();
+	}
+
 	
+	// delete -> where, val
+	public function genericDelete($colValues = array())
+	{
+
+		// create colstring 
+		$valList = '';
+		foreach ($colValues as $col => $val) {
+			$cols[] = $col;
+			$vals[] = $val;
+			$valList .= ', ?';
+		}
+		$colList = implode(', ', $cols);
+		$valList = ltrim($valList, ', ');
+
+		// prepare
+		$sth = $this->database->dbh->prepare("
+			insert into {$this->getTableName()} (
+				$colList
+			) values (
+				$valList
+			)
+		");				
+		$sth->execute($vals);
+		return $sth->rowCount();
+	}
+
+
+	public function genericCreate($colValues = array())
+	{
+
+		// create colstring 
+		$valList = '';
+		foreach ($colValues as $col => $val) {
+			$cols[] = $col;
+			$vals[] = $val;
+			$valList .= ', ?';
+		}
+		$colList = implode(', ', $cols);
+		$valList = ltrim($valList, ', ');
+
+		// prepare
+		$sth = $this->database->dbh->prepare("
+			insert into {$this->getTableName()} (
+				$colList
+			) values (
+				$valList
+			)
+		");				
+		$sth->execute($vals);
+		return $sth->rowCount();
+	}
+
+
+	public function getTableName()
+	{
+		return $this->tableName;
+	}
+
+
 	/**
 	 * Get data array or by key
 	 * @param  string $key 
