@@ -28,10 +28,10 @@ class Controller_Front extends Controller
 		$model = new model($this->database, $this->config, 'user_action');
 		$model->create(
 			array(
-				'description' => 'example'
-				, 'user_id' => 'example'
-				, 'time' => 'example'
-				, 'action' => 'example'
+				'description' => 'example2'
+				, 'user_id' => 'example2'
+				, 'time' => 'example2'
+				, 'action' => 'example2'
 			)
 		);
 		exit;

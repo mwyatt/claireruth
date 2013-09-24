@@ -115,10 +115,10 @@ class Model extends Config
 
 	/**
 	 * builds and creates create query
-	 * @param  array  $colValues colname => value
+	 * @param  array  $primary colname => value
 	 * @return int            yay or nay
 	 */
-	public function create($colValues = array())
+	public function create($primary = array(), $secondary = array(), $tertiary = array(), $quantenary = array())
 	{
 		$sth = $this->database->dbh->prepare("
 			insert into {$this->getTableName()} (
@@ -128,7 +128,7 @@ class Model extends Config
 			)
 		");				
 		$valList = '';
-		foreach ($colValues as $col => $val) {
+		foreach ($primary as $col => $val) {
 			$cols[] = $col;
 			$vals[] = $val;
 			$valList .= ', ?';
