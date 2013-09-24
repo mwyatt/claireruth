@@ -26,7 +26,7 @@ class Controller_Front extends Controller
 
 	public function index() {
 		$model = new model($this->database, $this->config, 'user_action');
-		$model->genericCreate(
+		$model->create(
 			array(
 				'description' => 'example'
 				, 'user_id' => 'example'

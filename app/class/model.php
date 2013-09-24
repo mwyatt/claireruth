@@ -60,47 +60,73 @@ class Model extends Config
 		$this->session = new Session();
 		$this->database = $database;
 		$this->config = $config;
+
+		// sets the table name for use with generic methods
 		if ($tableName) {
 			$this->tableName = $tableName;
 		}
 	}
 
 
-	
-	// 	how will validation work?
-
-	// update -> where, array('col_name' => value, )
-	public function genericUpdate($colValues = array())
+	/**
+	 * builds and creates update query
+	 * @param  array  $colValues colname => value
+	 * @param  array  $where where => value
+	 * @return int            yay or nay
+	 */	
+	public function update($colValues = array(), $where = array())
 	{
-
-		// create colstring 
-		$valList = '';
+		$sth = $this->database->dbh->prepare("
+			update {$this->getTableName()} set
+				$colList
+			where
+				? = ?
+		");				
 		foreach ($colValues as $col => $val) {
 			$cols[] = $col;
 			$vals[] = $val;
-			$valList .= ', ?';
+			$colList .= ', ' . $col . ' = ?';
 		}
-		$colList = implode(', ', $cols);
-		$valList = ltrim($valList, ', ');
-
-		// prepare
-		$sth = $this->database->dbh->prepare("
-			insert into {$this->getTableName()} (
-				$colList
-			) values (
-				$valList
-			)
-		");				
-		$sth->execute($vals);
+		$vals[] = key($where);
+		$vals[] = current($where);
+		$colList = ltrim($colList, ', ');
+		$sth->execute($vals); 
 		return $sth->rowCount();
 	}
 
 	
-	// delete -> where, val
-	public function genericDelete($colValues = array())
+	/**
+	 * builds and creates delete query
+	 * @param  array  $where where => value
+	 * @return int            yay or nay
+	 */
+	public function delete($where = array())
 	{
+		$sth = $this->database->dbh->prepare("
+			delete from {$this->getTableName()} (
+			where ? = ?
+		");				
+		$vals[] = key($where);
+		$vals[] = current($where);
+		$sth->execute($vals);
+		return $sth->rowCount();
+	}
 
-		// create colstring 
+
+	/**
+	 * builds and creates create query
+	 * @param  array  $colValues colname => value
+	 * @return int            yay or nay
+	 */
+	public function create($colValues = array())
+	{
+		$sth = $this->database->dbh->prepare("
+			insert into {$this->getTableName()} (
+				$colList
+			) values (
+				$valList
+			)
+		");				
 		$valList = '';
 		foreach ($colValues as $col => $val) {
 			$cols[] = $col;
@@ -109,46 +135,15 @@ class Model extends Config
 		}
 		$colList = implode(', ', $cols);
 		$valList = ltrim($valList, ', ');
-
-		// prepare
-		$sth = $this->database->dbh->prepare("
-			insert into {$this->getTableName()} (
-				$colList
-			) values (
-				$valList
-			)
-		");				
 		$sth->execute($vals);
 		return $sth->rowCount();
 	}
 
 
-	public function genericCreate($colValues = array())
-	{
-
-		// create colstring 
-		$valList = '';
-		foreach ($colValues as $col => $val) {
-			$cols[] = $col;
-			$vals[] = $val;
-			$valList .= ', ?';
-		}
-		$colList = implode(', ', $cols);
-		$valList = ltrim($valList, ', ');
-
-		// prepare
-		$sth = $this->database->dbh->prepare("
-			insert into {$this->getTableName()} (
-				$colList
-			) values (
-				$valList
-			)
-		");				
-		$sth->execute($vals);
-		return $sth->rowCount();
-	}
-
-
+	/**
+	 * simple return of table name
+	 * @return string 
+	 */
 	public function getTableName()
 	{
 		return $this->tableName;
@@ -174,127 +169,13 @@ class Model extends Config
 	
 	
 	/**
-	 * sets one result row at a time
-	 * @param object $sth 
-	 */
-	public function setDataStatement($sth)
-	{		
-	
-		// no rows
-		if (! $sth->rowCount()) 
-			return false;
-
-		// some rows
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-
-			// handle possible meta_name
-			if (array_key_exists('meta_name', $row)) {
-
-				// set meta else set full row
-				if (array_key_exists($row['id'], $this->data)) {
-					$this->data[$row['id']][$row['meta_name']] = $row['meta_value'];
-				} else {
-					$this->data[$row['id']] = $row;
-					$this->data[$row['id']][$row['meta_name']] = $row['meta_value'];
-				}
-
-				unset($this->data[$row['id']]['meta_name']);
-				unset($this->data[$row['id']]['meta_value']);
-
-			} else {
-
-				$this->data[$row['id']] = $row;
-
-			}
-
-		}
-
-		// correct array keys
-		if (count($this->data) > 1) {
-			$this->data = array_values($this->data);
-		} else {
-			$this->data = reset($this->data);
-		}
-
-		return true;
-		
-	}
-	
-	
-	/**
 	 * Set data array
 	 */
 	public function setData($value)
 	{		
 		$this->data = $value;
 	}
-	
-	
-	/**
-	 * use sth to parse rows combining meta data and store in $data
-	 */
-	public function parseRows($sth) {
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {	
-			foreach ($row as $key => $value) {
-				$this->data[$row['id']][$key] = $value;
-			}
-			if (array_key_exists('meta_name', $row)) {
-				$this->data[$row['id']][$row['meta_name']] = $row['meta_value'];
-			}
-			if (array_key_exists($name = 'meta_name', $this->data[$row['id']])) {
-				unset($this->data[$row['id']][$name]);
-			}
-			if (array_key_exists($name = 'meta_value', $this->data[$row['id']])) {
-				unset($this->data[$row['id']][$name]);
-			}
-		}
-		if (count($this->data) == 1) {
-			$this->data = $this->data[key($this->data)];
-		}
-	}	
-	
 
-	/**
-	 * checks through form fields for invalid or null data
-	 * @param  array $_POST 
-	 * @param  array $keys  
-	 * @return bool        if all is valid
-	 */
-	public function validatePost($keys) {
-		$validity = true;
-		foreach ($keys as $key) {
-			if (array_key_exists($key, $_POST)) {
-				if (empty($_POST[$key])) {
-					$validity = false;
-				}
-			}
-		}
-		return $validity;
-	}	
-
-
-	/**
-	 * checks the validity of an integer
-	 * @param  int $value 
-	 * @return bool        
-	 */
-	public function validateInt($value) {
-		$value = intval($value);
-		if (gettype($value) == 'integer') {
-			return true;
-		}
-		return false;
-	}
-
-
-	/**
-	 * possibly belongs in the config class?
-	 * @return string
-	 */
-	public function getUploadDir() {
-		return $this->getUrl('base') . 'img/upload/';
-	}
-	
 
 	/**
 	 * possibly belongs in the config glass?
@@ -318,7 +199,6 @@ class Model extends Config
 		
 		//return the friendly str
 		return $value; 	
-		
 	}
 
 
@@ -357,56 +237,9 @@ class Model extends Config
 	 * handy for checking if a checkbox has been ticked
 	 * @param  string  $key 
 	 * @return boolean      
+	 * @todo remove this if possible, use validate_whatever
 	 */
 	public function isChecked($key) {
 		return (array_key_exists($key, $_POST) ? true : false);
-	}
-
-
-	/**
-	 * sets all meta keys, how clever!
-	 * at the moment requires id, title, meta_key and meta_value
-	 * @todo  horrible idea
-	 * @param array $results 
-	 */
-	public function setMeta($results) {		
-		$parsedResults = array();
-		foreach ($results as $result) {
-			if (array_key_exists('meta_name', $result)) {
-				if (array_key_exists($result['id'], $parsedResults)) {
-					if (array_key_exists($result['meta_name'], $parsedResults[$result['id']])) {
-						if (is_array($parsedResults[$result['id']][$result['meta_name']])) {
-							$parsedResults[$result['id']][$result['meta_name']][] = $result['meta_value'];
-						} else {
-							$existingValue = $parsedResults[$result['id']][$result['meta_name']];
-							unset($parsedResults[$result['id']][$result['meta_name']]);
-							$parsedResults[$result['id']][$result['meta_name']][] = $existingValue;
-							$parsedResults[$result['id']][$result['meta_name']][] = $result['meta_value'];
-						}
-					} else {
-						$parsedResults[$result['id']][$result['meta_name']] = $result['meta_value'];
-					}
-				} else {
-					$parsedResults[$result['id']] = $result;
-					$parsedResults[$result['id']][$result['meta_name']] = $result['meta_value'];
-				}
-				unset($parsedResults[$result['id']]['meta_name']);
-				unset($parsedResults[$result['id']]['meta_value']);
-			} else {
-				$parsedResults[$result['id']] = $result;
-			}
-			if (array_key_exists('title', $result)) {
-				$parsedResults[$result['id']]['slug'] = $this->urlFriendly($parsedResults[$result['id']]['title']);
-				if (array_key_exists('type', $parsedResults[$result['id']])) {
-					$parsedResults[$result['id']]['guid'] = $this->getGuid($parsedResults[$result['id']]['type'], $parsedResults[$result['id']]['title'], $parsedResults[$result['id']]['id']);
-				}
-			}
-		}
-		foreach ($parsedResults as $key => $parsed) {
-			$parsedResults[$key] = array_filter($parsed);
-		}
-		return array_filter($parsedResults);
-	}
-
-	
+	}	
 }
