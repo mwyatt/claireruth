@@ -11,8 +11,8 @@
 	<span class="content-<?php echo $this->get('model_content', 'type') ?>-date"><?php echo date('d/m/Y', $this->get('model_content', 'date_published')) ?></span>
 
 <?php if ($rowContent = $this->get('model_content')): ?>
-	<?php include($this->pathView('partial/content-tags')) ?>
-	<?php include($this->pathView('partial/content-medias')) ?>
+	<?php include($this->pathView('_content-tags')) ?>
+	<?php include($this->pathView('_content-medias')) ?>
 <?php endif ?>
 
 	<span class="content-<?php echo $this->get('model_content', 'type') ?>-author"><?php echo $this->get('model_content', 'user_name') ?></span>

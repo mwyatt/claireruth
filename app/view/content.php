@@ -5,7 +5,7 @@
 
 <?php include($this->pathView('pagination')); ?>
 <?php $rowContents = $this->get('model_content') ?>
-<?php include($this->pathView() . 'partial/contents.php'); ?>
+<?php include($this->pathView() . '_contents.php'); ?>
 <?php include($this->pathView('pagination')); ?>
 
 </div>

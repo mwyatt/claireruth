@@ -69,7 +69,7 @@
 			
 			<div class="attached">
 
-	<?php include($this->pathView('partial/content-medias')); ?>
+	<?php include($this->pathView('_content-medias')); ?>
 	<?php foreach ($this->get('model_content', 'media') as $media): ?>
 
 			<input type="hidden" name="media[]" value="<?php echo $media['id'] ?>">
@@ -88,7 +88,7 @@
 			</div>
 	
 <?php if ($rowContent['tag'] = $this->get('model_content', 'tag')): ?>
-	<?php include($this->pathView('partial/content-tags')); ?>
+	<?php include($this->pathView('_content-tags')); ?>
 	<?php foreach ($this->get('model_content', 'tag') as $tag): ?>
 			
 			<input name="tag[]" type="hidden" value="<?php echo $tag['name'] ?>">

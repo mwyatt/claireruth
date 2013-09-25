@@ -7,7 +7,7 @@
 	</div>
 	<span class="content-<?php echo $rowContent['type']; ?>-date"><?php echo date('d/m/Y', $rowContent['date_published']); ?></span>
 
-<?php include($this->pathView('partial/content-tags')); ?>
+<?php include($this->pathView('_content-tags')); ?>
 <?php if (array_key_exists('media', $rowContent)): ?>
 	<?php $media = current($rowContent['media']) ?>
 	

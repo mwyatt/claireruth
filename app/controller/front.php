@@ -24,26 +24,7 @@ class Controller_Front extends Controller
 	}
 
 
-	public function index() {
-		$model = new model($this->database, $this->config, 'user_action');
-		if ($model->create(
-			array(
-				'description' => array(
-					'value' => 'example2'
-					, 'required' => true
-				)
-				, 'user_id' => 'example2'
-				, 'time' => 'example2'
-				, 'action' => 'example2'
-			)
-		)) {
-			echo 'success!';
-		}
-		exit;
-
-
-
-		
+	public function index() {		
 		$mainContent = new model_content($this->database, $this->config);
 		$mainContent->read('post', array(0, 3));
 		$this->view

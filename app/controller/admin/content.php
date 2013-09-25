@@ -14,24 +14,70 @@
 class Controller_Admin_Content extends Controller
 {
 
+/*
+$model = new model($this->database, $this->config, 'user_action');
+if ($model->create(
+	array(
+		'description' => array(
+			'value' => 'example2'
+			, 'required' => true
+		)
+		, 'user_id' => 'example2'
+		, 'time' => 'example2'
+		, 'action' => 'example2'
+	)
+)) {
+	echo 'success!';
+}
 
+
+ */
 	public function initialise() {
-		$userAction = new model_user_action($this->database, $this->config);
-		$content = new model_content($this->database, $this->config);
-		$media = new model_media($this->database, $this->config);
+		$userAction = new model($this->database, $this->config, 'user_action');
+		$content = new model_content($this->database, $this->config, 'content');
 		if (array_key_exists('form_create', $_POST)) {
-			$content = new model_admin_content($this->database, $this->config);
-			if ($id = $content->create()) {
-				$userAction->create($this->session->get('user', 'id'), 'create', ucfirst($_POST['type']) . ' / ' . $_POST['title']);
+			if ($content->create(array(
+				':title' => $_POST['title']
+				, ':html' => (array_key_exists('html', $_POST) ? $_POST['html'] : '')
+				, ':type' => $_POST['type']
+				, ':date_published' => time()
+				, ':status' => ($this->isChecked('status') ? 'visible' : 'hidden')
+				, ':user_id' => $user->get('id')
+			))) {
+				$content->addAttachment($this->database->dbh->lastInsertId());
+				$this->session->set('feedback', ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
+				$content->createTotal();
+				$userAction->create(array(
+					'description' => ucfirst($_POST['type']) . ' / ' . $_POST['title']
+					, 'user_id' => $this->session->get('user', 'id')
+					, 'action' => 'create'
+				));
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/?edit=' . $id);
 			} else {
+				$this->session->set('feedback', 'Problem while creating ' . ucfirst($_POST['type']));
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/');
 			}
 		}
 		if (array_key_exists('form_update', $_POST)) {
-			$content = new model_admin_content($this->database, $this->config);
-			if ($content->update()) {
-				$userAction->create($this->session->get('user', 'id'), 'update', ucfirst($_POST['type']) . ' / ' . $_POST['title']);
+			if ($content->update(
+				array(
+					(array_key_exists('title', $_POST) ? $_POST['title'] : '')
+					, (array_key_exists('html', $_POST) ? $_POST['html'] : '')
+					, ($this->isChecked('status') ? 'visible' : 'hidden')
+					, (array_key_exists('edit', $_GET) ? $_GET['edit'] : '')
+				)
+				, array('id', $_GET['edit'])
+			)) {
+				$this->addAttachment($_GET['edit']);
+				$userAction->create(array(
+					'description' => ucfirst($_POST['type']) . ' / ' . $_POST['title']
+					, 'user_id' => $this->session->get('user', 'id')
+					, 'action' => 'update'
+				));
+				$this->session->set('feedback', 'Content updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
+				$this->createTotal();
+			} else {
+				$this->session->set('feedback', 'Problem updating ' . $_POST['type'] . ', ' . $_POST['title']);
 			}
 			$this->route('current');
 		}
@@ -42,9 +88,17 @@ class Controller_Admin_Content extends Controller
 				->loadTemplate('admin/content/create-update');
 		}
 		if (array_key_exists('delete', $_GET)) {
-			$content = new model_admin_content($this->database, $this->config);
-			$content->deleteById($_GET['delete']);
-			$userAction->create($this->session->get('user', 'id'), 'delete', 'content ' . $_GET['delete']);
+			if ($content->delete(array('id', $_GET['edit']))) {
+				$this->session->set('feedback', 'Content deleted successfully');
+
+				$userAction->create(array(
+					'description' => 'content ' . $_GET['delete']
+					, 'user_id' => $this->session->get('user', 'id')
+					, 'action' => 'delete'
+				));
+			} else {
+				$this->session->set('feedback', 'Problem deleting content');
+			}
 			$this->route('current_noquery');
 		}
 		if ($this->config->getUrl(3) == 'new') {

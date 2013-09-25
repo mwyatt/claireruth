@@ -3,7 +3,7 @@
 	<div class="contents">
 
 	<?php foreach ($rowContents as $rowContent): ?>
-		<?php require($this->pathView('partial/content')); ?>
+		<?php require($this->pathView('_content')); ?>
 	<?php endforeach ?>
 		
 	</div>

@@ -4,7 +4,7 @@
 	<h1>All content by this tag</h1>
 
 <?php $rowContents = $this->get('model_content') ?>
-<?php include($this->pathView() . 'partial/contents.php'); ?>
+<?php include($this->pathView() . '_contents.php'); ?>
 
 </div>
 

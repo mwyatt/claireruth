@@ -3,7 +3,7 @@
 <div class="content home clearfix">
 
 <?php $rowContents = $this->get('model_content') ?>
-<?php include($this->pathView('partial/contents')); ?>
+<?php include($this->pathView('_contents')); ?>
 
 </div>
 

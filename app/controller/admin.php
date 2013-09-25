@@ -92,14 +92,14 @@ class Controller_Admin extends Controller
 	
 
 	public function profile() {
-		$userAction = new model_user_action($this->database, $this->config);
+		// $userAction = new model($this->database, $this->config, 'user_action');
 		$user = new model_user($this->database, $this->config);
 		if (array_key_exists('form_update', $_POST)) {
 			$user->updateById($this->session->get('user', 'id'));
 			$this->route('current');
 		}
 		$user->readById($this->session->get('user', 'id'));
-		$userAction->readById(array($this->session->get('user', 'id')));
+		// $userAction->readById(array($this->session->get('user', 'id')));
 		$this->view
 			->setObject($userAction)
 			->setObject($user)
