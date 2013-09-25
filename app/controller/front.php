@@ -26,14 +26,19 @@ class Controller_Front extends Controller
 
 	public function index() {
 		$model = new model($this->database, $this->config, 'user_action');
-		$model->create(
+		if ($model->create(
 			array(
-				'description' => 'example2'
+				'description' => array(
+					'value' => 'example2'
+					, 'required' => true
+				)
 				, 'user_id' => 'example2'
 				, 'time' => 'example2'
 				, 'action' => 'example2'
 			)
-		);
+		)) {
+			echo 'success!';
+		}
 		exit;
 
 

@@ -115,11 +115,19 @@ class Model extends Config
 
 	/**
 	 * builds and creates create query
-	 * @param  array  $primary colname => value
+	 * @param  array  $cols colname => value
 	 * @return int            yay or nay
 	 */
-	public function create($primary = array(), $secondary = array(), $tertiary = array(), $quantenary = array())
+	public function create($cols = array(), $secondary = array(), $tertiary = array(), $quantenary = array())
 	{
+		$valList = '';
+		foreach ($cols as $col => $val) {
+			$colList[] = $col;
+			$vals[] = $val;
+			$valList .= ', ?';
+		}
+		$colList = implode(', ', $colList);
+		$valList = ltrim($valList, ', ');
 		$sth = $this->database->dbh->prepare("
 			insert into {$this->getTableName()} (
 				$colList
@@ -127,14 +135,6 @@ class Model extends Config
 				$valList
 			)
 		");				
-		$valList = '';
-		foreach ($primary as $col => $val) {
-			$cols[] = $col;
-			$vals[] = $val;
-			$valList .= ', ?';
-		}
-		$colList = implode(', ', $cols);
-		$valList = ltrim($valList, ', ');
 		$sth->execute($vals);
 		return $sth->rowCount();
 	}

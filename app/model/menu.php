@@ -72,18 +72,18 @@ class Model_Menu extends Model
 	 * @param string type
 	 * @returns	true if successful, false otherwise
 	 */	
-	public function create($type, $parent = false)
-	{
+	// public function create($type, $parent = false)
+	// {
 		
-		$this->type = $type;
-		$this->select($type, $parent);
+	// 	$this->type = $type;
+	// 	$this->select($type, $parent);
 		
-		if ($this->getResult())
-			return '<nav id="'.$this->type.'">'.$this->build($this->getResult()).'</nav>';
-		else
-			return false;
+	// 	if ($this->getResult())
+	// 		return '<nav id="'.$this->type.'">'.$this->build($this->getResult()).'</nav>';
+	// 	else
+	// 		return false;
 			
-	}	
+	// }	
 	
 	
 	/**
