@@ -15,7 +15,7 @@ class Controller_Front_Post extends Controller
 
 
 	public function index() {
-		$content = new Model_content($this->database, $this->config);
+		$content = new model_content($this->database, $this->config);
 		if ($this->config->getUrl(1)) {
 			if (! $content->read('post', false, $this->getId($this->config->getUrl(1)))) {
 				$this->route('404');
