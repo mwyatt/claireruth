@@ -132,64 +132,6 @@ class Model_Content extends Model
 	}	
 
 
-	public function readById($id) {	
-		$sth = $this->database->dbh->prepare("	
-			select
-				content.id
-				, content.title
-				, content.html
-				, content.date_published
-				, content.status
-				, content.type
-			from content
-			left join user on user.id = content.user_id
-			where content.id = :id and content.status = 'visible'
-		");
-		$sth->execute(array(
-			':id' => $id
-		));	
-		$result = $this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
-		$result = current($result);
-		return $this->data = $result;
-	}
-
-
-	public function readByTitleSlug($titleSlug) {
-		$sth = $this->database->dbh->prepare("	
-			select
-				content.id
-				, content.title
-				, content.title_slug
-				, content.html
-				, content.date_published
-				, content.guid
-				, content.status
-				, content.type
-			from content
-			left join user on user.id = content.user_id
-			where
-				content.title_slug = :title_slug
-				and
-				content.type = 'page'
-		");
-		$sth->execute(array(
-			':title_slug' => $titleSlug
-		));	
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			if (! array_key_exists($row['id'], $this->data)) {
-				$this->data[$row['id']] = $row;
-			}
-			if (array_key_exists('meta_name', $row)) {
-				$this->data[$row['id']][$row['meta_name']] = $row['meta_value'];
-				unset($this->data[$row['id']]['meta_name']);
-				unset($this->data[$row['id']]['meta_value']);
-			}
-		}
-		$this->data = current($this->data);
-		return $sth->rowCount();
-	}
-
-
 	// public function create() {	
 	// 	$user = new Model_user($this->database, $this->config);
 	// 	$sth = $this->database->dbh->prepare("
@@ -322,6 +264,35 @@ class Model_Content extends Model
 		$this->session->set('feedback', ucfirst($row['type']) . ' "' . $row['title'] . '" deleted');
 		$this->createTotal();
 		return true;
+	}
+
+
+	/**
+	 * sets the total rowcount in options table
+	 * @return bool 
+	 */
+	public function readAllDates()
+	{
+		$sth = $this->database->dbh->query("	
+			select
+				content.id
+				, content.date_published
+			from content
+			where
+				content.type = 'post'
+			order by
+				content.date_published desc
+		");
+		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
+			$rows[$row['id']] = strtolower(date('F-Y', $row['date_published']));
+			$newRows[strtolower(date('F-Y', $row['date_published']))][] = $row['id'];
+		}
+		// $rows = array_unique($rows);
+		echo '<pre>';
+		print_r($newRows);
+		echo '</pre>';
+		exit;
+		
 	}
 
 

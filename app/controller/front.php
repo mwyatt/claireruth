@@ -26,6 +26,8 @@ class Controller_Front extends Controller
 
 	public function index() {		
 		$mainContent = new model_content($this->database, $this->config);
+		$mainContent->readAllDates();
+
 		$mainContent->read('post', array(0, 3));
 		$this->view
 			->setObject($mainContent)
