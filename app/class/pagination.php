@@ -58,7 +58,7 @@ class Pagination extends Model
 	public function getLimit()
 	{
 		$bottom = ($this->maxPerPage * ($this->pageCurrent - 1));
-		$top = $bottom + $this->maxPerPage;
+		$top = $this->maxPerPage;
 		return array($bottom, $top);
 	}
 

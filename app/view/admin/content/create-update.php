@@ -106,12 +106,6 @@
 		<a href="#" class="submit button">Save</a>
 		<input type="submit">
 	</form>
-
-	<a href="#x" class="overlay" id="login_form"></a>
-    <div class="popup">
-    	<p>example information within the modal</p>
-        <a class="close" href="#close"></a>
-    </div>
 </div>
 
 <?php require_once($this->pathView() . 'admin/footer.php'); ?>

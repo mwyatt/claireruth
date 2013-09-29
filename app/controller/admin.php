@@ -16,10 +16,14 @@ class Controller_Admin extends Controller
 
 
 	public function initialise() {
+
+		// menu and submenu
 		$menu = new Model_menu($this->database, $this->config);
 		$menu->admin();
 		$menu->adminSub();
 		$this->view->setObject($menu);
+
+		// user
 		$user = new Model_user($this->database, $this->config);
 		if ($user->isLogged() && $user->get('level') < 10) {
 			$accessTo = $user->getPermission($user->get('level'));
@@ -36,8 +40,9 @@ class Controller_Admin extends Controller
 			if ($user->login($_POST['email_address'], $_POST['password'])) {
 				$this->session->set('feedback', 'Successfully Logged in as ' . ($this->session->get('user', 'first_name') ? $this->session->get('user', 'first_name') . ' ' . $this->session->get('user', 'last_name') : $this->session->get('user', 'email')));
 				$user->permission();
+			} else {
+				$this->session->set('feedback', 'Email Address or password incorrect');
 			}
-			$this->session->set('feedback', 'Email Address or password incorrect');
 			$this->session->set('form_field', array('email' => $_POST['email_address']));
 			$this->route('base', 'admin/');
 		}

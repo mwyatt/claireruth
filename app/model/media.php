@@ -83,7 +83,7 @@ class Model_Media extends Model
 	 *                  can be used to generate the form for ajax
 	 *                  uploader
 	 */
-	public function create() {
+	public function create($cols = array(), $secondary = array(), $tertiary = array(), $quantenary = array()) {
 		$errorMessage = array();
 		$successData = array();
 		$files = $_FILES;

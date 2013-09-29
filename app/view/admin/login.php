@@ -38,8 +38,5 @@
                     </div>
                 </form>
     		</div>
-            <script src="<?php echo $this->url(); ?>js/vendor/jquery-1.8.2.min.js"></script>
-            <script src="<?php echo $this->url(); ?>js/admin/main.rev1.js"></script>
-    	</div>
-    </body>
-</html>
+
+<?php require_once($this->pathView('admin/footer')); ?>

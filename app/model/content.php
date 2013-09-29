@@ -175,17 +175,23 @@ class Model_Content extends Model
 	public function addAttachment($contentId) {
 
 		// tag
-		$maincontentmany = new model_content_many($this->database, $this->config, 'tag');
-		$maincontentmany->deleteByContentId($contentId);
+		$content = new model_content_many($this->database, $this->config, 'content_tag');
+		$content->delete(array('content_id', $contentId));
 		if (array_key_exists('tag', $_POST)) {
-			$maincontentmany->create($contentId, $_POST['tag']);
+			foreach ($_POST['tag'] as $tag) {
+				$colVals[] = array($contentId, $tag);
+			}
+			$content->create($colVals);
 		}
 
 		// media
-		$maincontentmany = new model_content_many($this->database, $this->config, 'media');
-		$maincontentmany->deleteByContentId($contentId);
-		if (array_key_exists('media', $_POST)) {
-			$maincontentmany->create($contentId, $_POST['media']);
+		$content->setTableName('content_media');
+		$content->delete(array('content_id', $contentId));
+		if (array_key_exists('tag', $_POST)) {
+			foreach ($_POST['media'] as $media) {
+				$colVals[] = array($contentId, $media);
+			}
+			$content->create($colVals);
 		}
 	}
 
@@ -268,10 +274,9 @@ class Model_Content extends Model
 
 
 	/**
-	 * sets the total rowcount in options table
-	 * @return bool 
+	 * @return array   full set of month-year -> ids
 	 */
-	public function readAllDates()
+	public function readByMonth($monthYear = false)
 	{
 		$sth = $this->database->dbh->query("	
 			select
@@ -283,16 +288,26 @@ class Model_Content extends Model
 			order by
 				content.date_published desc
 		");
+		$singleSetOfIds = array();
+		$fullMonthTree = array();
 		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
-			$rows[$row['id']] = strtolower(date('F-Y', $row['date_published']));
-			$newRows[strtolower(date('F-Y', $row['date_published']))][] = $row['id'];
+			if ($monthYear) {
+				if (strtolower(date('F-Y', $row['date_published'])) == $monthYear) {
+					$singleSetOfIds[strtolower(date('F-Y', $row['date_published']))][] = $row['id'];
+				}
+			} else {
+				$fullMonthTree[strtolower(date('F-Y', $row['date_published']))][] = $row['id'];
+				
+			}
 		}
-		// $rows = array_unique($rows);
-		echo '<pre>';
-		print_r($newRows);
-		echo '</pre>';
-		exit;
-		
+		if ($singleSetOfIds) {		
+			$this->read('post', false, current($singleSetOfIds));
+			return $this->getData();
+		}
+		if ($fullMonthTree) {		
+			return $fullMonthTree;
+		}
+		return false;
 	}
 
 

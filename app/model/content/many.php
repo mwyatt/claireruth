@@ -11,38 +11,11 @@ class Model_Content_Many extends Model
 
 
 	/**
-	 * the table name will be completed on construct and used
-	 * within methods
-	 * @var string
-	 */
-	public $tableName = 'content_';
-
-
-	/**
 	 * the column name will be completed on construct and used
 	 * within methods
 	 * @var string
 	 */
 	public $colName = '_id';
-
-
-	/**
-	 * extends the model constructer but adds the identifier
-	 * this allows for a dynamic model which handles
-	 * content_media
-	 * content_identifier
-	 * tables
-	 * @param object $database   
-	 * @param object $config     
-	 * @param string $identifier title of table
-	 */
-	public function __construct($database, $config, $identifier) {
-		$this->session = new Session();
-		$this->database = $database;
-		$this->config = $config;
-		$this->tableName = $this->tableName . $identifier;
-		$this->colName = $identifier . $this->colName;
-	}
 
 
 	/**
@@ -77,24 +50,24 @@ class Model_Content_Many extends Model
 	 * @param  array  $ids       tag name or media id
 	 * @return int            affected rows
 	 */
-	public function create($contentId, $ids = array()) {	
-		$sth = $this->database->dbh->prepare("	
-			insert into $this->tableName (
-				content_id
-				, $this->colName
-			) values (
-				?
-				, ?
-			)
-		");
-		foreach ($ids as $id) {
-			$sth->execute(array(
-				$contentId
-				, $id
-			));	
-		}
-		return $sth->rowCount();
-	}
+	// public function create($contentId, $ids = array()) {	
+	// 	$sth = $this->database->dbh->prepare("	
+	// 		insert into $this->tableName (
+	// 			content_id
+	// 			, $this->colName
+	// 		) values (
+	// 			?
+	// 			, ?
+	// 		)
+	// 	");
+	// 	foreach ($ids as $id) {
+	// 		$sth->execute(array(
+	// 			$contentId
+	// 			, $id
+	// 		));	
+	// 	}
+	// 	return $sth->rowCount();
+	// }
 
 
 	/**

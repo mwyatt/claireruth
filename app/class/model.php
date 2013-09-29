@@ -70,26 +70,39 @@ class Model extends Config
 
 	/**
 	 * builds and creates update query
+	 *
+	 * example
+	*	 * 		$modelnew->update(
+	*			array(
+	*				'description' => 'hello'
+	*				, 'user_id' => 20
+	*				, 'time' => time()
+	*				, 'action' => 'example update'
+	*			)
+	*			, array('id' => 2)
+	*			);
+	 *
+	 * 
 	 * @param  array  $colValues colname => value
 	 * @param  array  $where where => value
 	 * @return int            yay or nay
 	 */	
 	public function update($colValues = array(), $where = array())
 	{
+		$colList = '';
+		foreach ($colValues as $col => $val) {
+			$vals[] = $val;
+			$colList .= ', ' . $col . ' = ?';
+		}
+		$whereCol = key($where);
+		$vals[] = current($where);
+		$colList = ltrim($colList, ', ');
 		$sth = $this->database->dbh->prepare("
 			update {$this->getTableName()} set
 				$colList
 			where
-				? = ?
-		");				
-		foreach ($colValues as $col => $val) {
-			$cols[] = $col;
-			$vals[] = $val;
-			$colList .= ', ' . $col . ' = ?';
-		}
-		$vals[] = key($where);
-		$vals[] = current($where);
-		$colList = ltrim($colList, ', ');
+				$whereCol = ?
+		");		
 		$sth->execute($vals); 
 		return $sth->rowCount();
 	}
@@ -102,13 +115,14 @@ class Model extends Config
 	 */
 	public function delete($where = array())
 	{
+		$colName = key($where);
 		$sth = $this->database->dbh->prepare("
-			delete from {$this->getTableName()} (
-			where ? = ?
+			delete from 
+				{$this->getTableName()}
+			where
+				$colName = ?
 		");				
-		$vals[] = key($where);
-		$vals[] = current($where);
-		$sth->execute($vals);
+		$sth->execute(array(current($where)));
 		return $sth->rowCount();
 	}
 
@@ -147,6 +161,18 @@ class Model extends Config
 	public function getTableName()
 	{
 		return $this->tableName;
+	}
+
+
+	/**
+	 * basic setting of the new table name
+	 * @param string $newTableName 
+	 */
+	public function setTableName($newTableName = '')
+	{
+		if ($newTableName) {
+			$this->tableName = $newTableName;
+		}
 	}
 
 

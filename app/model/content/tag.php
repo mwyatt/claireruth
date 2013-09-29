@@ -48,6 +48,7 @@ class Model_Content_Tag extends Model
 		if (! $query) {
 			return;
 		}
+		$rows = array();
 		$matches = array();
 		$words = explode(' ', $query);
 		$sth = $this->database->dbh->prepare("	

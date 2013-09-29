@@ -26,8 +26,6 @@ class Controller_Front extends Controller
 
 	public function index() {		
 		$mainContent = new model_content($this->database, $this->config);
-		$mainContent->readAllDates();
-
 		$mainContent->read('post', array(0, 3));
 		$this->view
 			->setObject($mainContent)
@@ -46,6 +44,11 @@ class Controller_Front extends Controller
 			->setObject('search_query', $query)
 			->setObject($search)
 			->loadTemplate('search');
+	}
+
+
+	public function month() {
+		$this->load(array('front', 'month'), $this->config->getUrl(1), $this->view, $this->database, $this->config);
 	}
 
 
@@ -94,6 +97,4 @@ class Controller_Front extends Controller
 			->setObject('model_content_press', $content->readByType('press')->getData())
 			->loadJustTemplate('sitemap');
 	}
-
-
 }

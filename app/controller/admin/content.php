@@ -35,14 +35,17 @@ if ($model->create(
 	public function initialise() {
 		$userAction = new model($this->database, $this->config, 'user_action');
 		$content = new model_content($this->database, $this->config, 'content');
+		$user = new model_user($this->database, $this->config);
+
+		// create
 		if (array_key_exists('form_create', $_POST)) {
 			if ($content->create(array(
-				':title' => $_POST['title']
-				, ':html' => (array_key_exists('html', $_POST) ? $_POST['html'] : '')
-				, ':type' => $_POST['type']
-				, ':date_published' => time()
-				, ':status' => ($this->isChecked('status') ? 'visible' : 'hidden')
-				, ':user_id' => $user->get('id')
+				'title' => $_POST['title']
+				, 'html' => (array_key_exists('html', $_POST) ? $_POST['html'] : '')
+				, 'type' => $_POST['type']
+				, 'date_published' => time()
+				, 'status' => (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden')
+				, 'user_id' => $user->get('id')
 			))) {
 				$content->addAttachment($this->database->dbh->lastInsertId());
 				$this->session->set('feedback', ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
@@ -58,12 +61,14 @@ if ($model->create(
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/');
 			}
 		}
+
+		// update
 		if (array_key_exists('form_update', $_POST)) {
 			if ($content->update(
 				array(
 					(array_key_exists('title', $_POST) ? $_POST['title'] : '')
 					, (array_key_exists('html', $_POST) ? $_POST['html'] : '')
-					, ($this->isChecked('status') ? 'visible' : 'hidden')
+					, (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden')
 					, (array_key_exists('edit', $_GET) ? $_GET['edit'] : '')
 				)
 				, array('id', $_GET['edit'])
@@ -81,14 +86,20 @@ if ($model->create(
 			}
 			$this->route('current');
 		}
+
+		// edit
 		if (array_key_exists('edit', $_GET)) {
-			$content->read('post', 0, $_GET['edit']);
+			$content->read('post', false, array($_GET['edit']));
+			$content = $content->getData();
+			$content = current($content);
 			$this->view
-				->setObject($content)
+				->setObject('model_content', $content)
 				->loadTemplate('admin/content/create-update');
 		}
+
+		// delete
 		if (array_key_exists('delete', $_GET)) {
-			if ($content->delete(array('id', $_GET['edit']))) {
+			if ($content->delete(array('id' => $_GET['delete']))) {
 				$this->session->set('feedback', 'Content deleted successfully');
 
 				$userAction->create(array(
