@@ -42,46 +42,4 @@ class Model_Content_Many extends Model
 		));	
 		return $results = $sth->fetchAll(PDO::FETCH_ASSOC);
 	}
-
-
-	/**
-	 * creates rows and ties to contentid
-	 * @param  int $contentId 
-	 * @param  array  $ids       tag name or media id
-	 * @return int            affected rows
-	 */
-	// public function create($contentId, $ids = array()) {	
-	// 	$sth = $this->database->dbh->prepare("	
-	// 		insert into $this->tableName (
-	// 			content_id
-	// 			, $this->colName
-	// 		) values (
-	// 			?
-	// 			, ?
-	// 		)
-	// 	");
-	// 	foreach ($ids as $id) {
-	// 		$sth->execute(array(
-	// 			$contentId
-	// 			, $id
-	// 		));	
-	// 	}
-	// 	return $sth->rowCount();
-	// }
-
-
-	/**
-	 * deletes items based on contentid
-	 * @param  int $id 
-	 * @return int     affected rows
-	 */
-	public function deleteByContentId($id) {	
-		$sth = $this->database->dbh->prepare("	
-			delete from
-				$this->tableName
-			where $this->tableName.content_id = ?
-		");
-		$sth->execute(array($id));	
-		return $sth->rowCount();
-	}
 }

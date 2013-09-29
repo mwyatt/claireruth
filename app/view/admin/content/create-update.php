@@ -86,6 +86,7 @@
 			<div class="area">
 				<input id="form-tag-search" class="search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
 			</div>
+			<div class="tags">
 	
 <?php if ($rowContent['tag'] = $this->get('model_content', 'tag')): ?>
 	<?php include($this->pathView('_content-tags')); ?>
@@ -96,6 +97,7 @@
 	<?php endforeach ?>
 <?php endif ?>
 
+			</div>
 		</div>
 		<div class="row">
 			<label for="status">Show on website</label>

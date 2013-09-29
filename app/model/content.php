@@ -49,11 +49,11 @@ class Model_Content extends Model
 		if ($limit) {
 			$sth->bindValue(':limit_start', (int) current($limit), PDO::PARAM_INT);
 			$sth->bindValue(':limit_end', (int) next($limit), PDO::PARAM_INT);
-		}
+		}		
 		if ($ids) {
 			foreach ($ids as $id) {
 				$sth->bindValue(':id', $id, PDO::PARAM_STR);
-				$sth->execute();				
+				$sth->execute();
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$contents[] = $row;
 				}
@@ -132,147 +132,6 @@ class Model_Content extends Model
 	}	
 
 
-	// public function create() {	
-	// 	$user = new Model_user($this->database, $this->config);
-	// 	$sth = $this->database->dbh->prepare("
-	// 		insert into content (
-	// 			title
-	// 			, html
-	// 			, type
-	// 			, date_published
-	// 			, status
-	// 			, user_id
-	// 		)
-	// 		values (
-	// 			:title
-	// 			, :html
-	// 			, :type
-	// 			, :date_published
-	// 			, :status
-	// 			, :user_id
-	// 		)
-	// 	");				
-	// 	$sth->execute(array(
-	// 		':title' => $_POST['title']
-	// 		, ':html' => (array_key_exists('html', $_POST) ? $_POST['html'] : '')
-	// 		, ':type' => $_POST['type']
-	// 		, ':date_published' => time()
-	// 		, ':status' => ($this->isChecked('status') ? 'visible' : 'hidden')
-	// 		, ':user_id' => $user->get('id')
-	// 	));		
-	// 	$lastId = $this->database->dbh->lastInsertId();
-	// 	$this->addAttachment($lastId);
-	// 	if ($sth->rowCount()) {
-	// 		$this->session->set('feedback', ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
-	// 		$this->createTotal();
-	// 		return $lastId;
-	// 	}
-	// 	$this->session->set('feedback', 'Problem while creating ' . ucfirst($_POST['type']));
-	// 	return false;
-	// }
-			
-
-	public function addAttachment($contentId) {
-
-		// tag
-		$content = new model_content_many($this->database, $this->config, 'content_tag');
-		$content->delete(array('content_id', $contentId));
-		if (array_key_exists('tag', $_POST)) {
-			foreach ($_POST['tag'] as $tag) {
-				$colVals[] = array($contentId, $tag);
-			}
-			$content->create($colVals);
-		}
-
-		// media
-		$content->setTableName('content_media');
-		$content->delete(array('content_id', $contentId));
-		if (array_key_exists('tag', $_POST)) {
-			foreach ($_POST['media'] as $media) {
-				$colVals[] = array($contentId, $media);
-			}
-			$content->create($colVals);
-		}
-	}
-
-
-	// public function update() {
-	// 	$user = new Model_user($this->database, $this->config);
-	// 	$this->addAttachment($_GET['edit']);
-		
-	// 	// the content
-	// 	$sth = $this->database->dbh->prepare("
-	// 		select 
-	// 			title
-	// 			, html
-	// 			, type
-	// 			, date_published
-	// 			, status
-	// 			, user_id
-	// 		from content
-	// 		where id = ?
-	// 	");				
-	// 	$sth->execute(array(
-	// 		$_GET['edit']
-	// 	));		
-	// 	$row = $sth->fetch(PDO::FETCH_ASSOC);
-	// 	$sth = $this->database->dbh->prepare("
-	// 		update content set
-	// 			title = ?
-	// 			, html = ?
-	// 			, status = ?
-	// 		where
-	// 			id = ?
-	// 	");				
-	// 	$sth->execute(array(
-	// 		(array_key_exists('title', $_POST) ? $_POST['title'] : '')
-	// 		, (array_key_exists('html', $_POST) ? $_POST['html'] : '')
-	// 		, ($this->isChecked('status') ? 'visible' : 'hidden')
-	// 		, (array_key_exists('edit', $_GET) ? $_GET['edit'] : '')
-	// 	));		
-	// 	$this->session->set('feedback', ucfirst($row['type']) . ' "' . $row['title'] . '" updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
-	// 	$this->createTotal();
-	// 	return true;
-	// }
-
-
-	public function deleteById($id) {
-		$sth = $this->database->dbh->prepare("
-			select 
-				title
-				, html
-				, type
-				, date_published
-				, status
-				, user_id
-			from content
-			where id = ?
-		");	
-		$sth->execute(array(
-			$id
-		));		
-		$row = $sth->fetch(PDO::FETCH_ASSOC);
-		$sth = $this->database->dbh->prepare("
-			delete from content
-			where id = ? 
-		");				
-		$sth->execute(array(
-			$id
-		));		
-		
-		// tag
-		$mainContentTag = new model_content_tag($this->database, $this->config);
-		$mainContentTag->deleteByContentId($contentId);
-
-		// media
-		$mainContentMedia = new model_content_media($this->database, $this->config);
-		$mainContentMedia->deleteByContentId($contentId);
-		$this->session->set('feedback', ucfirst($row['type']) . ' "' . $row['title'] . '" deleted');
-		$this->createTotal();
-		return true;
-	}
-
-
 	/**
 	 * @return array   full set of month-year -> ids
 	 */
@@ -324,7 +183,38 @@ class Model_Content extends Model
 			where
 				content.status = 'visible'
 		");
-		$modelOptions = new Model_options($this->database, $this->config);
-		return $modelOptions->create(array('model_content_rowcount' => $sth->rowCount()));
+		$model = new Model_options($this->database, $this->config, 'options');
+		$model->delete(
+			array('name' => 'model_content_rowcount')
+		);
+		return $model->create(array(
+			'name' => 'model_content_rowcount'
+			, 'value' => $sth->rowCount()
+		));
+	}
+
+
+	public function addAttachment($lastInsertId)
+	{
+		
+		// tag
+		$contentMany = new model_content_many($this->database, $this->config, 'content_tag');
+		$contentMany->delete(array('content_id', $lastInsertId));
+		if (array_key_exists('tag', $_POST)) {
+			foreach ($_POST['tag'] as $tag) {
+				$colVals[] = array($lastInsertId, $tag);
+			}
+			$contentMany->create($colVals);
+		}
+
+		// media
+		$contentMany->setTableName('content_media');
+		$contentMany->delete(array('content_id', $lastInsertId));
+		if (array_key_exists('tag', $_POST)) {
+			foreach ($_POST['media'] as $media) {
+				$colVals[] = array($lastInsertId, $media);
+			}
+			$contentMany->create($colVals);
+		}
 	}
 }

@@ -14,24 +14,10 @@
 class Controller_Admin_Content extends Controller
 {
 
-/*
-$model = new model($this->database, $this->config, 'user_action');
-if ($model->create(
-	array(
-		'description' => array(
-			'value' => 'example2'
-			, 'required' => true
-		)
-		, 'user_id' => 'example2'
-		, 'time' => 'example2'
-		, 'action' => 'example2'
-	)
-)) {
-	echo 'success!';
-}
 
-
- */
+	/**
+	 * handles crud for all content
+	 */
 	public function initialise() {
 		$userAction = new model($this->database, $this->config, 'user_action');
 		$content = new model_content($this->database, $this->config, 'content');
@@ -66,21 +52,20 @@ if ($model->create(
 		if (array_key_exists('form_update', $_POST)) {
 			if ($content->update(
 				array(
-					(array_key_exists('title', $_POST) ? $_POST['title'] : '')
-					, (array_key_exists('html', $_POST) ? $_POST['html'] : '')
-					, (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden')
-					, (array_key_exists('edit', $_GET) ? $_GET['edit'] : '')
+					'title' => (array_key_exists('title', $_POST) ? $_POST['title'] : '')
+					, 'html' => (array_key_exists('html', $_POST) ? $_POST['html'] : '')
+					, 'status' => (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden')
 				)
-				, array('id', $_GET['edit'])
+				, array('id' => $_GET['edit'])
 			)) {
-				$this->addAttachment($_GET['edit']);
+				$content->addAttachment($_GET['edit']);
 				$userAction->create(array(
 					'description' => ucfirst($_POST['type']) . ' / ' . $_POST['title']
 					, 'user_id' => $this->session->get('user', 'id')
 					, 'action' => 'update'
 				));
 				$this->session->set('feedback', 'Content updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
-				$this->createTotal();
+				$content->createTotal();
 			} else {
 				$this->session->set('feedback', 'Problem updating ' . $_POST['type'] . ', ' . $_POST['title']);
 			}
@@ -100,8 +85,12 @@ if ($model->create(
 		// delete
 		if (array_key_exists('delete', $_GET)) {
 			if ($content->delete(array('id' => $_GET['delete']))) {
+				$contentMany = new model_content_many($this->database, $this->config, 'content_tag');
+				$contentMany->delete(array('content_id', $_GET['delete']));
+				$contentMany->setTableName('content_media');
+				$contentMany->delete(array('content_id', $_GET['delete']));
+				$content->createTotal();
 				$this->session->set('feedback', 'Content deleted successfully');
-
 				$userAction->create(array(
 					'description' => 'content ' . $_GET['delete']
 					, 'user_id' => $this->session->get('user', 'id')
@@ -112,6 +101,8 @@ if ($model->create(
 			}
 			$this->route('current_noquery');
 		}
+
+		// new
 		if ($this->config->getUrl(3) == 'new') {
 			$this->view->loadTemplate('admin/content/create-update');
 		}
@@ -130,6 +121,7 @@ if ($model->create(
 			->setObject($content)
 			->loadTemplate('admin/content/list');
 	}
+
 
 	public function post() {
 		$content = new model_content($this->database, $this->config);

@@ -132,15 +132,15 @@ class Model extends Config
 	 * @param  array  $cols colname => value
 	 * @return int            yay or nay
 	 */
-	public function create($cols = array(), $secondary = array(), $tertiary = array(), $quantenary = array())
+	public function create($colValues = array(), $secondary = array(), $tertiary = array(), $quantenary = array())
 	{
 		$valList = '';
-		foreach ($cols as $col => $val) {
-			$colList[] = $col;
+		foreach ($colValues as $col => $val) {
+			$cols[] = $col;
 			$vals[] = $val;
 			$valList .= ', ?';
 		}
-		$colList = implode(', ', $colList);
+		$colList = implode(', ', $cols);
 		$valList = ltrim($valList, ', ');
 		$sth = $this->database->dbh->prepare("
 			insert into {$this->getTableName()} (
@@ -148,7 +148,12 @@ class Model extends Config
 			) values (
 				$valList
 			)
-		");				
+		");		
+echo '<pre>';
+var_dump($colValues);
+		echo '</pre>';
+		exit;
+				
 		$sth->execute($vals);
 		return $sth->rowCount();
 	}
