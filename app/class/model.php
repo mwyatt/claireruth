@@ -69,65 +69,6 @@ class Model extends Config
 
 
 	/**
-	 * builds and creates update query
-	 *
-	 * example
-	*	 * 		$modelnew->update(
-	*			array(
-	*				'description' => 'hello'
-	*				, 'user_id' => 20
-	*				, 'time' => time()
-	*				, 'action' => 'example update'
-	*			)
-	*			, array('id' => 2)
-	*			);
-	 *
-	 * 
-	 * @param  array  $colValues colname => value
-	 * @param  array  $where where => value
-	 * @return int            yay or nay
-	 */	
-	public function update($colValues = array(), $where = array())
-	{
-		$colList = '';
-		foreach ($colValues as $col => $val) {
-			$vals[] = $val;
-			$colList .= ', ' . $col . ' = ?';
-		}
-		$whereCol = key($where);
-		$vals[] = current($where);
-		$colList = ltrim($colList, ', ');
-		$sth = $this->database->dbh->prepare("
-			update {$this->getTableName()} set
-				$colList
-			where
-				$whereCol = ?
-		");		
-		$sth->execute($vals); 
-		return $sth->rowCount();
-	}
-
-	
-	/**
-	 * builds and creates delete query
-	 * @param  array  $where where => value
-	 * @return int            yay or nay
-	 */
-	public function delete($where = array())
-	{
-		$colName = key($where);
-		$sth = $this->database->dbh->prepare("
-			delete from 
-				{$this->getTableName()}
-			where
-				$colName = ?
-		");				
-		$sth->execute(array(current($where)));
-		return $sth->rowCount();
-	}
-
-
-	/**
 	 * builds and creates create query
 	 * @param  array  $cols colname => value
 	 * @return int            yay or nay
@@ -153,7 +94,81 @@ class Model extends Config
 		try {
 			$sth->execute();
 		} catch (Exception $e) {
-			echo 'error 20054';
+			echo 'Database create error.';
+			exit;
+		}
+		return $sth->rowCount();
+	}
+
+
+	/**
+	 * builds and creates update query
+	 *
+	 * example
+	*	 * 		$modelnew->update(
+	*			array(
+	*				'description' => 'hello'
+	*				, 'user_id' => 20
+	*				, 'time' => time()
+	*				, 'action' => 'example update'
+	*			)
+	*			, array('id' => 2)
+	*			);
+	 *
+	 * 
+	 * @param  array  $colValues colname => value
+	 * @param  array  $where where => value
+	 * @return int            yay or nay
+	 * @todo the return value is not ideal
+	 */	
+	public function update($colValues = array(), $where = array())
+	{
+		$colList = '';
+		foreach ($colValues as $col => $val) {
+			$vals[] = $val;
+			$colList .= ', ' . $col . ' = ?';
+		}
+		$whereCol = key($where);
+		$vals[] = current($where);
+		$colList = ltrim($colList, ', ');
+		$sth = $this->database->dbh->prepare("
+			update {$this->getTableName()} set
+				$colList
+			where
+				$whereCol = ?
+		");		
+		$this->bindValue($sth, $vals);
+		try {
+			$sth->execute();
+		} catch (Exception $e) {
+			echo 'Database update error.';
+			exit;
+		}
+		return true;
+	}
+
+	
+	/**
+	 * builds and creates delete query
+	 * example usage: $content->delete(array('id' => $_GET['delete']))
+	 * @param  array  $where where => value
+	 * @return int            yay or nay
+	 */
+	public function delete($where = array())
+	{
+		$colName = key($where);
+		$whereVal = array(current($where));
+		$sth = $this->database->dbh->prepare("
+			delete from 
+				{$this->getTableName()}
+			where
+				$colName = ?
+		");				
+		$this->bindValue($sth, $whereVal);
+		try {
+			$sth->execute();
+		} catch (Exception $e) {
+			echo 'Database delete error.';
 			exit;
 		}
 		return $sth->rowCount();

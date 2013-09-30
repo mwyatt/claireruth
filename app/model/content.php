@@ -194,27 +194,35 @@ class Model_Content extends Model
 	}
 
 
-	public function addAttachment($lastInsertId)
+	public function addAttachment($contentId)
 	{
 		
 		// tag
 		$contentMany = new model_content_many($this->database, $this->config, 'content_tag');
-		$contentMany->delete(array('content_id', $lastInsertId));
+		$contentMany->delete(
+			array('content_id' => $contentId)
+		);
 		if (array_key_exists('tag', $_POST)) {
 			foreach ($_POST['tag'] as $tag) {
-				$colVals[] = array($lastInsertId, $tag);
+				$contentMany->create(array(
+					'content_id' => $contentId
+					, 'tag_id' => $tag
+				));
 			}
-			$contentMany->create($colVals);
 		}
 
 		// media
 		$contentMany->setTableName('content_media');
-		$contentMany->delete(array('content_id', $lastInsertId));
-		if (array_key_exists('tag', $_POST)) {
+		$contentMany->delete(
+			array('content_id' => $contentId)
+		);
+		if (array_key_exists('media', $_POST)) {
 			foreach ($_POST['media'] as $media) {
-				$colVals[] = array($lastInsertId, $media);
+				$contentMany->create(array(
+					'content_id' => $contentId
+					, 'media_id' => $media
+				));
 			}
-			$contentMany->create($colVals);
 		}
 	}
 }

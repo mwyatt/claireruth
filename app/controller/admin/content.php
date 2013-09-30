@@ -33,15 +33,16 @@ class Controller_Admin_Content extends Controller
 				, 'status' => (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden')
 				, 'user_id' => $user->get('id')
 			))) {
-				$content->addAttachment($this->database->dbh->lastInsertId());
-				$this->session->set('feedback', ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
+				$lastInsertId = $this->database->dbh->lastInsertId();
+				$content->addAttachment($lastInsertId);
 				$content->createTotal();
 				$userAction->create(array(
 					'description' => ucfirst($_POST['type']) . ' / ' . $_POST['title']
 					, 'user_id' => $this->session->get('user', 'id')
 					, 'action' => 'create'
 				));
-				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/?edit=' . $id);
+				$this->session->set('feedback', ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
+				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/?edit=' . $lastInsertId);
 			} else {
 				$this->session->set('feedback', 'Problem while creating ' . ucfirst($_POST['type']));
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/');
@@ -74,30 +75,38 @@ class Controller_Admin_Content extends Controller
 
 		// edit
 		if (array_key_exists('edit', $_GET)) {
-			$content->read('post', false, array($_GET['edit']));
-			$content = $content->getData();
-			$content = current($content);
-			$this->view
-				->setObject('model_content', $content)
-				->loadTemplate('admin/content/create-update');
+			if ($content->read($this->config->getUrl(2), false, array($_GET['edit']))) {
+				$content = $content->getData();
+				$content = current($content);
+				$this->view
+					->setObject('model_content', $content)
+					->loadTemplate('admin/content/create-update');
+			} else {
+				$this->route('current_noquery');
+			}
 		}
 
-		// delete
-		if (array_key_exists('delete', $_GET)) {
-			if ($content->delete(array('id' => $_GET['delete']))) {
-				$contentMany = new model_content_many($this->database, $this->config, 'content_tag');
-				$contentMany->delete(array('content_id', $_GET['delete']));
-				$contentMany->setTableName('content_media');
-				$contentMany->delete(array('content_id', $_GET['delete']));
+		// archive
+		if (array_key_exists('archive', $_GET)) {
+			if ($content->update(
+				array(
+					'status' => 'archive'
+				)
+				, array('id' => $_GET['archive'])
+			)) {
+				// $contentMany = new model_content_many($this->database, $this->config, 'content_tag');
+				// $contentMany->delete(array('content_id', $_GET['delete']));
+				// $contentMany->setTableName('content_media');
+				// $contentMany->delete(array('content_id', $_GET['delete']));
 				$content->createTotal();
-				$this->session->set('feedback', 'Content deleted successfully');
+				$this->session->set('feedback', 'Content archived successfully');
 				$userAction->create(array(
-					'description' => 'content ' . $_GET['delete']
+					'description' => 'content ' . $_GET['archive']
 					, 'user_id' => $this->session->get('user', 'id')
-					, 'action' => 'delete'
+					, 'action' => 'archive'
 				));
 			} else {
-				$this->session->set('feedback', 'Problem deleting content');
+				$this->session->set('feedback', 'Problem archiving content');
 			}
 			$this->route('current_noquery');
 		}
