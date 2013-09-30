@@ -149,12 +149,13 @@ class Model extends Config
 				$valList
 			)
 		");		
-echo '<pre>';
-var_dump($colValues);
-		echo '</pre>';
-		exit;
-				
-		$sth->execute($vals);
+		$this->bindValue($sth, $vals);
+		try {
+			$sth->execute();
+		} catch (Exception $e) {
+			echo 'error 20054';
+			exit;
+		}
 		return $sth->rowCount();
 	}
 
@@ -273,4 +274,32 @@ var_dump($colValues);
 	public function isChecked($key) {
 		return (array_key_exists($key, $_POST) ? true : false);
 	}	
+
+
+	/**
+	 * binds values with unnamed placeholders, 1 2 3 instead of 0 1 2
+	 * @param  object $sth    the statement to bind to
+	 * @param  array $values basic array with values
+	 * @return bool | null         returns false if something goes wrong
+	 */
+	public function bindValue($sth, $values)
+	{
+	    if (! is_object($sth) || ! ($sth instanceof PDOStatement)) {
+	    	return;
+	    }
+        foreach($values as $key => $value) {
+        	$correctedKey = $key + 1;
+            if (is_int($value)) {
+                $sth->bindValue($correctedKey, $value, PDO::PARAM_INT);
+            } elseif (is_bool($value)) {
+                $sth->bindValue($correctedKey, $value, PDO::PARAM_BOOL);
+            } elseif (is_null($value)) {
+                $sth->bindValue($correctedKey, $value, PDO::PARAM_NULL);
+            } elseif (is_string($value)) {
+                $sth->bindValue($correctedKey, $value, PDO::PARAM_STR);
+            } else {
+            	return;
+            }
+        }
+	}
 }

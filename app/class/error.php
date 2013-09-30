@@ -36,27 +36,6 @@ class Error
 				exit;		
 			case true:
 				echo '[Type ' . $errorType . '] ' . $errorString . ' | ' . $errorFile . ' [Line ' . $errorLine . ']' . "\n";
-				// switch ($errorType) {
-				// 	case 2:
-				// 		print_r ($error);
-				// 		break;						
-				// 	case 8:
-				// 		print_r ($error);
-				// 		break;
-				// 	case 256:
-				// 		print_r ($error);
-				// 		break;
-				// 	case 512:
-				// 		print_r ($error);
-				// 		break;
-				// 	case 1024:
-				// 		print_r ($error);
-				// 		break;
-				// 	case 4096:
-				// 		print_r ($error);
-				// 		break;	
-				// }
-				// break;
 		}	
     }
 }
