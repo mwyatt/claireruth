@@ -24,6 +24,11 @@ $config
 	->setUrl()
 	->setObject($error)
 	->setObject($session);
+$cron = new cron($database, $config);
+$cron->poll(array(
+	'emailErrorReport'
+	, 'emailNewsletter'
+));
 $controller = new controller();
 
 // admin, ajax

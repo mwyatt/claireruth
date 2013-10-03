@@ -86,6 +86,23 @@ class Model_Content extends Model
 	}	
 
 
+	/**
+	 * utilises read to get a single result
+	 * (not contained in array)
+	 * @param  string $type 
+	 * @param  string|int $id   
+	 * @return bool|array       signify success
+	 */
+	public function readSingle($type, $id)
+	{
+		$this->read($type, false, array($id));
+		if ($this->getData()) {
+			return $this->data = current($this->getData());
+		}
+		return false;
+	}
+
+
 	public function readByType($type, $limit = 0) {	
 		$sth = $this->database->dbh->prepare("	
 			select
@@ -111,8 +128,13 @@ class Model_Content extends Model
 	}	
 
 
+	/**
+	 * seems to be used only for /page/
+	 * @param  string $title 
+	 * @return int        
+	 */
 	public function readByTitle($title) {
-		$title = str_replace('-', ' ', $title)	;
+		$title = str_replace('-', ' ', $title);
 		$sth = $this->database->dbh->prepare("	
 			select
 				content.id
@@ -122,13 +144,13 @@ class Model_Content extends Model
 				, content.status
 				, content.type
 			from content
-			left join user on user.id = content.user_id
-			where content.title like ? and content.status = 'visible'
-			order by content.date_published desc
+			where
+				content.title like ?
+				and content.status = 'visible'
 		");
-		$sth->execute(array('%' . current($title) . '%'));	
-		$this->data = $this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
-		return $this->data = current($this->data);
+		$sth->execute(array('%' . current($title) . '%'));
+		$this->data = $sth->fetch(PDO::FETCH_ASSOC);
+		return $sth->rowCount();
 	}	
 
 
