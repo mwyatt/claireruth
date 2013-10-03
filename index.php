@@ -25,9 +25,9 @@ $config
 	->setObject($error)
 	->setObject($session);
 $cron = new cron($database, $config);
-$cron->start(array(
-	'cron_email_error'
-	, 'cron_email_newsletter'
+$cron->poll(array(
+	'emailErrorReport'
+	, 'emailNewsletter'
 ));
 $controller = new controller();
 
