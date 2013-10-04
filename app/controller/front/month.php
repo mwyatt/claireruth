@@ -18,7 +18,7 @@ class Controller_Front_Month extends Controller
 		$content = new model_content($this->database, $this->config);
 		
 		// is the date acceptable
-		if (! $content->readByMonth($this->config->getUrl(1))) {
+		if (! $content->readByMonth(array($this->config->getUrl(1)))) {
 			$this->route('404');
 		}
 

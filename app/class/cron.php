@@ -13,13 +13,32 @@ class Cron extends Model
 {
 
 
+	/**
+	 * stores various time periods in human readable
+	 * form for convenience
+	 * @var array
+	 */
 	public $time = array(
 		'hour' => 3600
 		, 'day' => 86400
 		, 'week' => 604800
 		, 'month' => 2629743
 		, 'year' => 31556926
-	)
+	);
+
+
+	/**
+	 * gets the time period required
+	 * @param  string $key 
+	 * @return int      
+	 */
+	public function getTime($key)
+	{
+		if (! array_key_exists($key, $this->time)) {
+			return;
+		}
+		return $this->time[$key];
+	}
 
 
 	/**
@@ -28,7 +47,7 @@ class Cron extends Model
 	 */
 	public function poll($keys = array())
 	{
-		$modelOptions = new model($this->config, $this->database, 'options');
+		$modelOptions = new model($this->database, $this->config, 'options');
 		foreach ($keys as $key) {
 			$dbName = 'cron' . ucfirst($key);
 			if ($recordedTime = $this->config->getOption($dbName)) {
@@ -53,18 +72,6 @@ class Cron extends Model
 					, 'value' => time()
 				));
 			}
-		}
-	}
-
-
-	/**
-	 * emails an error report to the admin every n days
-	 */
-	public function jobEmailErrorReport($recordedTime)
-	{
-		$lapsedTime = time() - $recordedTime;
-		if ($lapsedTime > 259200) {
-			// delete option
 		}
 	}
 }

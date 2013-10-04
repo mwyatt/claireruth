@@ -16,6 +16,19 @@ class Controller_Front_Post extends Controller
 
 	public function index() {
 		$content = new model_content($this->database, $this->config);
+		$tag = new model_content_tag($this->database, $this->config);
+
+		// build general month and tag widgets
+		$content->readByMonth();
+		$tag->read();
+		$this->view
+			->setObject($tag)
+			->setObject('month', $content);
+
+		// reset
+		$content = new model_content($this->database, $this->config);
+
+		// single post
 		if ($this->config->getUrl(1)) {
 			if (! $content->readSingle($this->config->getUrl(0), $this->getId($this->config->getUrl(1)))) {
 				$this->route('404');
@@ -27,6 +40,8 @@ class Controller_Front_Post extends Controller
 				->setObject($content)
 				->loadTemplate('content-single');
 		}
+
+		// all posts
 		$pagination = new pagination($this->database, $this->config, 'content');
 		$content->read($this->config->getUrl(0), $pagination->getLimit());
 		$firstContent = $content->getData();

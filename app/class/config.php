@@ -81,27 +81,44 @@ class Config
 	
 	
 	/**
-	 * intention is to build the object with submitted objects
-	 * takes the __CLASS__ name of objects and sets them within array
-	 * @param string|object|array $objects
+	 * possible to submit:
+	 * 'key' => object
+	 * 'key' => array
+	 * object
+	 * @param string|object|array  $keyName       can represent a few data type
+	 * @param object|array $objectOrArray often the object to set
 	 */
-	public function setObject($objectsOrKey, $objectOrArray = false) {
-		// if (gettype($objectOrArray) == 'array') {
-		// 	$this->objects[strtolower($objectsOrKey)] = $objectOrArray;
-		// }
-		if ((gettype($objectsOrKey) == 'string') && $objectOrArray) {
-			$this->objects[strtolower($objectsOrKey)] = $objectOrArray;
+	public function setObject($keyName, $objectOrArray = false) {
+
+		// looking for 'string' => object/array
+		if ((gettype($keyName) == 'string') && $objectOrArray) {
+			$preparedKeyName = strtolower($keyName);
+
+			// array
+			if (is_array($objectOrArray)) {
+				$this->objects[$preparedKeyName] = $objectOrArray;
+				return $this;
+			}
+
+			// object
+			if (method_exists($objectOrArray, 'getData')) {
+				$objectOrArray = $objectOrArray->getData();
+			}
+			$this->objects[$preparedKeyName] = $objectOrArray;
 			return $this;
 		}
-		if (is_array($objectsOrKey)) {
-			foreach ($objectsOrKey as $objectOrArray) {
-				$classTitle = get_class($objectOrArray);
-				$this->objects[strtolower($classTitle)] = $objectOrArray;
+
+		// simple object
+		if (is_object($keyName)) {
+			$classTitle = get_class($keyName);
+			if (method_exists($keyName, 'getData')) {
+				$keyName = $keyName->getData();
 			}
-		} elseif (is_object($objectsOrKey)) {
-			$classTitle = get_class($objectsOrKey);
-			$this->objects[strtolower($classTitle)] = $objectsOrKey;
+			$this->objects[strtolower($classTitle)] = $keyName;
+			return $this;
 		}
+
+		// always return this to chain
 		return $this;
 	}
 	

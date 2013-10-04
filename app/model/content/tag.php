@@ -22,7 +22,7 @@ class Model_Content_Tag extends Model
 				, content_id
 				, tag_id as name
 			from content_tag
-			where content_tag.content_id = ?
+			" . ($contentIds ? ' where content_tag.content_id = ? ' : '') . "
 			group by content_tag.tag_id
 			order by content_tag.tag_id desc
 		");
@@ -30,9 +30,16 @@ class Model_Content_Tag extends Model
 			$sth->execute(array($contentId));	
 			if ($sth->rowCount()) {
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					$row['guid'] = $this->getGuid('tag', $row['name']);
+					$row['guid'] = $this->buildUrl(array('tag', $row['name']));
 					$this->data[$contentId][] = $row;
 				}
+			}
+		}
+		if (! $contentIds) {
+			$sth->execute();	
+			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$row['guid'] = $this->buildUrl(array('tag', $row['name']));
+				$this->data[] = $row;
 			}
 		}
 		return $this->data;
@@ -67,7 +74,7 @@ class Model_Content_Tag extends Model
 				'%' . $word . '%'
 			));
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$row['guid'] = $this->getGuid('tag', $row['name']);
+				$row['guid'] = $this->buildUrl(array('tag', $row['name']));
 				$rows[$row['id']] = $row;
 			}
 		}

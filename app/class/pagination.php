@@ -74,19 +74,19 @@ class Pagination extends Model
         $this->data[] = array(
             'name' => 'previous'
             , 'current' => ($this->pageCurrent == $this->pageCurrent - 1 ? true : false)
-            , 'guid' => $this->getGuid($this->pageCurrent - 1)
+            , 'guid' => $this->getUrl($this->pageCurrent - 1)
         );
         for ($i = 1; $i <= $this->possiblePages; $i++) { 
             $this->data[] = array(
                 'name' => 'page'
                 , 'current' => ($this->pageCurrent == $i ? true : false)
-                , 'guid' => $this->getGuid($i)
+                , 'guid' => $this->getUrl($i)
             );
         }
         $this->data[] = array(
             'name' => 'next'
             , 'current' => ($this->pageCurrent == $this->pageCurrent + 1 ? true : false)
-            , 'guid' => $this->getGuid($this->pageCurrent + 1)
+            , 'guid' => $this->getUrl($this->pageCurrent + 1)
         );
         return $this->data;
 	}
@@ -98,7 +98,7 @@ class Pagination extends Model
      * @param  int $pageNumber 
      * @return string             url
      */
-    public function getGuid($type = false, $name = false, $id = false)
+    public function getUrl($type = false, $name = false, $id = false)
     {
         return $this->config->getUrl('current_noquery') . ($type ? '?page=' . $type : '');
     }

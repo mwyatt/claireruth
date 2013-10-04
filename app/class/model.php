@@ -12,7 +12,7 @@
  */ 
 class Model extends Config
 {
-
+	
 
 	/**
 	 * see class database
@@ -250,33 +250,20 @@ class Model extends Config
 
 
 	/**
-	 * constructs a friendly guid using 3 components
-	 * special urls will only use type and name
-	 * @param  string $type 
-	 * @param  string $name 
-	 * @param  string $id   (optional)
-	 * @return string        the url
+	 * upgraded get url method, allows unlimited segments
+	 * friendly helps out with slashes and making things safe
+	 * @param  array   $segments      each/segment/
+	 * @return string                 the url
 	 */
-	public function getGuid($type = false, $name = false, $id = false) {
-
-		// tim
-		if ($type == 'thumb') {
-			return $this->config->getUrl('base') . 'thumb/?src=' . $name;
+	public function buildUrl($segments = array(), $friendly = true) {
+		$finalUrl = $this->config->getUrl('base');
+		foreach ($segments as $segment) {
+			if ($friendly) {
+				$segment = $this->urlFriendly($segment);
+			}
+			$finalUrl .= $segment . ($friendly ? '/' : '');
 		}
-		
-		// media
-		if ($type == 'media') {
-			return $this->config->getUrl('base') . $name;
-		}
-
-		// normal
-		$url = $this->config->getUrl('base') . $type . '/' . $this->urlFriendly($name) . '-' . $id . '/';
-
-		// if lacking id then strip away dash at end
-		if (! $id) {
-			$url = str_replace('-/', '/', $url);
-		}
-		return $url;
+		return $finalUrl;
 	}
 
 

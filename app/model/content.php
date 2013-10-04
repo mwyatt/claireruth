@@ -73,7 +73,7 @@ class Model_Content extends Model
 
 		// generate guid, append media or tags where applicable
 		foreach ($contents as $content) {
-			$content['guid'] = $this->getGuid($content['type'], $content['title'], $content['id']);
+			$content['guid'] = $this->buildUrl(array($content['type'], $content['title'] . '-' . $content['id']));
 			$this->data[$content['id']] = $content;
 			if (array_key_exists($content['id'], $tags)) {
 				$this->data[$content['id']]['tag'] = $tags[$content['id']];
@@ -155,44 +155,6 @@ class Model_Content extends Model
 
 
 	/**
-	 * @return array   full set of month-year -> ids
-	 */
-	public function readByMonth($monthYear = false)
-	{
-		$sth = $this->database->dbh->query("	
-			select
-				content.id
-				, content.date_published
-			from content
-			where
-				content.type = 'post'
-			order by
-				content.date_published desc
-		");
-		$singleSetOfIds = array();
-		$fullMonthTree = array();
-		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
-			if ($monthYear) {
-				if (strtolower(date('F-Y', $row['date_published'])) == $monthYear) {
-					$singleSetOfIds[strtolower(date('F-Y', $row['date_published']))][] = $row['id'];
-				}
-			} else {
-				$fullMonthTree[strtolower(date('F-Y', $row['date_published']))][] = $row['id'];
-				
-			}
-		}
-		if ($singleSetOfIds) {		
-			$this->read('post', false, current($singleSetOfIds));
-			return $this->getData();
-		}
-		if ($fullMonthTree) {		
-			return $fullMonthTree;
-		}
-		return false;
-	}
-
-
-	/**
 	 * sets the total rowcount in options table
 	 * @return bool 
 	 */
@@ -247,4 +209,57 @@ class Model_Content extends Model
 			}
 		}
 	}
+
+
+
+	/**
+	 * gathers matching month-years from posts
+	 * if no monthyears passed then it will gather all
+	 * @param  array  $monthYears month-year, month-year
+	 * @return array             
+	 */
+	public function readByMonth($monthYears = array())
+	{
+		$sth = $this->database->dbh->query("	
+			select
+				content.id
+				, content.date_published
+			from content
+			where
+				content.type = 'post'
+			order by
+				content.date_published desc
+		");
+		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
+			$keyedDate = strtolower(date('F-Y', $row['date_published']));
+
+			// set of month-years
+			if ($monthYears) {
+				foreach ($monthYears as $monthYear) {
+					if ($keyedDate == $monthYear) {
+						$parsedData[$keyedDate][] = $row['id'];
+					}
+				}
+			}
+
+			// all month-years
+			$parsedData[$keyedDate][] = $row['id'];
+		}
+		if ($monthYears) {		
+			$this->read('post', false, current($parsedData));
+			return $this->getData();
+		}
+
+		// build usable array
+		foreach ($parsedData as $monthYear => $row) {
+			$rows[$monthYear] = array(
+				'total' => count($row)
+				, 'url' => $this->buildUrl(array('month', $monthYear))
+			);
+		}
+
+		// return full monthdata
+		return $this->setData($rows);
+	}
+
 }

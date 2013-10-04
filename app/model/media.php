@@ -67,9 +67,9 @@ class Model_Media extends Model
 	public function addThumb($row)
 	{
 		if ($row['type'] != 'application/pdf') {
-			$row['thumb_150'] = $this->getGuid('thumb', $row['path'] . '&w=150&h=120');
-			$row['thumb_350'] = $this->getGuid('thumb', $row['path'] . '&w=350&h=220');
-			$row['thumb_760'] = $this->getGuid('thumb', $row['path'] . '&w=760&h=540');
+			$row['thumb_150'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=150&h=120'), false);
+			$row['thumb_350'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=350&h=220'), false);
+			$row['thumb_760'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=760&h=540'), false);
 		}
 		return $row;
 	}
@@ -240,7 +240,7 @@ class Model_Media extends Model
 		foreach ($ids as $id) {
 			$sth->execute(array($id));
 			$row = $sth->fetch(PDO::FETCH_ASSOC);
-			$row['guid'] = $this->getGuid('media', $row['path'], $this->dir);
+			$row['guid'] = $this->buildUrl(array($row['path']), false);
 			$this->data[] = $row;
 		}
 		return $sth->rowCount();
@@ -266,7 +266,7 @@ class Model_Media extends Model
 
 	public function setData($rows) {
 		foreach ($rows as $key => $row) {
-			$rows[$key]['guid'] = $this->getGuid('media', $row['basename'], $this->dir);
+			$rows[$key]['guid'] = $this->buildUrl(array($row['basename']), false);
 		}
 		return $rows;
 	}

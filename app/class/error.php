@@ -28,14 +28,23 @@ class Error
     }
 	
 	
-    public function handle($errorType, $errorString, $errorFile, $errorLine) {
+    public function handle($errorType, $errorString, $errorFile, $errorLine) {  	
 		switch ($this->debug) {
 			case false:
-				file_put_contents(BASE_PATH . 'error.txt', file_get_contents(BASE_PATH . 'error.txt') . '[Type ' . $errorType . '] ' . $errorString . ' | ' . $errorFile . ' [Line ' . $errorLine . ']' . "\n");
+
+				// put error info and echo friendly schpiel
+				file_put_contents(BASE_PATH . 'error.txt', file_get_contents(BASE_PATH . 'error.txt') . '[Type ' . $errorType . '] ' . $errorString . ' | ' . $errorFile . ' [Line ' . $errorLine . '] [Date ' . date('d/m/Y', time()) . ']' . "\n");
 				echo 'A error has occurred. We all make mistakes. Please notify the administrator <a href="mailto:martin.wyatt@gmail.com">martin.wyatt@gmail.com</a>';
-				exit;		
 			case true:
+
+				// trying this out
+				echo '<pre>';
+				print_r(debug_backtrace());
+				echo '</pre>';
+
+				// display error(s)
 				echo '[Type ' . $errorType . '] ' . $errorString . ' | ' . $errorFile . ' [Line ' . $errorLine . ']' . "\n";
 		}	
+		exit;
     }
 }

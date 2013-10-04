@@ -14,6 +14,9 @@ class View extends Model
 {
 
 
+	public $debug = false;
+
+
 	/**
 	 * the name of the template loaded
 	 * @var string
@@ -56,16 +59,6 @@ class View extends Model
 	 * @return bool                
 	 */
 	public function loadTemplate($templateTitle) {			
-		$path = BASE_PATH . 'app/view';
-
-		// if (is_array($templateTitle)) {
-		// 	foreach ($templateTitle as $title) {
-		// 		$path .= '/' . $title;
-		// 	}
-		// } else {
-		// 	$path = BASE_PATH . 'app/view/' . strtolower($templateTitle);
-		// }
-			
 		$path = BASE_PATH . 'app/view/' . strtolower($templateTitle);
 		$path .= '.php';
 		$cache = new Cache($this->database, $this->config)	;
@@ -77,28 +70,22 @@ class View extends Model
 
 		// prepare common models
 		$this->header();
-		foreach ($this->objects as $title => $object) {
-			$titles[] = $title; // temp
-			if (is_object($object) && property_exists($object, 'data')) {
-				if ($object->getData()) {
-					$this->data[$title] = $object->getData();
-				} else {
-					$this->data[$title] = false;
-				}
-			} else {
-				$this->data[$title] = $object;
-			}
+
+		// build objects into objects
+		$this->buildObjects();
+
+		// debug if retuired
+		if ($this->debug) {
+			echo '<pre>';
+			// print_r($this->session->getData());
+			// print_r($this->config);
+			// print_r($titles);
+			print_r($this->data);
+			echo '</pre>';
+			exit;
 		}
 
-		// debug fun
-		// echo '<pre>';
-		// print_r($this->session->getData());
-		// print_r($this->config);
-		// print_r($titles);
-		// print_r($this->data);
-		// echo '</pre>';
-		// exit;
-
+		// correct content type?
 		header('Content-type: text/html; charset=utf-8'); 
 		
 		// presentation & cache
@@ -135,17 +122,27 @@ class View extends Model
 				$this->data[$title] = $object;
 			}
 		}
-
-		// echo '<pre>';
-		// print_r($this->session->getData());
-		// print_r($this->config);
-		// print_r($titles);
-		// print_r($this->data);
-		// echo '</pre>';
-		// exit;
-
 		require_once($path);
 		exit;
+	}
+
+
+	public function buildObjects()
+	{
+
+		// fly through all set objects and setup in $data array
+		foreach ($this->objects as $title => $object) {
+			$titles[] = $title; // testing purposes
+			if (is_object($object) && property_exists($object, 'data')) {
+				if ($object->getData()) {
+					$this->data[$title] = $object->getData();
+				} else {
+					$this->data[$title] = false;
+				}
+			} else {
+				$this->data[$title] = $object;
+			}
+		}
 	}
 
 
