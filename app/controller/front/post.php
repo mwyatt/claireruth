@@ -20,6 +20,11 @@ class Controller_Front_Post extends Controller
 
 		// build general month and tag widgets
 		$content->readByMonth();
+		echo '<pre>';
+		print_r($content);
+		echo '</pre>';
+		exit;
+		
 		$tag->read();
 		$this->view
 			->setObject($tag)
