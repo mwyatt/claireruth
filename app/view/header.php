@@ -15,14 +15,14 @@
         
         <a href="#" class="top"><span class="icon"></span>Top</a>
         <div class="wrap">
-            <header class="main">
+            <header class="main clearfix">
                 <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
                     <span class="propos-lettering">á propos de moi</span>
-                    <span class="propos-flower"></span>
+                    <span class="propos-flower sprite-flower"></span>
                 </a>
                 <a class="logo" href="<?php echo $this->url(); ?>" title="<?php echo $this->get('options', 'site_title'); ?> Logo">
-
-<?php include(BASE_PATH . 'media/logo.svg'); ?>
+                    <img src="<?php echo $this->url() ?>media/logo.png" alt="Claire Logo">
+<?php // include(BASE_PATH . 'media/logo.svg'); ?>
 
                 </a>
                 <form class="search" method="get">
@@ -32,5 +32,5 @@
                     <input type="submit">
                     <span class="icon close"></span>
                 </form> 
-                <a href="#" class="button secondary">l'histoire complète</a>
+                <a href="#" class="button tertiary">l'histoire complète</a>
             </header>

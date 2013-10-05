@@ -1,0 +1,29 @@
+footer.main {
+    margin: 0 0 1em;
+    padding: 1em;
+    background: $color-white;
+
+    .button.tertiary {
+        float: right;
+        clear: both;
+        font-family: arial;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+        padding: 0.1em 1em;
+    }
+
+    .inner {
+        padding: 0;
+    }
+
+    .propos {
+        padding-left: 5em;
+    }
+}
+
+.book-stack {
+    @extend .sprite-bookstack;
+    width: image-width(sprite-file($sprite-map, bookstack));
+    height: image-height(sprite-file($sprite-map, bookstack));
+}

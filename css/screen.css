@@ -1,18 +1,18 @@
-@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic);
+@import url("http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic");
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
 /* line 55, sprite/*.png */
-.sprite-sprite, .sprite-bookstack, .sprite-flower, .propos-flower {
-  background-image: url('/media/sprite-s6495869aa8.png');
+.sprite-sprite, .sprite-bookstack, .book-stack, .sprite-flower {
+  background-image: url('/claireruth/media/sprite-s6495869aa8.png');
   background-repeat: no-repeat;
 }
 
 /* line 77, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-0.13.alpha.4/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
-.sprite-bookstack {
+.sprite-bookstack, .book-stack {
   background-position: 0 0;
 }
 
 /* line 77, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-0.13.alpha.4/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
-.sprite-flower, .propos-flower {
+.sprite-flower {
   background-position: 0 -62px;
 }
 
@@ -819,21 +819,22 @@ a:link {
 }
 
 /* line 70, ../sass/_reusable.scss */
-.clearfix:before, .row:before, .lightbox:before,
+.clearfix:before, .row:before, .lightbox:before, .content-post .tags:before,
 .clearfix:after,
 .row:after,
-.lightbox:after {
+.lightbox:after,
+.content-post .tags:after {
   content: " ";
   display: table;
 }
 
 /* line 75, ../sass/_reusable.scss */
-.clearfix:after, .row:after, .lightbox:after {
+.clearfix:after, .row:after, .lightbox:after, .content-post .tags:after {
   clear: both;
 }
 
 /* line 79, ../sass/_reusable.scss */
-.clearfix, .row, .lightbox {
+.clearfix, .row, .lightbox, .content-post .tags {
   *zoom: 1;
 }
 
@@ -1143,44 +1144,51 @@ textarea:focus {
 }
 
 /* line 1, ../sass/_header.scss */
-.logo {
-  display: block;
-  width: 214px;
-  height: 71px;
-  margin: 0 auto 30px;
-  overflow: hidden;
+header.main {
+  margin: 0 0 1em;
 }
-/* line 8, ../sass/_header.scss */
-.logo img {
-  max-width: 100%;
-  max-height: 100%;
+/* line 4, ../sass/_header.scss */
+header.main .button.tertiary {
+  float: right;
+  clear: both;
+  font-family: arial;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.1em 1em;
 }
-
+/* line 14, ../sass/_header.scss */
+header.main .propos {
+  float: right;
+}
 /* line 18, ../sass/_header.scss */
-.propos-lettering {
-  -webkit-transform: rotate(10deg);
-  -moz-transform: rotate(10deg);
-  -ms-transform: rotate(10deg);
-  -o-transform: rotate(10deg);
-  transform: rotate(10deg);
+header.main .propos-lettering {
+  font-size: 0.8em;
 }
-
-/* line 22, ../sass/_header.scss */
-.propos-flower {
+/* line 24, ../sass/_header.scss */
+header.main .search,
+header.main .propos-flower {
+  display: none;
+}
+/* line 28, ../sass/_header.scss */
+header.main .logo {
+  width: 9em;
+  float: left;
   display: block;
-  width: 87px;
-  height: 87px;
+  height: auto;
+  margin: 0 0 0.8em;
 }
 
 /* line 1, ../sass/_content-post.scss */
 .content-post {
+  -webkit-box-shadow: 0 1px 0 gray;
+  -moz-box-shadow: 0 1px 0 gray;
+  box-shadow: 0 1px 0 gray;
   border: 1px solid #e6e6e6;
   background: white;
   position: relative;
   padding: 1em;
-  border-radius: 0.4em;
-  margin: 1em;
-  -webkit-box-shadow: 0 0 3px gray;
+  margin-bottom: 1em;
 }
 /* line 10, ../sass/_content-post.scss */
 .content-post .content-post-title {
@@ -1195,33 +1203,92 @@ textarea:focus {
   position: absolute;
   bottom: 1em;
   right: 1em;
+  font-size: 0.7em;
+  font-style: italic;
 }
-/* line 30, ../sass/_content-post.scss */
-.content-post .content-post .tag {
-  background: #eee;
-  padding: 0.3em 0.8em;
-  font-size: 0.8em;
-  border-radius: 0.4em;
-  display: block;
+/* line 26, ../sass/_content-post.scss */
+.content-post .tags {
+  margin: 0 0 1em;
+}
+/* line 31, ../sass/_content-post.scss */
+.content-post .tag {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #e6e6e6;
+  border: 1px solid #b3b3b3;
+  margin: 0 0.3em 0.3em 0;
+  padding: 0.9em 0.4em;
+  font-size: 0.7em;
   float: left;
-  margin: 0.2em;
-  border: 1px solid #ccc;
-  text-transform: lowercase;
+  line-height: 0;
+  font-family: "Arial, sans-serif";
+}
+/* line 43, ../sass/_content-post.scss */
+.content-post .content-post-author {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  font-size: 0.7em;
+}
+/* line 50, ../sass/_content-post.scss */
+.content-post .content-thumb {
+  display: block;
+  text-align: center;
+  overflow: hidden;
+  height: 5em;
+  margin: 0 0 1em;
+  border-radius: 3px;
+}
+/* line 58, ../sass/_content-post.scss */
+.content-post .content-thumb img {
+  width: 100%;
 }
 
-/* line 10, ../sass/screen.scss */
+/* line 1, ../sass/_footer.scss */
+footer.main {
+  margin: 0 0 1em;
+  padding: 1em;
+  background: white;
+}
+/* line 6, ../sass/_footer.scss */
+footer.main .button.tertiary {
+  float: right;
+  clear: both;
+  font-family: arial;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.1em 1em;
+}
+/* line 16, ../sass/_footer.scss */
+footer.main .inner {
+  padding: 0;
+}
+/* line 20, ../sass/_footer.scss */
+footer.main .propos {
+  padding-left: 5em;
+}
+
+/* line 25, ../sass/_footer.scss */
+.book-stack {
+  width: 90px;
+  height: 62px;
+}
+
+/* line 11, ../sass/screen.scss */
 .wrap {
   padding: 1em;
 }
 
-/* line 14, ../sass/screen.scss */
+/* line 15, ../sass/screen.scss */
 .full-width {
   position: relative;
   width: 960px;
   margin: 0 auto;
 }
 
-/* line 20, ../sass/screen.scss */
+/* line 21, ../sass/screen.scss */
 body {
   background: url("../media/45degreee_fabric.png") repeat;
   font-family: 'sans-serif';
@@ -1232,7 +1299,7 @@ body {
   font-family: 'Droid Serif', serif;
 }
 
-/* line 30, ../sass/screen.scss */
+/* line 31, ../sass/screen.scss */
 .button.primary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
@@ -1258,14 +1325,14 @@ body {
   border-bottom-color: #79203d;
 }
 
-/* line 34, ../sass/screen.scss */
+/* line 35, ../sass/screen.scss */
 .button.secondary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
   border-radius: 99em;
   text-shadow: 0 -1px 0 #894e89;
   background-color: #995799;
-  color: #42664b;
+  color: white;
   border-bottom-color: #784578;
   padding: 0.3em 0.9em 0.5em;
   border-bottom: 1px solid;
@@ -1284,7 +1351,33 @@ body {
   border-bottom-color: #583258;
 }
 
-/* line 38, ../sass/screen.scss */
+/* line 39, ../sass/screen.scss */
+.button.tertiary {
+  -webkit-border-radius: 99em;
+  -moz-border-radius: 99em;
+  border-radius: 99em;
+  text-shadow: 0 -1px 0 #59862d;
+  background-color: #669933;
+  color: white;
+  border-bottom-color: #4d7326;
+  padding: 0.3em 0.9em 0.5em;
+  border-bottom: 1px solid;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+/* line 64, ../sass/_mixin.scss */
+.button.tertiary:hover {
+  background-color: #80bf40;
+  border-bottom-color: #669933;
+}
+/* line 69, ../sass/_mixin.scss */
+.button.tertiary:active {
+  background-color: #4d7326;
+  border-bottom-color: #334d19;
+}
+
+/* line 43, ../sass/screen.scss */
 .top {
   display: none;
 }

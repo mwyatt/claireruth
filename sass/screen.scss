@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic);
+@import url("http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic");
 @import "sprite/*.png";
 @include all-sprite-sprites; 
 $sprite-map: sprite-map("sprite/*.png");
@@ -6,6 +6,7 @@ $sprite-map: sprite-map("sprite/*.png");
 @import "form";
 @import "header";
 @import "content-post";
+@import "footer";
 
 .wrap {
     padding: 1em;
@@ -28,13 +29,18 @@ body {
 }
 
 .button.primary {
-    @include button($color-primary, $color-white);
+    @include button($color-primary);
 }
 
 .button.secondary {
-    @include button($color-secondary, #42664b);
+    @include button($color-secondary);
+}
+
+.button.tertiary {
+    @include button($color-tertiary);
 }
 
 .top {
     display: none;
 }
+ 

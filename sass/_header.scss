@@ -1,27 +1,35 @@
-.logo {
-    display: block;
-    width: 214px;
-    height: 71px;
-    margin: 0 auto 30px;
-    overflow: hidden;
+header.main {
+    margin: 0 0 1em;
 
-    img {
-        max-width: 100%;
-        max-height: 100%;
+    .button.tertiary {
+        float: right;
+        clear: both;
+        font-family: arial;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+        padding: 0.1em 1em;
     }
-}
 
-.propos {
-	
-}
+    .propos {
+        float: right;
+    }
 
-.propos-lettering {
-    @include transform(rotate(10deg));
-}
+    .propos-lettering {
+        // @include transform(rotate(10deg));
+        font-size: 0.8em;
+    }
 
-.propos-flower {
-    @extend .sprite-flower;
-    display: block;
-    width: image-width(sprite-file($sprite-map, flower));
-    height: image-height(sprite-file($sprite-map, flower));
+    .search,
+    .propos-flower {
+        display: none;
+    }
+
+    .logo {
+        width: 9em;
+        float: left;
+        display: block;
+        height: auto;
+        margin: 0 0 0.8em;
+    }
 }
