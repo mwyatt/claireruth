@@ -5,7 +5,7 @@
 	<?php if (array_key_exists('thumb_150', $media)): ?>
 		
 	<a href="<?php echo $rowContent['guid'] ?>" class="content-thumb">
-		<img src="<?php echo $media['thumb_150'] ?>" alt="<?php echo $media['title'] ?>">
+		<img src="<?php echo $media['thumb_300'] ?>" alt="<?php echo $media['title'] ?>">
 	</a>
 
 	<?php endif ?>

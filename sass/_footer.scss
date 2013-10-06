@@ -3,22 +3,35 @@ footer.main {
     padding: 1em;
     background: $color-white;
 
-    .button.tertiary {
-        float: right;
-        clear: both;
-        font-family: arial;
-        font-size: 13px;
-        font-weight: bold;
-        text-align: center;
-        padding: 0.1em 1em;
+    // .button.tertiary {
+    //     float: right;
+    //     clear: both;
+    //     font-family: arial;
+    //     font-size: 13px;
+    //     font-weight: bold;
+    //     text-align: center;
+    //     padding: 0.1em 1em;
+    // }
+}
+
+footer.main .propos {
+    padding: 0;
+    text-align: center;
+    margin: 0 0 1em;
+
+    .propos-title {
+        color: green;
+        font-size: 1em;
     }
 
-    .inner {
-        padding: 0;
+    .propos-description {
+        margin: 0 0 1em;
+        font-size: 0.8em;
+        line-height: 1.5em;
     }
 
-    .propos {
-        padding-left: 5em;
+    .propos-button.button.primary {
+        display: block;
     }
 }
 
@@ -26,4 +39,18 @@ footer.main {
     @extend .sprite-bookstack;
     width: image-width(sprite-file($sprite-map, bookstack));
     height: image-height(sprite-file($sprite-map, bookstack));
+    display: block;
+    margin: 0 auto;
+}
+
+footer.main nav {
+    margin: 0 0 1em;
+    padding: 0 0 1em;
+    border-bottom: 1px solid #ECECEC;
+
+    a {
+        border-bottom: 1px solid;
+        margin: 0 0.7em 1em 0;
+        font-size: 0.8em;
+    }
 }

@@ -6,6 +6,8 @@ $sprite-map: sprite-map("sprite/*.png");
 @import "form";
 @import "header";
 @import "content-post";
+@import "month";
+@import "pagination";
 @import "footer";
 
 .wrap {
@@ -44,3 +46,11 @@ body {
     display: none;
 }
  
+h1.main {
+    text-align: center;
+    font-size: 1.6em;
+}
+
+.content {
+    margin: 0 0 2em;
+}

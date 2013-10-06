@@ -21,7 +21,7 @@ class Controller_Front_Month extends Controller
 		if (! $content->readByMonth(array($this->config->getUrl(1)))) {
 			$this->route('404');
 		}
-
+		
 		// make month pretty
 		$monthYear = explode('-', $this->config->getUrl(1));
 		$monthYear = ucfirst(current($monthYear)) . ' ' . next($monthYear);

@@ -1,6 +1,7 @@
 <?php if ($this->get('pagination')): ?>
 
-<div class="pagination">
+<div class="pagination clearfix">
+	<h3 class="pagination-title">Pages:</h3>
 
 	<?php foreach ($this->get('pagination') as $pageNumber => $page): ?>
 

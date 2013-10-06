@@ -115,4 +115,30 @@ class Model_Content_Tag extends Model
 		$this->data = $contentIds = array_unique($contentIds);
 		return count($this->getData());
 	}
+
+
+	/**
+	 * reads a single tag name and returns the content ids
+	 * @param  strgin $tagName 
+	 * @return int          
+	 */
+	public function readSingle($tagName) {	
+		$contentIds = array();
+		$tagName = str_replace('-', ' ', $tagName);
+		$sth = $this->database->dbh->prepare("	
+			select
+				id
+				, content_id
+				, tag_id as name
+			from content_tag
+			where
+				content_tag.tag_id like ?
+		");
+		$sth->execute(array($tagName));
+		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			$contentIds[] = $row['content_id'];
+		}
+		$this->setData(array_unique($contentIds));
+		return $sth->rowCount();
+	}
 }

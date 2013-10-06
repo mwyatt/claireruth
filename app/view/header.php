@@ -18,7 +18,7 @@
             <header class="main clearfix">
                 <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
                     <span class="propos-lettering">á propos de moi</span>
-                    <span class="propos-flower sprite-flower"></span>
+                    <span class="propos-flower"><img src="<?php echo $this->url() ?>media/sprite/flower.png" alt="Flower"></span>
                 </a>
                 <a class="logo" href="<?php echo $this->url(); ?>" title="<?php echo $this->get('options', 'site_title'); ?> Logo">
                     <img src="<?php echo $this->url() ?>media/logo.png" alt="Claire Logo">

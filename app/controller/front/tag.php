@@ -15,18 +15,27 @@ class Controller_Front_Tag extends Controller
 
 
 	public function index() {
+		
 		$tag = new model_content_tag($this->database, $this->config);
-		if (! $tag->readContent($this->config->getUrl(1))) {
-			$this->route('404');
+		if (! $tag->readSingle($this->config->getUrl(1))) {
+			$this->view->loadTemplate('404');
 		}
 		$content = new model_content($this->database, $this->config);
 		if (! $content->read('post', false, $tag->getData())) {
-			$this->route('404');
+			$this->view->loadTemplate('404');
 		}
+
+		// build friendly tag name
+		$tagName = explode('-', $this->config->getUrl(1));
+		$tagName = implode(' ', $tagName);
+		$tagName = ucwords($tagName);
+
+		// view
 		$this->view
 			->setMeta(array(		
 				'title' => 'All posts by tag name ' . $this->config->getUrl(1)
 			))
+			->setObject('tag_name', $tagName)
 			->setObject($content)
 			->loadTemplate('content-tag');
 	}

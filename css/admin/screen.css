@@ -833,16 +833,11 @@ a:link {
 }
 
 /* line 94, ../../sass/_reusable.scss */
-.inner {
-  padding: 1em;
-}
-
-/* line 98, ../../sass/_reusable.scss */
 .icon {
   display: block;
 }
 
-/* line 102, ../../sass/_reusable.scss */
+/* line 98, ../../sass/_reusable.scss */
 .drop {
   -webkit-box-shadow: 0 1px 3px #999999;
   -moz-box-shadow: 0 1px 3px #999999;
@@ -858,7 +853,7 @@ a:link {
   left: 0;
 }
 
-/* line 113, ../../sass/_reusable.scss */
+/* line 109, ../../sass/_reusable.scss */
 .area {
   position: relative;
 }
@@ -867,7 +862,7 @@ a:link {
  * js must be active for main submit buttons to hide away
  * @type {String}
  */
-/* line 122, ../../sass/_reusable.scss */
+/* line 118, ../../sass/_reusable.scss */
 html.js input[type="submit"] {
   position: absolute;
   left: -999em;
@@ -1085,6 +1080,34 @@ html.js input[type="submit"] {
 /* line 186, ../../sass/_lightbox.scss */
 .lightbox-remove:active {
   background-color: #995799;
+}
+
+/* line 1, ../../sass/_404.scss */
+.content.content-404 {
+  padding: 3em 3em 7em;
+  text-align: center;
+}
+
+/* line 6, ../../sass/_404.scss */
+.content-404-title {
+  font-weight: 100;
+  line-height: 1.1em;
+  font-size: 2.7em;
+  margin: 0 0 0.6em;
+}
+
+/* line 13, ../../sass/_404.scss */
+.content-404-description {
+  margin: 0 0 2em;
+}
+
+/* line 17, ../../sass/_404.scss */
+.button.primary.home {
+  font-size: 1em;
+  font-weight: 100;
+  display: block;
+  width: 4em;
+  margin: 0 auto;
 }
 
 /* line 3, ../../sass/_media-browser.scss */

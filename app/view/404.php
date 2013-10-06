@@ -1,8 +1,9 @@
-<?php require_once('header.php'); ?>
+<?php require_once($this->pathView('header')); ?>
 
-<div class="content 404-page">
-	<h1>404 Not Found</h1>
-	<p>Sorry, whatever you were looking for, could not be found! Please return <a href="<?php echo home_url(); ?>">Home</a>.</p>
+<div class="content content-404">
+	<h1 class="content-404-title">404 Not Found</h1>
+	<p class="content-404-description">Sorry, whatever you were looking for, could not be found! Please return Home.</p>
+	<a href="<?php echo $this->url() ?>" class="button primary home">Home</a>
 </div>
-			
-<?php require_once('footer.php'); ?>
+
+<?php require_once($this->pathView('footer')); ?>

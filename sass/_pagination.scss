@@ -1,0 +1,37 @@
+.pagination {
+    margin: 0 0 1em;
+
+    a.page {
+        @include border-radius(3px);
+        border: 1px solid #D6D6D6;
+        font-family: Arial, sans-serif;
+        font-size: 0.7em;
+        float: left;
+        background: #eee;
+        padding: 0.2em;
+        margin: 0 0.2em 0.2em 0;
+        line-height: 1.2em;
+        width: 1.5em;
+        text-align: center;
+    }
+
+    a.page.is-current {
+        cursor: default;
+        color: #A2A2A2;
+        background: transparent;
+    }
+
+    .previous {
+        display: none;
+    }
+
+    .next {
+        display: none;
+    }
+
+    .pagination-title {
+        margin: 0 0 0.2em;
+        font-size: 0.8em;
+        color: #7E7E7E;
+    }
+}

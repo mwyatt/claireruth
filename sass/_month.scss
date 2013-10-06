@@ -1,0 +1,45 @@
+.months {
+    margin: 0 0 1em 0;
+    padding: 0;
+    list-style: none;
+
+    .month-total {
+        border: 1px solid rgb(189, 189, 189);
+        border-radius: 99em;
+        width: 2em;
+        height: inherit;
+        display: block;
+        position: absolute;
+        top: 0.5em;
+        right: 0;
+        font-size: 0.7em;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 1em;
+        padding: 0.5em 0;
+        cursor: default;
+        background: #F1F1F1;
+        color: #979797;
+    }
+
+    .month {
+        position: relative;
+    }
+
+    .month-link {
+        font-size: 0.8em;
+        border-top: 1px solid rgb(213, 213, 213);
+        padding: 0.4em 0;
+        display: block;
+    }
+
+    .month:first-of-type .month-link {
+        border-top: none;
+    }
+
+    .months-title {
+        margin: 0 0 0.2em;
+        font-size: 0.8em;
+        color: #7E7E7E;
+    }
+}

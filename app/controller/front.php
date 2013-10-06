@@ -66,7 +66,7 @@ class Controller_Front extends Controller
 		if ($this->config->getUrl(1)) {
 			$page = new model_content($this->database, $this->config);
 			if (! $page->readByTitle(array($this->config->getUrl(1)))) {
-				$this->route('base');
+				$this->view->loadTemplate('404');
 			}
 			$this->view
 				->setMeta(array(		

@@ -67,6 +67,7 @@ class Model_Media extends Model
 	public function addThumb($row)
 	{
 		if ($row['type'] != 'application/pdf') {
+			$row['thumb_300'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=300&h=130'), false);
 			$row['thumb_150'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=150&h=120'), false);
 			$row['thumb_350'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=350&h=220'), false);
 			$row['thumb_760'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=760&h=540'), false);

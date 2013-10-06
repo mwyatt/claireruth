@@ -215,10 +215,10 @@ class Model_Content extends Model
 	/**
 	 * gathers matching month-years from posts
 	 * if no monthyears passed then it will gather all
-	 * @param  array  $monthYears month-year, month-year
+	 * @param  array  $specificMonthYears month-year, month-year
 	 * @return array             
 	 */
-	public function readByMonth($monthYears = array())
+	public function readByMonth($specificMonthYears = array())
 	{
 		$sth = $this->database->dbh->query("	
 			select
@@ -234,10 +234,10 @@ class Model_Content extends Model
 			$keyedDate = strtolower(date('F-Y', $row['date_published']));
 
 			// set of month-years
-			if ($monthYears) {
-				foreach ($monthYears as $monthYear) {
+			if ($specificMonthYears) {
+				foreach ($specificMonthYears as $monthYear) {
 					if ($keyedDate == $monthYear) {
-						$parsedData[$keyedDate][] = $row['id'];
+						$specificParsedData[$keyedDate][] = $row['id'];
 					}
 				}
 			}
@@ -245,8 +245,8 @@ class Model_Content extends Model
 			// all month-years
 			$parsedData[$keyedDate][] = $row['id'];
 		}
-		if ($monthYears) {		
-			$this->read('post', false, current($parsedData));
+		if ($specificMonthYears) {		
+			$this->read('post', false, current($specificParsedData));
 			return $this->getData();
 		}
 
