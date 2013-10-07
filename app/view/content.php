@@ -8,6 +8,8 @@
 <?php include($this->pathView('pagination')); ?>
 <?php include($this->pathView() . '_contents.php'); ?>
 <?php include($this->pathView('pagination')); ?>
+<?php $rowContent['tag'] = $this->get('model_content_tag') ?>
+<?php include($this->pathView('_content-tags')); ?>
 <?php include($this->pathView('_months')); ?>
 
 </div>

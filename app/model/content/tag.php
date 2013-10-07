@@ -30,7 +30,8 @@ class Model_Content_Tag extends Model
 			$sth->execute(array($contentId));	
 			if ($sth->rowCount()) {
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					$row['guid'] = $this->buildUrl(array('tag', $row['name']));
+					$row['url'] = $this->buildUrl(array('tag', $row['name']));
+					$row['name_friendly'] = ucwords($row['name']);
 					$this->data[$contentId][] = $row;
 				}
 			}
@@ -38,7 +39,8 @@ class Model_Content_Tag extends Model
 		if (! $contentIds) {
 			$sth->execute();	
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$row['guid'] = $this->buildUrl(array('tag', $row['name']));
+				$row['url'] = $this->buildUrl(array('tag', $row['name']));
+				$row['name_friendly'] = ucwords($row['name']);
 				$this->data[] = $row;
 			}
 		}
@@ -74,7 +76,8 @@ class Model_Content_Tag extends Model
 				'%' . $word . '%'
 			));
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$row['guid'] = $this->buildUrl(array('tag', $row['name']));
+				$row['url'] = $this->buildUrl(array('tag', $row['name']));
+				$row['name_friendly'] = ucwords($row['name']);
 				$rows[$row['id']] = $row;
 			}
 		}

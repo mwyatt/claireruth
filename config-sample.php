@@ -12,9 +12,9 @@ $errorReporting = true;
  * @var array
  */
 $credentials = array(
-	'host' => '',
-	'port' => '',
-	'basename' => '',
-	'username' => '',
-	'password' => ''
+	'host' => ''
+	, 'port' => ''
+	, 'basename' => ''
+	, 'username' => ''
+	, 'password' => ''
 );

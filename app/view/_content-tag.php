@@ -1,1 +1,1 @@
-<a href="<?php echo $rowTag['guid'] ?>" class="content-tag"><?php echo $rowTag['name'] ?></a>
+<a href="<?php echo $rowTag['url'] ?>" class="content-tag"><?php echo $rowTag['name_friendly'] ?></a>
