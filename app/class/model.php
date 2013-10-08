@@ -62,9 +62,7 @@ class Model extends Config
 		$this->config = $config;
 
 		// sets the table name for use with generic methods
-		if ($tableName) {
-			$this->tableName = $tableName;
-		}
+		$this->setTableName($tableName);
 	}
 
 
@@ -187,12 +185,18 @@ class Model extends Config
 
 	/**
 	 * basic setting of the new table name
+	 * presumes the table name by using parts of the class name if
+	 * no newtablename is provided
 	 * @param string $newTableName 
 	 */
 	public function setTableName($newTableName = '')
 	{
 		if ($newTableName) {
 			$this->tableName = $newTableName;
+		} else {
+			$className = get_class($this);
+			$className = str_replace('Model_', '', $className);
+			$this->tableName = strtolower($className);
 		}
 	}
 
