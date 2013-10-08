@@ -15,11 +15,14 @@ class Controller_Front_Tag extends Controller
 
 
 	public function index() {
-		
+
+		// get tag data
 		$tag = new model_content_tag($this->database, $this->config);
 		if (! $tag->readSingle($this->config->getUrl(1))) {
 			$this->view->loadTemplate('404');
 		}
+
+		// get content data
 		$content = new model_content($this->database, $this->config);
 		if (! $content->read('post', false, $tag->getData())) {
 			$this->view->loadTemplate('404');
@@ -37,6 +40,7 @@ class Controller_Front_Tag extends Controller
 			))
 			->setObject('tag_name', $tagName)
 			->setObject($content)
+			->setObject('content_first', $content->getDataFirst())
 			->loadTemplate('content-tag');
 	}
 }

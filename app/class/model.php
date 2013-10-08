@@ -217,6 +217,20 @@ class Model extends Config
 		}
 		return $this->data;
 	}	
+
+
+	/**
+	 * attempts to return the data stored
+	 * returns false on failure
+	 * @return array|bool 
+	 */
+	public function getDataFirst()
+	{
+		if ($data = $this->getData()) {
+			return current($data);
+		}
+		return false;
+	}
 	
 	
 	/**

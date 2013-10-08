@@ -23,7 +23,7 @@ class Controller_Front_Post extends Controller
 		$tag->read();
 		$this->view
 			->setObject($tag)
-			->setObject('content-month', $content);
+			->setObject('content_month', $content);
 
 		// reset
 		$content = new model_content($this->database, $this->config);

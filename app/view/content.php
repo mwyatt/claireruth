@@ -1,5 +1,5 @@
 <?php $rowContents = $this->get('model_content') ?>
-<?php $rowMonths = $this->get('month') ?>
+<?php $rowMonths = $this->get('content_month') ?>
 <?php require_once($this->pathView() . 'header.php'); ?>
 
 <div class="content <?php echo $this->get('first_content', 'type') ?>">

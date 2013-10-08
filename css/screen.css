@@ -1553,8 +1553,8 @@ body {
 
 /* line 49, ../sass/screen.scss */
 h1.main {
-  text-align: center;
-  font-size: 1.6em;
+  font-size: 1.5em;
+  line-height: 1.2em;
 }
 
 /* line 54, ../sass/screen.scss */

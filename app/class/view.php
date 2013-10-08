@@ -18,7 +18,7 @@ class View extends Model
 	 * prints out array of data set for the view to handle
 	 * @var boolean
 	 */
-	public $debug = false;
+	public $debug = 0;
 
 
 	/**

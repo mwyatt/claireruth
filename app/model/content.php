@@ -23,6 +23,7 @@ class Model_Content extends Model
 	 * @return null        data property will be set
 	 */
 	public function read($where = '', $limit = array(), $ids = array()) {	
+		$contents = array();
 		$sth = $this->database->dbh->prepare("	
 			select
 				content.id
@@ -82,7 +83,7 @@ class Model_Content extends Model
 				$this->data[$content['id']]['media'] = $medias[$content['id']];
 			}
 		}
-		return $sth->rowCount();		
+		return $this->getData();
 	}	
 
 
@@ -243,7 +244,7 @@ class Model_Content extends Model
 			}
 
 			// all month-years
-			$parsedData[$keyedDate][] = $row['id'];
+			$parsedData[$keyedDate][] = $row;
 		}
 		if ($specificMonthYears) {		
 			$this->read('post', false, current($specificParsedData));
@@ -252,8 +253,10 @@ class Model_Content extends Model
 
 		// build usable array
 		foreach ($parsedData as $monthYear => $row) {
+			$currentRow = current($row);
 			$rows[$monthYear] = array(
 				'total' => count($row)
+				, 'title' => date('F Y', $currentRow['date_published'])
 				, 'url' => $this->buildUrl(array('month', $monthYear))
 			);
 		}
