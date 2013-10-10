@@ -27,7 +27,7 @@ class Session extends Config
 	 * stores the keyname data
 	 * @var array|bool|string
 	 */
-	public $data;
+	public $data = false;
 
 
 	/**
