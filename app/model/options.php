@@ -21,58 +21,5 @@ class Model_Options extends Model
 			$this->data[$row['name']] = $row['value'];
 		}			
 		return $sth->rowCount();
-	}
-
-
-	// public function update($name, $value) {
-	// 	$sth = $this->database->dbh->prepare("
-	// 		update options set
-	// 			options.value = ?
-	// 		where
-	// 			options.name = ?
-	// 	");				
-	// 	$sth->execute(array(
-	// 		$value
-	// 		, $name
-	// 	));		
-	// 	return $sth->rowCount();
-	// }
-	
-
-	/**
-	 * generates name value rows and adds to the options database
-	 * this updates if the row already exists
-	 * @param  array $pairs name => value
-	 * @return int        affected rows
-	 */
-	// public function create($pairs)
-	// {
-	// 	$sthCreate = $this->database->dbh->prepare("
-	// 		insert into options (
-	// 			options.name
-	// 			, options.value
-	// 		)
-	// 		values (
-	// 			?
-	// 			, ?
-	// 		)
-	// 	");				
-	// 	foreach ($pairs as $name => $value) {
-	// 		$sthRead = $this->database->dbh->query("	
-	// 			select options.name
-	// 			from options
-	// 			where options.name = '$name'
-	// 		");
-	// 		if ($sthRead->rowCount()) {
-	// 			$this->update($name, $value);
-	// 		} else {
-	// 			$sthCreate->execute(array(
-	// 				$name
-	// 				, $value
-	// 			));	
-	// 		}
-	// 	}
-	// 	return $sthCreate->rowCount();
-	// }
-	
+	}	
 }

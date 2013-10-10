@@ -1,71 +1,16 @@
 <?php
 
 /**
- * Template for all other Models
- *
- * PHP version 5
- * 
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
+
 class Model extends Config
 {
-	
-
-	/**
-	 * see class database
-	 * @var object
-	 */
-	public $database;
 
 	
-	/**
-	 * see class config
-	 * @var object
-	 */
-	public $config;
-
-
-	/**
-	 * see class session
-	 * @var object
-	 */
-	public $session;
-
-
-	/**
-	 * returned data from sql requests
-	 * @var array
-	 */
-	public $data = array();
-
-
-	/**
-	 * if class is used generically then the table
-	 * name will be used to identify which table
-	 * to hit with methods
-	 * @var string
-	 */
-	public $tableName;
-
-	
-	/**
-	 * always initiates with the session, database and config
-	 * @param object $database 
-	 * @param object $config   
-	 */
-	public function __construct($database, $config, $tableName = '') {
-		$this->session = new Session($database, $config);
-		$this->database = $database;
-		$this->config = $config;
-
-		// sets the table name for use with generic methods
-		$this->setTableName($tableName);
-	}
-
-
 	/**
 	 * builds and creates create query
 	 * @param  array  $cols colname => value
@@ -82,7 +27,7 @@ class Model extends Config
 		$colList = implode(', ', $cols);
 		$valList = ltrim($valList, ', ');
 		$sth = $this->database->dbh->prepare("
-			insert into {$this->getTableName()} (
+			insert into {$this->getIdentity()} (
 				$colList
 			) values (
 				$valList
@@ -130,7 +75,7 @@ class Model extends Config
 		$vals[] = current($where);
 		$colList = ltrim($colList, ', ');
 		$sth = $this->database->dbh->prepare("
-			update {$this->getTableName()} set
+			update {$this->getIdentity()} set
 				$colList
 			where
 				$whereCol = ?
@@ -158,7 +103,7 @@ class Model extends Config
 		$whereVal = array(current($where));
 		$sth = $this->database->dbh->prepare("
 			delete from 
-				{$this->getTableName()}
+				{$this->getIdentity()}
 			where
 				$colName = ?
 		");				
@@ -170,34 +115,6 @@ class Model extends Config
 			exit;
 		}
 		return $sth->rowCount();
-	}
-
-
-	/**
-	 * simple return of table name
-	 * @return string 
-	 */
-	public function getTableName()
-	{
-		return $this->tableName;
-	}
-
-
-	/**
-	 * basic setting of the new table name
-	 * presumes the table name by using parts of the class name if
-	 * no newtablename is provided
-	 * @param string $newTableName 
-	 */
-	public function setTableName($newTableName = '')
-	{
-		if ($newTableName) {
-			$this->tableName = $newTableName;
-		} else {
-			$className = get_class($this);
-			$className = str_replace('Model_', '', $className);
-			$this->tableName = strtolower($className);
-		}
 	}
 
 

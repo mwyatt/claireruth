@@ -14,78 +14,6 @@ class Model_User extends Model
 {
 
 
-	// public $email;
-
-
-	// protected $password;
-		
-	
-	// public function setEmail($value) {
-	// 	$this->email = $value;
-	// 	return $this;
-	// }
-	
-
-	// public function getEmail() {
-	// 	return ($this->email ? $this->email : false);
-	// }
-	
-
-	// public function setPassword($value) {
-	// 	$this->password = crypt($value);
-	// 	return $this;		
-	// }
-
-
-	// protected function getPassword() {
-	// 	return $this->password;
-	// }
-	
-
-	// /**
-	//   * Insert 1 Row into Database | Set Level
-	//   */
-	// public function insertMeta($user_id) {	
-	// 	$sth = $this->database->dbh->prepare("
-	// 		INSERT INTO user_meta
-	// 			(user_id, name, value)
-	// 		values
-	// 			('$user_id', :name, :value)
-	// 	");
-		
-	// 	$sth->execute(
-	// 		array(
-	// 			':name' => 'first_name'
-	// 			, ':value' => 'Steve'
-	// 		)
-	// 	);
-	// 	$sth->execute(
-	// 		array(
-	// 			':name' => 'last_name'
-	// 			, ':value' => 'Smith'
-	// 		)
-	// 	);
-	// }
-	
-	
-	// public function readById($id) {
-	// 	$sql = "
-	// 		select
-	// 			user.id
-	// 			, user.email
-	// 			, user.password
-	// 			, user.date_registered
-	// 			, user.level
-	// 			, user_meta.name as meta_name
-	// 			, user_meta.value as meta_value
-	// 		from user				
-	// 		left join user_meta on user.id = user_meta.user_id
-	// 		where email = :email
-	// 	";
-	// }
-
-
-
 	/**
 	 * Get all Users and pair with Meta Data
 	 */
@@ -114,27 +42,6 @@ class Model_User extends Model
 		}		
 	}	
 
-	
-	// /**
-	//   * Insert 1 Row into Database | Set Level
-	//   */
-	// public function insert($level = 1) {	
-	// 	$sth = $this->database->dbh->prepare("
-	// 		INSERT INTO user
-	// 			(email, password, level)
-	// 		values
-	// 			(:email, :password, :level)
-	// 	");
-		
-	// 	$sth->execute(
-	// 		array(
-	// 			':email' => $this->getEmail()
-	// 			, ':password' => $this->getPassword()
-	// 			, ':level' => $level
-	// 		)
-	// 	);
-	// }
-	
 	
 	/**
 	 * using the id the session is refreshed with fresh updated data

@@ -1,10 +1,6 @@
 <?php
 
 /**
- * Session
- *
- * PHP version 5
- * 
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -16,65 +12,13 @@ class Session extends Config
 
 
 	/**
-	 * identifies the array key e.g.
-	 * $_SESSION[$keyName]
-	 * @var string
-	 */
-	public $keyName = '';
-
-
-	/**
-	 * stores the keyname data
-	 * @var array|bool|string
-	 */
-	public $data = false;
-
-
-	/**
-	 * always initiates with the session, database and config
-	 * @param object $database 
-	 * @param object $config   
-	 */
-	public function __construct($database, $config, $keyName = '') {
-		$this->database = $database;
-		$this->config = $config;
-		$this->setKeyName($keyName);
-	}
-
-
-	/**
 	 * boots up the session
 	 * @return object 
 	 */
 	public function start() {
-		session_name('example');
+		// session_name('example');
 		session_start();
 		return $this;
-	}
-
-
-	/**
-	 * sets the keyName property
-	 */
-	public function setKeyName($keyName)
-	{
-		if ($keyName) {
-			$this->keyName = $keyName;
-		} else {
-			$className = get_class($this);
-			$className = str_replace('Session_', '', $className);
-			$this->keyName = strtolower($className);
-		}
-		return $this;
-	}
-
-
-	/**
-	 * gets the keyName property
-	 */
-	public function getKeyName()
-	{
-		return $this->keyName;
 	}
 
 
@@ -100,50 +44,15 @@ class Session extends Config
 
 
 	/**
-	 * Get data array or by key
-	 * @param  string $key 
-	 * @return value|bool       depending upon success
+	 * gets all data based upon the 
+	 * @return [type] [description]
 	 */
-	public function getData($key = '')
+	public function getData()
 	{		
-		if ($key) {
-			if (array_key_exists($key, $this->data)) {
-				return $this->data[$key];
-			} else {
-				return false;
-			}
+		if (array_key_exists($this->identity, $_SESSION)) {
+			return $_SESSION[$this->identity];
 		}
-		return $this->data;
-	}	
-
-
-	/**
-	 * master get function for interacting with $_SESSION
-	 * @param  string|array  $one      
-	 * @param  string $two   
-	 * @param  string $three 
-	 * @return array|string|int            
-	 */
-	public function get($one = null, $two = null, $three = null) {	
-		if (is_array($one)) {
-			if (array_key_exists($two, $one)) {
-				return $one[$two];
-			}
-			return;
-		}
-		if (array_key_exists($one, $_SESSION)) {
-			if (is_array($_SESSION[$one]) && array_key_exists($two, $_SESSION[$one])) {
-				if (is_array($_SESSION[$one][$two]) && array_key_exists($three, $_SESSION[$one][$two])) {
-					return $_SESSION[$one][$two][$three];
-				}
-				return $_SESSION[$one][$two];
-			}
-			return $_SESSION[$one];
-		}
-		if (! $one && ! $two && ! $three) {
-			return $_SESSION;
-		}
-		return;
+		return $_SESSION[$this->identity] = false;
 	}	
 
 
@@ -188,47 +97,7 @@ class Session extends Config
 	}
 
 
-	public function getPreviousUrl($current) {
-		if (! array_key_exists('history', $_SESSION)) {
-			$_SESSION['history'][0] = $current;
-			$_SESSION['history'][1] = false;
-			return;
-		} else {
-			if ($_SESSION['history'][0]) {
-				$_SESSION['history'][1] = $_SESSION['history'][0];
-			}
-			$_SESSION['history'][0] = $current;
-			if ($_SESSION['history'][1]) {
-				return $_SESSION['history'][1];
-			} else {
-				return;
-			}
-		}
-	}
-
-
-	/**
-	 * expires any session variables which require timing, these are
-	 * set elsewhere
-	 */
-	public function refreshExpire() {
-		if ($this->get('user', 'expire') && $this->get('user', 'expire') < time()) {
-			// $this->getUnset('user');
-		} else {
-			if ($this->get('user')) {
-				$this->set('user', 'expire', time() + 600);
-			}
-		}
-		if ($this->get('password_recovery', 'expire') && $this->get('password_recovery', 'expire') < time()) {
-			$this->getUnset('password_recovery');
-		}
-		return $this;
-	}
-
-
 	public function getData() {		
-		return $_SESSION = $_SESSION;
+		return $_SESSION;
 	}	
-
-
 }

@@ -81,7 +81,7 @@ class Controller extends Config
 	 */
 	public function load($names, $method, $view, $database, $config) {
 		$path = $this->path;
-		$this->session = new Session();
+		// $this->session = new Session();
 		$this->cache = new Cache(false);
 		$this->database = $database;
 		$this->config = $config;
@@ -132,6 +132,4 @@ class Controller extends Config
 		$segments = explode('-', $segment);
 		return end($segments);
 	}
-
-
 }

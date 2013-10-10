@@ -6,6 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
+
 define('BASE_PATH', (string) (__DIR__ . '/'));
 require_once(BASE_PATH . 'config.php');
 require_once(BASE_PATH . 'app/class/autoloader.php');
@@ -13,14 +14,12 @@ spl_autoload_register(array('Autoloader', 'load'));
 $error = new error($errorReporting);
 $database = new database($credentials);
 $session = new session();
-$session
-	->start()
-	->refreshExpire();
+$session->start();
+$options = new model_options($database);
+$options->read();
 $config = new config();
-$mainOption = new model_options($database, $config);
-$mainOption->read();
 $config
-	->setOptions($mainOption->getData())
+	->setOptions($options->getData())
 	->setUrl()
 	->setObject($error)
 	->setObject($session);

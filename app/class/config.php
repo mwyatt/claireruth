@@ -1,12 +1,6 @@
 <?php
 
 /**
- * Config
- *
- * core base for object, class, option operations
- *
- * PHP version 5
- * 
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -18,46 +12,100 @@ class Config
 
 
 	/**
-	 * stores returned model data
+	 * see class database
+	 * @var object
+	 */
+	public $database;
+
+	
+	/**
+	 * see class config
+	 * set as false when constructing itself
+	 * @var object
+	 */
+	public $config;
+
+
+	/**
+	 * identifies the the instance of some classes
+	 * for example
+	 * 		$_SESSION[$keyName]
+	 * 		or table name
+	 * 	usually parsed from the class title
+	 * @var string
+	 */
+	public $identity = '';
+
+
+	/**
+	 * stores data relating to the class
 	 * @var array
 	 */
 	public $data;
 
 
 	/**
-	 * storage for objects to be passed into other objects
+	 * stores objects like nuts!
 	 * @var array
 	 */
 	public $objects;
 
+
 	/**
-	 * full set of options data from the options table
+	 * stores options data
+	 * at the moment this is used as a kind of global config
 	 * @var array
 	 */
 	public $options;
 
 
 	/**
-	 * collection of useful urls,
-	 * base
-	 * noquery
-	 * segments of each url partition
+	 * a variety of url structures are stored here
 	 * @var array
 	 */
 	public $url;
 
+
+	/**
+	 * always initiates with the database and config objects
+	 * the identity is built mainly automatically
+	 * @param object $database 
+	 * @param object $config   
+	 * @param string $identity   sets the identity dynamically or manually   
+	 */
+	public function __construct($database = false, $config = false, $identity = '') {
+		$this->database = $database;
+		$this->config = $config;
+
+		// sets the table name for use with generic methods
+		$this->setIdentity($identity);
+	}
+
 	
+	/**
+	 * sets all options taken from the options table
+	 * @param array $options 
+	 */
 	public function setOptions($options) {
 		$this->options = $options;
 		return $this;
 	}
 
 
+	/**
+	 * returns full options array
+	 * @return array
+	 */
 	public function getOptions() {
 		return $this->options;
 	}
 
 
+	/**
+	 * returns a specific option
+	 * @param  string $key 
+	 * @return int|string|bool      
+	 */
 	public function getOption($key) {
 		if (array_key_exists($key, $this->options)) {
 			return $this->options[$key];
@@ -74,9 +122,8 @@ class Config
 		$objectTitle = strtolower($objectTitle);
 		if (array_key_exists($objectTitle, $this->objects)) {
 			return $this->objects[$objectTitle];
-		} else {
-			return false;
 		}
+		return false;
 	}
 	
 	
@@ -118,13 +165,13 @@ class Config
 			return $this;
 		}
 
-		// always return this to chain
+		// chain
 		return $this;
 	}
 	
 	
 	/**
-	 * returns url key or path segment
+	 * returns url key or path scheme
 	 */		
 	public function getUrl($key = false) {	
 		if (gettype($key) == 'integer') {
@@ -150,6 +197,7 @@ class Config
 	 * use scheme + host for urlBase
 	 * use scheme + host + path implode for urlCurrent
 	 * returns $this
+	 * @todo  needs a revisit to optimise!
 	 */	
 	public function setUrl($scheme = '', $key = '', $value = '') {
 		if ($scheme && $key) {
@@ -298,32 +346,36 @@ class Config
 	} 
 
 
+	/**
+	 * simple return of identity
+	 * @return string 
+	 */
+	public function getIdentity()
+	{
+		return $this->identity;
+	}
+
 
 	/**
-	 * Replaces any parameter placeholders in a query with the value of that
-	 * parameter. Useful for debugging. Assumes anonymous parameters from 
-	 * $params are are in the same order as specified in $query
-	 *
-	 * @param string $query The sql query with parameter placeholders
-	 * @param array $params The array of substitution parameters
-	 * @return string The interpolated query
+	 * sets the identity property
 	 */
-	public function interpolateQuery($query, $params) {
-	    $keys = array();
+	public function setIdentity($identity)
+	{
+		if ($identity) {
+			$this->identity = $identity;
+		} else {
+			$className = get_class($this);
+			$className = explode('_', $className);
+			array_shift($className);
 
-	    # build a regular expression for each parameter
-	    foreach ($params as $key => $value) {
-	        if (is_string($key)) {
-	            $keys[] = '/:'.$key.'/';
-	        } else {
-	            $keys[] = '/[?]/';
-	        }
-	    }
-
-	    $query = preg_replace($keys, $params, $query, 1, $count);
-
-	    #trigger_error('replaced '.$count.' keys');
-
-	    return $query;
+			// hopefully catching classes like 'Session'
+			// and 'Model'
+			if (! $className) {
+				return $this->identity = '';
+			}
+			$className = implode('_', $className);
+			$this->identity = strtolower($className);
+		}
+		return $this;
 	}
 }
