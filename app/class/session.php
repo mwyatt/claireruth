@@ -15,11 +15,106 @@ class Session extends Config
 {
 
 
+	/**
+	 * identifies the array key e.g.
+	 * $_SESSION[$keyName]
+	 * @var string
+	 */
+	public $keyName = '';
+
+
+	/**
+	 * stores the keyname data
+	 * @var array|bool|string
+	 */
+	public $data;
+
+
+	/**
+	 * always initiates with the session, database and config
+	 * @param object $database 
+	 * @param object $config   
+	 */
+	public function __construct($database, $config, $keyName = '') {
+		$this->database = $database;
+		$this->config = $config;
+		$this->setKeyName($keyName);
+	}
+
+
+	/**
+	 * boots up the session
+	 * @return object 
+	 */
 	public function start() {
 		session_name('example');
 		session_start();
 		return $this;
 	}
+
+
+	/**
+	 * sets the keyName property
+	 */
+	public function setKeyName($keyName)
+	{
+		if ($keyName) {
+			$this->keyName = $keyName;
+		} else {
+			$className = get_class($this);
+			$className = str_replace('Session_', '', $className);
+			$this->keyName = strtolower($className);
+		}
+		return $this;
+	}
+
+
+	/**
+	 * gets the keyName property
+	 */
+	public function getKeyName()
+	{
+		return $this->keyName;
+	}
+
+
+	/**
+	 * sets the data property with custom data
+	 * or the session array
+	 * or a blank session key
+	 * @param string|array|bool $data 
+	 */
+	public function setData($data = false)
+	{
+		if ($data) {
+			return $this->data = $data;
+		}
+		if ($this->getKeyName()) {
+			if (array_key_exists($this->getKeyName(), $_SESSION)) {
+				$this->data = $_SESSION[$this->getKeyName()];
+			} else {
+				$this->data = $_SESSION[$this->getKeyName()] = false;
+			}
+		}
+	}
+
+
+	/**
+	 * Get data array or by key
+	 * @param  string $key 
+	 * @return value|bool       depending upon success
+	 */
+	public function getData($key = '')
+	{		
+		if ($key) {
+			if (array_key_exists($key, $this->data)) {
+				return $this->data[$key];
+			} else {
+				return false;
+			}
+		}
+		return $this->data;
+	}	
 
 
 	/**

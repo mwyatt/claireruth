@@ -57,7 +57,7 @@ class Model extends Config
 	 * @param object $config   
 	 */
 	public function __construct($database, $config, $tableName = '') {
-		$this->session = new Session();
+		$this->session = new Session($database, $config);
 		$this->database = $database;
 		$this->config = $config;
 
