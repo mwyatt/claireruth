@@ -43,10 +43,6 @@ class Session extends Config
 	}
 
 
-	/**
-	 * gets all data based upon the 
-	 * @return [type] [description]
-	 */
 	public function getData()
 	{		
 		if (array_key_exists($this->identity, $_SESSION)) {
