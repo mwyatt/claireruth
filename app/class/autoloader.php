@@ -15,13 +15,19 @@ class Autoloader {
 
 	/**
 	 * Load classes dynamically
+	 *
+	 * order of operations:
+	 * 		foo_bar
+	 * 		check for app/class/foo_bar.php
+	 * 		app/class/foo/bar.php
+	 * 		appl/foo/bar.php
+	 * 
 	 * @param  string $title attempted class to load
 	 * @return null            
 	 */
 	public static function load($title) {
 		$title = strtolower($title);
 		$path = BASE_PATH . 'app' . '/' . 'class' . '/' . $title . '.php';
-			// echo "$path<br>";			
 		if (is_file($path)) {
 			require_once($path);
 			return;
@@ -36,6 +42,7 @@ class Autoloader {
 		$path = rtrim($path, '/');
 		$path .= '.php';
 		
+			echo "$path<br>";			
 		if (is_file($path)) {
 			require_once($path);
 			return;

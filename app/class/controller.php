@@ -38,10 +38,22 @@ class Controller extends Config
 
 
 	/**
-	 * prepends the constant
+	 * sets the property
+	 * @param string $extension 
 	 */
-	public function __construct() {
-		$this->path = BASE_PATH . $this->path;
+	public function setPath($extension = '')
+	{
+		$this->path = BASE_PATH . $this->path . $extension;
+	}
+
+
+	/**
+	 * returns property
+	 * @return string 
+	 */
+	public function getPath()
+	{
+		return $this->path;
 	}
 
 
@@ -80,12 +92,18 @@ class Controller extends Config
 	 * @return null           the controller is loaded into this scope
 	 */
 	public function load($names, $method, $view, $database, $config) {
-		$path = $this->path;
-		// $this->session = new Session();
+
+		// initial setup of base path
+		$this->setPath();
+		$path = $this->getPath();
+
+		// basic objects
 		$this->cache = new Cache(false);
 		$this->database = $database;
 		$this->config = $config;
 		$this->view = $view;
+
+		// logic
 		if (! $view) {
 			$this->view = new View($this->database, $this->config);
 		}

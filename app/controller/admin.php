@@ -17,14 +17,24 @@ class Controller_Admin extends Controller
 
 	public function initialise() {
 
+		// common objects
+		$menu = new model_menu($this->database, $this->config);
+		$sessionUser = new session_admin_user($this->database, $this->config);
+		$user = new Model_user($this->database, $this->config);
+
+		echo '<pre>';
+		print_r($sessionUser);
+		print_r($user);
+		echo '</pre>';
+		exit;
+		
+
 		// menu and submenu
-		$menu = new Model_menu($this->database, $this->config);
 		$menu->admin();
 		$menu->adminSub();
 		$this->view->setObject($menu);
 
 		// user
-		$user = new Model_user($this->database, $this->config);
 		if ($user->isLogged() && $user->get('level') < 10) {
 			$accessTo = $user->getPermission($user->get('level'));
 			if ($this->config->getUrl(2) && ! in_array($this->config->getUrl(2), $accessTo)) {

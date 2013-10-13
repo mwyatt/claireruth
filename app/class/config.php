@@ -378,4 +378,45 @@ class Config
 		}
 		return $this;
 	}
+
+
+	/**
+	 * Set data array
+	 */
+	public function setData($value)
+	{		
+		$this->data = $value;
+	}
+
+
+	/**
+	 * Get data array or by key
+	 * @param  string $key 
+	 * @return value|bool       depending upon success
+	 */
+	public function getData($key = false)
+	{		
+		if ($key) {
+			if (array_key_exists($key, $this->data)) {
+				return $this->data[$key];
+			} else {
+				return false;
+			}
+		}
+		return $this->data;
+	}	
+
+
+	/**
+	 * attempts to return the data stored
+	 * returns false on failure
+	 * @return array|bool 
+	 */
+	public function getDataFirst()
+	{
+		if ($data = $this->getData()) {
+			return current($data);
+		}
+		return false;
+	}
 }
