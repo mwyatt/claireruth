@@ -13,16 +13,13 @@ require_once(BASE_PATH . 'app/class/autoloader.php');
 spl_autoload_register(array('Autoloader', 'load'));
 $error = new error($errorReporting);
 $database = new database($credentials);
-$session = new session();
-$session->start();
 $options = new model_options($database);
 $options->read();
 $config = new config();
 $config
 	->setOptions($options->getData())
 	->setUrl()
-	->setObject($error)
-	->setObject($session);
+	->setObject($error);
 $cron = new cron($database, $config);
 $cron->poll(array(
 	'emailErrorReport'

@@ -11,6 +11,12 @@ class Session_Admin_User extends Session
 {
 
 
+	public function login()
+	{
+		// $this->setData(array('hi' => true));
+	}
+
+
 	public function isLogged()
 	{
 		return $this->getData();

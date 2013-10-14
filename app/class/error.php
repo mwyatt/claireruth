@@ -37,13 +37,13 @@ class Error
 				echo 'A error has occurred. We all make mistakes. Please notify the administrator <a href="mailto:martin.wyatt@gmail.com">martin.wyatt@gmail.com</a>';
 			case true:
 
+				// display error(s)
+				echo '[Type ' . $errorType . '] ' . $errorString . ' | ' . $errorFile . ' [Line ' . $errorLine . ']' . "\n";
+
 				// trying this out
 				echo '<pre>';
 				print_r(debug_backtrace());
 				echo '</pre>';
-
-				// display error(s)
-				echo '[Type ' . $errorType . '] ' . $errorString . ' | ' . $errorFile . ' [Line ' . $errorLine . ']' . "\n";
 		}	
 		exit;
     }

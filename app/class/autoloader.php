@@ -28,40 +28,32 @@ class Autoloader {
 	public static function load($title) {
 		$lowerTitle = strtolower($title);
 		$classExtension = '.php';
-		$path = BASE_PATH . 'app/'
-		$testPath = $path . 'class/' . $lowerTitle . $classExtension;
+
+		// check for app/class/foo_bar.php
+		$basePath = BASE_PATH . 'app/';
+		$testPath = $basePath . 'class/' . $lowerTitle . $classExtension;
 		if (is_file($testPath)) {
 			require_once($testPath);
 			return;
 		}
 
-		// explode
+		// app/class/foo/bar.php
 		$titlePath = '';
 		foreach (explode('_', $lowerTitle) as $sliceOfPathPie) {
 			$titlePath .= strtolower($sliceOfPathPie) . '/';
 		}
-
-		$path = BASE_PATH . 'app/';
-
-
-		$path = rtrim($path, '/');
-		$path .= '.php';
-		
-			echo "$path<br>";			
-		if (is_file($path)) {
-			require_once($path);
+		$titlePath = rtrim($titlePath, '/');
+		$testPath = $basePath . 'class/' . $titlePath . $classExtension;
+		if (is_file($testPath)) {
+			require_once($testPath);
 			return;
 		}
 
-		// echo '<h2>' . 'Class can\'t be found' . '<h2>';
-		// echo '<pre>';
-		// echo $title . '<br>';
-		// print_r($path);
-		// echo '</pre>';
-
-		// exit;
-		
-	}
-
-	
+		// appl/foo/bar.php
+		$testPath = $basePath . $titlePath . $classExtension;
+		if (is_file($testPath)) {
+			require_once($testPath);
+			return;
+		}
+	}	
 }

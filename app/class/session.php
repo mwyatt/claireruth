@@ -20,12 +20,37 @@ class Session extends Config
 
 
 	/**
-	 * boots up the session
-	 * @return object 
+	 * extends the normal constructor to set the session data
 	 */
-	public function start() {
-		session_start();
-		return $this;
+	public function __construct($database = false, $config = false, $identity = '') {
+
+		// start session if not already
+		if (session_status() == PHP_SESSION_NONE) {
+		    session_start();
+		}
+
+		// initial setup of session data
+		$this->setupData();
+
+		// follow through to core constructor
+		parent::__construct($database, $config);
+	}
+
+
+	/**
+	 * initialises the class or child classes to have the session data
+	 * stored within
+	 */
+	public function setupData()
+	{
+		if (array_key_exists($this->getIdentity(), $_SESSION)) {
+			echo '<pre>';
+			print_r($_SESSION[$this->getIdentity()]);
+			echo '</pre>';
+			exit;
+			
+			$this->setData($_SESSION[$this->getIdentity()]);
+		}
 	}
 
 
@@ -35,7 +60,7 @@ class Session extends Config
 	 */
 	public function setData($value = false)
 	{
-		$_SESSION[$this->getKeyName()] = $value;
+		$_SESSION[$this->getIdentity()] = $value;
 		parent::setData($value);
 	}
 
