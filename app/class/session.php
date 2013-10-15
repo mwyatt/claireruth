@@ -24,16 +24,11 @@ class Session extends Config
 	 */
 	public function __construct($database = false, $config = false, $identity = '') {
 
-		// start session if not already
-		if (session_status() == PHP_SESSION_NONE) {
-		    session_start();
-		}
-
-		// initial setup of session data
-		$this->setupData();
-
 		// follow through to core constructor
 		parent::__construct($database, $config);
+
+		// initial setup of session data
+		$this->refreshData();
 	}
 
 
@@ -41,72 +36,40 @@ class Session extends Config
 	 * initialises the class or child classes to have the session data
 	 * stored within
 	 */
-	public function setupData()
+	public function refreshData($value = false)
 	{
 		if (array_key_exists($this->getIdentity(), $_SESSION)) {
-			echo '<pre>';
-			print_r($_SESSION[$this->getIdentity()]);
-			echo '</pre>';
-			exit;
-			
 			$this->setData($_SESSION[$this->getIdentity()]);
 		}
 	}
 
 
 	/**
-	 * sets the session variable and the data property
-	 * @param boolean $value [description]
+	 * sets the session variable with information and updates
+	 * the data packet
+	 * @param string $key   
+	 * @param any $value 
 	 */
-	public function setData($value = false)
+	public function setData($key, $value)
 	{
-		$_SESSION[$this->getIdentity()] = $value;
-		parent::setData($value);
+		$_SESSION[$this->getIdentity()][$key] = $value;
+		$this->refreshData();
 	}
 
 
-	/**
-	 * gets array or sub array, returns and destroys session data
-	 * @param  string  $key    
-	 * @param  boolean $subKey will be string when used
-	 * @return anything          
-	 */
-	// public function getUnset($key, $subKey = false) {
-	// 	if (array_key_exists($key, $_SESSION)) {
-	// 		if (! $subKey) {
-	// 			$value = $_SESSION[$key];
-	// 			unset($_SESSION[$key]);
-	// 			return $value;
-	// 		}
-	// 		if (array_key_exists($subKey, $_SESSION[$key])) {
-	// 			$value = $_SESSION[$key][$subKey];
-	// 			unset($_SESSION[$key][$subKey]);
-	// 			return $value;
-	// 		}
-	// 	}
-	// 	return false;
-	// }
+	public function getUnset($key) {
+		if (array_key_exists($key, $_SESSION[$this->getIdentity()])) {
+			$data = $_SESSION[$key];
+			unset($_SESSION[$key]);
+			return $data;
+		}
+		return $data;
+	}
 
 
-	// public function set($key, $keyTwo, $keyThree = false) {
-	// 	if ($keyThree) {
-	// 		$_SESSION[$key][$keyTwo] = $keyThree;
-	// 		return true;
-	// 	}
-	// 	if ($_SESSION[$key] = $keyTwo)
-	// 		return true;
-	// 	else
-	// 		return false;
-	// }
-
-
-	// public function setIncrement($key, $value) {
-	// 	$_SESSION[$key][] = $value;
-	// 	return $this;
-	// }
-
-
-	// public function getData() {		
-	// 	return $_SESSION;
-	// }	
+	public function delete($key = false) {
+		if (! $key) {
+			unset($_SESSION[$this->getIdentity()]);
+		}
+	}
 }

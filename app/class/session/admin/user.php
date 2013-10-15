@@ -13,13 +13,19 @@ class Session_Admin_User extends Session
 
 	public function login()
 	{
-		// $this->setData(array('hi' => true));
+		$this->setData();
 	}
 
 
 	public function isLogged()
 	{
 		return $this->getData();
+	}
+
+
+	public function logout()
+	{
+		$this->delete();
 	}
 
 	

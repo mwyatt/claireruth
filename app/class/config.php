@@ -199,56 +199,61 @@ class Config
 	 * returns $this
 	 * @todo  needs a revisit to optimise!
 	 */	
-	public function setUrl($scheme = '', $key = '', $value = '') {
-		if ($scheme && $key) {
-			$this->url[$scheme][$key] = $value;
-			return $this;
+	public function setUrl() {
+		if (! $_SERVER) {
+			return;
 		}
-		if ($_SERVER) {
-			$url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('.', '', $_SERVER['REQUEST_URI']);
-			$url = strtolower($url);
-			$url = parse_url($url);
-			if (array_key_exists('path', $url)) {
-				$scriptName = explode('/', strtolower($_SERVER['SCRIPT_NAME']));
-				array_pop($scriptName); 
-				$scriptName = array_filter($scriptName); 
-				$scriptName = array_values($scriptName);			
-				$url['path'] = explode('/', $url['path']);
-				$url['path'] = array_filter($url['path']);
-				$url['path'] = array_values($url['path']);
-				foreach (array_intersect($scriptName, $url['path']) as $key => $value) {
-					unset($url['path'][$key]);
-				}
-				$url['path'] = array_values($url['path']);		
-			}		
-			if (array_key_exists('query', $url)) {
-				$url['query'] = explode('[;&]', $url['query']);
-			}
-			$this->url = $url;
+		$serverHost = $_SERVER['HTTP_HOST'];
+		$serverRequest = $_SERVER['REQUEST_URI'];
+		$serverScript = $_SERVER['SCRIPT_NAME'];
+
+
+
+
+		
+		$url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('.', '', $_SERVER['REQUEST_URI']);
+		$url = strtolower($url);
+		$url = parse_url($url);
+		if (array_key_exists('path', $url)) {
 			$scriptName = explode('/', strtolower($_SERVER['SCRIPT_NAME']));
 			array_pop($scriptName); 
 			$scriptName = array_filter($scriptName); 
-			$scriptName = array_values($scriptName);
-			$url = $this->getUrl('scheme') . '://' . $this->getUrl('host') . '/';
-			foreach ($scriptName as $section) {
-				$url .= $section . '/';
+			$scriptName = array_values($scriptName);			
+			$url['path'] = explode('/', $url['path']);
+			$url['path'] = array_filter($url['path']);
+			$url['path'] = array_values($url['path']);
+			foreach (array_intersect($scriptName, $url['path']) as $key => $value) {
+				unset($url['path'][$key]);
 			}
-			$this->url['base'] = $url;
-			$this->url['admin'] = $this->url['base'] . 'admin/';
-			$url = $this->url['base'];
-			foreach ($this->url['path'] as $segment) {
-				$url .= $segment . '/';
-			}
-			$this->url['current_noquery'] =  $url;
-			$this->url['current'] = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			$url = $this->url['base'];
-			$segments = $this->url['path'];
-			array_pop($segments);
-			foreach ($segments as $segment) {
-				$url .= $segment . '/';
-			}
-			$this->url['back'] = $url;
+			$url['path'] = array_values($url['path']);		
+		}		
+		if (array_key_exists('query', $url)) {
+			$url['query'] = explode('[;&]', $url['query']);
 		}
+		$this->url = $url;
+		$scriptName = explode('/', strtolower($_SERVER['SCRIPT_NAME']));
+		array_pop($scriptName); 
+		$scriptName = array_filter($scriptName); 
+		$scriptName = array_values($scriptName);
+		$url = $this->getUrl('scheme') . '://' . $this->getUrl('host') . '/';
+		foreach ($scriptName as $section) {
+			$url .= $section . '/';
+		}
+		$this->url['base'] = $url;
+		$this->url['admin'] = $this->url['base'] . 'admin/';
+		$url = $this->url['base'];
+		foreach ($this->url['path'] as $segment) {
+			$url .= $segment . '/';
+		}
+		$this->url['current_noquery'] =  $url;
+		$this->url['current'] = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$url = $this->url['base'];
+		$segments = $this->url['path'];
+		array_pop($segments);
+		foreach ($segments as $segment) {
+			$url .= $segment . '/';
+		}
+		$this->url['back'] = $url;
 		return $this;
 	}	
 
