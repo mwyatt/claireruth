@@ -50,13 +50,18 @@ class Session extends Config
 	 * @param string $key   
 	 * @param any $value 
 	 */
-	public function setData($key, $value)
+	public function setIdentityData($key, $value)
 	{
 		$_SESSION[$this->getIdentity()][$key] = $value;
 		$this->refreshData();
 	}
 
 
+	/**
+	 * gets the array and unsets it
+	 * @param  string $key 
+	 * @return array      
+	 */
 	public function getUnset($key) {
 		if (array_key_exists($key, $_SESSION[$this->getIdentity()])) {
 			$data = $_SESSION[$key];
@@ -67,6 +72,10 @@ class Session extends Config
 	}
 
 
+	/**
+	 * just unsets the data
+	 * @param  boolean $key 
+	 */
 	public function delete($key = false) {
 		if (! $key) {
 			unset($_SESSION[$this->getIdentity()]);

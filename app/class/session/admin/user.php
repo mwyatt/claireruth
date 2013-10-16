@@ -13,7 +13,7 @@ class Session_Admin_User extends Session
 
 	public function login()
 	{
-		$this->setData();
+		$this->setIdentityData('hi', 'hello');
 	}
 
 

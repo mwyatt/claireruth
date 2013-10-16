@@ -192,70 +192,93 @@ class Config
 	
 	
 	/**
-	 * sets url array
-	 * scheme, host, path, query
-	 * use scheme + host for urlBase
-	 * use scheme + host + path implode for urlCurrent
-	 * returns $this
-	 * @todo  needs a revisit to optimise!
-	 */	
-	public function setUrl() {
+	 * builds various url structures
+	 * @todo  could be compressed further
+	 * @return object
+	 */
+	public function buildUrl() {
+
+		// server var must be avaliable
 		if (! $_SERVER) {
 			return;
 		}
+
+		// base vars
+		$urlParts = array();
 		$serverHost = $_SERVER['HTTP_HOST'];
 		$serverRequest = $_SERVER['REQUEST_URI'];
 		$serverScript = $_SERVER['SCRIPT_NAME'];
+		$scheme = 'http://';
+		// $schemes = str_replace('p', 's', $scheme);
 
-
-
-
-		
-		$url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('.', '', $_SERVER['REQUEST_URI']);
+		// init url
+		$url = $scheme . $serverHost . str_replace('.', '', $serverRequest);
 		$url = strtolower($url);
-		$url = parse_url($url);
-		if (array_key_exists('path', $url)) {
-			$scriptName = explode('/', strtolower($_SERVER['SCRIPT_NAME']));
+		$urlParts = parse_url($url);
+
+		// find out and build path array, 0, 1, 2
+		if (array_key_exists('path', $urlParts)) {
+			$scriptName = explode('/', strtolower($serverScript));
 			array_pop($scriptName); 
 			$scriptName = array_filter($scriptName); 
 			$scriptName = array_values($scriptName);			
-			$url['path'] = explode('/', $url['path']);
-			$url['path'] = array_filter($url['path']);
-			$url['path'] = array_values($url['path']);
-			foreach (array_intersect($scriptName, $url['path']) as $key => $value) {
-				unset($url['path'][$key]);
+			$urlParts['path'] = explode('/', $urlParts['path']);
+			$urlParts['path'] = array_filter($urlParts['path']);
+			$urlParts['path'] = array_values($urlParts['path']);
+			foreach (array_intersect($scriptName, $urlParts['path']) as $key => $value) {
+				unset($urlParts['path'][$key]);
 			}
-			$url['path'] = array_values($url['path']);		
+			$urlParts['path'] = array_values($urlParts['path']);		
 		}		
-		if (array_key_exists('query', $url)) {
-			$url['query'] = explode('[;&]', $url['query']);
-		}
-		$this->url = $url;
-		$scriptName = explode('/', strtolower($_SERVER['SCRIPT_NAME']));
-		array_pop($scriptName); 
+
+		// build base url
+		$scriptName = explode('/', strtolower($serverScript));
+		array_pop($scriptName);
 		$scriptName = array_filter($scriptName); 
 		$scriptName = array_values($scriptName);
-		$url = $this->getUrl('scheme') . '://' . $this->getUrl('host') . '/';
+		$url = $scheme . $urlParts['host'] . '/';
 		foreach ($scriptName as $section) {
 			$url .= $section . '/';
 		}
-		$this->url['base'] = $url;
-		$this->url['admin'] = $this->url['base'] . 'admin/';
-		$url = $this->url['base'];
-		foreach ($this->url['path'] as $segment) {
+		$urlParts['base'] = $url;
+
+		// admin
+		$urlParts['admin'] = $urlParts['base'] . 'admin/';
+
+		// current_noquery
+		$url = $urlParts['base'];
+		foreach ($urlParts['path'] as $segment) {
 			$url .= $segment . '/';
 		}
-		$this->url['current_noquery'] =  $url;
-		$this->url['current'] = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$url = $this->url['base'];
-		$segments = $this->url['path'];
+		$urlParts['current_noquery'] =  $url;
+
+		// current
+		$urlParts['current'] = $scheme . $serverHost . $serverRequest;
+
+		// previous url
+		// may be obsolete when the history session function is created
+		$url = $urlParts['base'];
+		$segments = $urlParts['path'];
 		array_pop($segments);
 		foreach ($segments as $segment) {
 			$url .= $segment . '/';
 		}
-		$this->url['back'] = $url;
+		$urlParts['back'] = $url;
+
+		// set the url
+		$this->setUrl($urlParts);
 		return $this;
 	}	
+
+
+	/**
+	 * sets the url array
+	 * @param string $value 
+	 */
+	public function setUrl($value = '')
+	{
+		$this->url = $value;
+	}
 
 
 	/**
@@ -388,7 +411,7 @@ class Config
 	/**
 	 * Set data array
 	 */
-	public function setData($value)
+	public function setData($value = false)
 	{		
 		$this->data = $value;
 	}
