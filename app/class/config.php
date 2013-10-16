@@ -317,26 +317,16 @@ class Config
 		if (! class_exists($className)) {
 			return false;
 		}
-		$exclusions = array(
-			'initialise'
-			, 'index'
-			, 'load'
-			, '__construct'
-			, 'loadMethod'
-			, 'route'
-			, 'getId'
-			, 'setOptions'
-			, 'getOptions'
-			, 'getOption'
-			, 'getObject'
-			, 'setObject'
-			, 'getUrl'
-			, 'setUrl'
-			, 'get'
-			, 'getClassMethods'
-			, 'generateRandomString'
-			, 'generateRandomString'
+
+		// will return unique set of methods
+
+		echo '<pre>';
+		print_r(
+			array_diff(get_class_methods($className), get_class_methods('controller'), array('initialise', 'index'))
 		);
+		echo '</pre>';
+		exit;
+
 		foreach (get_class_methods($className) as $method) {
 			if (! in_array($method, $exclusions)) {
 				$methods[] = $method;

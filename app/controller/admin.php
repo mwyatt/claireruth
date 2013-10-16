@@ -22,15 +22,6 @@ class Controller_Admin extends Controller
 		$sessionUser = new session_admin_user($this->database, $this->config);
 		$user = new Model_user($this->database, $this->config);
 
-		// $sessionUser->login();
-
-		echo '<pre>';
-		print_r($sessionUser);
-		print_r($user);
-		echo '</pre>';
-		exit;
-		
-
 		// menu and submenu
 		$menu->admin();
 		$menu->adminSub();

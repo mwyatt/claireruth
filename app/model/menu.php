@@ -69,25 +69,6 @@ class Model_Menu extends Model
 	
 	/**
 	 * Works with methods to return a full tree of type
-	 * @param string type
-	 * @returns	true if successful, false otherwise
-	 */	
-	// public function create($type, $parent = false)
-	// {
-		
-	// 	$this->type = $type;
-	// 	$this->select($type, $parent);
-		
-	// 	if ($this->getResult())
-	// 		return '<nav id="'.$this->type.'">'.$this->build($this->getResult()).'</nav>';
-	// 	else
-	// 		return false;
-			
-	// }	
-	
-	
-	/**
-	 * Works with methods to return a full tree of type
 	 * @method		build
 	 * @param		array results
 	 * @returns	html output if successful, false otherwise
@@ -186,6 +167,11 @@ class Model_Menu extends Model
 	  *	@returns	assoc array if successful, empty array otherwise
 	  */
 	public function admin() {
+		echo '<pre>';
+		print_r($this->getClassMethods('controller_admin'));
+		echo '</pre>';
+		exit;
+		
 		$this->data['admin'][] = array(
 			'name' => 'Dashboard'
 			, 'current' => ($this->config->getUrl(1) == '' ? true : false)

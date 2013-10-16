@@ -8,11 +8,6 @@
  */ 
 
 session_start();
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
-exit;
-
 define('BASE_PATH', (string) (__DIR__ . '/'));
 require_once(BASE_PATH . 'config.php');
 require_once(BASE_PATH . 'app/class/autoloader.php');
