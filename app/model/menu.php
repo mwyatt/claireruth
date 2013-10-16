@@ -167,11 +167,27 @@ class Model_Menu extends Model
 	  *	@returns	assoc array if successful, empty array otherwise
 	  */
 	public function admin() {
+		$excludeList = array('initialise', 'index');
+		$baseClassMethods = array_diff(get_class_methods('controller_admin'), get_class_methods('controller'), $excludeList);
+		foreach ($baseClassMethods as $classMethod) {
+			$subClassMethods = array_diff(get_class_methods('controller_admin_' . $classMethod), get_class_methods('controller'), $excludeList);
+			$finalList[] = array(
+				'title' => $classMethod
+				, 'children' => $subClassMethods
+			);
+		}
 		echo '<pre>';
-		print_r($this->getClassMethods('controller_admin'));
+		print_r($finalList);
 		echo '</pre>';
 		exit;
 		
+
+
+
+
+
+
+
 		$this->data['admin'][] = array(
 			'name' => 'Dashboard'
 			, 'current' => ($this->config->getUrl(1) == '' ? true : false)

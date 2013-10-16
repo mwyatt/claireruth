@@ -313,27 +313,27 @@ class Config
 	 * @param  string $className 
 	 * @return array|bool            list of methods
 	 */
-	public function getClassMethods($className) {
-		if (! class_exists($className)) {
-			return false;
-		}
+	// public function getClassMethods($className) {
+	// 	if (! class_exists($className)) {
+	// 		return false;
+	// 	}
 
-		// will return unique set of methods
+	// 	// will return unique set of methods
 
-		echo '<pre>';
-		print_r(
-			array_diff(get_class_methods($className), get_class_methods('controller'), array('initialise', 'index'))
-		);
-		echo '</pre>';
-		exit;
+	// 	echo '<pre>';
+	// 	print_r(
+	// 		array_diff(get_class_methods($className), get_class_methods('controller'), array('initialise', 'index'))
+	// 	);
+	// 	echo '</pre>';
+	// 	exit;
 
-		foreach (get_class_methods($className) as $method) {
-			if (! in_array($method, $exclusions)) {
-				$methods[] = $method;
-			}
-		}
-		return $methods;
-	}
+	// 	foreach (get_class_methods($className) as $method) {
+	// 		if (! in_array($method, $exclusions)) {
+	// 			$methods[] = $method;
+	// 		}
+	// 	}
+	// 	return $methods;
+	// }
 
 
 	/**
