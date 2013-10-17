@@ -15,17 +15,24 @@ class Controller_Admin extends Controller
 {
 
 
+	/**
+	 * @todo test session handling here
+	 * @todo feedback should be its own session module
+	 */
 	public function initialise() {
 
 		// common objects
-		$menu = new model_menu($this->database, $this->config);
+		$menu = new model_admin_menu($this->database, $this->config);
 		$sessionUser = new session_admin_user($this->database, $this->config);
 		$user = new Model_user($this->database, $this->config);
 
 		// menu and submenu
-		$menu->admin();
-		$menu->adminSub();
+		$menu->read();
 		$this->view->setObject($menu);
+
+
+		exit();
+
 
 		// user
 		if ($user->isLogged()) {

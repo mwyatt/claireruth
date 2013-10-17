@@ -403,7 +403,7 @@ class Config
 	 */
 	public function setData($value = false)
 	{		
-		$this->data = $value;
+		return $this->data = $value;
 	}
 
 
