@@ -193,6 +193,12 @@ class Config
 	
 	/**
 	 * builds various url structures
+	 * base
+	 * admin
+	 * path
+	 * current
+	 * current_noquery
+	 * back (depreciated)
 	 * @todo  could be compressed further
 	 * @return object
 	 */

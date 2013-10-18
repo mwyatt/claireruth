@@ -84,6 +84,6 @@ class Session extends Cron
 
 
 	public function setExpire() {
-		$this->
+		// $this->
 	}
 }

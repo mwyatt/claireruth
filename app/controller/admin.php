@@ -18,15 +18,18 @@ class Controller_Admin extends Controller
 	/**
 	 * @todo test session handling here
 	 * @todo feedback should be its own session module
+	 * @todo ensure you build in session_history to visit the
+	 *       url you intend to after logging in
 	 */
 	public function initialise() {
 		$sessionUser = new session_admin_user($this->database, $this->config);
+		$sessionFeedback = new session_feedback($this->database, $this->config);
 
 		// logout
 		if (array_key_exists('logout', $_GET)) {
 			$sessionUser->delete();
-			$this->session->set('feedback', 'Successfully logged out');
-			$this->route('base', 'admin/');
+			$sessionFeedback->set('Successfully logged out');
+			$this->route('admin');
 		}
 
 		// common objects
@@ -37,9 +40,9 @@ class Controller_Admin extends Controller
 		$menu->read();
 		$this->view->setObject($menu);
 
-		// user
+		// 
 		if ($user->isLogged()) {
-			$this->route('base', 'admin/');
+			$this->route('admin');
 		}
 
 		if (array_key_exists('form_login', $_POST)) {

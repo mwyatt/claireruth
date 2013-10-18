@@ -14,7 +14,11 @@ class Model_Admin_Menu extends Model
 {
 
 
-    public $exclude = array('initialise', 'index');
+    /**
+     * exclusions from the class
+     * @var array
+     */
+    public $methodExclusions = array('initialise', 'index');
 
 
 	/**
@@ -23,7 +27,7 @@ class Model_Admin_Menu extends Model
      */
 	public function read() {
         $controllerMethods = get_class_methods('controller');
-		$baseClassMethods = array_diff(get_class_methods('controller_admin'), $controllerMethods, $this->exclude);
+		$baseClassMethods = array_diff(get_class_methods('controller_admin'), $controllerMethods, $this->methodExclusions);
 		$finalList[] = array(
 			'title' => 'Dashboard'
             , 'current' => ($this->config->getUrl(1) == '' ? true : false)
@@ -34,7 +38,7 @@ class Model_Admin_Menu extends Model
             $subClassMethods = array();
             $refinedSubClassMethods = array();
             if (class_exists($subClassName = 'controller_admin_' . $classMethod)) {
-                $subClassMethods = array_diff(get_class_methods($subClassName), $controllerMethods, $this->exclude);
+                $subClassMethods = array_diff(get_class_methods($subClassName), $controllerMethods, $this->methodExclusions);
             }
             foreach ($subClassMethods as $subClassMethod) {
                 $refinedSubClassMethods[] = array(
