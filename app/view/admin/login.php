@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
 
-<?php require_once($this->pathView() . 'admin/header-resources.php'); ?>
+<?php require_once($this->pathView() . 'admin/header/_resource'); ?>
 
     </head>
     <body>
@@ -39,4 +39,4 @@
                 </form>
     		</div>
 
-<?php require_once($this->pathView('admin/footer')); ?>
+<?php require_once($this->pathView('admin/_footer')); ?>

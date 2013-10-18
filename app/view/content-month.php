@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+<?php require_once('_header.php'); ?>
 
 <div class="content month clearfix">
 	<h1>All posts from <?php echo $this->get('month_year') ?></h1>
@@ -8,4 +8,4 @@
 
 </div>
 
-<?php require_once('footer.php'); ?>
+<?php require_once('_footer.php'); ?>

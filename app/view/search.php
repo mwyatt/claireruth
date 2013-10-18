@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+<?php require_once('_header.php'); ?>
 
 <div class="content search">
 	<h1>Search results</h1>
@@ -26,4 +26,4 @@
 	</form> 
 </div>
 
-<?php require_once('footer.php'); ?>
+<?php require_once('_footer.php'); ?>

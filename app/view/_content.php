@@ -22,7 +22,4 @@
 <?php include($this->pathView('_content-tags')); ?>
 
 	<span class="content-<?php echo $rowContent['type']; ?>-author"><?php echo $rowContent['user_name']; ?></span>
-
-<?php //include($this->pathView('admin/partial-extension/content')); ?>
-	
 </div>

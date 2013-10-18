@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+<?php require_once('_header.php'); ?>
 
 <div class="content home clearfix">
 
@@ -8,4 +8,4 @@
 	<a href="<?php echo $this->url() ?>post/" class="button primary">All Posts</a>
 </div>
 
-<?php require_once('footer.php'); ?>
+<?php require_once('_footer.php'); ?>

@@ -17,7 +17,7 @@ class Model_User extends Model
 	/**
 	 * Get all Users and pair with Meta Data
 	 */
-	public function getUser() {	
+	public function read() {	
 
 		$sth = $this->database->dbh->query("
 			SELECT
@@ -86,13 +86,6 @@ class Model_User extends Model
 		$sth->execute(array($email));
 		$this->setData($sth->fetch(PDO::FETCH_ASSOC));
 	}
-
-
-	public function setUserExpire() {
-		$session = new Session();
-		$session->set('user', 'expire', time() + 600);
-	}
-
 
 	/**
 	 * login user

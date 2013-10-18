@@ -1,4 +1,4 @@
-<?php require_once($this->pathView() . 'admin/header.php'); ?>
+<?php require_once($this->pathView() . 'admin/_header.php'); ?>
 
 <div class="content <?php echo $this->url(2); ?> <?php echo ($this->get('model_content') ? 'update' : 'create'); ?>" data-id="<?php echo $this->get('model_content', 'id'); ?>">
 	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
@@ -110,4 +110,4 @@
 	</form>
 </div>
 
-<?php require_once($this->pathView() . 'admin/footer.php'); ?>
+<?php require_once($this->pathView() . 'admin/_footer.php'); ?>

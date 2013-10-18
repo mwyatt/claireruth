@@ -1,4 +1,4 @@
-<?php //require_once('header.php'); ?>
+<?php //require_once('_header.php'); ?>
 
 <div class="content permission">
 	
@@ -7,4 +7,4 @@
 
 </div> <!-- .container -->
 
-<?php //require_once('footer.php'); ?>
+<?php //require_once('_footer.php'); ?>

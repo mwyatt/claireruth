@@ -32,19 +32,34 @@ class Model_Admin_Menu extends Model
         );
         foreach ($baseClassMethods as $classMethod) {
             $subClassMethods = array();
+            $refinedSubClassMethods = array();
             if (class_exists($subClassName = 'controller_admin_' . $classMethod)) {
                 $subClassMethods = array_diff(get_class_methods($subClassName), $controllerMethods, $this->exclude);
+            }
+            foreach ($subClassMethods as $subClassMethod) {
+                $refinedSubClassMethods[] = array(
+                    'title' => $subClassMethod
+                    , 'url' => $this->buildUrl(array('admin', $classMethod, $subClassMethod))
+                    , 'current' => ($this->config->getUrl(2) == strtolower($subClassMethod) ? true : false)
+                    , 'children' => array()
+                );
             }
             $finalList[] = array(
                 'title' => $classMethod
                 , 'url' => $this->buildUrl(array('admin', $classMethod))
     			, 'current' => ($this->config->getUrl(1) == strtolower($classMethod) ? true : false)
-                , 'children' => $subClassMethods
+                , 'children' => $refinedSubClassMethods
             );
         }
 		return $this->setData($finalList);
     }	
 
+
+
+    public function getMenuItem($value='')
+    {
+        # code...
+    }
 
 
 	/**

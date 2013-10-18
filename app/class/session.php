@@ -15,7 +15,7 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
 
-class Session extends Config
+class Session extends Cron
 {
 
 
@@ -28,19 +28,19 @@ class Session extends Config
 		parent::__construct($database, $config);
 
 		// initial setup of session data
-		$this->refreshData();
+		$this->initialiseData();
 	}
 
 
 	/**
-	 * initialises the class or child classes to have the session data
-	 * stored within
+	 * initialises the session data into the class data property
 	 */
-	public function refreshData($value = false)
+	public function initialiseData()
 	{
-		if (array_key_exists($this->getIdentity(), $_SESSION)) {
-			$this->setData($_SESSION[$this->getIdentity()]);
+		if (! array_key_exists($this->getIdentity(), $_SESSION)) {
+			$_SESSION[$this->getIdentity()] = false;
 		}
+		parent::setData($_SESSION[$this->getIdentity()]);
 	}
 
 
@@ -50,10 +50,10 @@ class Session extends Config
 	 * @param string $key   
 	 * @param any $value 
 	 */
-	public function setIdentityData($key, $value)
+	public function setData($key, $value)
 	{
 		$_SESSION[$this->getIdentity()][$key] = $value;
-		$this->refreshData();
+		parent::setData($_SESSION[$this->getIdentity()]);
 	}
 
 
@@ -80,5 +80,10 @@ class Session extends Config
 		if (! $key) {
 			unset($_SESSION[$this->getIdentity()]);
 		}
+	}
+
+
+	public function setExpire() {
+		$this->
 	}
 }

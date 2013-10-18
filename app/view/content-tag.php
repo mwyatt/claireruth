@@ -1,4 +1,4 @@
-<?php require_once($this->pathView() . 'header.php'); ?>
+<?php require_once($this->pathView() . '_header.php'); ?>
 
 <div class="content tag">
 	<h1>All <?php echo $this->get('content_first', 'type') ?>s tagged <?php echo $this->get('tag_name') ?></h1>
@@ -8,4 +8,4 @@
 
 </div>
 
-<?php require_once($this->pathView() . 'footer.php'); ?>
+<?php require_once($this->pathView() . '_footer.php'); ?>

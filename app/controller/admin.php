@@ -20,29 +20,28 @@ class Controller_Admin extends Controller
 	 * @todo feedback should be its own session module
 	 */
 	public function initialise() {
+		$sessionUser = new session_admin_user($this->database, $this->config);
+
+		// logout
+		if (array_key_exists('logout', $_GET)) {
+			$sessionUser->delete();
+			$this->session->set('feedback', 'Successfully logged out');
+			$this->route('base', 'admin/');
+		}
 
 		// common objects
 		$menu = new model_admin_menu($this->database, $this->config);
-		$sessionUser = new session_admin_user($this->database, $this->config);
 		$user = new Model_user($this->database, $this->config);
 
 		// menu and submenu
 		$menu->read();
 		$this->view->setObject($menu);
 
-
-		exit();
-
-
 		// user
 		if ($user->isLogged()) {
 			$this->route('base', 'admin/');
 		}
-		if (array_key_exists('logout', $_GET)) {
-			$user->logout();
-			$this->session->set('feedback', 'Successfully logged out');
-			$this->route('base', 'admin/');
-		}
+
 		if (array_key_exists('form_login', $_POST)) {
 			if ($user->login($_POST['email_address'], $_POST['password'])) {
 				$this->session->set('feedback', 'Successfully Logged in as ' . ($this->session->get('user', 'first_name') ? $this->session->get('user', 'first_name') . ' ' . $this->session->get('user', 'last_name') : $this->session->get('user', 'email')));

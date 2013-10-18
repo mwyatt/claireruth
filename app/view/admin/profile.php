@@ -1,4 +1,4 @@
-<?php require_once($this->pathView() . 'admin/header.php'); ?>
+<?php require_once($this->pathView() . 'admin/_header.php'); ?>
 
 <div class="content profile update">
 	<h1>Profile</h1>
@@ -33,4 +33,4 @@
 	</form>
 </div>
 
-<?php require_once($this->pathView() . 'admin/footer.php'); ?>
+<?php require_once($this->pathView() . 'admin/_footer.php'); ?>

@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
 
-<?php require_once($this->pathView() . 'header-resources.php'); ?>
+<?php require_once($this->pathView() . 'header/_resource.php'); ?>
 
     </head>
     <body<?php echo ($this->getBodyClass() ? ' class="' . $this->getBodyClass() . '"' : '') ?> data-url-base="<?php echo $this->url(); ?>">
