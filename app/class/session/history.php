@@ -11,21 +11,22 @@ class Session_History extends Session
 {
 
 
-	public function getPreviousUrl($current) {
-		if (! array_key_exists('history', $_SESSION)) {
-			$_SESSION['history'][0] = $current;
-			$_SESSION['history'][1] = false;
-			return;
-		} else {
-			if ($_SESSION['history'][0]) {
-				$_SESSION['history'][1] = $_SESSION['history'][0];
-			}
-			$_SESSION['history'][0] = $current;
-			if ($_SESSION['history'][1]) {
-				return $_SESSION['history'][1];
-			} else {
-				return;
-			}
+	public function getLast() {
+		$currentHistory = $this->getData();
+		end($currentHistory);
+		return current($currentHistory);
+	}
+
+
+	public function add()
+	{
+		if (! $currentHistory = $this->getData()) {
+			$currentHistory = array();
 		}
+		if (count($currentHistory) > 9) {
+			array_shift($currentHistory);
+		}
+		$currentHistory[] = $this->config->getUrl('current');
+		return $this->setData($currentHistory);
 	}
 }

@@ -40,7 +40,7 @@ class Session extends Cron
 		if (! array_key_exists($this->getIdentity(), $_SESSION)) {
 			$_SESSION[$this->getIdentity()] = false;
 		}
-		parent::setData($_SESSION[$this->getIdentity()]);
+		$this->setData($_SESSION[$this->getIdentity()]);
 	}
 
 
@@ -50,10 +50,17 @@ class Session extends Cron
 	 * @param string $key   
 	 * @param any $value 
 	 */
-	public function setData($key, $value)
+	public function setDataKey($key, $value)
 	{
 		$_SESSION[$this->getIdentity()][$key] = $value;
-		parent::setData($_SESSION[$this->getIdentity()]);
+		return $this->setData($_SESSION[$this->getIdentity()]);
+	}
+
+
+	public function setData($value = false)
+	{	
+		$_SESSION[$this->getIdentity()] = $value;
+		return parent::setData($_SESSION[$this->getIdentity()]);
 	}
 
 

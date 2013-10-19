@@ -26,6 +26,14 @@ $cron->poll(array(
 	'emailErrorReport'
 	, 'emailNewsletter'
 ));
+
+// keep track of the pages requested
+// helpful for last attempted page redirection
+// after login..
+$sessionHistory = new session_history($database, $config);
+$sessionHistory->add();
+
+// navigate app
 $controller = new controller();
 
 // admin, ajax
@@ -37,4 +45,6 @@ if ($controller->load(array($config->getUrl(0)), $config->getUrl(1), false, $dat
 if ($controller->load(array('front'), $config->getUrl(0), false, $database, $config)) {
 	exit;
 }
+
+// global exit
 exit;

@@ -10,7 +10,7 @@ class Model_Options extends Model
 {	
 
 
-	public function read()	{		
+	public function read($select = '', $where = array(), $ids = array(), $limit = array())	{		
 		$sth = $this->database->dbh->query("	
 			select
 				options.name

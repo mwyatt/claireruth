@@ -10,6 +10,51 @@
 class Model extends Config
 {
 
+
+	/**
+	 * generic lazy read!
+	 * @param  string $select the full select statement, could be easier!
+	 * @param  array  $where  label, value
+	 * @param  array  $ids    2, 53, 12
+	 * @param  array  $limit  0, 200
+	 * @return bool         
+	 */
+	public function read($select = "", $where = array(), $ids = array(), $limit = array()) {
+		$query = "
+			select
+				{$select}
+			from
+				{$this->getIdentity()}
+			where
+				{$this->getIdentity()}.id != 0
+				" . ($where ? ' and {$this->getIdentity()}.{reset($where)} = :{next($where)} ' : '') . "
+				" . ($ids ? ' and {$this->getIdentity()}.id = :id ' : '') . "
+
+			" . ($limit ? ' limit :limit_start, :limit_end ' : '') . "
+		";
+		if ($where) {
+			$this->bindValue($sth, ':' . reset($where), next($where));
+		}
+		if ($limit) {
+			$this->bindValue($sth, ':limit_start', (int) reset($limit));
+			$this->bindValue($sth, ':limit_end', (int) next($limit));
+		}	
+		$sth = $this->database->dbh->prepare($query);		
+		if ($ids) {
+			foreach ($ids as $id) {
+				$this->bindValue($sth, ':id', $id);
+				$sth->execute();
+				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+					$results[] = $row;
+				}
+			}
+		} else {
+			$sth->execute();				
+			$results = $sth->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $this->setData($results);
+	}	
+
 	
 	/**
 	 * builds and creates create query
@@ -33,7 +78,7 @@ class Model extends Config
 				$valList
 			)
 		");		
-		$this->bindValue($sth, $vals);
+		$this->bindValues($sth, $vals);
 		try {
 			$sth->execute();
 		} catch (Exception $e) {
@@ -80,7 +125,7 @@ class Model extends Config
 			where
 				$whereCol = ?
 		");		
-		$this->bindValue($sth, $vals);
+		$this->bindValues($sth, $vals);
 		try {
 			$sth->execute();
 		} catch (Exception $e) {
@@ -107,7 +152,7 @@ class Model extends Config
 			where
 				$colName = ?
 		");				
-		$this->bindValue($sth, $whereVal);
+		$this->bindValues($sth, $whereVal);
 		try {
 			$sth->execute();
 		} catch (Exception $e) {
@@ -178,24 +223,34 @@ class Model extends Config
 	 * @param  array $values basic array with values
 	 * @return bool | null         returns false if something goes wrong
 	 */
-	public function bindValue($sth, $values)
+	public function bindValues($sth, $values)
 	{
 	    if (! is_object($sth) || ! ($sth instanceof PDOStatement)) {
 	    	return;
 	    }
         foreach($values as $key => $value) {
         	$correctedKey = $key + 1;
-            if (is_int($value)) {
-                $sth->bindValue($correctedKey, $value, PDO::PARAM_INT);
-            } elseif (is_bool($value)) {
-                $sth->bindValue($correctedKey, $value, PDO::PARAM_BOOL);
-            } elseif (is_null($value)) {
-                $sth->bindValue($correctedKey, $value, PDO::PARAM_NULL);
-            } elseif (is_string($value)) {
-                $sth->bindValue($correctedKey, $value, PDO::PARAM_STR);
-            } else {
-            	return;
-            }
+        	$this->bindValue($sth, $correctedKey, $value);
         }
+	}
+
+
+	/**
+	 * binds a single value and guesses the type
+	 * @param  object $sth   
+	 * @param  int|string $key   
+	 * @param  all $value 
+	 */
+	public function bindValue($sth, $key, $value)
+	{
+		if (is_int($value)) {
+		    $sth->bindValue($key, $value, PDO::PARAM_INT);
+		} elseif (is_bool($value)) {
+		    $sth->bindValue($key, $value, PDO::PARAM_BOOL);
+		} elseif (is_null($value)) {
+		    $sth->bindValue($key, $value, PDO::PARAM_NULL);
+		} elseif (is_string($value)) {
+		    $sth->bindValue($key, $value, PDO::PARAM_STR);
+		}
 	}
 }

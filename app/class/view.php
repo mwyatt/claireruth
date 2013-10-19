@@ -150,14 +150,6 @@ class View extends Model
 	}
 
 
-	/**
-	 * return feedback and unset session variable
-	 */
-	public function getFeedback() {
-		if ($message = $this->session->getUnset('feedback')) {
-			return '<div class="feedback clearfix" title="Dismiss"><p>' . $message . '</p></div>';
-		}
-	}	
 	
 	
 	/**

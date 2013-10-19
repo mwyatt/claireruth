@@ -25,7 +25,7 @@ class Model_Admin_Menu extends Model
      * builds an array for the administration area, 2 levels deep
      * @return bool
      */
-	public function read() {
+	public function read($select = '', $where = array(), $ids = array(), $limit = array()) {
         $controllerMethods = get_class_methods('controller');
 		$baseClassMethods = array_diff(get_class_methods('controller_admin'), $controllerMethods, $this->methodExclusions);
 		$finalList[] = array(

@@ -28,9 +28,8 @@
 		</div>
 
 <?php endif ?>
-
-<?php echo $this->getFeedback(); ?>
-
+<?php $feedback = $this->get('session_feedback') ?>
+<?php require_once($this->pathView('_feedback')); ?>
 <?php $menu = $this->get('model_admin_menu') ?>
 <?php require_once($this->pathView('admin/header/_nav')); ?>
 

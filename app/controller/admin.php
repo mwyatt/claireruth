@@ -36,52 +36,39 @@ class Controller_Admin extends Controller
 		$menu = new model_admin_menu($this->database, $this->config);
 		$user = new Model_user($this->database, $this->config);
 
-		// menu and submenu
+
+		// menu and submenu full structure
 		$menu->read();
 		$this->view->setObject($menu);
 
-		// 
-		if ($user->isLogged()) {
-			$this->route('admin');
-		}
-
-		if (array_key_exists('form_login', $_POST)) {
-			if ($user->login($_POST['email_address'], $_POST['password'])) {
-				$this->session->set('feedback', 'Successfully Logged in as ' . ($this->session->get('user', 'first_name') ? $this->session->get('user', 'first_name') . ' ' . $this->session->get('user', 'last_name') : $this->session->get('user', 'email')));
-				$user->permission();
+		// logging in
+		if (array_key_exists('login', $_POST)) {
+			if ($user->validatePassword($_POST['email_address'], $_POST['password'])) {
+				$sessionFeedback->set('Successfully Logged in');
 			} else {
-				$this->session->set('feedback', 'Email Address or password incorrect');
+				$sessionFeedback->set('Email Address or password incorrect');
 			}
 			$this->session->set('form_field', array('email' => $_POST['email_address']));
 			$this->route('base', 'admin/');
 		}
-		if (array_key_exists('form_login_reset', $_POST)) {
-			if ($user->passwordReset($_POST['password'])) {
-				$this->session->set('feedback', 'Password successfully reset');
-			} else {
-				$this->session->set('feedback', 'Password was not reset');
-			}
-			$this->route('base', 'admin/');
-		}
-		if (array_key_exists('form_login_recovery', $_POST)) {
-			if ($user->passwordRecover($_POST['email_address'])) {
-				$this->session->set('feedback', 'Password recovery email sent to ' . $_POST['email_address'] . '.');
-				$this->route('base', 'admin/');
-			} else {
-				$this->session->set('feedback', 'Email address is not associated with any account.');
-				$this->route('base', 'admin/recovery/');
-			}
-		}
-		if (array_key_exists('code', $_GET) && $_GET['code'] == $this->session->get('password_recovery', 'code')) {
-			$this->view->loadTemplate('admin/login-reset');
-		}
-		if ($user->isLogged()) {
-			$user->setData($user->get());
-			$this->view->setObject($user);
+
+		// before a template is rendered
+		$this->view->setObject($sessionFeedback);
+
+		// is logged in?
+		if ($sessionUser->isLogged()) {
+			$this->view->setObject($user->read("
+				user.id
+				, user.email
+				, user.first_name
+				, user.last_name
+				, concat(user.first_name, ' ', user.last_name) as full_name
+				, user.password
+				, user.time_registered
+				, user.level
+			"
+			, array('id', $sessionUser->getData('id'))));
 		} else {
-			if ($this->config->getUrl(1) == 'recovery') {
-				$this->view->loadTemplate('admin/login-recovery');
-			}
 			if ($this->config->getUrl(1)) {
 				$this->route('base', 'admin/');
 			}

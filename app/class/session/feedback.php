@@ -13,11 +13,9 @@ class Session_Feedback extends Session
 
 	public function set($message = false, $positivity = false)
 	{
-		$this->setData('message', $message);
-		if ($positivity) {
-			$this->setData('positivity', $positivity);
-		} else {
-			$this->setData('positivity', false);
-		}
+		$this->setData(array(
+			'message' => $message
+			, 'positivity' => $positivity
+		));
 	}
 }

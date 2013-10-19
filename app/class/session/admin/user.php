@@ -11,15 +11,35 @@ class Session_Admin_User extends Session
 {
 
 
-	public function login()
+	public function login($userId)
 	{
-		$this->setData('expire', 'hello');
+		$this->setExpire();
+		$this->setDataKey('userId', $userId);
 	}
 
 
 	public function isLogged()
 	{
-		return $this->getData();
+		if ($this->getData()) {
+			$this->refreshExpire();
+		}
+	}
+
+	public function refreshExpire()
+	{
+		if (! $this->getData('expire')) {
+			return $this->getData('expire');
+		}
+		if (! $this->getData('expire') > time()) {
+			return $this->setExpire();
+		}
+		$this->delete();
+	}
+
+
+	public function setExpire()
+	{
+		$this->setDataKey('expire', time() + $this->getTime('hour'));
 	}
 
 	
@@ -27,17 +47,17 @@ class Session_Admin_User extends Session
 	 * expires any session variables which require timing, these are
 	 * set elsewhere
 	 */
-	public function refreshExpire() {
-		if ($this->get('user', 'expire') && $this->get('user', 'expire') < time()) {
-			// $this->getUnset('user');
-		} else {
-			if ($this->get('user')) {
-				$this->set('user', 'expire', time() + 600);
-			}
-		}
-		if ($this->get('password_recovery', 'expire') && $this->get('password_recovery', 'expire') < time()) {
-			$this->getUnset('password_recovery');
-		}
-		return $this;
-	}
+	// public function refreshExpire() {
+	// 	if ($this->get('user', 'expire') && $this->get('user', 'expire') < time()) {
+	// 		// $this->getUnset('user');
+	// 	} else {
+	// 		if ($this->get('user')) {
+	// 			$this->set('user', 'expire', time() + 600);
+	// 		}
+	// 	}
+	// 	if ($this->get('password_recovery', 'expire') && $this->get('password_recovery', 'expire') < time()) {
+	// 		$this->getUnset('password_recovery');
+	// 	}
+	// 	return $this;
+	// }
 }
