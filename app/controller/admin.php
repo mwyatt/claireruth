@@ -34,7 +34,7 @@ class Controller_Admin extends Controller
 
 		// common objects
 		$menu = new model_admin_menu($this->database, $this->config);
-		$user = new Model_user($this->database, $this->config);
+		$user = new model_user($this->database, $this->config);
 
 
 		// menu and submenu full structure
@@ -43,12 +43,17 @@ class Controller_Admin extends Controller
 
 		// logging in
 		if (array_key_exists('login', $_POST)) {
-			if ($user->validatePassword($_POST['email_address'], $_POST['password'])) {
+			
+			if ($user->validatePassword($_POST['login_email'], $_POST['login_password'])) {
 				$sessionFeedback->set('Successfully Logged in');
 			} else {
 				$sessionFeedback->set('Email Address or password incorrect');
 			}
-			$this->session->set('form_field', array('email' => $_POST['email_address']));
+			echo '<pre>';
+			print_r($_POST);
+			echo '</pre>';
+			exit;
+			$this->session->set('form_field', array('email' => $_POST['login_email']));
 			$this->route('base', 'admin/');
 		}
 

@@ -11,21 +11,40 @@ class Session_History extends Session
 {
 
 
+	/**
+	 * gets the last but not the latest val
+	 * @return string url
+	 */
 	public function getLast() {
 		$currentHistory = $this->getData();
 		end($currentHistory);
-		return current($currentHistory);
+		return prev($currentHistory);
 	}
 
 
+	/**
+	 * adds to the session array to keep a record of your request history
+	 * @todo should $this->data be array() as default?
+	 */
 	public function add()
 	{
+
+		// first one
 		if (! $currentHistory = $this->getData()) {
 			$currentHistory = array();
 		}
-		if (count($currentHistory) > 9) {
+
+		// check that the record does not breach 20
+		if (count($currentHistory) > 19) {
 			array_shift($currentHistory);
 		}
+
+		// check that next request is unique
+		if (end($currentHistory) == $this->config->getUrl('current')) {
+			return;
+		}
+
+		// adds to the array
 		$currentHistory[] = $this->config->getUrl('current');
 		return $this->setData($currentHistory);
 	}

@@ -7,7 +7,7 @@
         <div class="nav-header-level1<?php echo ($level1['current'] ? ' is-current' : '') ?>">
             <a href="<?php echo $level1['url'] ?>" class="nav-header-level1-link"><?php echo $level1['title'] ?></a>
 
-        <?php if (array_key_exists('children', $level1)): ?>
+        <?php if ($level1['children']): ?>
 
             <div class="nav-header-level1-drop">
 

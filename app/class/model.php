@@ -20,6 +20,11 @@ class Model extends Config
 	 * @return bool         
 	 */
 	public function read($select = "", $where = array(), $ids = array(), $limit = array()) {
+		echo '<pre>';
+		print_r($where);
+		echo '</pre>';
+		exit;
+		
 		$query = "
 			select
 				{$select}
@@ -27,11 +32,17 @@ class Model extends Config
 				{$this->getIdentity()}
 			where
 				{$this->getIdentity()}.id != 0
-				" . ($where ? ' and {$this->getIdentity()}.{reset($where)} = :{next($where)} ' : '') . "
-				" . ($ids ? ' and {$this->getIdentity()}.id = :id ' : '') . "
+				" . ($where ? " and {$this->getIdentity()}." . reset($where) . " = :" . next($where) . " " : "") . "
+				" . ($ids ? " and {$this->getIdentity()}.id = :id " : "") . "
 
-			" . ($limit ? ' limit :limit_start, :limit_end ' : '') . "
+			" . ($limit ? " limit :limit_start, :limit_end " : "") . "
 		";
+		echo '<pre>';
+		print_r($query);
+		echo '</pre>';
+		exit;
+		
+		$sth = $this->database->dbh->prepare($query);		
 		if ($where) {
 			$this->bindValue($sth, ':' . reset($where), next($where));
 		}
@@ -39,7 +50,6 @@ class Model extends Config
 			$this->bindValue($sth, ':limit_start', (int) reset($limit));
 			$this->bindValue($sth, ':limit_end', (int) next($limit));
 		}	
-		$sth = $this->database->dbh->prepare($query);		
 		if ($ids) {
 			foreach ($ids as $id) {
 				$this->bindValue($sth, ':id', $id);
