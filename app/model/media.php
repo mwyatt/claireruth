@@ -23,7 +23,7 @@ class Model_Media extends Model
 	 * reads out all media
 	 * @return int total rows bringing through
 	 */
-	public function read($contentIds = array()) {	
+	public function read($contentIds = array(), $where = array(), $ids = array(), $limit = array()) {	
 		$baseurl = $this->config->getUrl('base'); 
 		$sth = $this->database->dbh->prepare("	
 			select
@@ -265,7 +265,7 @@ class Model_Media extends Model
 	}	
 
 
-	public function setData($rows) {
+	public function setData($rows = array()) {
 		foreach ($rows as $key => $row) {
 			$rows[$key]['guid'] = $this->buildUrl(array($row['basename']), false);
 		}

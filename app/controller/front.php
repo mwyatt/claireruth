@@ -16,17 +16,17 @@ class Controller_Front extends Controller
 
 
 	public function initialise() {
-		$menu = new model_menu($this->database, $this->config);
-		$this->view->setObject($menu);
+		// $menu = new model_menu($this->database, $this->config);
+		// $this->view->setObject($menu);
 		if (array_key_exists('search', $_GET)) {
 			$this->search($_GET['search']);
 		}
 	}
 
 
-	public function index() {		
+	public function index() {
 		$mainContent = new model_content($this->database, $this->config);
-		$mainContent->read('post', array(0, 3));
+		$mainContent->customRead('post', array(0, 3));
 		$this->view
 			->setObject($mainContent)
 			->loadTemplate('home');

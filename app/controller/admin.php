@@ -50,7 +50,7 @@ class Controller_Admin extends Controller
 			// validate the username and password
 			if ($user->validatePassword($_POST['login_email'], $_POST['login_password'])) {
 				$sessionUser->login($user->getDataFirst('id'));
-				$sessionFeedback->set('Successfully Logged in');
+				$sessionFeedback->set('Successfully Logged in as ' . $user->getDataFirst('email'));
 			} else {
 				$sessionFeedback->set('Email Address or password incorrect');
 			}
@@ -62,7 +62,7 @@ class Controller_Admin extends Controller
 
 		// is logged in?
 		if ($sessionUser->isLogged()) {
-			$this->view->setObject($user->read("
+			$user->read("
 				user.id
 				, user.email
 				, user.first_name
@@ -72,7 +72,8 @@ class Controller_Admin extends Controller
 				, user.time_registered
 				, user.level
 			"
-			, array('id', $sessionUser->getData('id'))));
+			, array('id', $sessionUser->getData('id')));
+			$this->view->setObject('model_user', $user->getDataFirst());
 		} else {
 			if ($this->config->getUrl(1)) {
 				$this->route('admin');

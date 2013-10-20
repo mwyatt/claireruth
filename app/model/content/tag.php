@@ -15,7 +15,7 @@ class Model_Content_Tag extends Model
 	 * @param  integer $contentId 
 	 * @return array             
 	 */
-	public function read($contentIds = array()) {	
+	public function read($contentIds = array(), $where = array(), $ids = array(), $limit = array()) {	
 		$sth = $this->database->dbh->prepare("	
 			select
 				id

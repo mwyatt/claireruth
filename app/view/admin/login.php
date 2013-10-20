@@ -23,7 +23,7 @@
 
                     <div class="row">
                         <label for="login-email">Email Address</label>
-                        <input id="login-email" type="text" name="login_email" autofocus="autofocus" value="">
+                        <input id="login-email" type="text" name="login_email" autofocus="autofocus" value="<?php // echo $this->get('session_formfield', 'login_email') ?>">
                     </div>
                     <div class="row">
                         <label for="login-password">Password</label>

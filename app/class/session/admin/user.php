@@ -11,53 +11,53 @@ class Session_Admin_User extends Session
 {
 
 
+	/**
+	 * builds the session data
+	 * @param  int $userId 
+	 */
 	public function login($userId)
 	{
 		$this->setExpire();
-		$this->setDataKey('userId', $userId);
+		$this->setDataKey('id', $userId);
 	}
 
 
+	/**
+	 * checks to see if the session is set
+	 * and refreshes the expiry
+	 * @todo could make expire a built in session feature
+	 * @return bool 
+	 */
 	public function isLogged()
 	{
-		if ($this->getData()) {
-			$this->refreshExpire();
+		if ($this->getData() && $this->refreshExpire()) {
+			return true;
 		}
 	}
 
+
+	/**
+	 * refreshes the expiry time
+	 * @return bool 
+	 */
 	public function refreshExpire()
 	{
-		if (! $this->getData('expire')) {
-			return $this->getData('expire');
-		}
-		if (! $this->getData('expire') > time()) {
+
+		// set expire again if not expired
+		if ($this->getData('expire') > time()) {
 			return $this->setExpire();
 		}
+
+		// delete session it has expired!
 		$this->delete();
 	}
 
 
+	/**
+	 * sets the expire time, 1 hour after last check!
+	 */
 	public function setExpire()
 	{
-		$this->setDataKey('expire', time() + $this->getTime('hour'));
+		return $this->setDataKey('expire', time() + $this->getTime('hour'));
 	}
-
-	
-	/**
-	 * expires any session variables which require timing, these are
-	 * set elsewhere
-	 */
-	// public function refreshExpire() {
-	// 	if ($this->get('user', 'expire') && $this->get('user', 'expire') < time()) {
-	// 		// $this->getUnset('user');
-	// 	} else {
-	// 		if ($this->get('user')) {
-	// 			$this->set('user', 'expire', time() + 600);
-	// 		}
-	// 	}
-	// 	if ($this->get('password_recovery', 'expire') && $this->get('password_recovery', 'expire') < time()) {
-	// 		$this->getUnset('password_recovery');
-	// 	}
-	// 	return $this;
-	// }
 }

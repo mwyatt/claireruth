@@ -22,7 +22,7 @@ class Model_Content extends Model
 	 * @param  string $limit the amount of content required
 	 * @return null        data property will be set
 	 */
-	public function read($where = '', $limit = array(), $ids = array()) {	
+	public function customRead($where = '', $limit = array(), $ids = array()) {	
 		$contents = array();
 		$sth = $this->database->dbh->prepare("	
 			select
@@ -30,7 +30,7 @@ class Model_Content extends Model
 				, content.title
 				, content.html
 				, content.type
-				, content.date_published
+				, content.time_published
 				, content.status
 				, content.user_id
 				, concat(user.first_name, ' ', user.last_name) as user_name
@@ -41,7 +41,7 @@ class Model_Content extends Model
 			" . ($where ? ' and content.type = :type ' : '') . "
 			" . ($ids ? ' and content.id = :id ' : '') . "
 			group by content.id
-			order by content.date_published desc
+			order by content.time_published desc
 			" . ($limit ? ' limit :limit_start, :limit_end ' : '') . "
 		");
 		if ($where) {
@@ -110,13 +110,13 @@ class Model_Content extends Model
 				content.id
 				, content.title
 				, content.html
-				, content.date_published
+				, content.time_published
 				, content.status
 				, content.type
 			from content
 			left join user on user.id = content.user_id
 			where content.type = :type and content.status = 'visible'
-			order by content.date_published desc
+			order by content.time_published desc
 			" . ($limit ? ' limit :limit ' : '') . "
 		");
 		$sth->bindValue(':type', $type, PDO::PARAM_STR);
@@ -141,7 +141,7 @@ class Model_Content extends Model
 				content.id
 				, content.title
 				, content.html
-				, content.date_published
+				, content.time_published
 				, content.status
 				, content.type
 			from content
@@ -224,15 +224,15 @@ class Model_Content extends Model
 		$sth = $this->database->dbh->query("	
 			select
 				content.id
-				, content.date_published
+				, content.time_published
 			from content
 			where
 				content.type = 'post'
 			order by
-				content.date_published desc
+				content.time_published desc
 		");
 		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
-			$keyedDate = strtolower(date('F-Y', $row['date_published']));
+			$keyedDate = strtolower(date('F-Y', $row['time_published']));
 
 			// set of month-years
 			if ($specificMonthYears) {
@@ -256,7 +256,7 @@ class Model_Content extends Model
 			$currentRow = current($row);
 			$rows[$monthYear] = array(
 				'total' => count($row)
-				, 'title' => date('F Y', $currentRow['date_published'])
+				, 'title' => date('F Y', $currentRow['time_published'])
 				, 'url' => $this->buildUrl(array('month', $monthYear))
 			);
 		}

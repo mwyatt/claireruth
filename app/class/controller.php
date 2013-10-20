@@ -19,7 +19,7 @@ class Controller extends Config
 	 * the core path for the controllers
 	 * @var string
 	 */
-	public $path = 'app/controller/';
+	public $path = '';
 
 
 	/**
@@ -39,11 +39,12 @@ class Controller extends Config
 
 	/**
 	 * sets the property
-	 * @param string $extension 
 	 */
-	public function setPath($extension = '')
+	public function setPathOnce()
 	{
-		$this->path = BASE_PATH . $this->path . $extension;
+		if (! $this->getPath()) {
+			return $this->path = BASE_PATH . 'app/controller/';
+		}
 	}
 
 
@@ -94,7 +95,7 @@ class Controller extends Config
 	public function load($names, $method, $view, $database, $config) {
 
 		// initial setup of base path
-		$this->setPath();
+		$this->setPathOnce();
 		$path = $this->getPath();
 
 		// basic objects

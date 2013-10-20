@@ -16,18 +16,9 @@
 <div class="wrap">
     <header class="main clearfix">
         <a class="title" href="<?php echo $this->url(); ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title'); ?></a>
-        
-<?php if (array_key_exists('model_user', $this->data)): ?>
 
-		<div class="user">
-			<a href="#" class="name"><?php echo ($this->data['model_user']['first_name'] ? $this->data['model_user']['first_name'] . ' ' . $this->data['model_user']['last_name'] : $this->data['model_user']['email']); ?></a>
-			<ul>
-                <li><a href="<?php echo $this->url() ?>admin/profile/">Profile</a></li>
-				<li><a href="?logout=true">Logout</a></li>
-			</ul>
-		</div>
-
-<?php endif ?>
+<?php $user = $this->get('model_user') ?>
+<?php require_once($this->pathView('admin/header/_user')); ?>
 <?php $feedback = $this->get('session_feedback') ?>
 <?php require_once($this->pathView('_feedback')); ?>
 <?php $menu = $this->get('model_admin_menu') ?>
