@@ -24,9 +24,10 @@ class Controller_Admin extends Controller
 	public function initialise() {
 		$sessionUser = new session_admin_user($this->database, $this->config);
 		$sessionFeedback = new session_feedback($this->database, $this->config);
+		$sessionFormfield = new session_formfield($this->database, $this->config);
 
 		// logout
-		if (array_key_exists('logout', $_GET)) {
+		if (array_key_exists('logout', $_GET) && $sessionUser->getData()) {
 			$sessionUser->delete();
 			$sessionFeedback->set('Successfully logged out');
 			$this->route('admin');
@@ -36,29 +37,28 @@ class Controller_Admin extends Controller
 		$menu = new model_admin_menu($this->database, $this->config);
 		$user = new model_user($this->database, $this->config);
 
-
 		// menu and submenu full structure
 		$menu->read();
-		$this->view->setObject($menu);
+		$this->view
+			->setObject($sessionFormfield)
+			->setObject($sessionFeedback)
+			->setObject($menu);
 
 		// logging in
 		if (array_key_exists('login', $_POST)) {
-			
+
+			// validate the username and password
 			if ($user->validatePassword($_POST['login_email'], $_POST['login_password'])) {
+				$sessionUser->login($user->getDataFirst('id'));
 				$sessionFeedback->set('Successfully Logged in');
 			} else {
 				$sessionFeedback->set('Email Address or password incorrect');
 			}
-			echo '<pre>';
-			print_r($_POST);
-			echo '</pre>';
-			exit;
-			$this->session->set('form_field', array('email' => $_POST['login_email']));
-			$this->route('base', 'admin/');
-		}
 
-		// before a template is rendered
-		$this->view->setObject($sessionFeedback);
+			// remember form field
+			$sessionFormfield->add($_POST, array('login_email', 'login_password'));
+			$this->route('admin');
+		}
 
 		// is logged in?
 		if ($sessionUser->isLogged()) {
@@ -75,7 +75,7 @@ class Controller_Admin extends Controller
 			, array('id', $sessionUser->getData('id'))));
 		} else {
 			if ($this->config->getUrl(1)) {
-				$this->route('base', 'admin/');
+				$this->route('admin');
 			}
 			$this->view->loadTemplate('admin/login');
 		}

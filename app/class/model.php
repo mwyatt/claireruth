@@ -20,11 +20,6 @@ class Model extends Config
 	 * @return bool         
 	 */
 	public function read($select = "", $where = array(), $ids = array(), $limit = array()) {
-		echo '<pre>';
-		print_r($where);
-		echo '</pre>';
-		exit;
-		
 		$query = "
 			select
 				{$select}
@@ -32,16 +27,11 @@ class Model extends Config
 				{$this->getIdentity()}
 			where
 				{$this->getIdentity()}.id != 0
-				" . ($where ? " and {$this->getIdentity()}." . reset($where) . " = :" . next($where) . " " : "") . "
+				" . ($where ? " and {$this->getIdentity()}." . reset($where) . " = :" . reset($where) . " " : "") . "
 				" . ($ids ? " and {$this->getIdentity()}.id = :id " : "") . "
 
 			" . ($limit ? " limit :limit_start, :limit_end " : "") . "
 		";
-		echo '<pre>';
-		print_r($query);
-		echo '</pre>';
-		exit;
-		
 		$sth = $this->database->dbh->prepare($query);		
 		if ($where) {
 			$this->bindValue($sth, ':' . reset($where), next($where));
@@ -64,6 +54,16 @@ class Model extends Config
 		}
 		return $this->setData($results);
 	}	
+
+
+	// public function readSingle($type, $id)
+	// {
+	// 	$this->read($type, false, array($id));
+	// 	if ($this->getData()) {
+	// 		return $this->data = current($this->getData());
+	// 	}
+	// 	return false;
+	// }
 
 	
 	/**

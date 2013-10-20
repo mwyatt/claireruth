@@ -434,11 +434,24 @@ class Config
 	/**
 	 * attempts to return the data stored
 	 * returns false on failure
+	 * must be an array to use current
+	 * @todo duplicate array key finding, how to combine?
 	 * @return array|bool 
 	 */
-	public function getDataFirst()
+	public function getDataFirst($key = false)
 	{
 		if ($data = $this->getData()) {
+			if (! is_array($data)) {
+				return false;
+			}
+			if ($key) {
+				$data = current($data);
+				if (array_key_exists($key, $data)) {
+					return $data[$key];
+				} else {
+					return false;
+				}
+			}
 			return current($data);
 		}
 		return false;
