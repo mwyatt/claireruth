@@ -1,10 +1,6 @@
 <?php
 
 /**
- * ajax
- *
- * PHP version 5
- * 
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -16,36 +12,22 @@ class Controller_Ajax extends Controller
 
 	
 	public function index() {
-		// $this->config->getObject('Route')->home();
-	}
-
-
-	public function tagManagement() {
-		if (! array_key_exists('query', $_GET)) {
-			return;
-		}
-		$maincontentTag = new model_content_tag($this->database, $this->config);
-		$maincontentTag->readUniqueLike($_GET['query']);
-		$this->view
-			->setObject($maincontentTag)
-			->loadTemplate('admin/ajax/tag/query-result');
-	}
-
-
-	public function mediaBrowser() {
-		$this->load(array('ajax', 'mediabrowser'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
+		$this->route('base');
 	}
 
 
 	/**
-	 * outputs the requested data as json code
-	 * @param  array $data 
-	 * @return null       echos out the json data
+	 * use the content id to build the lurrrvee button
+	 * @param  integer $contentId 
 	 */
-	public function out($data) {
-		if (! empty($data)) {
-			echo json_encode($data);
+	public function love($contentId = 0)
+	{
+		if (! array_key_exists('content_id', $_GET)) {
+			return;
 		}
-		exit;
+		if (! $contentId = intval($contentId)) {
+			return;
+		}
+		
 	}
 }

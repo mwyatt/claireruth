@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Content_Many extends Model
+class Model_Content_Meta extends Model
 {	
 
 
@@ -15,7 +15,15 @@ class Model_Content_Many extends Model
 	 * within methods
 	 * @var string
 	 */
-	public $colName = '_id';
+	public $name;
+
+
+	public function __construct($database = false, $config = false, $name = '') {
+		parent::__construct($database, $config);
+
+		// sets the name column flag
+		$this->setName($name);
+	}
 
 
 	/**

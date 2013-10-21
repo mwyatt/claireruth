@@ -1,2 +1,7 @@
-ALTER TABLE `user` CHANGE `date_registered` `time_registered` INT(10) UNSIGNED NOT NULL
-ALTER TABLE `content` CHANGE `date_published` `time_published` INT(10) UNSIGNED NULL DEFAULT '0'
+CREATE TABLE IF NOT EXISTS `content_meta` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `content_id` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;

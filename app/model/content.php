@@ -183,7 +183,7 @@ class Model_Content extends Model
 	{
 		
 		// tag
-		$contentMany = new model_content_many($this->database, $this->config, 'content_tag');
+		$contentMany = new model_content_meta($this->database, $this->config, 'content_tag');
 		$contentMany->delete(
 			array('content_id' => $contentId)
 		);
