@@ -1,4 +1,4 @@
-<?php require_once($this->pathView('header')); ?>
+<?php require_once($this->pathView('_header')); ?>
 
 <article class="content page">
 	<header>
@@ -10,4 +10,4 @@
 	</section>
 </article>
 
-<?php require_once($this->pathView('footer')); ?>
+<?php require_once($this->pathView('_footer')); ?>

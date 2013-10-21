@@ -547,4 +547,10 @@ $(document).ready(function() {
 		// load.playerReadByTeam();
 		load.fixtureReadByTeam();
 	};
+	$.getScript(url.base + 'js/jquery.lightbox.js?rev=1', function(data, textStatus, jqxhr) {
+		$('.js-lightbox-gallery').lightbox({
+			galleryClass: 'group-1'
+			, title: $('h1.main').html()
+		});
+	});
 });

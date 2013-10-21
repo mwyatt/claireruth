@@ -20,11 +20,9 @@
                     <span class="propos-lettering">á propos de moi</span>
                     <span class="propos-flower"><img src="<?php echo $this->url() ?>media/sprite/flower.png" alt="Flower"></span>
                 </a>
-                <a class="logo" href="<?php echo $this->url(); ?>" title="<?php echo $this->get('options', 'site_title'); ?> Logo">
-                    <img src="<?php echo $this->url() ?>media/logo.png" alt="Claire Logo">
-<?php // include(BASE_PATH . 'media/logo.svg'); ?>
 
-                </a>
+<?php require_once($this->pathView('_logo')) ?>
+
                 <form class="search" method="get">
                     <label for="search-text" class="label">Search</label>
                     <input id="search-text" type="text" name="search" type="text" maxlength="75">

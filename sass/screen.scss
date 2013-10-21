@@ -5,13 +5,18 @@ $sprite-map: sprite-map("sprite/*.png");
 @import "global";
 @import "form";
 @import "header";
-@import "content-post";
+@import "content/post";
 @import "month";
 @import "pagination";
 @import "footer";
 
 .wrap {
     padding: 1em;
+
+    @media screen and (min-width: 800px) {
+        width: 800px;
+        margin: 0 auto;
+    }
 }
 
 .full-width {
@@ -53,4 +58,8 @@ h1.main {
 
 .content {
     margin: 0 0 2em;
+
+    // > h1 {
+
+    // }
 }

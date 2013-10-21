@@ -17,7 +17,7 @@
 <?php echo $rowContent['html']; ?>
 
 	</div>
-	<span class="content-<?php echo $rowContent['type']; ?>-date"><?php echo date('d/m/Y', $rowContent['date_published']); ?></span>
+	<span class="content-<?php echo $rowContent['type']; ?>-date"><?php echo date('d/m/Y', $rowContent['time_published']); ?></span>
 
 <?php include($this->pathView('_content-tags')); ?>
 

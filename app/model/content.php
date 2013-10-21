@@ -22,7 +22,7 @@ class Model_Content extends Model
 	 * @param  string $limit the amount of content required
 	 * @return null        data property will be set
 	 */
-	public function customRead($where = '', $limit = array(), $ids = array()) {	
+	public function read($where = '', $limit = array(), $ids = array(), $compliance = array()) {
 		$contents = array();
 		$sth = $this->database->dbh->prepare("	
 			select
@@ -76,10 +76,10 @@ class Model_Content extends Model
 		foreach ($contents as $content) {
 			$content['guid'] = $this->buildUrl(array($content['type'], $content['title'] . '-' . $content['id']));
 			$this->data[$content['id']] = $content;
-			if (array_key_exists($content['id'], $tags)) {
+			if ($tags && array_key_exists($content['id'], $tags)) {
 				$this->data[$content['id']]['tag'] = $tags[$content['id']];
 			}
-			if (array_key_exists($content['id'], $medias)) {
+			if ($medias && array_key_exists($content['id'], $medias)) {
 				$this->data[$content['id']]['media'] = $medias[$content['id']];
 			}
 		}

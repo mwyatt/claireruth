@@ -29,9 +29,11 @@
         display: none;
     }
 
-    .pagination-title {
-        margin: 0 0 0.2em;
-        font-size: 0.8em;
-        color: #7E7E7E;
+    @media screen and (min-width: 500px) {
+
+        a.page {
+            font-size: 0.9em;
+            font-weight: bold;
+        }
     }
 }

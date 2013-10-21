@@ -29,8 +29,7 @@
 		 * opens the lightbox and determines if it is a gallery or
 		 * not
 		 */
-		function open(event) {
-			event.preventDefault();
+		function open() {
 
 			// build lightbox if required
 			if (! $('.lightbox').length) {
@@ -332,7 +331,7 @@
 				'<div class="lightbox-blackout"></div>'
 				+ '<div class="lightbox-anchor">'
 					+ '<div class="lightbox">'
-						+ '<span class="lightbox-remove">&times;</span>'
+						+ '<span class="lightbox-remove" title="Close">&times;</span>'
 						+ '<p class="lightbox-title"><a href="#" class="lightbox-title-link"></a></p>'
 						+ '<div class="lightbox-content">'
 						+ '</div>'

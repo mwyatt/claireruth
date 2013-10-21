@@ -721,6 +721,11 @@ a:link {
   outline: none;
 }
 
+/* line 56, ../../sass/_typography.scss */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1em;
+}
+
 /* line 1, ../../sass/_reusable.scss */
 .ir {
   background-color: transparent;

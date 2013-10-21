@@ -1,0 +1,26 @@
+.content-tags {
+    @extend .clearfix;
+    margin: 0 0 1em;
+}
+
+a.content-tag {
+    @include border-radius(3px);
+    float: left;
+    line-height: 0;
+    font-family: "Arial, sans-serif";
+    border: 1px solid #DFDFDF;
+    background: #F3F3F3;
+    color: #9B9B9B;
+    font-size: 12px;
+    padding: 1em 0.5em;
+    margin: 0 0.6em 0.6em 0;
+}
+
+.content-tags-all {
+    
+    a.content-tag {
+        font-size: 1em;
+        margin: 0 0.3em 0.3em 0;
+        padding: 0.7em 0.5em;
+    }
+}

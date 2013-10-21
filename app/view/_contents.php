@@ -1,6 +1,6 @@
 <?php if ($rowContents): ?>
 	
-	<div class="contents">
+	<div class="contents clearfix">
 
 	<?php foreach ($rowContents as $rowContent): ?>
 		<?php require($this->pathView('_content')); ?>

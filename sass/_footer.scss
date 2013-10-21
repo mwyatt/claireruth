@@ -3,21 +3,20 @@ footer.main {
     padding: 1em;
     background: $color-white;
 
-    // .button.tertiary {
-    //     float: right;
-    //     clear: both;
-    //     font-family: arial;
-    //     font-size: 13px;
-    //     font-weight: bold;
-    //     text-align: center;
-    //     padding: 0.1em 1em;
-    // }
+    .book-stack {
+        @extend .sprite-bookstack;
+        width: image-width(sprite-file($sprite-map, bookstack));
+        height: image-height(sprite-file($sprite-map, bookstack));
+        display: block;
+        margin: 0 auto;
+        float: left;
+    }
 }
 
 footer.main .propos {
-    padding: 0;
-    text-align: center;
     margin: 0 0 1em;
+    padding: 0 0 0 36%;
+    position: relative;
 
     .propos-title {
         color: green;
@@ -33,14 +32,17 @@ footer.main .propos {
     .propos-button.button.primary {
         display: block;
     }
-}
 
-.book-stack {
-    @extend .sprite-bookstack;
-    width: image-width(sprite-file($sprite-map, bookstack));
-    height: image-height(sprite-file($sprite-map, bookstack));
-    display: block;
-    margin: 0 auto;
+    .propos-portrait {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30%;
+    }
+
+    img {
+        width: 100%;
+    }
 }
 
 footer.main nav {

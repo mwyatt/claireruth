@@ -2,9 +2,9 @@
 
 <?php if (array_key_exists('thumb_150', $rowMedia)): ?>
 	
-	<div class="content-media-thumb">
+	<a href="<?php echo $rowMedia['thumb_760'] ?>" target="_blank" class="content-media-thumb js-lightbox-gallery group-1">
 		<img src="<?php echo $rowMedia['thumb_150'] ?>" alt="<?php echo (array_key_exists('title', $rowMedia) ? $rowMedia['title'] : '') ?>">
-	</div>
+	</a>
 
 <?php endif ?>
 

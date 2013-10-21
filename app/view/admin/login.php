@@ -15,7 +15,9 @@
 
        	<div class="wrap">
     		<div class="content clearfix">
-    			<a class="logo" href="<?php echo $this->url(); ?>" title="Open Homepage"><span>4</span></a>
+
+<?php require_once($this->pathView('_logo')) ?>
+
     			<form method="post">
 
 <?php $feedback = $this->get('session_feedback') ?>
@@ -32,9 +34,6 @@
                     <div class="row clearfix">
                         <input type="submit" name="login">
                         <a href="#" class="submit button">Login</a>
-                    </div>
-                    <div class="row">
-                        <p><a href="<?php echo $this->url() ?>admin/recovery/" class="forgot-password">Forgot password?</a></p>
                     </div>
                 </form>
     		</div>

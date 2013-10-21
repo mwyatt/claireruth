@@ -33,13 +33,30 @@
         display: block;
     }
 
-    .month:first-of-type .month-link {
-        border-top: none;
-    }
+    @media screen and (max-width: 450px) {
 
-    .months-title {
-        margin: 0 0 0.2em;
-        font-size: 0.8em;
-        color: #7E7E7E;
+        .month:first-of-type .month-link {
+            border-top: none;
+        }
+    }
+    
+    @media screen and (min-width: 450px) {
+        margin: 0;
+
+        .month-total {
+            top: 1em;
+            right: 1em;
+        }
+
+        .month-link {
+            background: $color-white;
+            border: none;
+            float: left;  
+            width: 44.9%;  
+            margin: 0.3em;
+            border: 1px solid;
+            padding: 0.4em;
+            position: relative;
+        }
     }
 }
