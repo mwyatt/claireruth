@@ -25,9 +25,15 @@ class Controller_Ajax extends Controller
 		if (! array_key_exists('content_id', $_GET)) {
 			return;
 		}
-		if (! $contentId = intval($contentId)) {
-			return;
-		}
+		// if (! $contentId = intval($contentId)) {
+		// 	return;
+		// }
+		$meta = new model_content_meta($this->database, $this->config, 'love');
+			echo '<pre>';
+			print_r($meta);
+			echo '</pre>';
+			exit;
 		
+		$meta->read();
 	}
 }

@@ -37,25 +37,15 @@ class Model_Content_Meta extends Model
 	 * @param  integer $contentId 
 	 * @return array             
 	 */
-	public function read($contentId = 0) {	
-		$sth = $this->database->dbh->prepare("	
-			select
-				id
-				, content_id
-				, $this->colName
-			from $this->tableName
-			" . ($contentId ? ' where content.id = :content_id ' : '') . "
-			group by $this->tableName.name
-			order by $this->tableName.name desc
-		");
-		if ($contentId) {
-			$sth->bindValue(':content_id', $id, PDO::PARAM_STR);
-		}
-		$sth->execute(array(
-			':id' => $id
-		));	
-		return $results = $sth->fetchAll(PDO::FETCH_ASSOC);
-	}
+	public function read($select = "", $where = array(), $ids = array(), $limit = array()) {
+		$this->read('
+			id
+			, content_id
+			, name
+			, value
+		', array('name' => $this->getName()));
+		$this->getData();
+	}	
 
 
 	/**
