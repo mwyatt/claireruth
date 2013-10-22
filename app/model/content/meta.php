@@ -18,6 +18,12 @@ class Model_Content_Meta extends Model
 	public $name;
 
 
+	/**
+	 * facilitates the setting of name on construct
+	 * @param object $database 
+	 * @param object $config   
+	 * @param string  $name     the name column
+	 */
 	public function __construct($database = false, $config = false, $name = '') {
 		parent::__construct($database, $config);
 
@@ -49,5 +55,25 @@ class Model_Content_Meta extends Model
 			':id' => $id
 		));	
 		return $results = $sth->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+
+	/**
+	 * simple return of name
+	 * @return string 
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
+	/**
+	 * sets the name property
+	 * @param string $name 
+	 */
+	public function setName($name = false)
+	{
+		$this->name = $name;
 	}
 }
