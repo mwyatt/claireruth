@@ -6,12 +6,12 @@
   background-repeat: no-repeat;
 }
 
-/* line 77, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-0.13.alpha.4/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+/* line 77, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-0.13.alpha.4/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .sprite-bookstack, footer.main .book-stack {
   background-position: 0 0;
 }
 
-/* line 77, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-0.13.alpha.4/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+/* line 77, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-0.13.alpha.4/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .sprite-flower {
   background-position: 0 -62px;
 }
@@ -852,7 +852,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* line 89, ../sass/_reusable.scss */
 .row {
-  margin: 0 0 1em;
+  margin-top: 1em;
 }
 
 /* line 94, ../sass/_reusable.scss */

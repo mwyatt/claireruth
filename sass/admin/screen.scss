@@ -2,6 +2,16 @@
 @import "media-browser";
 @import "tag";
 @import "feedback";
+@import "login";
+
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    @include box-sizing(border-box);
+
+
 
 body {
 	background: $color-white;
@@ -10,6 +20,7 @@ body {
 	font-family: 'Open Sans', 'Arial', 'sans-serif';
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-size-adjust: 100%;
+    line-height: 1.5em;
 }
 
 .full-width {

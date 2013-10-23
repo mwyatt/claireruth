@@ -40,7 +40,6 @@ function formSubmitDisable() {
 
 // global variables
 var ajax = '<div class="ajax"></div>';
-var urlBase = $('body').data('url-base'),
 
 // generic keyup
 $(document).keyup(handleKeyup);
