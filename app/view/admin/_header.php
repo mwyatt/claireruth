@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
 
-<?php require_once($this->pathView() . 'admin/header/_resource.php'); ?>
+<?php require_once($this->pathView('admin/header/_resource')); ?>
 
 </head>
 <body<?php echo ($this->getBodyClass() ? ' class="' . $this->getBodyClass() . '"' : '') ?> data-url-base="<?php echo $this->url(); ?>">
@@ -13,15 +13,24 @@
 	    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
 	<![endif]-->
 
-<div class="wrap">
+<div class="wrap full-width">
+
+<?php if ($this->get('model_user')): ?>
+	
     <header class="main clearfix">
         <a class="title" href="<?php echo $this->url(); ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title'); ?></a>
 
-<?php $user = $this->get('model_user') ?>
-<?php require_once($this->pathView('admin/header/_user')); ?>
-<?php $feedback = $this->get('session_feedback') ?>
-<?php require_once($this->pathView('_feedback')); ?>
-<?php $menu = $this->get('model_admin_menu') ?>
-<?php require_once($this->pathView('admin/header/_nav')); ?>
+	<?php $user = $this->get('model_user') ?>
+	<?php require_once($this->pathView('admin/header/_user')); ?>
+	<?php $feedback = $this->get('session_feedback') ?>
+	<?php require_once($this->pathView('_feedback')); ?>
+	<?php $menu = $this->get('model_admin_menu') ?>
+	<?php require_once($this->pathView('admin/header/_nav')); ?>
 
 	</header>
+
+<?php else: ?>
+
+	<div class="content login">
+
+<?php endif ?>

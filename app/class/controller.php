@@ -131,13 +131,18 @@ class Controller extends Config
 
 
 	/**
-	 * moves the script to another url, possibly replaces class 'Route'
+	 * moves the script to another url, could be full or
+	 * looking for a scheme in the url array
 	 * @param  string  $scheme see class 'Config'
 	 * @param  string $path   extension of the base action
-	 * @return null          
 	 */
-	public function route($scheme, $path = false) {		
-		header("Location: " . $this->config->getUrl($scheme) . $path);
+	public function route($schemeOrFullPath = '', $extension = false) {		
+		if ($this->config->getUrl($schemeOrFullPath)) {
+			$url = $this->config->getUrl($schemeOrFullPath);
+		} else {
+			$url = $schemeOrFullPath;
+		}
+		header("Location: " . $url . $extension);
 		exit;
 	}
 

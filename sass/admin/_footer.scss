@@ -1,0 +1,10 @@
+footer.main {
+	border-top: 1px dotted darken($color-white, 20%);
+	padding: 1.5em 0 3em;
+
+	p {
+		margin: 0;
+		font-weight: 100;
+		font-style: italic;
+	}
+}

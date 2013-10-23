@@ -25,10 +25,11 @@ class Controller_Admin extends Controller
 		$sessionUser = new session_admin_user($this->database, $this->config);
 		$sessionFeedback = new session_feedback($this->database, $this->config);
 		$sessionFormfield = new session_formfield($this->database, $this->config);
-
+		$sessionHistory = new session_history($this->database, $this->config);
 		// logout
 		if (array_key_exists('logout', $_GET) && $sessionUser->getData()) {
 			$sessionUser->delete();
+			$sessionHistory->delete();
 			$sessionFeedback->set('Successfully logged out');
 			$this->route('admin');
 		}
@@ -47,17 +48,24 @@ class Controller_Admin extends Controller
 		// logging in
 		if (array_key_exists('login', $_POST)) {
 
+			// remember form field
+			$sessionFormfield->add($_POST, array('login_email', 'login_password'));
+
 			// validate the username and password
 			if ($user->validatePassword($_POST['login_email'], $_POST['login_password'])) {
 				$sessionUser->login($user->getDataFirst('id'));
 				$sessionFeedback->set('Successfully Logged in as ' . $user->getDataFirst('email'));
+				
+				// send off to captured url if an important one is detected
+				if ($sessionHistory->getCaptureUrl()) {
+					$this->route($sessionHistory->getCaptureUrl());
+				} else {
+					$this->route('admin');
+				}
 			} else {
 				$sessionFeedback->set('Email Address or password incorrect');
+				$this->route('admin');
 			}
-
-			// remember form field
-			$sessionFormfield->add($_POST, array('login_email', 'login_password'));
-			$this->route('admin');
 		}
 
 		// is logged in?
@@ -76,6 +84,7 @@ class Controller_Admin extends Controller
 			$this->view->setObject('model_user', $user->getDataFirst());
 		} else {
 			if ($this->config->getUrl(1)) {
+				$sessionHistory->setCaptureUrl($this->config->getUrl('current'));
 				$this->route('admin');
 			}
 			$this->view->loadTemplate('admin/login');

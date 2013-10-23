@@ -1,0 +1,105 @@
+header.main {
+	border-bottom: 1px dotted darken($color-white, 20%);
+	margin: 1.5em 0;
+
+	.title {
+		float: left;
+		// font-weight: bold;
+		margin: 0 0 2em;
+	}
+}
+
+.user {
+	position: relative;
+
+	ul {
+		display: none;	
+	}
+
+	.name {
+		float: right;
+		font-weight: 600;
+	}
+
+	&.active {
+
+		.name,
+		.name:hover {
+			cursor: default;
+			color: darken($color-white, 50%);
+			text-decoration: none;
+		}
+
+		ul {
+			@include gradient(darken($color-white, 2%), darken($color-white, 4%));
+			@include border-radius(3px);
+			@include text-shadow(1px 1px 0 $color-white);
+			border: 1px solid darken($color-white, 15%);
+			color: darken($color-white, 50%);
+			background: #fff;
+			display: inline;
+			list-style: none;
+			position: absolute;
+			padding: 0;
+			margin: 0;
+			top: 2.5em;
+			right: 0;
+		}
+
+		ul li a {
+			padding: 0.5em 1em 0.6em;
+			display: block;
+			font-weight: 600;
+		}
+
+		ul li a.hover {
+			text-decoration: none;
+			background: #efefef;
+		}
+	}
+
+}
+
+nav {
+	clear: both;
+	margin: 0 0 1.5em;
+
+	ul, li {
+		margin: 0;
+		padding: 0;
+	}
+	
+	a {
+		float: left;
+		margin: 0 0.8em 0 0;
+	}
+
+	.current a:active,
+	.current a:hover,
+	.current a {
+		@include box-shadow(none);
+		@include box-shadow(none);
+		background: $color-white;
+		border-color: darken($color-white, 10%);
+		color: darken($color-white, 30%);
+		cursor: default;
+	}
+}
+
+nav.main {
+	height: 2.6em;
+}
+
+nav.sub {
+	height: 2.6em;
+	margin: 0;
+
+	a {
+		margin: 0 1.7em 0 0;
+		font-weight: 600;
+	}
+
+	.current a {
+		color: darken($color-white, 40%);
+	}
+}

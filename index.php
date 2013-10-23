@@ -30,7 +30,7 @@ $cron->poll(array(
 // helpful for last attempted page redirection
 // after login..
 $sessionHistory = new session_history($database, $config);
-$sessionHistory->add();
+$sessionHistory->add($config->getUrl('current'));
 
 // navigate app
 $controller = new controller();

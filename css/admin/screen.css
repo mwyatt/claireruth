@@ -875,6 +875,12 @@ html.js input[type="submit"] {
   height: 1px;
 }
 
+/* line 125, ../../sass/_reusable.scss */
+.full-width {
+  position: relative;
+  margin: 0 auto;
+}
+
 /* line 2, ../../sass/_lightbox.scss */
 .lightbox-blackout,
 .lightbox-anchor {
@@ -1246,76 +1252,7 @@ html.js input[type="submit"] {
   top: 3em;
 }
 
-/* line 5, ../../sass/admin/screen.scss */
-.ajax {
-  background-image: url(../../media/ajax.gif);
-}
-
-/* line 15, ../../sass/admin/screen.scss */
-::selection {
-  background: #ca3566;
-  color: #ca3566;
-  text-shadow: none;
-}
-
-/* line 22, ../../sass/admin/screen.scss */
-a,
-a:visited {
-  color: #ca3566;
-  text-decoration: none;
-}
-
-/* line 28, ../../sass/admin/screen.scss */
-a:hover,
-a:focus {
-  color: #df86a3;
-}
-
-/* line 32, ../../sass/admin/screen.scss */
-a:focus {
-  border-color: #ca3566 !important;
-}
-
-/* line 40, ../../sass/admin/screen.scss */
-a:link {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
-/* line 44, ../../sass/admin/screen.scss */
-*:focus {
-  outline: none;
-}
-
-/* line 48, ../../sass/admin/screen.scss */
-body {
-  background: white;
-  color: gray;
-  font-size: 1em;
-  font-family: 'Open Sans', 'Arial', 'sans-serif';
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-}
-
-/* line 57, ../../sass/admin/screen.scss */
-.wrap {
-  margin: 0 auto;
-  width: 860px;
-}
-
-/* line 62, ../../sass/admin/screen.scss */
-.col-620 {
-  position: relative;
-  width: 620px;
-  float: left;
-}
-
-/* line 68, ../../sass/admin/screen.scss */
-.col-300 {
-  position: relative;
-  width: 300px;
-}
-
-/* line 73, ../../sass/admin/screen.scss */
+/* line 1, ../../sass/admin/_feedback.scss */
 .feedback {
   -webkit-transition: opacity 0.2s ease-in-out;
   -moz-transition: opacity 0.2s ease-in-out;
@@ -1338,7 +1275,7 @@ body {
   cursor: pointer;
   margin: 0 0 1.5em;
 }
-/* line 87, ../../sass/admin/screen.scss */
+/* line 11, ../../sass/admin/_feedback.scss */
 .feedback p {
   color: #fafafa;
   margin: 0;
@@ -1346,7 +1283,34 @@ body {
   font-weight: bold;
 }
 
-/* line 96, ../../sass/admin/screen.scss */
+/* line 6, ../../sass/admin/screen.scss */
+body {
+  background: white;
+  color: gray;
+  font-size: 1em;
+  font-family: 'Open Sans', 'Arial', 'sans-serif';
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* line 15, ../../sass/admin/screen.scss */
+.full-width {
+  width: 860px;
+}
+
+/* line 20, ../../sass/admin/screen.scss */
+.content,
+#content {
+  margin: 0 0 4em;
+  clear: both;
+}
+
+/* line 25, ../../sass/admin/screen.scss */
+.ajax {
+  background-image: url('/claireruth/media/ajax.gif?1368257192');
+}
+
+/* line 30, ../../sass/admin/screen.scss */
 a.button,
 .button {
   background-color: #fafafa;
@@ -1366,7 +1330,7 @@ a.button,
   font-weight: bold;
   cursor: pointer;
 }
-/* line 107, ../../sass/admin/screen.scss */
+/* line 41, ../../sass/admin/screen.scss */
 a.button:hover,
 .button:hover {
   background-color: #fcfcfc;
@@ -1382,7 +1346,7 @@ a.button:hover,
   color: #4d4d4d;
   text-decoration: none;
 }
-/* line 115, ../../sass/admin/screen.scss */
+/* line 49, ../../sass/admin/screen.scss */
 a.button:active,
 .button:active {
   background-color: #f2f2f2;
@@ -1396,277 +1360,76 @@ a.button:active,
   box-shadow: inset 0 1px 3px #e6e6e6;
 }
 
-/* line 121, ../../sass/admin/screen.scss */
-.fixture {
-  float: left;
-  width: 12em;
-  border: 1px solid;
-  margin: 1em;
-}
-
-/* line 130, ../../sass/admin/screen.scss */
-.content.league.fixtures .card {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  position: relative;
-  float: left;
-  width: 20.9%;
-  border: 1px solid;
-  margin: 1em;
-  display: block;
-  padding: .6em;
-}
-/* line 140, ../../sass/admin/screen.scss */
-.content.league.fixtures .card .date-fulfilled {
-  position: absolute;
-  right: 0;
-  top: -2em;
-  font-size: .7em;
-  color: #995799;
-}
-/* line 148, ../../sass/admin/screen.scss */
-.content.league.fixtures .card div {
-  float: left;
-}
-/* line 151, ../../sass/admin/screen.scss */
-.content.league.fixtures .card div[class^="team"] {
-  clear: left;
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 80%;
-}
-/* line 160, ../../sass/admin/screen.scss */
-.content.league.fixtures .card div[class^="score"] {
-  width: 20%;
-  text-align: right;
-  float: right;
-}
-
-/* line 171, ../../sass/admin/screen.scss */
-.content.main-content table.main .title {
-  width: 40%;
-}
-/* line 175, ../../sass/admin/screen.scss */
-.content.main-content table.main .date {
-  width: 20%;
-}
-/* line 179, ../../sass/admin/screen.scss */
-.content.main-content table.main .status {
-  width: 11%;
-}
-
-/* line 184, ../../sass/admin/screen.scss */
+/* line 55, ../../sass/admin/screen.scss */
 table.main {
   margin: 0 0 2em;
 }
-/* line 187, ../../sass/admin/screen.scss */
+/* line 58, ../../sass/admin/screen.scss */
 table.main table {
   border: 1px solid #eee;
   margin: 0 0 2em;
 }
-/* line 192, ../../sass/admin/screen.scss */
+/* line 63, ../../sass/admin/screen.scss */
 table.main thead th {
   background-color: #eee;
   padding: 1em;
 }
-/* line 199, ../../sass/admin/screen.scss */
+/* line 70, ../../sass/admin/screen.scss */
 table.main th,
 table.main td {
   border-left: 1px solid #eee;
 }
-/* line 207, ../../sass/admin/screen.scss */
+/* line 78, ../../sass/admin/screen.scss */
 table.main td.action a {
   margin: 0 0.9em 0 0;
 }
-/* line 211, ../../sass/admin/screen.scss */
+/* line 82, ../../sass/admin/screen.scss */
 table.main td {
   padding: 0.6em;
 }
-/* line 217, ../../sass/admin/screen.scss */
+/* line 88, ../../sass/admin/screen.scss */
 table.main tbody tr:nth-child(even) {
   background: #fafafa;
 }
-/* line 221, ../../sass/admin/screen.scss */
+/* line 92, ../../sass/admin/screen.scss */
 table.main tbody tr:hover {
   background: #f2f2f2;
 }
-/* line 227, ../../sass/admin/screen.scss */
+/* line 98, ../../sass/admin/screen.scss */
 table.main tr {
   -webkit-transition: background-color 0.1s ease-in-out;
   -moz-transition: background-color 0.1s ease-in-out;
   -o-transition: background-color 0.1s ease-in-out;
   transition: background-color 0.1s ease-in-out;
 }
-/* line 231, ../../sass/admin/screen.scss */
+/* line 102, ../../sass/admin/screen.scss */
 table.main tr:hover {
   text-shadow: 1px 1px 0 white;
   background: #f7f7f7;
 }
-/* line 240, ../../sass/admin/screen.scss */
+/* line 111, ../../sass/admin/screen.scss */
 table.main th {
   text-align: left;
   background: #f2f2f2;
 }
-/* line 246, ../../sass/admin/screen.scss */
+/* line 117, ../../sass/admin/screen.scss */
 table.main th,
 table.main td {
   border: 1px solid #e6e4e3;
   padding: 1em;
 }
 
-/* line 257, ../../sass/admin/screen.scss */
+/* line 128, ../../sass/admin/screen.scss */
 .button.back {
   float: right;
 }
 
-/* line 266, ../../sass/admin/screen.scss */
-.content.fixtures.update select[name^="division"],
-.content.fixtures.update select[name^="team"],
-.content.fixtures.update select[name^="player"],
-.content.fixtures.fulfill select[name^="division"],
-.content.fixtures.fulfill select[name^="team"],
-.content.fixtures.fulfill select[name^="player"] {
-  width: 14em;
-}
-/* line 270, ../../sass/admin/screen.scss */
-.content.fixtures.update input[type="checkbox"],
-.content.fixtures.fulfill input[type="checkbox"] {
-  margin: 0 0 0 0.4em;
-}
-/* line 274, ../../sass/admin/screen.scss */
-.content.fixtures.update .row.total,
-.content.fixtures.fulfill .row.total {
-  font-size: 3em;
-  font-weight: 600;
-}
-/* line 278, ../../sass/admin/screen.scss */
-.content.fixtures.update .row.total span,
-.content.fixtures.fulfill .row.total span {
-  float: none;
-  margin: 0 0 0 2em;
-}
-/* line 282, ../../sass/admin/screen.scss */
-.content.fixtures.update .row.total span:first-child,
-.content.fixtures.fulfill .row.total span:first-child {
-  margin: 0;
-}
-/* line 288, ../../sass/admin/screen.scss */
-.content.fixtures.update .division,
-.content.fixtures.fulfill .division {
-  text-align: center;
-}
-/* line 294, ../../sass/admin/screen.scss */
-.content.fixtures.update .division,
-.content.fixtures.update .team,
-.content.fixtures.update .player,
-.content.fixtures.fulfill .division,
-.content.fixtures.fulfill .team,
-.content.fixtures.fulfill .player {
-  margin: 0 0 2em;
-}
-/* line 298, ../../sass/admin/screen.scss */
-.content.fixtures.update .exclude,
-.content.fixtures.fulfill .exclude {
-  top: 35%;
-  position: absolute;
-  left: 0;
-}
-/* line 304, ../../sass/admin/screen.scss */
-.content.fixtures.update span[class^="play-up"],
-.content.fixtures.fulfill span[class^="play-up"] {
-  margin: 0 1.2em;
-}
-/* line 308, ../../sass/admin/screen.scss */
-.content.fixtures.update label.name,
-.content.fixtures.fulfill label.name {
-  font-weight: 600;
-}
-/* line 313, ../../sass/admin/screen.scss */
-.content.fixtures.update label.left,
-.content.fixtures.update label.right,
-.content.fixtures.fulfill label.left,
-.content.fixtures.fulfill label.right {
-  width: 8em;
-  position: absolute;
-  top: 39%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-/* line 322, ../../sass/admin/screen.scss */
-.content.fixtures.update .row.player .button,
-.content.fixtures.fulfill .row.player .button {
-  font-size: 0.8em;
-  padding: 0.2em 0.6em 0.3em;
-}
-/* line 327, ../../sass/admin/screen.scss */
-.content.fixtures.update .row.total,
-.content.fixtures.fulfill .row.total {
-  margin: 0.8em 0 1.4em;
-}
-/* line 331, ../../sass/admin/screen.scss */
-.content.fixtures.update .row.score,
-.content.fixtures.fulfill .row.score {
-  border-top: 1px dotted #d9d9d9;
-  padding: 1em;
-  margin: 0;
-}
-/* line 338, ../../sass/admin/screen.scss */
-.content.fixtures.update label.left,
-.content.fixtures.fulfill label.left {
-  left: 23%;
-}
-/* line 342, ../../sass/admin/screen.scss */
-.content.fixtures.update label.right,
-.content.fixtures.fulfill label.right {
-  right: 20%;
-}
-/* line 349, ../../sass/admin/screen.scss */
-.content.fixtures.update .row.excluded input, .content.fixtures.update .row.excluded label[for^="encounter"],
-.content.fixtures.fulfill .row.excluded input,
-.content.fixtures.fulfill .row.excluded label[for^="encounter"] {
-  text-decoration: line-through;
-  color: #ca3566;
-  border-color: #ca3566;
-}
-/* line 356, ../../sass/admin/screen.scss */
-.content.fixtures.update .team,
-.content.fixtures.fulfill .team {
-  margin: 0 0 2em;
-}
-/* line 360, ../../sass/admin/screen.scss */
-.content.fixtures.update select, .content.fixtures.update input[type="text"],
-.content.fixtures.fulfill select,
-.content.fixtures.fulfill input[type="text"] {
-  margin: 0 0 0 2em;
-}
-/* line 366, ../../sass/admin/screen.scss */
-.content.fixtures.update select:first-of-type,
-.content.fixtures.fulfill select:first-of-type {
-  margin: 0;
-}
-/* line 372, ../../sass/admin/screen.scss */
-.content.fixtures.update .score div,
-.content.fixtures.update .player div,
-.content.fixtures.fulfill .score div,
-.content.fixtures.fulfill .player div {
-  margin: 0 0 1em;
-}
-/* line 376, ../../sass/admin/screen.scss */
-.content.fixtures.update input[type="text"],
-.content.fixtures.fulfill input[type="text"] {
-  text-align: center;
-}
-
-/* line 383, ../../sass/admin/screen.scss */
+/* line 132, ../../sass/admin/screen.scss */
 textarea {
   height: 20em;
 }
 
-/* line 389, ../../sass/admin/screen.scss */
+/* line 138, ../../sass/admin/screen.scss */
 input[type="text"],
 input[type="password"],
 textarea {
@@ -1679,7 +1442,7 @@ textarea {
   font-weight: bold;
   color: #666666;
 }
-/* line 397, ../../sass/admin/screen.scss */
+/* line 146, ../../sass/admin/screen.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 textarea:focus {
@@ -1690,12 +1453,12 @@ textarea:focus {
   color: #4d4d4d;
 }
 
-/* line 404, ../../sass/admin/screen.scss */
+/* line 153, ../../sass/admin/screen.scss */
 input.error {
   border-color: red;
 }
 
-/* line 413, ../../sass/admin/screen.scss */
+/* line 161, ../../sass/admin/screen.scss */
 label.above {
   display: block;
   margin: 0 0 1.1em;
@@ -1703,190 +1466,12 @@ label.above {
   font-size: 1.1em;
 }
 
-/* line 420, ../../sass/admin/screen.scss */
+/* line 168, ../../sass/admin/screen.scss */
 label {
   color: #999999;
 }
 
-/* line 431, ../../sass/admin/screen.scss */
-.row {
-  margin: 0 0 3em;
-  clear: both;
-}
-
-/* line 436, ../../sass/admin/screen.scss */
-input[id="status"] {
-  margin: 0.1em 0 0 0.4em;
-}
-
-/* line 443, ../../sass/admin/screen.scss */
-form .required {
-  /*background: url('../image/main/required.png') 276px 17px no-repeat;*/
-}
-/* line 447, ../../sass/admin/screen.scss */
-form input[type="submit"] {
-  position: absolute;
-  left: -999em;
-  width: 1px;
-  height: 1px;
-}
-
-/* line 455, ../../sass/admin/screen.scss */
-footer.main {
-  border-top: 1px dotted #cccccc;
-  padding: 1.5em 0 3em;
-}
-/* line 459, ../../sass/admin/screen.scss */
-footer.main p {
-  margin: 0;
-  font-weight: 100;
-  font-style: italic;
-}
-
-/* line 466, ../../sass/admin/screen.scss */
-header.main {
-  border-bottom: 1px dotted #cccccc;
-  margin: 1.5em 0;
-}
-/* line 470, ../../sass/admin/screen.scss */
-header.main .title {
-  float: left;
-  margin: 0 0 2em;
-}
-
-/* line 477, ../../sass/admin/screen.scss */
-.user {
-  position: relative;
-}
-/* line 480, ../../sass/admin/screen.scss */
-.user ul {
-  display: none;
-}
-/* line 484, ../../sass/admin/screen.scss */
-.user .name {
-  float: right;
-  font-weight: 600;
-}
-/* line 492, ../../sass/admin/screen.scss */
-.user.active .name,
-.user.active .name:hover {
-  cursor: default;
-  color: gray;
-  text-decoration: none;
-}
-/* line 506, ../../sass/admin/screen.scss */
-.user.active ul {
-  background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(whitesmoke));
-  background: -webkit-linear-gradient(top, #fafafa, whitesmoke);
-  background: -moz-linear-gradient(top, #fafafa, whitesmoke);
-  background: -ms-linear-gradient(top, #fafafa, whitesmoke);
-  background: -o-linear-gradient(top, #fafafa, whitesmoke);
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  text-shadow: 1px 1px 0 white;
-  border: 1px solid #d9d9d9;
-  color: gray;
-  background: #fff;
-  display: inline;
-  list-style: none;
-  position: absolute;
-  padding: 0;
-  margin: 0;
-  top: 2.5em;
-  right: 0;
-}
-/* line 522, ../../sass/admin/screen.scss */
-.user.active ul li a {
-  padding: 0.5em 1em 0.6em;
-  display: block;
-  font-weight: 600;
-}
-/* line 528, ../../sass/admin/screen.scss */
-.user.active ul li a.hover {
-  text-decoration: none;
-  background: #efefef;
-}
-
-/* line 536, ../../sass/admin/screen.scss */
-nav {
-  clear: both;
-  margin: 0 0 1.5em;
-}
-/* line 540, ../../sass/admin/screen.scss */
-nav ul, nav li {
-  margin: 0;
-  padding: 0;
-}
-/* line 545, ../../sass/admin/screen.scss */
-nav a {
-  float: left;
-  margin: 0 0.8em 0 0;
-}
-/* line 552, ../../sass/admin/screen.scss */
-nav .current a:active,
-nav .current a:hover,
-nav .current a {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  background: white;
-  border-color: #e6e6e6;
-  color: #b3b3b3;
-  cursor: default;
-}
-
-/* line 562, ../../sass/admin/screen.scss */
-nav.main {
-  height: 2.6em;
-}
-
-/* line 566, ../../sass/admin/screen.scss */
-nav.sub {
-  height: 2.6em;
-  margin: 0;
-}
-/* line 570, ../../sass/admin/screen.scss */
-nav.sub a {
-  margin: 0 1.7em 0 0;
-  font-weight: 600;
-}
-/* line 575, ../../sass/admin/screen.scss */
-nav.sub .current a {
-  color: #999999;
-}
-
-/* sub nav */
-/* content */
-/* line 668, ../../sass/admin/screen.scss */
-.content,
-#content {
-  margin: 0 0 4em;
-  clear: both;
-}
-
-/* line 673, ../../sass/admin/screen.scss */
-h1 {
-  margin: 0 0 1em;
-}
-
-/* line 677, ../../sass/admin/screen.scss */
-.season-status {
-  border: 1px solid #e6e6e6;
-  background: #fafafa;
-  padding: 2em;
-  margin-bottom: 1em;
-}
-/* line 683, ../../sass/admin/screen.scss */
-.season-status h3 {
-  margin-top: 0;
-}
-
-/* line 688, ../../sass/admin/screen.scss */
+/* line 172, ../../sass/admin/screen.scss */
 .nothing-yet {
   text-shadow: 0 1px 0 white;
   background: #fafafa;
@@ -1895,7 +1480,7 @@ h1 {
   border-bottom: 1px solid #d9d9d9;
   padding: 2em;
 }
-/* line 697, ../../sass/admin/screen.scss */
+/* line 181, ../../sass/admin/screen.scss */
 .nothing-yet p {
   color: #999999;
   cursor: default;
@@ -1903,12 +1488,12 @@ h1 {
   margin: 0;
 }
 
-/* line 710, ../../sass/admin/screen.scss */
+/* line 194, ../../sass/admin/screen.scss */
 .toolbar {
   margin: 0 0 1em;
 }
 
-/* line 714, ../../sass/admin/screen.scss */
+/* line 198, ../../sass/admin/screen.scss */
 .toolbar .button {
   float: left;
   margin: 0 .5em .5em 0;
@@ -1916,49 +1501,10 @@ h1 {
   padding: .5em 1em;
 }
 
-/* line 724, ../../sass/admin/screen.scss */
+/* line 207, ../../sass/admin/screen.scss */
 .content.page textarea,
 .content.post textarea {
   width: 100%;
   font-size: 1em;
   font-weight: 400;
-}
-
-/* table */
-/**
- * .content.login
- */
-/* line 786, ../../sass/admin/screen.scss */
-.content.login {
-  margin: 0 auto;
-  padding: 5em 0 0;
-}
-/* line 790, ../../sass/admin/screen.scss */
-.content.login label {
-  margin: 0 0 0.6em;
-  display: block;
-}
-/* line 795, ../../sass/admin/screen.scss */
-.content.login .button {
-  float: right;
-  margin: 1.1em 0 0;
-}
-/* line 800, ../../sass/admin/screen.scss */
-.content.login .logo {
-  display: none;
-}
-/* line 813, ../../sass/admin/screen.scss */
-.content.login .logo span {
-  position: absolute;
-  top: -49px;
-  left: -4px;
-}
-/* line 819, ../../sass/admin/screen.scss */
-.content.login form {
-  width: 220px;
-  margin: 0 auto;
-}
-/* line 824, ../../sass/admin/screen.scss */
-.content.login .row {
-  margin: 0 0 1.1em;
 }

@@ -893,6 +893,12 @@ html.js input[type="submit"] {
   height: 1px;
 }
 
+/* line 125, ../sass/_reusable.scss */
+.full-width {
+  position: relative;
+  margin: 0 auto;
+}
+
 /* line 2, ../sass/_lightbox.scss */
 .lightbox-blackout,
 .lightbox-anchor {
@@ -1540,12 +1546,10 @@ footer.main nav a {
 
 /* line 22, ../sass/screen.scss */
 .full-width {
-  position: relative;
   width: 960px;
-  margin: 0 auto;
 }
 
-/* line 28, ../sass/screen.scss */
+/* line 26, ../sass/screen.scss */
 body {
   background: url("../media/45degreee_fabric.png") repeat;
   font-family: 'sans-serif';
@@ -1556,7 +1560,7 @@ body {
   font-family: 'Droid Serif', serif;
 }
 
-/* line 38, ../sass/screen.scss */
+/* line 36, ../sass/screen.scss */
 .button.primary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
@@ -1588,7 +1592,7 @@ body {
   border-bottom-color: #79203d;
 }
 
-/* line 42, ../sass/screen.scss */
+/* line 40, ../sass/screen.scss */
 .button.secondary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
@@ -1620,7 +1624,7 @@ body {
   border-bottom-color: #583258;
 }
 
-/* line 46, ../sass/screen.scss */
+/* line 44, ../sass/screen.scss */
 .button.tertiary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
@@ -1652,18 +1656,18 @@ body {
   border-bottom-color: #334d19;
 }
 
-/* line 50, ../sass/screen.scss */
+/* line 48, ../sass/screen.scss */
 .top {
   display: none;
 }
 
-/* line 54, ../sass/screen.scss */
+/* line 52, ../sass/screen.scss */
 h1.main {
   font-size: 1.5em;
   line-height: 1.2em;
 }
 
-/* line 59, ../sass/screen.scss */
+/* line 57, ../sass/screen.scss */
 .content {
   margin: 0 0 2em;
 }

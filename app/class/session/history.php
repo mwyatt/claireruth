@@ -26,11 +26,11 @@ class Session_History extends Session
 	 * adds to the session array to keep a record of your request history
 	 * @todo should $this->data be array() as default?
 	 */
-	public function add()
+	public function add($url)
 	{
 
 		// first one
-		if (! $currentHistory = $this->getData()) {
+		if (! $currentHistory = $this->getData('common')) {
 			$currentHistory = array();
 		}
 
@@ -40,12 +40,24 @@ class Session_History extends Session
 		}
 
 		// check that next request is unique
-		if (end($currentHistory) == $this->config->getUrl('current')) {
+		if (end($currentHistory) == $url) {
 			return;
 		}
 
 		// adds to the array
-		$currentHistory[] = $this->config->getUrl('current');
-		return $this->setData($currentHistory);
+		$currentHistory[] = $url;
+		return $this->setDataKey('common', $currentHistory);
+	}
+
+
+	public function setCaptureUrl($url)
+	{
+		return $this->setDataKey('capture_url', $url);
+	}
+
+
+	public function getCaptureUrl()
+	{
+		return $this->getData('capture_url');
 	}
 }

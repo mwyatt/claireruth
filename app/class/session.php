@@ -38,7 +38,7 @@ class Session extends Cron
 	public function initialiseData()
 	{
 		if (! array_key_exists($this->getIdentity(), $_SESSION)) {
-			$_SESSION[$this->getIdentity()] = false;
+			$_SESSION[$this->getIdentity()] = array();
 		}
 		$this->setData($_SESSION[$this->getIdentity()]);
 	}
@@ -57,6 +57,10 @@ class Session extends Cron
 	}
 
 
+	/**
+	 * sets all data assigned to session and the object
+	 * @param int|bool|array $value 
+	 */
 	public function setData($value = false)
 	{	
 		$_SESSION[$this->getIdentity()] = $value;
@@ -87,10 +91,5 @@ class Session extends Cron
 		if (! $key) {
 			unset($_SESSION[$this->getIdentity()]);
 		}
-	}
-
-
-	public function setExpire() {
-		// $this->
 	}
 }

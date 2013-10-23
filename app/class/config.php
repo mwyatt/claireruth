@@ -48,7 +48,7 @@ class Config
 	 * stores objects like nuts!
 	 * @var array
 	 */
-	public $objects;
+	public $objects = array();
 
 
 	/**
@@ -63,7 +63,7 @@ class Config
 	 * a variety of url structures are stored here
 	 * @var array
 	 */
-	public $url;
+	public $url = array();
 
 
 	/**
@@ -251,6 +251,9 @@ class Config
 		// admin
 		$urlParts['admin'] = $urlParts['base'] . 'admin/';
 
+		// media
+		$urlParts['media'] = $urlParts['base'] . 'media/';
+
 		// current_noquery
 		$url = $urlParts['base'];
 		foreach ($urlParts['path'] as $segment) {
@@ -302,6 +305,9 @@ class Config
 			return;
 		}
 		if ($two) {
+			if (! is_array($this->data[$one])) {
+				return;
+			}
 			if (array_key_exists($two, $this->data[$one])) {
 				return $this->data[$one][$two];
 			} else {
