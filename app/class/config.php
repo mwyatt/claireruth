@@ -41,7 +41,7 @@ class Config
 	 * stores data relating to the class
 	 * @var array
 	 */
-	public $data;
+	public $data = array();
 
 
 	/**

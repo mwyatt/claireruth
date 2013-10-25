@@ -26,10 +26,6 @@ $cron->poll(array(
 	, 'emailNewsletter'
 ));
 
-$form = new form($database, $config);
-$form->validate('form_admin_login');
-exit;
-
 // keep track of the pages requested
 // helpful for last attempted page redirection
 // after login..
