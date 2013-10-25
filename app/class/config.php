@@ -202,7 +202,7 @@ class Config
 	 * @todo  could be compressed further
 	 * @return object
 	 */
-	public function buildUrl() {
+	public function initiateUrl() {
 
 		// server var must be avaliable
 		if (! $_SERVER) {
@@ -461,5 +461,48 @@ class Config
 			return current($data);
 		}
 		return false;
+	}
+
+
+	/**
+	 * friendly url building
+	 * @param  string $value 
+	 * @return string        one you can be friends with
+	 */
+	public function urlFriendly($value = null)
+	{
+	
+		// everything to lower and no spaces begin or end
+		$value = strtolower(trim($value));
+		
+		// adding - for spaces and union characters
+		$find = array(' ', '&', '\r\n', '\n', '+',',');
+		$value = str_replace ($find, '-', $value);
+		
+		//delete and replace rest of special chars
+		$find = array('/[^a-z0-9\-<>]/', '/[\-]+/', '/<[^>]*>/');
+		$repl = array('', '-', '');
+		$value = preg_replace ($find, $repl, $value);
+		
+		//return the friendly str
+		return $value; 	
+	}
+
+
+	/**
+	 * upgraded get url method, allows unlimited segments
+	 * friendly helps out with slashes and making things safe
+	 * @param  array   $segments      each/segment/
+	 * @return string                 the url
+	 */
+	public function buildUrl($segments = array(), $friendly = true) {
+		$finalUrl = $this->config->getUrl('base');
+		foreach ($segments as $segment) {
+			if ($friendly) {
+				$segment = $this->urlFriendly($segment);
+			}
+			$finalUrl .= $segment . ($friendly ? '/' : '');
+		}
+		return $finalUrl;
 	}
 }

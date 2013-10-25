@@ -84,4 +84,15 @@ class Form extends Config
 	{
 		return;
 	}
+
+
+	/**
+	 * handy for checking if a checkbox has been ticked
+	 * @param  string  $key 
+	 * @return boolean      
+	 * @todo remove this if possible, use validate_whatever
+	 */
+	public function isChecked($key) {
+		return (array_key_exists($key, $_POST) ? true : false);
+	}	
 }

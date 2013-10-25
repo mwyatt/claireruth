@@ -34,8 +34,10 @@ class Model_Content extends Model
 				, content.status
 				, content.user_id
 				, concat(user.first_name, ' ', user.last_name) as user_name
+				, content_meta.value as content_meta_love
 			from content
 			left join user on user.id = content.user_id
+			left join content_meta on content_meta.id = content.id and content_meta.name = 'love'
             where content.id != ''
 			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and content.status = \'visible\'') . "
 			" . ($where ? ' and content.type = :type ' : '') . "
@@ -90,6 +92,7 @@ class Model_Content extends Model
 	/**
 	 * utilises read to get a single result
 	 * (not contained in array)
+	 * @todo phase this out.. config can do it
 	 * @param  string $type 
 	 * @param  string|int $id   
 	 * @return bool|array       signify success

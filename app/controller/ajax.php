@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * collection of allowed ajax requests
+ * @todo expand so that admin are seperate, modular not methods
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -9,11 +11,6 @@
 
 class Controller_Ajax extends Controller
 {
-
-	
-	public function index() {
-		$this->route('base');
-	}
 
 
 	/**
@@ -29,6 +26,8 @@ class Controller_Ajax extends Controller
 		} else {
 			return;
 		}
+
+		// session validation
 		if (array_key_exists('plus_one', $_GET)) {
 			$sessionLove = new session_love($this->database, $this->config);
 
@@ -40,7 +39,7 @@ class Controller_Ajax extends Controller
 		}
 
 		// setup object
-		$contentMeta = new model_content_meta($this->database, $this->config, 'love');
+		$contentMeta = new model_content_meta($this->database, $this->config);
 		$contentMetaSelect = "
 			content_meta.id
 			, content_meta.content_id
@@ -49,7 +48,7 @@ class Controller_Ajax extends Controller
 		";
 		$contentMetaWhere = array(
 			'content_id' => $contentId
-			, 'name' => $contentMeta->getName()
+			, 'name' => 'love'
 		);
 
 		// create meta entry if doesnt exist
@@ -63,26 +62,22 @@ class Controller_Ajax extends Controller
 		}
 
 		// increment counter
-		if ($plusOne && $contentMetaData = $contentMeta->getDataFirst()) {
-			$loveCount = $contentMetaData['value'] ++;
+		if ($plusOne) {
+			$loveCount = $contentMeta->getDataFirst('value') + 1;
 			
 			// ++
 			$contentMeta->update(
-				array('value' => (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden'))
-				, array('content_id' => $contentId)
+				array('value' => $loveCount)
+				, $contentMetaWhere
 			);
 		}
 
 		// reads meta entry, will always be there and up to date
 		$contentMeta->read($contentMetaSelect, $contentMetaWhere);
-echo '<pre>';
-print_r($contentMeta->getDataFirst());
-echo '</pre>';
-exit;
 
 		// view
 		$this->view
-			->setObject('contentMeta', $contentMeta->getDataFirst())
-			->loadTemplate('ajax');
+			->setObject($contentMeta)
+			->loadTemplate('_love');
 	}
 }

@@ -18,7 +18,7 @@ $options->read();
 $config = new config();
 $config
 	->setOptions($options->getData())
-	->buildUrl()
+	->initiateUrl()
 	->setObject($error);
 $cron = new cron($database, $config);
 $cron->poll(array(

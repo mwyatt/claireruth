@@ -16,7 +16,7 @@ class Model_Content_Meta extends Model
 	 * within methods
 	 * @var string
 	 */
-	public $name;
+	// public $name;
 
 
 	/**
@@ -25,12 +25,12 @@ class Model_Content_Meta extends Model
 	 * @param object $config   
 	 * @param string  $name     the name column
 	 */
-	public function __construct($database = false, $config = false, $name = '') {
-		parent::__construct($database, $config);
+	// public function __construct($database = false, $config = false, $name = '') {
+	// 	parent::__construct($database, $config);
 
-		// sets the name column flag
-		$this->setName($name);
-	}
+	// 	// sets the name column flag
+	// 	$this->setName($name);
+	// }
 
 
 	// public function readByContentId($contentId, $name = '') {
@@ -69,22 +69,22 @@ class Model_Content_Meta extends Model
 	// }	
 
 
-	/**
-	 * simple return of name
-	 * @return string 
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+	// /**
+	//  * simple return of name
+	//  * @return string 
+	//  */
+	// public function getName()
+	// {
+	// 	return $this->name;
+	// }
 
 
-	/**
-	 * sets the name property
-	 * @param string $name 
-	 */
-	public function setName($name = false)
-	{
-		$this->name = $name;
-	}
+	// *
+	//  * sets the name property
+	//  * @param string $name 
+	 
+	// public function setName($name = false)
+	// {
+	// 	$this->name = $name;
+	// }
 }
