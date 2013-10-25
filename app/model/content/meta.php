@@ -33,30 +33,30 @@ class Model_Content_Meta extends Model
 	}
 
 
-	public function readByContentId($contentId, $name = '') {
-		$query = "
-			select
-				content_meta.id
-				, content_meta.content_id
-				, content_meta.name
-				, content_meta.value
-			from
-				{$this->getIdentity()}
-			where
-				{$this->getIdentity()}.id != 0
-				and {$this->getIdentity()}.content_id = ?
-				" . ($name ? " and {$this->getIdentity()}.{$this->getName()} = $name " : "") . "
-		";
-		$sth = $this->database->dbh->prepare($query);		
-		$this->bindValues($sth, array($contentId));
-		try {
-			$sth->execute();
-		} catch (Exception $e) {
-			echo 'error 234234234';
-			exit;
-		}
-		return $this->setData($sth->fetchAll(PDO::FETCH_ASSOC));
-	}	
+	// public function readByContentId($contentId, $name = '') {
+	// 	$query = "
+	// 		select
+	// 			content_meta.id
+	// 			, content_meta.content_id
+	// 			, content_meta.name
+	// 			, content_meta.value
+	// 		from
+	// 			{$this->getIdentity()}
+	// 		where
+	// 			{$this->getIdentity()}.id != 0
+	// 			and {$this->getIdentity()}.content_id = ?
+	// 			" . ($name ? " and {$this->getIdentity()}.{$this->getName()} = $name " : "") . "
+	// 	";
+	// 	$sth = $this->database->dbh->prepare($query);		
+	// 	$this->bindValues($sth, array($contentId));
+	// 	try {
+	// 		$sth->execute();
+	// 	} catch (Exception $e) {
+	// 		echo 'error 234234234';
+	// 		exit;
+	// 	}
+	// 	return $this->setData($sth->fetchAll(PDO::FETCH_ASSOC));
+	// }	
 
 
 	// /**

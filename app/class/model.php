@@ -20,6 +20,8 @@ class Model extends Config
 	 * @return bool         
 	 */
 	public function read($select = "", $where = array(), $ids = array(), $limit = array()) {
+
+		// build query
 		$query = "
 			select
 				{$select}
@@ -27,43 +29,68 @@ class Model extends Config
 				{$this->getIdentity()}
 			where
 				{$this->getIdentity()}.id != 0
-				" . ($where ? " and {$this->getIdentity()}." . reset($where) . " = :" . reset($where) . " " : "") . "
-				" . ($ids ? " and {$this->getIdentity()}.id = :id " : "") . "
-
-			" . ($limit ? " limit :limit_start, :limit_end " : "") . "
 		";
+
+		// build query - where
+		foreach ($where as $colName => $value) {
+			$query .= " and {$this->getIdentity()}.$colName = :$colName ";
+		}
+
+		// build query - ids
+		if ($ids) {
+			$query .= " and {$this->getIdentity()}.id = :id ";
+		}
+
+		// build query - limit
+		if ($limit) {
+			$query .= " limit :limit_start, :limit_end ";
+		}
+
+		// prepare
 		$sth = $this->database->dbh->prepare($query);		
-		if ($where) {
-			$this->bindValue($sth, ':' . reset($where), next($where));
+
+		// binding
+		foreach ($where as $colName => $value) {
+			$this->bindValue($sth, ':' . $colName, $value);
 		}
 		if ($limit) {
 			$this->bindValue($sth, ':limit_start', (int) reset($limit));
 			$this->bindValue($sth, ':limit_end', (int) next($limit));
 		}	
+
+		// execution
 		if ($ids) {
 			foreach ($ids as $id) {
 				$this->bindValue($sth, ':id', $id);
-				$sth->execute();
+				$sth = $this->tryExecute($sth, '12312345');
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$results[] = $row;
 				}
 			}
 		} else {
-			$sth->execute();				
+			$sth = $this->tryExecute($sth, '38219381');				
 			$results = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
 		return $this->setData($results);
 	}	
 
 
-	// public function readSingle($type, $id)
-	// {
-	// 	$this->read($type, false, array($id));
-	// 	if ($this->getData()) {
-	// 		return $this->data = current($this->getData());
-	// 	}
-	// 	return false;
-	// }
+	/**
+	 * attempts to execute, if problem found error code is shown
+	 * @param  object $sth       
+	 * @param  string $errorCode 
+	 * @return object           
+	 */
+	public function tryExecute($sth, $errorCode = '')
+	{
+		try {
+			$sth->execute();
+		} catch (Exception $e) {
+			echo 'error' . $errorCode;
+			exit;
+		}
+		return $sth;
+	}
 
 	
 	/**
@@ -117,10 +144,17 @@ class Model extends Config
 	 * @param  array  $colValues colname => value
 	 * @param  array  $where where => value
 	 * @return int            yay or nay
+	 * @todo improve where to accept multiples
 	 * @todo the return value is not ideal
 	 */	
 	public function update($colValues = array(), $where = array())
 	{
+		$query = "
+			update {$this->getIdentity()} set
+				$colList
+			where
+				$whereCol = ?
+		";
 		$colList = '';
 		foreach ($colValues as $col => $val) {
 			$vals[] = $val;
@@ -129,12 +163,7 @@ class Model extends Config
 		$whereCol = key($where);
 		$vals[] = current($where);
 		$colList = ltrim($colList, ', ');
-		$sth = $this->database->dbh->prepare("
-			update {$this->getIdentity()} set
-				$colList
-			where
-				$whereCol = ?
-		");		
+		$sth = $this->database->dbh->prepare($query);		
 		$this->bindValues($sth, $vals);
 		try {
 			$sth->execute();

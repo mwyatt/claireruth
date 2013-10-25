@@ -41,10 +41,20 @@ class Controller_Ajax extends Controller
 
 		// setup object
 		$contentMeta = new model_content_meta($this->database, $this->config, 'love');
+		$contentMetaSelect = "
+			content_meta.id
+			, content_meta.content_id
+			, content_meta.name
+			, content_meta.value
+		";
+		$contentMetaWhere = array(
+			'content_id' => $contentId
+			, 'name' => $contentMeta->getName()
+		);
 
 		// create meta entry if doesnt exist
 		// default 1
-		if (! $contentMeta->readByContentId($contentId)) {
+		if (! $contentMeta->read($contentMetaSelect, $contentMetaWhere)) {
 			$contentMeta->create(array(
 				'content_id' => $contentId
 				, 'name' => 'love'
@@ -58,13 +68,13 @@ class Controller_Ajax extends Controller
 			
 			// ++
 			$contentMeta->update(
-				array('status' => (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden'))
+				array('value' => (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden'))
 				, array('content_id' => $contentId)
 			);
 		}
 
 		// reads meta entry, will always be there and up to date
-		$contentMeta->readByContentId($contentId);
+		$contentMeta->read($contentMetaSelect, $contentMetaWhere);
 echo '<pre>';
 print_r($contentMeta->getDataFirst());
 echo '</pre>';
