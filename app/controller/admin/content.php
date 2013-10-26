@@ -89,9 +89,7 @@ class Controller_Admin_Content extends Controller
 		// archive
 		if (array_key_exists('archive', $_GET)) {
 			if ($content->update(
-				array(
-					'status' => 'archive'
-				)
+				array('status' => 'archive')
 				, array('id' => $_GET['archive'])
 			)) {
 				// $contentMany = new model_content_meta($this->database, $this->config, 'content_tag');

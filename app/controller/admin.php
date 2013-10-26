@@ -54,7 +54,7 @@ class Controller_Admin extends Controller
 			// validate the username and password
 			if ($user->validatePassword($_POST['login_email'], $_POST['login_password'])) {
 				$sessionUser->login($user->getDataFirst('id'));
-				$sessionFeedback->set('Successfully Logged in as ' . $user->getDataFirst('email'));
+				$sessionFeedback->set('Successfully Logged in as ' . $_POST['login_email']);
 				
 				// send off to captured url if an important one is detected
 				if ($sessionHistory->getCaptureUrl()) {
@@ -80,7 +80,7 @@ class Controller_Admin extends Controller
 				, user.time_registered
 				, user.level
 			"
-			, array('id', $sessionUser->getData('id')));
+			, array('id' => $sessionUser->getData('id')));
 			$this->view->setObject('model_user', $user->getDataFirst());
 		} else {
 			if ($this->config->getUrl(1)) {

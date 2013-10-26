@@ -26,10 +26,8 @@ $sprite-map: sprite-map("sprite/*.png");
 body {
     background: url('../media/45degreee_fabric.png') repeat;
     font-family: /* 'Open Sans', 'Arial',  */'sans-serif';
-    line-height: 1.5em;
     color: $color-typography-primary;
     background-color: $color-primary;
-    font-size: 16px;
     font-family: 'Droid Serif', serif;
 }
 

@@ -20,7 +20,7 @@ class Model_User extends Model
 	 * @return [type]            [description]
 	 */
 	public function validatePassword($email = false, $password = false) {	
-		if ($this->read("user.id, user.password", array('email', $email))) {
+		if ($this->read("user.id, user.password", array('email' => $email))) {
 			if (crypt($password, $this->getDataFirst('password')) == $this->getDataFirst('password')) {
 				return true;
 			}

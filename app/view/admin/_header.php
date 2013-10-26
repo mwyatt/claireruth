@@ -18,7 +18,7 @@
 <?php if ($this->get('model_user')): ?>
 	
     <header class="main clearfix">
-        <a class="title" href="<?php echo $this->url(); ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title'); ?></a>
+        <a class="header-site-title" href="<?php echo $this->url(); ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title'); ?></a>
 
 	<?php $user = $this->get('model_user') ?>
 	<?php require_once($this->pathView('admin/header/_user')); ?>
