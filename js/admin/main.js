@@ -1,18 +1,18 @@
-
 /**
- * ready!
+ * @todo should import scripts only when the functionality is needed..
  */
 $(document).ready(function() {
 	var urlBase = $('body').data('url-base');
+	var urlBaseJs = urlBase + 'js/';
 
 	// getscripts
 	$.when(
-	    $.getScript(urlBase + 'js/reusable.js')
-	    , $.getScript(urlBase + 'js/jquery.lightbox.js')
-	    , $.getScript(urlBase + 'js/admin/jquery.mediabrowser.js')
-	    , $.getScript(urlBase + 'js/admin/jquery.tags.js')
-	    , $.getScript(urlBase + 'js/admin/app.js')
+	    $.getScript(urlBaseJs + 'reusable.js')
+	    , $.getScript(urlBaseJs + 'jquery.lightbox.js')
+	    , $.getScript(urlBaseJs + 'admin/jquery.mediabrowser.js')
+	    , $.getScript(urlBaseJs + 'admin/jquery.tags.js')
+	    , $.getScript(urlBaseJs + 'admin/app.js')
 	).done(function() {
-		console.log('js loaded');
+		console.log('all js imported');
 	});
 });

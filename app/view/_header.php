@@ -14,7 +14,7 @@
         <![endif]-->
         
         <a href="#" class="top"><span class="icon"></span>Top</a>
-        <div class="wrap full-width">
+        <div class="wrap">
             <header class="main clearfix">
                 <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
                     <span class="propos-lettering">á propos de moi</span>

@@ -1,27 +1,23 @@
 /**
  * finds a class and removes it
  */
-function selectClassAndRemove (className) {
+function removeClass (className) {
 	$('.' + className).removeClass(className);
 }
 
-
-/**
- * generic keyup while on the document
- * @param  {object} event 
- */
-function handleKeyup (event) {
-
+// generic keyup
+$(document).keyup(function(event) {
+	
 	// backspace
-	if (e.keyCode == 8) {
+	if (event.keyCode == 8) {
 		search.poll;
 	}
 
 	// escape
-	if (e.keyCode == 27) {
-		selectClassAndRemove('is-active');
+	if (event.keyCode == 27) {
+		removeClass('is-active');
 	} 
-}
+});
 
 
 /**
@@ -29,7 +25,7 @@ function handleKeyup (event) {
  * @todo possible to integrate the ajax script to validate?
  * @return {bool} 
  */
-function formSubmitDisable() {
+function formSubmitDisable () {
 	if ($(this).hasClass('disabled')) {
 		return false;
 	}
@@ -40,9 +36,6 @@ function formSubmitDisable() {
 
 // global variables
 var ajax = '<div class="ajax"></div>';
-
-// generic keyup
-$(document).keyup(handleKeyup);
 
 // prevent ajax cache
 $.ajaxSetup ({  

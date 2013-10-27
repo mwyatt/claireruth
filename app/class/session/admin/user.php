@@ -30,7 +30,16 @@ class Session_Admin_User extends Session
 	 */
 	public function isLogged()
 	{
-		if ($this->getData() && $this->refreshExpire()) {
+
+		// provide feedback as to what has happened
+		if (! $this->refreshExpire()) {
+			$sessionFeedback = new session_feedback($this->database, $this->config);
+			$sessionFeedback->set('You have been logged out due to inactivity');
+			return;
+		}
+
+		// logged in
+		if ($this->getData()) {
 			return true;
 		}
 	}

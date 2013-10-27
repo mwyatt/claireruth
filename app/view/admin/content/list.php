@@ -8,7 +8,7 @@
 
 <?php if ($this->get('model_content')) : ?>
 	<?php foreach ($this->get('model_content') as $rowContent) : ?>
-		<?php include($this->pathView('_content')); ?>
+		<?php include($this->pathView('admin/_content')); ?>
 	<?php endforeach; ?>
 <?php else: ?>
 	

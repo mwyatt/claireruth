@@ -1,8 +1,11 @@
 @import "global";
-@import "media-browser";
+@import "admin/header";
+@import "admin/content/post";
+@import "admin/media-browser";
+@import "admin/footer";
+@import "admin/login";
 @import "tag";
 @import "feedback";
-@import "login";
 
 body {
 	background: $color-white;

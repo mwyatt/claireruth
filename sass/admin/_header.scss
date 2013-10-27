@@ -1,105 +1,59 @@
 header.main {
-	border-bottom: 1px dotted darken($color-white, 20%);
-	margin: 1.5em 0;
+    border-bottom: 1px solid $color-gray-10;
 
-	.title {
-		float: left;
-		// font-weight: bold;
-		margin: 0 0 2em;
-	}
+    .feedback-container {
+    	margin: 0;
+    }
 }
 
-.user {
-	position: relative;
-
-	ul {
-		display: none;	
-	}
-
-	.name {
-		float: right;
-		font-weight: 600;
-	}
-
-	&.active {
-
-		.name,
-		.name:hover {
-			cursor: default;
-			color: darken($color-white, 50%);
-			text-decoration: none;
-		}
-
-		ul {
-			@include gradient(darken($color-white, 2%), darken($color-white, 4%));
-			@include border-radius(3px);
-			@include text-shadow(1px 1px 0 $color-white);
-			border: 1px solid darken($color-white, 15%);
-			color: darken($color-white, 50%);
-			background: #fff;
-			display: inline;
-			list-style: none;
-			position: absolute;
-			padding: 0;
-			margin: 0;
-			top: 2.5em;
-			right: 0;
-		}
-
-		ul li a {
-			padding: 0.5em 1em 0.6em;
-			display: block;
-			font-weight: 600;
-		}
-
-		ul li a.hover {
-			text-decoration: none;
-			background: #efefef;
-		}
-	}
-
+.inner-title-nav-user {
+    padding: 0.4em 0;
 }
 
-nav {
-	clear: both;
-	margin: 0 0 1.5em;
-
-	ul, li {
-		margin: 0;
-		padding: 0;
-	}
-	
-	a {
-		float: left;
-		margin: 0 0.8em 0 0;
-	}
-
-	.current a:active,
-	.current a:hover,
-	.current a {
-		@include box-shadow(none);
-		@include box-shadow(none);
-		background: $color-white;
-		border-color: darken($color-white, 10%);
-		color: darken($color-white, 30%);
-		cursor: default;
-	}
+.header-site-title {
+    float: left;
+    width: 20%;
+    margin-right: 1em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-nav.main {
-	height: 2.6em;
+.nav-main-container {
+    float: left;
 }
 
-nav.sub {
-	height: 2.6em;
-	margin: 0;
+.nav-user {
+    float: right;
+}
 
-	a {
-		margin: 0 1.7em 0 0;
-		font-weight: 600;
-	}
+.nav-main-level1 {
+    float: left;
+    position: relative;
+    margin: 0 1.6em 0 0;
 
-	.current a {
-		color: darken($color-white, 40%);
-	}
+    &:hover .nav-main-level1-drop {
+    	display: block;
+    }
+}
+
+.drop.nav-user-drop {
+    display: none;
+}
+
+.nav-main-level1-drop {
+    background: $color-white;
+    display: none;
+    position: absolute;
+    width: 9em;
+    border: 1px solid $color-gray-10;
+    border-top: none;
+    top: 2.4em;
+    -webkit-box-shadow: 0 1px 2px;
+    padding: 1em 0;
+}
+
+.nav-main-level2-link {
+    display: block;
+    padding: 0 1em 0.4em;
 }

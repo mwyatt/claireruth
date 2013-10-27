@@ -26,6 +26,31 @@ $cron->poll(array(
 	, 'emailNewsletter'
 ));
 
+
+
+
+
+$tagmaker = new model($database, $config);
+$sth = $database->dbh->prepare("	
+	select
+		content_id
+		, name
+		, value
+	from content_meta
+");
+$sth->execute();				
+foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
+	$rows[$row['value']][] = $row;
+}
+foreach ($rows as $newtagname) {
+	// $tagmaker->create()
+}
+echo '<pre>';
+print_r($rows);
+echo '</pre>';
+exit;
+
+
 // keep track of the pages requested
 // helpful for last attempted page redirection
 // after login..

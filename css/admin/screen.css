@@ -881,6 +881,13 @@ html.js input[type="submit"] {
   margin: 0 auto;
 }
 
+/* line 130, ../../sass/_reusable.scss */
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 /* line 2, ../../sass/_lightbox.scss */
 .lightbox-blackout,
 .lightbox-anchor {
@@ -1129,16 +1136,111 @@ body {
   font-size: 1em;
 }
 
-/* line 3, ../../sass/_media-browser.scss */
+/* line 1, ../../sass/admin/_header.scss */
+header.main {
+  border-bottom: 1px solid #e6e6e6;
+}
+/* line 4, ../../sass/admin/_header.scss */
+header.main .feedback-container {
+  margin: 0;
+}
+
+/* line 9, ../../sass/admin/_header.scss */
+.inner-title-nav-user {
+  padding: 0.4em 0;
+}
+
+/* line 13, ../../sass/admin/_header.scss */
+.header-site-title {
+  float: left;
+  width: 20%;
+  margin-right: 1em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* line 22, ../../sass/admin/_header.scss */
+.nav-main-container {
+  float: left;
+}
+
+/* line 26, ../../sass/admin/_header.scss */
+.nav-user {
+  float: right;
+}
+
+/* line 30, ../../sass/admin/_header.scss */
+.nav-main-level1 {
+  float: left;
+  position: relative;
+  margin: 0 1.6em 0 0;
+}
+/* line 35, ../../sass/admin/_header.scss */
+.nav-main-level1:hover .nav-main-level1-drop {
+  display: block;
+}
+
+/* line 40, ../../sass/admin/_header.scss */
+.drop.nav-user-drop {
+  display: none;
+}
+
+/* line 44, ../../sass/admin/_header.scss */
+.nav-main-level1-drop {
+  background: white;
+  display: none;
+  position: absolute;
+  width: 9em;
+  border: 1px solid #e6e6e6;
+  border-top: none;
+  top: 2.4em;
+  -webkit-box-shadow: 0 1px 2px;
+  padding: 1em 0;
+}
+
+/* line 56, ../../sass/admin/_header.scss */
+.nav-main-level2-link {
+  display: block;
+  padding: 0 1em 0.4em;
+}
+
+/* line 1, ../../sass/admin/content/_post.scss */
+.content-post {
+  height: 3em;
+  border-top: 1px solid;
+  padding: 0.4em 0;
+}
+/* line 6, ../../sass/admin/content/_post.scss */
+.content-post .content-post-title {
+  margin: 0;
+  float: left;
+  font-size: 1em;
+  font-weight: normal;
+}
+/* line 13, ../../sass/admin/content/_post.scss */
+.content-post .content-post-date {
+  float: right;
+}
+/* line 17, ../../sass/admin/content/_post.scss */
+.content-post .content-action {
+  float: right;
+}
+/* line 22, ../../sass/admin/content/_post.scss */
+.content-post .content-action-link {
+  margin-left: 1em;
+}
+
+/* line 3, ../../sass/admin/_media-browser.scss */
 .media-browser .button.attach {
   display: none;
 }
-/* line 7, ../../sass/_media-browser.scss */
+/* line 7, ../../sass/admin/_media-browser.scss */
 .media-browser.change-made .button.attach {
   display: block;
 }
 
-/* line 13, ../../sass/_media-browser.scss */
+/* line 13, ../../sass/admin/_media-browser.scss */
 .row.media .content-media,
 .media-browser .content-media {
   float: left;
@@ -1151,35 +1253,35 @@ body {
   overflow: hidden;
   cursor: pointer;
 }
-/* line 24, ../../sass/_media-browser.scss */
+/* line 24, ../../sass/admin/_media-browser.scss */
 .row.media .content-media:hover,
 .media-browser .content-media:hover {
   background-color: pink;
 }
-/* line 28, ../../sass/_media-browser.scss */
+/* line 28, ../../sass/admin/_media-browser.scss */
 .row.media .content-media.selected,
 .media-browser .content-media.selected {
   background-color: black;
 }
-/* line 32, ../../sass/_media-browser.scss */
+/* line 32, ../../sass/admin/_media-browser.scss */
 .row.media .content-media .content-media-thumb,
 .media-browser .content-media .content-media-thumb {
   text-align: center;
   display: block;
   max-height: 5em;
 }
-/* line 38, ../../sass/_media-browser.scss */
+/* line 38, ../../sass/admin/_media-browser.scss */
 .row.media .content-media img,
 .media-browser .content-media img {
   max-width: 100%;
   max-height: 100%;
 }
-/* line 43, ../../sass/_media-browser.scss */
+/* line 43, ../../sass/admin/_media-browser.scss */
 .row.media .content-media .content-media-title,
 .media-browser .content-media .content-media-title {
   font-weight: 600;
 }
-/* line 47, ../../sass/_media-browser.scss */
+/* line 47, ../../sass/admin/_media-browser.scss */
 .row.media .content-media .content-media-date-published,
 .media-browser .content-media .content-media-date-published {
   position: absolute;
@@ -1187,14 +1289,14 @@ body {
   left: 1em;
   font-style: italic;
 }
-/* line 54, ../../sass/_media-browser.scss */
+/* line 54, ../../sass/admin/_media-browser.scss */
 .row.media .content-media .content-media-author,
 .media-browser .content-media .content-media-author {
   position: absolute;
   bottom: 1em;
   right: 1em;
 }
-/* line 60, ../../sass/_media-browser.scss */
+/* line 60, ../../sass/admin/_media-browser.scss */
 .row.media .content-media .content-media-delete,
 .media-browser .content-media .content-media-delete {
   color: red;
@@ -1210,7 +1312,7 @@ body {
   text-align: center;
   background: #eee;
 }
-/* line 75, ../../sass/_media-browser.scss */
+/* line 75, ../../sass/admin/_media-browser.scss */
 .row.media .content-media .content-media-tick,
 .media-browser .content-media .content-media-tick {
   position: absolute;
@@ -1221,6 +1323,45 @@ body {
   height: 1em;
   text-align: center;
   background: #F00;
+}
+
+/* line 1, ../../sass/admin/_footer.scss */
+footer.main {
+  border-top: 1px solid;
+}
+
+/* line 1, ../../sass/admin/_login.scss */
+.content.login {
+  margin: 0 auto;
+  padding: 5em 0;
+  width: 15em;
+}
+/* line 6, ../../sass/admin/_login.scss */
+.content.login .submit {
+  float: right;
+}
+/* line 10, ../../sass/admin/_login.scss */
+.content.login .logo {
+  display: block;
+  text-align: center;
+  width: 60%;
+  margin: 0 auto;
+}
+/* line 17, ../../sass/admin/_login.scss */
+.content.login .logo img {
+  width: 100%;
+}
+/* line 21, ../../sass/admin/_login.scss */
+.content.login input {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 0.4em;
+}
+/* line 27, ../../sass/admin/_login.scss */
+.content.login label {
+  display: block;
 }
 
 /* line 9, ../../sass/_tag.scss */
@@ -1303,65 +1444,31 @@ body {
   margin: 0;
 }
 
-/* line 1, ../../sass/admin/_login.scss */
-.content.login {
-  margin: 0 auto;
-  padding: 5em 0;
-  width: 15em;
-}
-/* line 6, ../../sass/admin/_login.scss */
-.content.login .submit {
-  float: right;
-}
-/* line 10, ../../sass/admin/_login.scss */
-.content.login .logo {
-  display: block;
-  text-align: center;
-  width: 60%;
-  margin: 0 auto;
-}
-/* line 17, ../../sass/admin/_login.scss */
-.content.login .logo img {
-  width: 100%;
-}
-/* line 21, ../../sass/admin/_login.scss */
-.content.login input {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
-  margin-top: 0.4em;
-}
-/* line 27, ../../sass/admin/_login.scss */
-.content.login label {
-  display: block;
-}
-
-/* line 7, ../../sass/admin/screen.scss */
+/* line 10, ../../sass/admin/screen.scss */
 body {
   background: white;
   color: gray;
   font-family: 'Open Sans', 'Arial', 'sans-serif';
 }
 
-/* line 13, ../../sass/admin/screen.scss */
+/* line 16, ../../sass/admin/screen.scss */
 .full-width {
   width: 860px;
 }
 
-/* line 18, ../../sass/admin/screen.scss */
+/* line 21, ../../sass/admin/screen.scss */
 .content,
 #content {
   margin: 0 0 4em;
   clear: both;
 }
 
-/* line 23, ../../sass/admin/screen.scss */
+/* line 26, ../../sass/admin/screen.scss */
 .ajax {
   background-image: url('/claireruth/media/ajax.gif?1368257192');
 }
 
-/* line 28, ../../sass/admin/screen.scss */
+/* line 31, ../../sass/admin/screen.scss */
 a.button,
 .button {
   background-color: #fafafa;
@@ -1381,7 +1488,7 @@ a.button,
   font-weight: bold;
   cursor: pointer;
 }
-/* line 39, ../../sass/admin/screen.scss */
+/* line 42, ../../sass/admin/screen.scss */
 a.button:hover,
 .button:hover {
   background-color: #fcfcfc;
@@ -1397,7 +1504,7 @@ a.button:hover,
   color: #4d4d4d;
   text-decoration: none;
 }
-/* line 47, ../../sass/admin/screen.scss */
+/* line 50, ../../sass/admin/screen.scss */
 a.button:active,
 .button:active {
   background-color: #f2f2f2;
@@ -1411,76 +1518,76 @@ a.button:active,
   box-shadow: inset 0 1px 3px #e6e6e6;
 }
 
-/* line 53, ../../sass/admin/screen.scss */
+/* line 56, ../../sass/admin/screen.scss */
 table.main {
   margin: 0 0 2em;
 }
-/* line 56, ../../sass/admin/screen.scss */
+/* line 59, ../../sass/admin/screen.scss */
 table.main table {
   border: 1px solid #eee;
   margin: 0 0 2em;
 }
-/* line 61, ../../sass/admin/screen.scss */
+/* line 64, ../../sass/admin/screen.scss */
 table.main thead th {
   background-color: #eee;
   padding: 1em;
 }
-/* line 68, ../../sass/admin/screen.scss */
+/* line 71, ../../sass/admin/screen.scss */
 table.main th,
 table.main td {
   border-left: 1px solid #eee;
 }
-/* line 76, ../../sass/admin/screen.scss */
+/* line 79, ../../sass/admin/screen.scss */
 table.main td.action a {
   margin: 0 0.9em 0 0;
 }
-/* line 80, ../../sass/admin/screen.scss */
+/* line 83, ../../sass/admin/screen.scss */
 table.main td {
   padding: 0.6em;
 }
-/* line 86, ../../sass/admin/screen.scss */
+/* line 89, ../../sass/admin/screen.scss */
 table.main tbody tr:nth-child(even) {
   background: #fafafa;
 }
-/* line 90, ../../sass/admin/screen.scss */
+/* line 93, ../../sass/admin/screen.scss */
 table.main tbody tr:hover {
   background: #f2f2f2;
 }
-/* line 96, ../../sass/admin/screen.scss */
+/* line 99, ../../sass/admin/screen.scss */
 table.main tr {
   -webkit-transition: background-color 0.1s ease-in-out;
   -moz-transition: background-color 0.1s ease-in-out;
   -o-transition: background-color 0.1s ease-in-out;
   transition: background-color 0.1s ease-in-out;
 }
-/* line 100, ../../sass/admin/screen.scss */
+/* line 103, ../../sass/admin/screen.scss */
 table.main tr:hover {
   text-shadow: 1px 1px 0 white;
   background: #f7f7f7;
 }
-/* line 109, ../../sass/admin/screen.scss */
+/* line 112, ../../sass/admin/screen.scss */
 table.main th {
   text-align: left;
   background: #f2f2f2;
 }
-/* line 115, ../../sass/admin/screen.scss */
+/* line 118, ../../sass/admin/screen.scss */
 table.main th,
 table.main td {
   border: 1px solid #e6e4e3;
   padding: 1em;
 }
 
-/* line 126, ../../sass/admin/screen.scss */
+/* line 129, ../../sass/admin/screen.scss */
 .button.back {
   float: right;
 }
 
-/* line 130, ../../sass/admin/screen.scss */
+/* line 133, ../../sass/admin/screen.scss */
 textarea {
   height: 20em;
 }
 
-/* line 136, ../../sass/admin/screen.scss */
+/* line 139, ../../sass/admin/screen.scss */
 input[type="text"],
 input[type="password"],
 textarea {
@@ -1493,7 +1600,7 @@ textarea {
   font-weight: bold;
   color: #666666;
 }
-/* line 144, ../../sass/admin/screen.scss */
+/* line 147, ../../sass/admin/screen.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 textarea:focus {
@@ -1504,12 +1611,12 @@ textarea:focus {
   color: #4d4d4d;
 }
 
-/* line 151, ../../sass/admin/screen.scss */
+/* line 154, ../../sass/admin/screen.scss */
 input.error {
   border-color: red;
 }
 
-/* line 159, ../../sass/admin/screen.scss */
+/* line 162, ../../sass/admin/screen.scss */
 label.above {
   display: block;
   margin: 0 0 1.1em;
@@ -1517,12 +1624,12 @@ label.above {
   font-size: 1.1em;
 }
 
-/* line 166, ../../sass/admin/screen.scss */
+/* line 169, ../../sass/admin/screen.scss */
 label {
   color: #999999;
 }
 
-/* line 170, ../../sass/admin/screen.scss */
+/* line 173, ../../sass/admin/screen.scss */
 .nothing-yet {
   text-shadow: 0 1px 0 white;
   background: #fafafa;
@@ -1531,7 +1638,7 @@ label {
   border-bottom: 1px solid #d9d9d9;
   padding: 2em;
 }
-/* line 179, ../../sass/admin/screen.scss */
+/* line 182, ../../sass/admin/screen.scss */
 .nothing-yet p {
   color: #999999;
   cursor: default;
@@ -1539,12 +1646,12 @@ label {
   margin: 0;
 }
 
-/* line 192, ../../sass/admin/screen.scss */
+/* line 195, ../../sass/admin/screen.scss */
 .toolbar {
   margin: 0 0 1em;
 }
 
-/* line 196, ../../sass/admin/screen.scss */
+/* line 199, ../../sass/admin/screen.scss */
 .toolbar .button {
   float: left;
   margin: 0 .5em .5em 0;
@@ -1552,7 +1659,7 @@ label {
   padding: .5em 1em;
 }
 
-/* line 205, ../../sass/admin/screen.scss */
+/* line 208, ../../sass/admin/screen.scss */
 .content.page textarea,
 .content.post textarea {
   width: 100%;

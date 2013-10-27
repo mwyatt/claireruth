@@ -1,0 +1,25 @@
+.content-post {
+    height: 3em;
+    border-top: 1px solid;
+    padding: 0.4em 0;
+
+    .content-post-title {
+        margin: 0;
+        float: left;
+        font-size: 1em;
+        font-weight: normal;
+    }
+
+    .content-post-date {
+        float: right;
+    }
+
+    .content-action {
+        float: right;
+
+    }
+
+    .content-action-link {
+        margin-left: 1em;
+    }
+}

@@ -22,6 +22,7 @@ class Controller_Admin_Content extends Controller
 		$userAction = new model($this->database, $this->config, 'user_action');
 		$content = new model_content($this->database, $this->config, 'content');
 		$user = new model_user($this->database, $this->config);
+		$sessionFeedback = new session_feedback($this->database, $this->config);
 
 		// create
 		if (array_key_exists('form_create', $_POST)) {
@@ -41,10 +42,10 @@ class Controller_Admin_Content extends Controller
 					, 'user_id' => $this->session->get('user', 'id')
 					, 'action' => 'create'
 				));
-				$this->session->set('feedback', ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
+				$sessionFeedback->set(ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/?edit=' . $lastInsertId);
 			} else {
-				$this->session->set('feedback', 'Problem while creating ' . ucfirst($_POST['type']));
+				$sessionFeedback->set('Problem while creating ' . ucfirst($_POST['type']));
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/');
 			}
 		}
@@ -65,10 +66,10 @@ class Controller_Admin_Content extends Controller
 					, 'user_id' => $this->session->get('user', 'id')
 					, 'action' => 'update'
 				));
-				$this->session->set('feedback', 'Content updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
+				$sessionFeedback->set('Content updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
 				$content->createTotal();
 			} else {
-				$this->session->set('feedback', 'Problem updating ' . $_POST['type'] . ', ' . $_POST['title']);
+				$sessionFeedback->set('Problem updating ' . $_POST['type'] . ', ' . $_POST['title']);
 			}
 			$this->route('current');
 		}
@@ -97,14 +98,34 @@ class Controller_Admin_Content extends Controller
 				// $contentMany->setTableName('content_media');
 				// $contentMany->delete(array('content_id', $_GET['delete']));
 				$content->createTotal();
-				$this->session->set('feedback', 'Content archived successfully');
+				$sessionFeedback->set('Content archived successfully');
 				$userAction->create(array(
 					'description' => 'content ' . $_GET['archive']
 					, 'user_id' => $this->session->get('user', 'id')
 					, 'action' => 'archive'
 				));
 			} else {
-				$this->session->set('feedback', 'Problem archiving content');
+				$sessionFeedback->set('Problem archiving content');
+			}
+			$this->route('current_noquery');
+		}
+
+		// delete
+		if (array_key_exists('delete', $_GET)) {
+			if ($content->delete(array('id' => $_GET['delete']))) {
+				// $contentMany = new model_content_meta($this->database, $this->config, 'content_tag');
+				// $contentMany->delete(array('content_id', $_GET['delete']));
+				// $contentMany->setTableName('content_media');
+				// $contentMany->delete(array('content_id', $_GET['delete']));
+				$content->createTotal();
+				$sessionFeedback->set('Content archived successfully');
+				$userAction->create(array(
+					'description' => 'content ' . $_GET['archive']
+					, 'user_id' => $this->session->get('user', 'id')
+					, 'action' => 'archive'
+				));
+			} else {
+				$sessionFeedback->set('Problem archiving content');
 			}
 			$this->route('current_noquery');
 		}
