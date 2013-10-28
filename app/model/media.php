@@ -25,6 +25,7 @@ class Model_Media extends Model
 	 */
 	public function readByContentId($contentIds = array()) {	
 		$baseurl = $this->config->getUrl('base'); 
+		$parsedData = array();
 		$sth = $this->database->dbh->prepare("	
 			select
 				media.id
@@ -33,19 +34,20 @@ class Model_Media extends Model
 				, media.type
 				, media.date_published
 				, concat(user.first_name, ' ', user.last_name) as user_full_name
-			from media
-			left join content_meta on content_meta.value = media.id and content_meta.name = 'media'
-			left join user on user.id = media.user_id
-			where
-				content_meta.content_id = :content_id
+			from content_meta
+                left join media on media.id = content_meta.value
+				left join user on user.id = media.user_id
+			where content_meta.content_id = :content_id
+                and content_meta.name = 'media'
 		");
 		foreach ($contentIds as $contentId) {
-			$sth->execute(array(
-				':content_id' => $contentId
-			));	
-			foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
-				$row = $this->buildThumb($row);
-				$parsedData[$contentId][] = $row;
+			$this->bindValue($sth, ':content_id', $contentId);
+			$sth = $this->tryExecute($sth, '88667845');
+			if ($sth->rowCount()) {
+				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+					$row = $this->buildThumb($row);
+					$parsedData[$contentId][] = $row;
+				}
 			}
 		}
 		return $this->setData($parsedData);

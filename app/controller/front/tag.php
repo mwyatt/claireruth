@@ -17,7 +17,7 @@ class Controller_Front_Tag extends Controller
 	public function index() {
 
 		// get tag data
-		$tag = new model_content_tag($this->database, $this->config);
+		$tag = new model_tag($this->database, $this->config);
 		if (! $tag->readSingle($this->config->getUrl(1))) {
 			$this->view->loadTemplate('404');
 		}

@@ -1,7 +1,7 @@
-<?php if ($this->get('model_content_tag')): ?>
-	<?php foreach ($this->get('model_content_tag') as $tag): ?>
+<?php if ($this->get('model_tag')): ?>
+	<?php foreach ($this->get('model_tag') as $tag): ?>
 
-<div class="tag"><?php echo $tag['name'] ?></div>
+<div class="tag"><?php echo $tag['title'] ?></div>
 
 	<?php endforeach ?>
 <?php endif ?>

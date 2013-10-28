@@ -12,10 +12,11 @@ class Model_Tag extends Model
 
 	/**
 	 * gets all tags or by specific content id
-	 * @param  integer $contentId 
-	 * @return array             
+	 * @param  array $contentIds 
+	 * @return array content_id => array of tags   
 	 */
-	public function readByContentId($contentIds = array()) {	
+	public function readByContentId($contentIds) {	
+		$parsedData = array();
 		$sth = $this->database->dbh->prepare("	
 			select
 				tag.id
@@ -23,25 +24,20 @@ class Model_Tag extends Model
 				, tag.description
 			from content_meta
                 left join tag on tag.id = content_meta.value
-			where content_meta.content_id = ?
+			where content_meta.content_id = :content_id
                 and content_meta.name = 'tag'
 		");
 		foreach ($contentIds as $contentId) {
-			$this->bindValue($sth, '?', $contentId);
+			$this->bindValue($sth, ':content_id', $contentId);
 			$sth = $this->tryExecute($sth, '88667845');
 			if ($sth->rowCount()) {
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					$row['url'] = $this->buildUrl(array('tag', $row['name']));
-					$row['name_friendly'] = ucwords($row['name']);
+					$row['url'] = $this->buildUrl(array('tag', $row['title']));
+					$row['title_friendly'] = ucwords($row['title']);
 					$parsedData[$contentId][] = $row;
 				}
 			}
 		}
-		echo '<pre>';
-		print_r($parsedData);
-		echo '</pre>';
-		exit;
-		
 		return $this->setData($parsedData);
 	}
 
@@ -61,13 +57,13 @@ class Model_Tag extends Model
 		$sth = $this->database->dbh->prepare("	
 			select
 				id
-				, content_id
-				, tag_id as name
-			from content_tag
+				, description
+				, title
+			from tag
 			where
-				content_tag.tag_id like ?
-			group by content_tag.tag_id
-			order by content_tag.tag_id desc
+				tag.title like ?
+			group by tag.title
+			order by tag.title desc
 		");
 		foreach ($words as $word) {
 			$sth->execute(array(
@@ -99,11 +95,11 @@ class Model_Tag extends Model
 		$sth = $this->database->dbh->prepare("	
 			select
 				id
-				, content_id
-				, tag_id as name
-			from content_tag
+				, description
+				, title
+			from tag
 			where
-				content_tag.tag_id like ?
+				tag.title like ?
 		");
 		foreach ($words as $word) {
 			$sth->execute(array(
@@ -129,11 +125,11 @@ class Model_Tag extends Model
 		$sth = $this->database->dbh->prepare("	
 			select
 				id
-				, content_id
-				, tag_id as name
-			from content_tag
+				, description
+				, title as name
+			from tag
 			where
-				content_tag.tag_id like ?
+				tag.title like ?
 		");
 		$sth->execute(array($tagName));
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {

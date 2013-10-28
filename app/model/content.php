@@ -74,7 +74,7 @@ class Model_Content extends Model
 		foreach ($contents as $content) {
 			$contentIds[] = $content['id'];
 		}
-
+		
 		// read all needed media and tags
 		$media = new model_media($this->database, $this->config);
 		$tag = new model_tag($this->database, $this->config);

@@ -16,11 +16,11 @@ class Controller_Front_Post extends Controller
 
 	public function index() {
 		$content = new model_content($this->database, $this->config);
-		$tag = new model_content_tag($this->database, $this->config);
+		$tag = new model_tag($this->database, $this->config);
 
 		// build general month and tag widgets
 		$content->readByMonth();
-		$tag->read();
+		$tag->read('title, description');
 		$this->view
 			->setObject($tag)
 			->setObject('content_month', $content);
