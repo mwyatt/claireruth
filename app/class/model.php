@@ -244,4 +244,19 @@ class Model extends Config
 	{
 		return $this->database->dbh->lastInsertId();
 	}
+
+
+	/**
+	 * example which will accept rows and add a url for example
+	 * @param  array $rows 
+	 * @return array       the parsed one
+	 */
+	public function parseRows($rows)
+	{
+		$parsedRows = array();
+		foreach ($rows as $key => $row) {
+			$parsedRows[$key] = $row;
+		}
+		return $parsedRows;
+	}
 }

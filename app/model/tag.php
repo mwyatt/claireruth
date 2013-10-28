@@ -10,6 +10,16 @@ class Model_Tag extends Model
 {	
 
 
+	public function parseRows($rows)
+	{
+		$parsedRows = array();
+		foreach ($rows as $key => $row) {
+			$parsedRows[$key] = $row;
+		}
+		return $parsedRows;
+	}
+
+
 	/**
 	 * gets all tags or by specific content id
 	 * @param  array $contentIds 
