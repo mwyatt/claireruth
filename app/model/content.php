@@ -24,6 +24,8 @@ class Model_Content extends Model
 	 */
 	public function read($where = '', $limit = array(), $ids = array(), $compliance = array()) {
 		$contents = array();
+		$contentIds = array();
+		$parsedData = array();
 		$sth = $this->database->dbh->prepare("	
 			select
 				content.id
@@ -52,7 +54,9 @@ class Model_Content extends Model
 		if ($limit) {
 			$sth->bindValue(':limit_start', (int) current($limit), PDO::PARAM_INT);
 			$sth->bindValue(':limit_end', (int) next($limit), PDO::PARAM_INT);
-		}		
+		}
+
+		// @todo make this better?
 		if ($ids) {
 			foreach ($ids as $id) {
 				$sth->bindValue(':id', $id, PDO::PARAM_STR);
@@ -65,46 +69,31 @@ class Model_Content extends Model
 			$sth->execute();				
 			$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
-		$contentIds = array();
+
+		// collect all ids queried
 		foreach ($contents as $content) {
 			$contentIds[] = $content['id'];
 		}
-		$mainMedia = new model_media($this->database, $this->config);
-		$mainContentTag = new model_content_tag($this->database, $this->config);
-		$medias = $mainMedia->read($contentIds);
-		$tags = $mainContentTag->read($contentIds);
 
-		// generate guid, append media or tags where applicable
+		// read all needed media and tags
+		$media = new model_media($this->database, $this->config);
+		$tag = new model_tag($this->database, $this->config);
+		$tags = $tag->readByContentId($contentIds);
+		$medias = $media->readByContentId($contentIds);
+
+		// generate url, append media or tags where applicable
 		foreach ($contents as $content) {
-			$content['guid'] = $this->buildUrl(array($content['type'], $content['title'] . '-' . $content['id']));
-			$this->data[$content['id']] = $content;
+			$content['url'] = $this->buildUrl(array($content['type'], $content['title'] . '-' . $content['id']));
+			$parsedData[$content['id']] = $content;
 			if ($tags && array_key_exists($content['id'], $tags)) {
-				$this->data[$content['id']]['tag'] = $tags[$content['id']];
+				$parsedData[$content['id']]['tag'] = $tags[$content['id']];
 			}
 			if ($medias && array_key_exists($content['id'], $medias)) {
-				$this->data[$content['id']]['media'] = $medias[$content['id']];
+				$parsedData[$content['id']]['media'] = $medias[$content['id']];
 			}
 		}
-		return $this->getData();
+		return $this->setData($parsedData);
 	}	
-
-
-	/**
-	 * utilises read to get a single result
-	 * (not contained in array)
-	 * @todo phase this out.. config can do it
-	 * @param  string $type 
-	 * @param  string|int $id   
-	 * @return bool|array       signify success
-	 */
-	public function readSingle($type, $id)
-	{
-		$this->read($type, false, array($id));
-		if ($this->getData()) {
-			return $this->data = current($this->getData());
-		}
-		return false;
-	}
 
 
 	public function readByType($type, $limit = 0) {	
@@ -134,6 +123,7 @@ class Model_Content extends Model
 
 	/**
 	 * seems to be used only for /page/
+	 * @todo  could be adapted to be used for posts too.. if all titles will be unique?
 	 * @param  string $title 
 	 * @return int        
 	 */
@@ -171,7 +161,7 @@ class Model_Content extends Model
 			where
 				content.status = 'visible'
 		");
-		$model = new Model_options($this->database, $this->config, 'options');
+		$model = new model_options($this->database, $this->config, 'options');
 		$model->delete(
 			array('name' => 'model_content_rowcount')
 		);

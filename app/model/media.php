@@ -23,7 +23,7 @@ class Model_Media extends Model
 	 * reads out all media
 	 * @return int total rows bringing through
 	 */
-	public function read($contentIds = array(), $where = array(), $ids = array(), $limit = array()) {	
+	public function readByContentId($contentIds = array()) {	
 		$baseurl = $this->config->getUrl('base'); 
 		$sth = $this->database->dbh->prepare("	
 			select
@@ -34,29 +34,21 @@ class Model_Media extends Model
 				, media.date_published
 				, concat(user.first_name, ' ', user.last_name) as user_full_name
 			from media
-			left join content_media on content_media.media_id = media.id
+			left join content_meta on content_meta.value = media.id and content_meta.name = 'media'
 			left join user on user.id = media.user_id
-			" . ($contentIds ? ' where content_media.content_id = :content_id ' : '') . "
-			group by media.id
+			where
+				content_meta.content_id = :content_id
 		");
-		if ($contentIds) {
-			foreach ($contentIds as $contentId) {
-				$sth->execute(array(
-					':content_id' => $contentId
-				));	
-				foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
-					$row = $this->addThumb($row);
-					$this->data[$contentId][] = $row;
-				}
+		foreach ($contentIds as $contentId) {
+			$sth->execute(array(
+				':content_id' => $contentId
+			));	
+			foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
+				$row = $this->buildThumb($row);
+				$parsedData[$contentId][] = $row;
 			}
-			return $this->data;
 		}
-		$sth->execute();				
-		foreach ($sth->fetchAll(PDO::FETCH_ASSOC) as $row) {
-			$row = $this->addThumb($row);
-			$this->data[] = $row;
-		}
-		return $sth->rowCount();
+		return $this->setData($parsedData);
 	}	
 	
 
@@ -64,13 +56,13 @@ class Model_Media extends Model
 	 * appends thumbnail information if it is an image
 	 * @param array $row modified row
 	 */
-	public function addThumb($row)
+	public function buildThumb($row)
 	{
 		if ($row['type'] != 'application/pdf') {
-			$row['thumb_300'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=300&h=130'), false);
-			$row['thumb_150'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=150&h=120'), false);
-			$row['thumb_350'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=350&h=220'), false);
-			$row['thumb_760'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=760&h=540'), false);
+			$row['thumb']['300'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=300&h=130'), false);
+			$row['thumb']['150'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=150&h=120'), false);
+			$row['thumb']['350'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=350&h=220'), false);
+			$row['thumb']['760'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=760&h=540'), false);
 		}
 		return $row;
 	}
@@ -181,18 +173,6 @@ class Model_Media extends Model
 
 
 	public function deleteById($id) {	
-		// $sth = $this->database->dbh->prepare("
-		// 	select 
-		// 		id
-		// 		, title
-		// 		, path
-		// 		, date_published
-		// 		, user_id
-		// 	from media
-		// 	where id = ?
-		// ");	
-		// $sth->execute(array($id));		
-		// $row = $sth->fetch(PDO::FETCH_ASSOC);
 		$sth = $this->database->dbh->prepare("
 			delete from media
 			where id = ? 
@@ -263,12 +243,4 @@ class Model_Media extends Model
 		$this->data = $sth->fetchAll(PDO::FETCH_OBJ);
 		return $sth->rowCount();
 	}	
-
-
-	public function setData($rows = array()) {
-		foreach ($rows as $key => $row) {
-			$rows[$key]['guid'] = $this->buildUrl(array($row['basename']), false);
-		}
-		return $rows;
-	}
 }

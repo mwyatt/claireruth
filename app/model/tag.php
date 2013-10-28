@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Model_Content_Tag extends Model
+class Model_Tag extends Model
 {	
 
 
@@ -15,36 +15,34 @@ class Model_Content_Tag extends Model
 	 * @param  integer $contentId 
 	 * @return array             
 	 */
-	public function read($contentIds = array(), $where = array(), $ids = array(), $limit = array()) {	
+	public function readByContentId($contentIds = array()) {	
 		$sth = $this->database->dbh->prepare("	
 			select
-				id
-				, content_id
-				, tag_id as name
-			from content_tag
-			" . ($contentIds ? ' where content_tag.content_id = ? ' : '') . "
-			group by content_tag.tag_id
-			order by content_tag.tag_id desc
+				tag.id
+				, tag.title
+				, tag.description
+			from content_meta
+                left join tag on tag.id = content_meta.value
+			where content_meta.content_id = ?
+                and content_meta.name = 'tag'
 		");
 		foreach ($contentIds as $contentId) {
-			$sth->execute(array($contentId));	
+			$this->bindValue($sth, '?', $contentId);
+			$sth = $this->tryExecute($sth, '88667845');
 			if ($sth->rowCount()) {
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$row['url'] = $this->buildUrl(array('tag', $row['name']));
 					$row['name_friendly'] = ucwords($row['name']);
-					$this->data[$contentId][] = $row;
+					$parsedData[$contentId][] = $row;
 				}
 			}
 		}
-		if (! $contentIds) {
-			$sth->execute();	
-			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$row['url'] = $this->buildUrl(array('tag', $row['name']));
-				$row['name_friendly'] = ucwords($row['name']);
-				$this->data[] = $row;
-			}
-		}
-		return $this->data;
+		echo '<pre>';
+		print_r($parsedData);
+		echo '</pre>';
+		exit;
+		
+		return $this->setData($parsedData);
 	}
 
 

@@ -100,12 +100,7 @@ class Model extends Config
 			)
 		");		
 		$this->bindValues($sth, $values);
-		try {
-			$sth->execute();
-		} catch (Exception $e) {
-			echo 'Database create error.';
-			exit;
-		}
+		$sth = $this->tryExecute($sth, '676767212');
 		return $sth->rowCount();
 	}
 
@@ -148,7 +143,8 @@ class Model extends Config
 		$this->bindValues($sth, $values);
 
 		// return failure or sth object (success)
-		return $this->tryExecute($sth, '45654645645');
+		$this->tryExecute($sth, '45654645645');
+		return $sth->rowCount();
 	}
 
 	
@@ -179,7 +175,8 @@ class Model extends Config
 
 		// bind
 		$this->bindValues($sth, $values);
-		return $this->tryExecute($sth, '45654645645');
+		$this->tryExecute($sth, '45654645645');
+		return $sth->rowCount();
 	}
 	
 
@@ -236,5 +233,15 @@ class Model extends Config
 			return false;
 		}
 		return $sth;
+	}
+
+
+	/**
+	 * returns the latest insert id from the database
+	 * @return int|bool 
+	 */
+	public function getLastInsertId()
+	{
+		return $this->database->dbh->lastInsertId();
 	}
 }
