@@ -14,7 +14,9 @@ class Model_Tag extends Model
 	{
 		$parsedRows = array();
 		foreach ($rows as $key => $row) {
-			$parsedRows[$key] = $row;
+			$row['url'] = $this->buildUrl(array('tag', $row['title']));
+			$row['title_friendly'] = ucwords($row['title']);
+			$parsedRows[] = $row;
 		}
 		return $parsedRows;
 	}
@@ -130,22 +132,17 @@ class Model_Tag extends Model
 	 * @return int          
 	 */
 	public function readSingle($tagName) {	
-		$contentIds = array();
-		$tagName = str_replace('-', ' ', $tagName);
 		$sth = $this->database->dbh->prepare("	
 			select
 				id
+				, title
 				, description
-				, title as name
 			from tag
 			where
-				tag.title like ?
+				tag.title like :tag_name
 		");
-		$sth->execute(array($tagName));
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			$contentIds[] = $row['content_id'];
-		}
-		$this->setData(array_unique($contentIds));
-		return $sth->rowCount();
+		$this->bindValue($sth, ':tag_name', $tagName);
+		$sth = $this->tryExecute($sth, '90213203830');
+		return $this->setData($sth->fetch(PDO::FETCH_ASSOC));
 	}
 }

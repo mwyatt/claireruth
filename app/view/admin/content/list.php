@@ -3,7 +3,7 @@
 <div class="content main-content<?php echo $this->url(2) ?>">
 	<h1><?php echo ucfirst($this->url(2)); ?></h1>
 	<div class="clearfix text-right row">
-		<a class="button new" href="<?php echo $this->url('current_noquery'); ?>new/" title="Create a new <?php echo ucfirst($this->url(2)); ?>">New</a>
+		<a class="" href="<?php echo $this->url('current_noquery'); ?>new/" title="Create a new <?php echo ucfirst($this->url(2)); ?>">New</a>
 	</div>
 
 <?php if ($this->get('model_content')) : ?>

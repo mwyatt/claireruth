@@ -17,14 +17,22 @@ class Controller_Front_Tag extends Controller
 	public function index() {
 
 		// get tag data
-		$tag = new model_tag($this->database, $this->config);
-		if (! $tag->readSingle($this->config->getUrl(1))) {
+		$modelTag = new model_tag($this->database, $this->config);
+		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$modelTagName = str_replace('-', ' ', $this->config->getUrl(1));
+		if (! $modelTag->readSingle($modelTagName)) {
+			$this->view->loadTemplate('404');
+		}
+		$this->view->setObject('single_tag', $modelTag);
+
+		// gets content meta using the id of the tag found
+		if (! $modelContentMeta->readByValue('tag', $modelTag->getData('id'))) {
 			$this->view->loadTemplate('404');
 		}
 
 		// get content data
 		$content = new model_content($this->database, $this->config);
-		if (! $content->read('post', false, $tag->getData())) {
+		if (! $content->read('post', false, $modelContentMeta->getData())) {
 			$this->view->loadTemplate('404');
 		}
 

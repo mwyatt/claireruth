@@ -42,14 +42,14 @@ class Model_Admin_Menu extends Model
             }
             foreach ($subClassMethods as $subClassMethod) {
                 $refinedSubClassMethods[] = array(
-                    'title' => $subClassMethod
+                    'title' => ucfirst($subClassMethod)
                     , 'url' => $this->buildUrl(array('admin', $classMethod, $subClassMethod))
                     , 'current' => ($this->config->getUrl(2) == strtolower($subClassMethod) ? true : false)
                     , 'children' => array()
                 );
             }
             $finalList[] = array(
-                'title' => $classMethod
+                'title' => ucfirst($classMethod)
                 , 'url' => $this->buildUrl(array('admin', $classMethod))
     			, 'current' => ($this->config->getUrl(1) == strtolower($classMethod) ? true : false)
                 , 'children' => $refinedSubClassMethods

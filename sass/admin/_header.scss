@@ -6,6 +6,15 @@ header.main {
     }
 }
 
+header.main.is-fixed-top {
+    background-color: $color-white;
+}
+
+header.main.is-fixed-top + .content {
+    padding-top: 111px;
+}
+
+
 .inner-title-nav-user {
     padding: 0.4em 0;
 }

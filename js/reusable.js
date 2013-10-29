@@ -9,9 +9,9 @@ function removeClass (className) {
 $(document).keyup(function(event) {
 	
 	// backspace
-	if (event.keyCode == 8) {
-		search.poll;
-	}
+	// if (event.keyCode == 8) {
+	// 	search.poll;
+	// }
 
 	// escape
 	if (event.keyCode == 27) {

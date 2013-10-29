@@ -17,20 +17,22 @@
 
 <?php if ($this->get('model_user')): ?>
 	
-    <header class="main clearfix">
-    	<div class="inner-title-nav-user clearfix">
-	        <a class="header-site-title" href="<?php echo $this->url(); ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title'); ?></a>
+    <header class="main clearfix js-header-main">
+    	<div class="full-width">
+	    	<div class="inner-title-nav-user clearfix">
+		        <a class="header-site-title" href="<?php echo $this->url(); ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title'); ?></a>
 
 	<?php $user = $this->get('model_user') ?>
 	<?php require_once($this->pathView('admin/header/_user')); ?>
 	<?php $menu = $this->get('model_admin_menu') ?>
 	<?php require_once($this->pathView('admin/header/_nav')); ?>
 
-		</div>
+			</div>
 
 	<?php $feedback = $this->get('session_feedback') ?>
 	<?php require_once($this->pathView('_feedback')); ?>
 
+		</div>
 	</header>
 
 <?php else: ?>

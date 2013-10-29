@@ -906,6 +906,18 @@ html.js input[type="submit"] {
   white-space: nowrap;
 }
 
+/* line 136, ../sass/_reusable.scss */
+.is-fixed-top {
+  -webkit-box-shadow: 0 1px 3px gray;
+  -moz-box-shadow: 0 1px 3px gray;
+  box-shadow: 0 1px 3px gray;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  position: fixed;
+}
+
 /* line 2, ../sass/_lightbox.scss */
 .lightbox-blackout,
 .lightbox-anchor {

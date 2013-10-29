@@ -13,6 +13,11 @@ class Controller_Ajax extends Controller
 {
 
 
+	public function mediaBrowser() {
+		$this->load(array('ajax', 'mediabrowser'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
+	}
+
+
 	/**
 	 * use the content id to build the lurrrvee button
 	 * @param  integer $contentId 

@@ -71,6 +71,13 @@ class Model extends Config
 			$sth = $this->tryExecute($sth, '38219381');				
 			$results = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		// uses the parserows function to add any urls or post processing
+		if (method_exists($this, 'parseRows')) {
+			$results = $this->parseRows($results);
+		}
+
+		// returns the set data function result
 		return $this->setData($results);
 	}	
 
@@ -258,5 +265,12 @@ class Model extends Config
 			$parsedRows[$key] = $row;
 		}
 		return $parsedRows;
+	}
+
+
+	public function parseRow($row)
+	{
+		// manipulate the row here and return
+		return $row;
 	}
 }

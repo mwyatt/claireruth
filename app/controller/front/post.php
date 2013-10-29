@@ -30,7 +30,7 @@ class Controller_Front_Post extends Controller
 
 		// single post
 		if ($this->config->getUrl(1)) {
-			if (! $content->readSingle($this->config->getUrl(0), $this->getId($this->config->getUrl(1)))) {
+			if (! $content->read($this->config->getUrl(0), false, array($this->getId($this->config->getUrl(1))))) {
 				$this->route('404');
 			}
 			$this->view

@@ -15,31 +15,14 @@ class Controller_Ajax_Mediabrowser extends Controller
 {
 
 
-	// public $guid = 'media/upload/';
-
-
-	// public $basePath = '';
-
-
-	// public $currentPath;
-
-
-	// public function __construct() {
-	// 	$this->basePath = BASE_PATH . $this->guid;
-	// 	if (array_key_exists('path', $_GET)) {
-	// 		$this->validate($_GET['path']);
-	// 	}
-	// }
-
-
 	/**
 	 * default display for the media browser
 	 */
 	public function read() {
-		$mainmedia = new model_media($this->database, $this->config);
-		$mainmedia->read();
+		$modelMedia = new model_media($this->database, $this->config);
+		$modelMedia->read();
 		$this->view
-			->setObject($mainmedia)
+			->setObject($modelMedia)
 			->loadTemplate('admin/media/all');
 	}
 
@@ -50,8 +33,8 @@ class Controller_Ajax_Mediabrowser extends Controller
 	 */
 	public function upload() {
 		if ($_FILES) {
-			$mainmedia = new model_media($this->database, $this->config);
-			if ($successData = $mainmedia->create()) {
+			$modelMedia = new model_media($this->database, $this->config);
+			if ($successData = $modelMedia->create()) {
 				$this->view
 					->setObject('feedback', $this->session->getUnset('feedback_array'))
 					->setObject('media', $successData)
