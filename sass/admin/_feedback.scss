@@ -27,3 +27,10 @@
 .feedback-description {
     margin: 0;
 }
+
+.is-fixed-top .feedback-container {
+	position: absolute;
+	top: 1.4em;
+	left: 0;
+	right: 0;
+}

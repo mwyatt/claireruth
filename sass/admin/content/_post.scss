@@ -1,7 +1,7 @@
 .content-post {
-    height: 3em;
     border-top: 1px solid;
     padding: 0.4em 0;
+    height: 1.1em;
 
     .content-post-title {
         margin: 0;
@@ -16,10 +16,17 @@
 
     .content-action {
         float: right;
-
     }
 
     .content-action-link {
         margin-left: 1em;
+    }
+
+    .content-post-status {
+        float: right;
+    }
+
+    .content-post-author {
+        display: none;
     }
 }

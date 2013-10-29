@@ -1167,12 +1167,12 @@ header.main.is-fixed-top + .content {
   padding-top: 111px;
 }
 
-/* line 18, ../../sass/admin/_header.scss */
+/* line 17, ../../sass/admin/_header.scss */
 .inner-title-nav-user {
   padding: 0.4em 0;
 }
 
-/* line 22, ../../sass/admin/_header.scss */
+/* line 21, ../../sass/admin/_header.scss */
 .header-site-title {
   float: left;
   width: 20%;
@@ -1182,33 +1182,33 @@ header.main.is-fixed-top + .content {
   white-space: nowrap;
 }
 
-/* line 31, ../../sass/admin/_header.scss */
+/* line 30, ../../sass/admin/_header.scss */
 .nav-main-container {
   float: left;
 }
 
-/* line 35, ../../sass/admin/_header.scss */
+/* line 34, ../../sass/admin/_header.scss */
 .nav-user {
   float: right;
 }
 
-/* line 39, ../../sass/admin/_header.scss */
+/* line 38, ../../sass/admin/_header.scss */
 .nav-main-level1 {
   float: left;
   position: relative;
   margin: 0 1.6em 0 0;
 }
-/* line 44, ../../sass/admin/_header.scss */
+/* line 43, ../../sass/admin/_header.scss */
 .nav-main-level1:hover .nav-main-level1-drop {
   display: block;
 }
 
-/* line 49, ../../sass/admin/_header.scss */
+/* line 48, ../../sass/admin/_header.scss */
 .drop.nav-user-drop {
   display: none;
 }
 
-/* line 53, ../../sass/admin/_header.scss */
+/* line 52, ../../sass/admin/_header.scss */
 .nav-main-level1-drop {
   background: white;
   display: none;
@@ -1216,12 +1216,12 @@ header.main.is-fixed-top + .content {
   width: 9em;
   border: 1px solid #e6e6e6;
   border-top: none;
-  top: 2.4em;
+  top: 1.5em;
   -webkit-box-shadow: 0 1px 2px;
   padding: 1em 0;
 }
 
-/* line 65, ../../sass/admin/_header.scss */
+/* line 64, ../../sass/admin/_header.scss */
 .nav-main-level2-link {
   display: block;
   padding: 0 1em 0.4em;
@@ -1229,9 +1229,9 @@ header.main.is-fixed-top + .content {
 
 /* line 1, ../../sass/admin/content/_post.scss */
 .content-post {
-  height: 3em;
   border-top: 1px solid;
   padding: 0.4em 0;
+  height: 1.1em;
 }
 /* line 6, ../../sass/admin/content/_post.scss */
 .content-post .content-post-title {
@@ -1248,9 +1248,17 @@ header.main.is-fixed-top + .content {
 .content-post .content-action {
   float: right;
 }
-/* line 22, ../../sass/admin/content/_post.scss */
+/* line 21, ../../sass/admin/content/_post.scss */
 .content-post .content-action-link {
   margin-left: 1em;
+}
+/* line 25, ../../sass/admin/content/_post.scss */
+.content-post .content-post-status {
+  float: right;
+}
+/* line 29, ../../sass/admin/content/_post.scss */
+.content-post .content-post-author {
+  display: none;
 }
 
 /* line 3, ../../sass/admin/_media-browser.scss */
@@ -1466,6 +1474,14 @@ footer.main {
   margin: 0;
 }
 
+/* line 31, ../../sass/admin/_feedback.scss */
+.is-fixed-top .feedback-container {
+  position: absolute;
+  top: 1.4em;
+  left: 0;
+  right: 0;
+}
+
 /* line 10, ../../sass/admin/screen.scss */
 body {
   background: white;
@@ -1487,7 +1503,7 @@ body {
 
 /* line 26, ../../sass/admin/screen.scss */
 .ajax {
-  background-image: url('/claireruth/media/ajax.gif?1368257192');
+  background-image: url('/claireruth/media/ajax.gif?1375373606');
 }
 
 /* line 31, ../../sass/admin/screen.scss */
