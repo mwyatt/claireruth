@@ -41,7 +41,7 @@ class Model_Tag extends Model
 		");
 		foreach ($contentIds as $contentId) {
 			$this->bindValue($sth, ':content_id', $contentId);
-			$sth = $this->tryExecute($sth, '88667845');
+			$this->tryExecute($sth, '88667845');
 			if ($sth->rowCount()) {
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$row['url'] = $this->buildUrl(array('tag', $row['title']));
@@ -142,7 +142,7 @@ class Model_Tag extends Model
 				tag.title like :tag_name
 		");
 		$this->bindValue($sth, ':tag_name', $tagName);
-		$sth = $this->tryExecute($sth, '90213203830');
+		$this->tryExecute($sth, '90213203830');
 		return $this->setData($sth->fetch(PDO::FETCH_ASSOC));
 	}
 }

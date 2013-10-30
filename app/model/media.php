@@ -42,7 +42,7 @@ class Model_Media extends Model
 		");
 		foreach ($contentIds as $contentId) {
 			$this->bindValue($sth, ':content_id', $contentId);
-			$sth = $this->tryExecute($sth, '88667845');
+			$this->tryExecute($sth, '88667845');
 			if ($sth->rowCount()) {
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$row = $this->buildThumb($row);

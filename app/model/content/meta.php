@@ -26,7 +26,7 @@ class Model_Content_Meta extends Model
 				and content_meta.name = 'tag'
 		");
 		$this->bindValue($sth, ':' . $colName, $colValue);
-		$sth = $this->tryExecute($sth, '098765432');
+		$this->tryExecute($sth, '098765432');
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			$contentIds[] = $row['content_id'];
 		}

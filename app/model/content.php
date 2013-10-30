@@ -41,7 +41,7 @@ class Model_Content extends Model
 			left join user on user.id = content.user_id
 			left join content_meta on content_meta.id = content.id and content_meta.name = 'love'
             where content.id != ''
-			" . ($this->config->getUrl(0) == 'admin' ? '' : ' and content.status = \'visible\'') . "
+			" . ($this->config->getUrl(0) == 'admin' ? ' and content.status != \'archive\'' : ' and content.status = \'visible\'') . "
 			" . ($where ? ' and content.type = :type ' : '') . "
 			" . ($ids ? ' and content.id = :id ' : '') . "
 			group by content.id
@@ -60,13 +60,13 @@ class Model_Content extends Model
 		if ($ids) {
 			foreach ($ids as $id) {
 				$sth->bindValue(':id', $id, PDO::PARAM_STR);
-				$sth->execute();
+				$this->tryExecute($sth);
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$contents[] = $row;
 				}
 			}
 		} else {
-			$sth->execute();				
+			$this->tryExecute($sth);				
 			$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
 

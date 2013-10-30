@@ -62,13 +62,13 @@ class Model extends Config
 		if ($ids) {
 			foreach ($ids as $id) {
 				$this->bindValue($sth, ':id', $id);
-				$sth = $this->tryExecute($sth, '12312345');
+				$this->tryExecute($sth, '12312345');
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$results[] = $row;
 				}
 			}
 		} else {
-			$sth = $this->tryExecute($sth, '38219381');				
+			$this->tryExecute($sth, '38219381');				
 			$results = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
 
@@ -107,7 +107,7 @@ class Model extends Config
 			)
 		");		
 		$this->bindValues($sth, $values);
-		$sth = $this->tryExecute($sth, '676767212');
+		$this->tryExecute($sth, '676767212');
 		return $sth->rowCount();
 	}
 
