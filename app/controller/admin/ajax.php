@@ -9,16 +9,12 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
 
-class Controller_Ajax extends Controller
+class Controller_Admin_Ajax extends Controller
 {
 
-	public function index()
-	{
-		echo "front ajax";
-	}
 
-	public function mediaBrowser() {
-		$this->load(array('ajax', 'mediabrowser'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
+	public function media() {
+		$this->load(array('admin', 'ajax', 'media'), $this->config->getUrl(3), $this->view, $this->database, $this->config);
 	}
 
 

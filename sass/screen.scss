@@ -1,7 +1,4 @@
-@import url("http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic");
 @import "sprite/*.png";
-@include all-sprite-sprites; 
-$sprite-map: sprite-map("sprite/*.png");
 @import "global";
 @import "form";
 @import "header";
@@ -9,6 +6,16 @@ $sprite-map: sprite-map("sprite/*.png");
 @import "month";
 @import "pagination";
 @import "footer";
+@import "404";
+
+html {
+    background: image-url('45degreee_fabric.png') repeat;
+}
+
+body {
+    color: $color-text-primary;
+    font-family: Droid Serif, serif;
+}
 
 .wrap {
     padding: 1em;
@@ -19,16 +26,16 @@ $sprite-map: sprite-map("sprite/*.png");
     }
 }
 
-.full-width {
+.wrap-full-width {
     width: 960px;
 }
 
-body {
-    background: url('../media/45degreee_fabric.png') repeat;
-    font-family: /* 'Open Sans', 'Arial',  */'sans-serif';
-    color: $color-typography-primary;
-    background-color: $color-primary;
-    font-family: 'Droid Serif', serif;
+.content {
+    margin: 0 0 2em;
+}
+
+.button {
+    @include button($color-primary);
 }
 
 .button.primary {
@@ -41,21 +48,4 @@ body {
 
 .button.tertiary {
     @include button($color-tertiary);
-}
-
-.top {
-    display: none;
-}
- 
-h1.main {
-    font-size: 1.5em;
-    line-height: 1.2em;
-}
-
-.content {
-    margin: 0 0 2em;
-
-    // > h1 {
-
-    // }
 }

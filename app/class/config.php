@@ -505,4 +505,15 @@ class Config
 		}
 		return $finalUrl;
 	}
+	
+
+	/**
+	 * handy for pulling ids from various urls, e.g. martin-wyatt-22
+	 * @param  string $segment url segment
+	 * @return string          the id
+	 */
+	protected function getId($segment) {
+		$segments = explode('-', $segment);
+		return end($segments);
+	}
 }

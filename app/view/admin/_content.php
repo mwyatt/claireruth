@@ -1,4 +1,4 @@
-<div class="content-<?php echo $rowContent['type']; ?>" data-id="<?php echo $rowContent['id']; ?>">
+<div class="content-<?php echo $rowContent['type']; ?> <?php echo 'is-' . $rowContent['status'] ?>" data-id="<?php echo $rowContent['id']; ?>">
 	<h2 class="content-<?php echo $rowContent['type']; ?>-title"><a href="<?php echo $this->url('current_noquery'); ?>?edit=<?php echo $rowContent['id']; ?>" class="content-<?php echo $rowContent['type'] ?>-link"><?php echo $rowContent['title']; ?></a></h2>
 	<div class="content-action">
 		<a class="content-action-link" href="<?php echo $rowContent['url']; ?>" title="View <?php echo $rowContent['title']; ?> online" target="blank">View</a>

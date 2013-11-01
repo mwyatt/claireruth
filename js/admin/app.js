@@ -46,11 +46,17 @@
 		var options = $.extend(defaults, options);
 		var element = $(this);
 
+		// init
+		timeUpdateClass();
+
 		// start checking for the scrolling
-		$(window).scroll(function() {
+		$(window).scroll(timeUpdateClass);
+
+
+		function timeUpdateClass () {
 			clearTimeout(options.timer);
 			options.timer = setTimeout(updateClass, options.delay);
-		});
+		}
 
 
 		/**

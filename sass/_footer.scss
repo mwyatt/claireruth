@@ -4,9 +4,8 @@ footer.main {
     background: $color-white;
 
     .book-stack {
-        @extend .sprite-bookstack;
-        width: image-width(sprite-file($sprite-map, bookstack));
-        height: image-height(sprite-file($sprite-map, bookstack));
+        @include sprite-sprite('bookstack');
+        @include block-width-height('sprite/bookstack.png');
         display: block;
         margin: 0 auto;
         float: left;

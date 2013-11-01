@@ -92,6 +92,11 @@ class Controller_Admin extends Controller
 	}
 
 
+	public function ajax() {
+		$this->load(array('admin', 'ajax'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
+	}
+
+
 	public function index() {
 		$this->view->loadTemplate('admin/dashboard');		
 	}

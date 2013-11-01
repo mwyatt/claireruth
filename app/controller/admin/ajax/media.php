@@ -11,7 +11,7 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
 
-class Controller_Ajax_Mediabrowser extends Controller
+class Controller_Admin_Ajax_Media extends Controller
 {
 
 
@@ -19,6 +19,11 @@ class Controller_Ajax_Mediabrowser extends Controller
 	 * default display for the media browser
 	 */
 	public function read() {
+		echo '<pre>';
+		print_r('variable');
+		echo '</pre>';
+		exit;
+		
 		$modelMedia = new model_media($this->database, $this->config);
 		$modelMedia->read();
 		$this->view

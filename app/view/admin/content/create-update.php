@@ -56,12 +56,13 @@
 
 <?php endif ?>
 
-		<div class="row media">
+		<div class="row media">	
+			<label class="above">Media</label>
 
 <?php if (! $this->get('model_media') || $this->url(2) != 'minutes'): ?>
 
 			<div class="row">
-				<a href="<?php echo $this->url() ?>/ajax/media-browser/read/" class="button primary js-lightbox-media-browser">Attach files</a>
+				<a href="<?php echo $this->url() ?>ajax/media-browser/read/" class="button primary js-lightbox-media-browser">Attach files</a>
 			</div>
 
 <?php endif ?>
@@ -92,7 +93,7 @@
 	<?php include($this->pathView('_content-tags')); ?>
 	<?php foreach ($this->get('model_content', 'tag') as $tag): ?>
 			
-			<input name="tag[]" type="hidden" value="<?php echo $tag['name'] ?>">
+			<input name="tag[]" type="hidden" value="<?php echo $tag['id'] ?>">
 		
 	<?php endforeach ?>
 <?php endif ?>

@@ -60,11 +60,4 @@ class Database
 			exit;
 		}	
 	}
-
-	
-	public function getDbh() {
-		return $this->dbh;
-	}	
-
-	
 }

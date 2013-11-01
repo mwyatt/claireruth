@@ -15,7 +15,8 @@ $error = new error($errorReporting);
 $database = new database($credentials);
 $options = new model_options($database);
 $options->read();
-$config = new config();
+
+$config = new config($database);
 $config
 	->setOptions($options->getData())
 	->initiateUrl()
@@ -25,25 +26,8 @@ $cron->poll(array(
 	'emailErrorReport'
 	, 'emailNewsletter'
 ));
-
-// keep track of the pages requested
-// helpful for last attempted page redirection
-// after login..
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
-
-// navigate app
-$controller = new controller();
-
-// admin, ajax
-if ($controller->load(array($config->getUrl(0)), $config->getUrl(1), false, $database, $config)) {
-	exit;
-}
-
-// frontend
-if ($controller->load(array('front'), $config->getUrl(0), false, $database, $config)) {
-	exit;
-}
-
-// global exit
+$controller = new controller(false, $database, $config);
+$controller->loadMethod();
 exit;

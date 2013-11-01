@@ -16,18 +16,9 @@ class Controller extends Config
 
 
 	/**
-	 * the core path for the controllers
-	 * @var string
+	 * @var boolean
 	 */
-	public $path = '';
-
-
-	/**
-	 * cache object which will allow the controller to push out cached files
-	 * speeding up some model intensive pages
-	 * @var object
-	 */
-	public $cache;
+	public $debug = 1;
 
 
 	/**
@@ -38,95 +29,120 @@ class Controller extends Config
 
 
 	/**
-	 * sets the property
+	 * set of url segments used
+	 * @var array
 	 */
-	public function setPathOnce()
-	{
-		if (! $this->getPath()) {
-			return $this->path = BASE_PATH . 'app/controller/';
+	public $urlNames = array();
+
+
+	/**
+	 * record of the current url position
+	 * @var integer
+	 */
+	public $urlKey = 0;
+
+
+	/**
+	 * list of methods which cant be called by urls
+	 * @todo could be stripped while generating url?
+	 * @var array
+	 */
+	public $illegalMethods = array(
+		'__construct'
+		, 'load'
+		, 'loadMethod'
+	);
+
+
+	/**
+	 * extends default construct to add a view object
+	 * @param object $database 
+	 * @param object $config   
+	 */
+	public function __construct($controller = false, $database = false, $config = false) {
+		parent::__construct($database, $config);
+
+		// if config object
+		if (is_object($controller) && method_exists($controller, 'setUrlKey')) {
+			$this->setUrlKey($controller->getUrlKey());
+		}
+
+		// setup view
+		if (is_object($controller) && property_exists($controller, 'view')) {
+			$this->view = $controller->view;
+		} else {
+			$this->view = new View($database, $config);
 		}
 	}
 
 
 	/**
-	 * returns property
-	 * @return string 
+	 * looks at segments and makes a class name
+	 * e.g. controller_front
+	 * if it exists it creates it and loads the first method
+	 * e.g. post
+	 * it will refer to the current url position..
+	 * @param  object $controller the previous controller
 	 */
-	public function getPath()
-	{
-		return $this->path;
+	public function load() {
+		$className = $this->getClassName();
+
+		// validity of class
+		if (! class_exists($className)) {
+			return;
+		}
+
+		// launch class and method
+		$controller = new $className($this, $this->database, $this->config);
+		$controller->loadMethod();
 	}
 
 
 	/**
-	 * loads up controller method, otherwise use default method 'index'
-	 * @param  string $method 
-	 * @return null         
+	 * loads up controller method
+	 * 		initialise
+	 * 		methodName || index
 	 */
-	protected function loadMethod($method) {
-		$words = explode('-', $method);
-		$method = '';
-		foreach ($words as $word) {
-			$method .= ucfirst($word);
-		}
-		$method = lcfirst($method);
-		if ($method == '__construct') {
-			return $this->index();
-		}
-		if (method_exists($this, $method)) {
-			return $this->$method();
-		}
-		if (method_exists($this, 'index')) {
-			return $this->index();
-		}
-		return false;
-	}
+	public function loadMethod() {
+		$methodName = $this->config->getUrl($this->getUrlKey());
+		$currentUrlKey = $this->getUrlKey();
 
-
-	/**
-	 * loads a controller based on the properties given
-	 * @param  array $names    the url segments to find the controller
-	 * @param  string $method   url portion to isse next command
-	 * @param  object $view     the previous view to retain stored object data
-	 * @param  object $database 
-	 * @param  object $config   
-	 * @return null           the controller is loaded into this scope
-	 */
-	public function load($names, $method, $view, $database, $config) {
-
-		// initial setup of base path
-		$this->setPathOnce();
-		$path = $this->getPath();
-
-		// basic objects
-		$this->cache = new Cache(false);
-		$this->database = $database;
-		$this->config = $config;
-		$this->view = $view;
-
-		// logic
-		if (! $view) {
-			$this->view = new View($this->database, $this->config);
+		if ($this->debug) {
+			echo 'loadingclass - ' . $this->getClassName() . "<br>";
+			echo 'loadingMethod - ' . $methodName . "<br>";
 		}
+
+		// always initialise each segment if required
 		if (method_exists($this, 'initialise')) {
 			$this->initialise();
-		}
-		$controllerName = 'Controller_';
-		if (is_array($names)) {
-			foreach ($names as $name) {
-				$path .= strtolower($name) . '/';
-				$controllerName .= ucfirst($name) . '_';
+
+			if ($this->debug) {
+				echo 'initialising - ' . $this->getClassName() . "<br>";
 			}
 		}
-		$controllerName = rtrim($controllerName, '_');
-		$path = rtrim($path, '/') . '.php';
-		if (is_file($path)) {
-			$controller = new $controllerName();
-			$controller->load(false, false, $this->view, $this->database, $this->config);
-			$controller->loadMethod($method);
-			return true;
+
+		// check the method is illegal
+		if (in_array($methodName, $this->illegalMethods)) {
+			return;
 		}
-		return false;
+
+		// boot method || index
+		if (method_exists($this, $methodName)) {
+			$this->incrementUrlKey();
+
+			if ($this->debug) {
+				echo 'loadingmethod - ' . $methodName . "<br>";
+			}
+
+			$this->$methodName();
+		} elseif (method_exists($this, 'index')) {
+
+			if ($this->debug) {
+				echo 'loadingindex - ' . $methodName . "<br>";
+			}
+
+			$this->index();
+		}
 	}
 
 
@@ -148,12 +164,141 @@ class Controller extends Config
 
 
 	/**
-	 * handy for pulling ids from various urls, e.g. martin-wyatt-22
-	 * @param  string $segment url segment
-	 * @return string          the id
+	 * gets the class_name_like_this from iterating over
+	 * the url segments
+	 * @return string 
 	 */
-	protected function getId($segment) {
-		$segments = explode('-', $segment);
-		return end($segments);
+	public function getClassName()
+	{
+		$className = 'controller_';
+		for ($index = 0; $index <= $this->getUrlKey(); $index++) { 
+			$className .= $this->config->getUrl($index) . '_';
+		}
+		return $className = rtrim($className, '_');
+	}
+
+
+	/**
+	 * sets the current url key
+	 * @param int $key 
+	 */
+	public function setUrlKey($key)
+	{
+		$this->urlKey = $key;
+	}
+
+
+	/**
+	 * adds 1 to the url key ready for the next controller
+	 * @return null 
+	 */					
+	public function incrementUrlKey()
+	{
+		$currentUrlKey = $this->getUrlKey();
+		$this->setUrlKey($currentUrlKey + 1);
+	}
+
+
+	/**
+	 * @return int 
+	 */
+	public function getUrlKey()
+	{
+		return $this->urlKey;
+	}
+
+
+	public function initialise() {
+		// $menu = new model_menu($this->database, $this->config);
+		// $this->view->setObject($menu);
+		if (array_key_exists('search', $_GET)) {
+			$this->search($_GET['search']);
+		}
+	}
+
+
+	public function index() {
+		$mainContent = new model_content($this->database, $this->config);
+		$mainContent->read('post', array(0, 3));
+		$this->view
+			->setObject($mainContent)
+			->loadTemplate('home');
+	}
+
+
+	public function admin()
+	{
+		$this->load();
+	}
+
+
+	public function ajax() {
+		$this->load();
+	}
+	
+
+	public function search($query) {
+		$query = htmlspecialchars($query);
+		if (! $query) {
+			$this->route('base');
+		}
+		$search = new model_search($this->database, $this->config);
+		$search->read($query);
+		$this->view
+			->setObject('search_query', $query)
+			->setObject($search)
+			->loadTemplate('search');
+	}
+
+
+	public function month() {
+		$this->load();
+	}
+
+
+	public function tag() {
+		$this->load();
+	}
+
+
+	public function post() {
+		$this->load();
+	}
+
+
+	public function page() {
+		if ($this->config->getUrl(1)) {
+			$page = new model_content($this->database, $this->config);
+			if (! $page->readByTitle(array($this->config->getUrl(1)))) {
+				$this->view->loadTemplate('404');
+			}
+			$this->view
+				->setMeta(array(		
+					'title' => $page->getData('title')
+				))
+				->setObject($page)
+				->loadTemplate('page');
+		}
+		$this->route('base');
+	}
+
+
+	public function sitemapxml() {
+		header('Content-Type: application/xml');
+		$content = new model_content($this->database, $this->config);
+		$player = new model_ttplayer($this->database, $this->config);
+		$team = new model_ttteam($this->database, $this->config);
+		$fixture = new model_ttfixture($this->database, $this->config);
+		$division = new model_ttdivision($this->database, $this->config);
+		$this->view
+			->setObject('model_ttfixture', $fixture->readFilled()->getData())
+			->setObject('model_ttdivision', $division->read()->getData())
+			->setObject('model_ttteam', $team->read()->getData())
+			->setObject('model_ttplayer', $player->read()->getData())
+			->setObject('model_content_cup', $content->readByType('cup')->getData())
+			->setObject('model_content_minutes', $content->readByType('minutes')->getData())
+			->setObject('model_content_page', $content->readByType('page')->getData())
+			->setObject('model_content_press', $content->readByType('press')->getData())
+			->loadJustTemplate('sitemap');
 	}
 }

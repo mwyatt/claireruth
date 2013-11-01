@@ -13,12 +13,12 @@
 	    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
 	<![endif]-->
 
-<div class="wrap full-width">
+<div class="wrap wrap-full-width">
 
 <?php if ($this->get('model_user')): ?>
 	
     <header class="main clearfix js-header-main">
-    	<div class="full-width">
+    	<div class="wrap-full-width">
 	    	<div class="inner-title-nav-user clearfix">
 		        <a class="header-site-title" href="<?php echo $this->url(); ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title'); ?></a>
 
