@@ -28,6 +28,8 @@ $cron->poll(array(
 ));
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
-$controller = new controller(false, $database, $config);
-$controller->loadMethod();
+$initialController = new controller();
+$initialController->view = new View($database, $config);
+$controller = new controller($initialController, $database, $config);
+$controller->loadClass();
 exit;

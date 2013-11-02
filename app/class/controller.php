@@ -18,7 +18,7 @@ class Controller extends Config
 	/**
 	 * @var boolean
 	 */
-	public $debug = 1;
+	public $debug = 0;
 
 
 	/**
@@ -39,7 +39,7 @@ class Controller extends Config
 	 * record of the current url position
 	 * @var integer
 	 */
-	public $urlKey = 0;
+	public $urlKey = -1;
 
 
 	/**
@@ -55,23 +55,16 @@ class Controller extends Config
 
 
 	/**
-	 * extends default construct to add a view object
-	 * @param object $database 
-	 * @param object $config   
+	 * adds 1 to the url key each time
+	 * @param object $controller 
+	 * @param object $database   
+	 * @param object $config     
 	 */
 	public function __construct($controller = false, $database = false, $config = false) {
 		parent::__construct($database, $config);
-
-		// if config object
-		if (is_object($controller) && method_exists($controller, 'setUrlKey')) {
-			$this->setUrlKey($controller->getUrlKey());
-		}
-
-		// setup view
-		if (is_object($controller) && property_exists($controller, 'view')) {
+		if ($controller) {
 			$this->view = $controller->view;
-		} else {
-			$this->view = new View($database, $config);
+			$this->setUrlKey($controller->getUrlKey());
 		}
 	}
 
@@ -84,7 +77,12 @@ class Controller extends Config
 	 * it will refer to the current url position..
 	 * @param  object $controller the previous controller
 	 */
-	public function load() {
+	public function loadClass() {
+		if ($this->debug) {
+			echo 'urlkey - ' . $this->getUrlKey() . "<br>";
+			echo 'loadingclass - ' . $this->getClassName() . "<br>";
+		}
+
 		$className = $this->getClassName();
 
 		// validity of class
@@ -94,7 +92,7 @@ class Controller extends Config
 
 		// launch class and method
 		$controller = new $className($this, $this->database, $this->config);
-		$controller->loadMethod();
+		return $controller->loadMethod();
 	}
 
 
@@ -104,44 +102,53 @@ class Controller extends Config
 	 * 		methodName || index
 	 */
 	public function loadMethod() {
-		$methodName = $this->config->getUrl($this->getUrlKey());
-		$currentUrlKey = $this->getUrlKey();
 
-		if ($this->debug) {
-			echo 'loadingclass - ' . $this->getClassName() . "<br>";
-			echo 'loadingMethod - ' . $methodName . "<br>";
-		}
-
-		// always initialise each segment if required
+		// 1. always initialise the class
 		if (method_exists($this, 'initialise')) {
-			$this->initialise();
-
 			if ($this->debug) {
 				echo 'initialising - ' . $this->getClassName() . "<br>";
 			}
+			$this->initialise();
 		}
+
+		// get static method name
+		$methodName = $this->config->getUrl($this->getUrlKey());
 
 		// check the method is illegal
 		if (in_array($methodName, $this->illegalMethods)) {
+			if ($this->debug) {
+				echo 'illegal method - ' . $methodName . "<br>";
+			}
 			return;
 		}
 
-		// boot method || index
-		if (method_exists($this, $methodName)) {
-			$this->incrementUrlKey();
+		// move forwards
+		$this->incrementUrlKey();
+		
+		// 2. next class exists
+		if ($this->loadClass()) {
+			return;
+		}
 
+		// get static method name again
+		$methodName = $this->config->getUrl($this->getUrlKey());
+
+		// 3. boot method
+		if (method_exists($this, $methodName)) {
 			if ($this->debug) {
 				echo 'loadingmethod - ' . $methodName . "<br>";
 			}
-
 			$this->$methodName();
-		} elseif (method_exists($this, 'index')) {
+			return;
+		}
 
+		// 4. boot index
+		if (method_exists($this, 'index')) {
 			if ($this->debug) {
-				echo 'loadingindex - ' . $methodName . "<br>";
+				echo 'loadingindex - ' . $this->getClassName() . "<br>";
 			}
-
 			$this->index();
+			return;
 		}
 	}
 
@@ -172,7 +179,14 @@ class Controller extends Config
 	{
 		$className = 'controller_';
 		for ($index = 0; $index <= $this->getUrlKey(); $index++) { 
-			$className .= $this->config->getUrl($index) . '_';
+			$urlSegment = $this->config->getUrl($index);
+
+			// if second class and segment does not exist,
+			// create false class name
+			if ($index && ! $urlSegment) {
+				$urlSegment = 'end';
+			}
+			$className .= $urlSegment . '_';
 		}
 		return $className = rtrim($className, '_');
 	}
@@ -226,17 +240,6 @@ class Controller extends Config
 	}
 
 
-	public function admin()
-	{
-		$this->load();
-	}
-
-
-	public function ajax() {
-		$this->load();
-	}
-	
-
 	public function search($query) {
 		$query = htmlspecialchars($query);
 		if (! $query) {
@@ -248,21 +251,6 @@ class Controller extends Config
 			->setObject('search_query', $query)
 			->setObject($search)
 			->loadTemplate('search');
-	}
-
-
-	public function month() {
-		$this->load();
-	}
-
-
-	public function tag() {
-		$this->load();
-	}
-
-
-	public function post() {
-		$this->load();
 	}
 
 

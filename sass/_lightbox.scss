@@ -1,3 +1,8 @@
+// modules
+.lightbox.media {
+	@import "lightbox/media";
+}
+
 .lightbox-blackout,
 .lightbox-anchor {
 	z-index: 3;

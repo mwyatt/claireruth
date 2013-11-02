@@ -82,28 +82,19 @@ class Controller_Admin extends Controller
 			"
 			, array('id' => $sessionUser->getData('id')));
 			$this->view->setObject('model_user', $user->getDataFirst());
+			
 		} else {
 			if ($this->config->getUrl(1)) {
 				$sessionHistory->setCaptureUrl($this->config->getUrl('current'));
-				$this->route('admin');
 			}
 			$this->view->loadTemplate('admin/login');
 		}
 	}
 
 
-	public function ajax() {
-		$this->load(array('admin', 'ajax'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
-	}
-
-
-	public function index() {
+	public function index()
+	{
 		$this->view->loadTemplate('admin/dashboard');		
-	}
-
-
-	public function content() {
-		$this->load(array('admin', 'content'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
 	}
 
 
@@ -111,6 +102,11 @@ class Controller_Admin extends Controller
 		$this->view->loadTemplate('admin/media-index');
 	}
 	
+
+	public function content() {
+		$this->view->loadTemplate('admin/dashboard');		
+	}
+
 
 	public function profile() {
 		// $userAction = new model($this->database, $this->config, 'user_action');

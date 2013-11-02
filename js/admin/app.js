@@ -139,6 +139,7 @@
 // lightboxes
 $('.js-lightbox-media-browser').lightbox({
 	inline: true
+	, maxWidth: 800
 	, className: 'media-browser'
 	, onComplete: $.fn.mediaBrowser
 });	

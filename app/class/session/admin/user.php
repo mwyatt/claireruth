@@ -31,6 +31,11 @@ class Session_Admin_User extends Session
 	public function isLogged()
 	{
 
+		// not logged in!
+		if (! $this->getData()) {
+			return false;
+		}
+
 		// provide feedback as to what has happened
 		if (! $this->refreshExpire()) {
 			$sessionFeedback = new session_feedback($this->database, $this->config);

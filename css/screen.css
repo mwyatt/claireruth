@@ -457,7 +457,39 @@ html.js input[type="submit"] {
   background-image: url('/claireruth/media/ajax.gif?1368257192');
 }
 
-/* line 2, ../sass/_lightbox.scss */
+/* line 1, ../sass/lightbox/_media.scss */
+.lightbox.media .media {
+  float: left;
+  width: 15%;
+  height: 10em;
+  padding: 0.3em;
+  cursor: pointer;
+}
+/* line 11, ../sass/lightbox/_media.scss */
+.lightbox.media .media-thumb {
+  display: block;
+  margin-bottom: 1em;
+  height: 3em;
+  text-align: center;
+}
+/* line 18, ../sass/lightbox/_media.scss */
+.lightbox.media .media-thumb img {
+  height: inherit;
+}
+/* line 22, ../sass/lightbox/_media.scss */
+.lightbox.media .media-date-published {
+  display: none;
+}
+/* line 26, ../sass/lightbox/_media.scss */
+.lightbox.media .media-author {
+  display: none;
+}
+/* line 30, ../sass/lightbox/_media.scss */
+.lightbox.media .media-delete {
+  display: none;
+}
+
+/* line 7, ../sass/_lightbox.scss */
 .lightbox-blackout,
 .lightbox-anchor {
   z-index: 3;
@@ -466,13 +498,13 @@ html.js input[type="submit"] {
   left: 0;
   width: 100%;
 }
-/* line 9, ../sass/_lightbox.scss */
+/* line 14, ../sass/_lightbox.scss */
 .lightbox-blackout.is-active,
 .lightbox-anchor.is-active {
   display: block;
 }
 
-/* line 19, ../sass/_lightbox.scss */
+/* line 24, ../sass/_lightbox.scss */
 .lightbox-blackout {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
   opacity: 0.7;
@@ -481,12 +513,12 @@ html.js input[type="submit"] {
   position: fixed;
 }
 
-/* line 26, ../sass/_lightbox.scss */
+/* line 31, ../sass/_lightbox.scss */
 .lightbox-anchor {
   position: absolute;
 }
 
-/* line 30, ../sass/_lightbox.scss */
+/* line 35, ../sass/_lightbox.scss */
 .lightbox {
   -webkit-box-shadow: 0 0 3px black;
   -moz-box-shadow: 0 0 3px black;
@@ -499,50 +531,50 @@ html.js input[type="submit"] {
   margin: 0 auto;
   padding: 1em;
 }
-/* line 43, ../sass/_lightbox.scss */
+/* line 48, ../sass/_lightbox.scss */
 .lightbox.gallery .lightbox-content {
   float: right;
   width: 78%;
 }
-/* line 49, ../sass/_lightbox.scss */
+/* line 54, ../sass/_lightbox.scss */
 .lightbox.gallery .lightbox-control, .lightbox.gallery .lightbox-gallery {
   display: block;
 }
-/* line 53, ../sass/_lightbox.scss */
+/* line 58, ../sass/_lightbox.scss */
 .lightbox.inline .lightbox-content {
   text-align: left;
 }
 
-/* line 58, ../sass/_lightbox.scss */
+/* line 63, ../sass/_lightbox.scss */
 .lightbox-title {
   font-weight: bold;
   cursor: pointer;
 }
-/* line 62, ../sass/_lightbox.scss */
+/* line 67, ../sass/_lightbox.scss */
 .lightbox-title:hover {
   color: #ca3566;
 }
 
-/* line 67, ../sass/_lightbox.scss */
+/* line 72, ../sass/_lightbox.scss */
 .lightbox-title-link {
   border-bottom-color: #ca3566;
   font-weight: bold;
 }
 
-/* line 72, ../sass/_lightbox.scss */
+/* line 77, ../sass/_lightbox.scss */
 .lightbox-content {
   position: relative;
   text-align: center;
   max-height: 100%;
 }
-/* line 77, ../sass/_lightbox.scss */
+/* line 82, ../sass/_lightbox.scss */
 .lightbox-content img {
   position: absolute;
   max-width: 100%;
   height: auto;
 }
 
-/* line 84, ../sass/_lightbox.scss */
+/* line 89, ../sass/_lightbox.scss */
 .lightbox-gallery {
   border-right: 1px solid #995799;
   padding: 1em;
@@ -550,13 +582,13 @@ html.js input[type="submit"] {
   width: 16%;
   display: none;
 }
-/* line 91, ../sass/_lightbox.scss */
+/* line 96, ../sass/_lightbox.scss */
 .lightbox-gallery img {
   max-width: 100%;
   max-height: 100%;
 }
 
-/* line 97, ../sass/_lightbox.scss */
+/* line 102, ../sass/_lightbox.scss */
 .lightbox-gallery-item {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -571,7 +603,7 @@ html.js input[type="submit"] {
   border: 1px solid;
   padding: 0.7em;
 }
-/* line 109, ../sass/_lightbox.scss */
+/* line 114, ../sass/_lightbox.scss */
 .lightbox-gallery-item.is-active {
   -webkit-transform: scale(1.05);
   -moz-transform: scale(1.05);
@@ -585,12 +617,12 @@ html.js input[type="submit"] {
   cursor: default;
 }
 
-/* line 117, ../sass/_lightbox.scss */
+/* line 122, ../sass/_lightbox.scss */
 .lightbox-control {
   display: none;
 }
 
-/* line 122, ../sass/_lightbox.scss */
+/* line 127, ../sass/_lightbox.scss */
 .lightbox-next,
 .lightbox-previous {
   -webkit-border-radius: 3px;
@@ -611,29 +643,29 @@ html.js input[type="submit"] {
   position: absolute;
   bottom: 1em;
 }
-/* line 138, ../sass/_lightbox.scss */
+/* line 143, ../sass/_lightbox.scss */
 .lightbox-next:hover,
 .lightbox-previous:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
-/* line 142, ../sass/_lightbox.scss */
+/* line 147, ../sass/_lightbox.scss */
 .lightbox-next:active,
 .lightbox-previous:active {
   background-color: #e6e6e6;
 }
 
-/* line 147, ../sass/_lightbox.scss */
+/* line 152, ../sass/_lightbox.scss */
 .lightbox-next {
   right: 1em;
 }
 
-/* line 152, ../sass/_lightbox.scss */
+/* line 157, ../sass/_lightbox.scss */
 .lightbox-previous {
   left: 1em;
 }
 
-/* line 157, ../sass/_lightbox.scss */
+/* line 162, ../sass/_lightbox.scss */
 .lightbox-remove {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -655,16 +687,16 @@ html.js input[type="submit"] {
   border: 1px solid #cf90a2;
   background-color: white;
 }
-/* line 177, ../sass/_lightbox.scss */
+/* line 182, ../sass/_lightbox.scss */
 .lightbox-remove:hover, .lightbox-remove:active {
   color: white;
   border-color: white;
 }
-/* line 182, ../sass/_lightbox.scss */
+/* line 187, ../sass/_lightbox.scss */
 .lightbox-remove:hover {
   background-color: #cf90a2;
 }
-/* line 186, ../sass/_lightbox.scss */
+/* line 191, ../sass/_lightbox.scss */
 .lightbox-remove:active {
   background-color: #995799;
 }

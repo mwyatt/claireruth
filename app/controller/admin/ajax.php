@@ -13,11 +13,6 @@ class Controller_Admin_Ajax extends Controller
 {
 
 
-	public function media() {
-		$this->load(array('admin', 'ajax', 'media'), $this->config->getUrl(3), $this->view, $this->database, $this->config);
-	}
-
-
 	/**
 	 * use the content id to build the lurrrvee button
 	 * @param  integer $contentId 

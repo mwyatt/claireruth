@@ -9,7 +9,7 @@
 <?php endif ?>
 
 	<p class="content-media-title"><?php echo (array_key_exists('title', $rowMedia) ? $rowMedia['title'] : '') ?></p>
-	<span class="content-media-date-published"><?php echo (array_key_exists('date_published', $rowMedia) ? $rowMedia['date_published'] : '') ?></span>
+	<span class="content-media-date-published"><?php echo (array_key_exists('time_published', $rowMedia) ? $rowMedia['time_published'] : '') ?></span>
 	<span class="content-media-author"><?php echo (array_key_exists('user_full_name', $rowMedia) ? $rowMedia['user_full_name'] : '') ?></span>
 	<span class="content-media-delete js-media-delete">&times;</span>
 	<span class="content-media-tick"></span>

@@ -19,6 +19,32 @@ class Model_Media extends Model
 	public $dir = 'media/upload/';
 
 
+	public function read($select = "", $where = array(), $ids = array(), $limit = array())
+	{
+		$baseurl = $this->config->getUrl('base'); 
+		$parsedData = array();
+		$sth = $this->database->dbh->prepare("	
+			select
+				media.id
+				, media.title
+				, concat('$baseurl', '$this->dir', media.path) as path
+				, media.type
+				, media.time_published
+				, concat(user.first_name, ' ', user.last_name) as user_full_name
+			from media
+				left join user on user.id = media.user_id
+		");
+		$this->tryExecute($sth, '12315514344124');
+		if ($sth->rowCount()) {
+			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$row = $this->buildThumb($row);
+				$parsedData[] = $row;
+			}
+		}
+		return $this->setData($parsedData);
+	}
+
+
 	/**
 	 * reads out all media
 	 * @return int total rows bringing through
@@ -32,7 +58,7 @@ class Model_Media extends Model
 				, media.title
 				, concat('$baseurl', '$this->dir', media.path) as path
 				, media.type
-				, media.date_published
+				, media.time_published
 				, concat(user.first_name, ' ', user.last_name) as user_full_name
 			from content_meta
                 left join media on media.id = content_meta.value
@@ -92,7 +118,7 @@ class Model_Media extends Model
 				, description
 				, path
 				, type
-				, date_published
+				, time_published
 				, user_id
 			)
 			values (
@@ -215,7 +241,7 @@ class Model_Media extends Model
 				id
 				, title
 				, path
-				, date_published
+				, time_published
 				, user_id
 			from media
 			where id = ?
@@ -236,7 +262,7 @@ class Model_Media extends Model
 				id
 				, title
 				, path
-				, date_published
+				, time_published
 				, user_id
 			from media
 			where media.path like ?

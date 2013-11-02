@@ -159,4 +159,3 @@ class Controller_Admin_Content extends Controller
 			->loadTemplate('admin/content/list');
 	}
 }
-	
