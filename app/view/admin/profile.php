@@ -17,7 +17,7 @@
 		</div>			
 		<div class="row">			
 			<label class="above" for="form-password">New password</label>
-			<input id="form-password" class="required" type="text" name="password" maxlength="75" value="">
+			<input id="form-password" class="required" type="password" name="password" maxlength="75" value="">
 		</div>			
 		<div class="row">			
 			<h2>Access level</h2>
@@ -25,7 +25,7 @@
 		</div>			
  		<div class="row">			
 			<h2>Date registered</h2>
-			<p><?php echo date('D jS F Y', $this->get('model_user', 'date_registered')); ?></p>
+			<p><?php echo date('D jS F Y', $this->get('model_user', 'time_registered')); ?></p>
 		</div>			
 		<input name="form_update" type="hidden" value="true">
 		<a href="#" class="submit button">Save</a>

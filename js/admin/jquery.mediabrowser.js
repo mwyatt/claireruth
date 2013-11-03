@@ -13,7 +13,7 @@
 		 * sets all events for common functions
 		 */
 		function setEvent() {
-		 	$('.js-media-browser input[type="file"]').on("change", upload);
+		 	$('#js-media-input-upload').on("change", upload);
 			$('.js-media-item')
 				.off('click')
 				.on('click', function() {
@@ -59,16 +59,6 @@
 
 
 		/**
-		 * fancy bring in animation for items, not needed
-		 */
-		function bringIn() {
-			$(thisCore).find('.hide').each(function(index) {
-				$(this).delay(100 * index).fadeIn(300);
-			});
-		}
-
-
-		/**
 		 * removes the file from the specified path
 		 * @param  {string} path 
 		 */
@@ -101,7 +91,7 @@
 			}
 			if (uploadFormData) {
 				$.ajax({
-					url: $('body').data('url-base') + 'ajax/media-browser/upload/',
+					url: urlBase + 'admin/ajax/media/upload/',
 					type: 'POST',
 					data: uploadFormData,
 					processData: false,

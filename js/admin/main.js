@@ -4,6 +4,7 @@
 $(document).ready(function() {
 	var urlBase = $('body').data('url-base');
 	var urlBaseJs = urlBase + 'js/';
+	var urlBaseAjax = urlBase + 'admin/ajax/';
 
 	// getscripts
 	$.when(

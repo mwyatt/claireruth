@@ -22,13 +22,13 @@ class Controller_Admin extends Controller
 	 *       url you intend to after logging in
 	 */
 	public function initialise() {
-		$sessionUser = new session_admin_user($this->database, $this->config);
+		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 		$sessionFeedback = new session_feedback($this->database, $this->config);
 		$sessionFormfield = new session_formfield($this->database, $this->config);
 		$sessionHistory = new session_history($this->database, $this->config);
 		// logout
-		if (array_key_exists('logout', $_GET) && $sessionUser->getData()) {
-			$sessionUser->delete();
+		if (array_key_exists('logout', $_GET) && $sessionAdminUser->getData()) {
+			$sessionAdminUser->delete();
 			$sessionHistory->delete();
 			$sessionFeedback->set('Successfully logged out');
 			$this->route('admin');
@@ -53,7 +53,7 @@ class Controller_Admin extends Controller
 
 			// validate the username and password
 			if ($user->validatePassword($_POST['login_email'], $_POST['login_password'])) {
-				$sessionUser->login($user->getDataFirst('id'));
+				$sessionAdminUser->login($user->getDataFirst('id'));
 				$sessionFeedback->set('Successfully Logged in as ' . $_POST['login_email']);
 				
 				// send off to captured url if an important one is detected
@@ -69,7 +69,7 @@ class Controller_Admin extends Controller
 		}
 
 		// is logged in?
-		if ($sessionUser->isLogged()) {
+		if ($sessionAdminUser->isLogged()) {
 			$user->lazyRead("
 				user.id
 				, user.email
@@ -80,7 +80,7 @@ class Controller_Admin extends Controller
 				, user.time_registered
 				, user.level
 			"
-			, array('id' => $sessionUser->getData('id')));
+			, array('id' => $sessionAdminUser->getData('id')));
 			$this->view->setObject('model_user', $user->getDataFirst());
 			
 		} else {
@@ -98,26 +98,27 @@ class Controller_Admin extends Controller
 	}
 
 
-	public function media() {
-		$this->view->loadTemplate('admin/media-index');
-	}
-	
-
 	public function content() {
 		$this->view->loadTemplate('admin/dashboard');		
 	}
 
 
+	public function media()
+	{
+		# code...
+	}
+
+
 	public function profile() {
-		$user = new model_user($this->database, $this->config);
+		$sessionFeedback = new session_feedback($this->database, $this->config);
+		$modelUser = new model_user($this->database, $this->config);
+		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 		if (array_key_exists('form_update', $_POST)) {
-			$user->updateById($this->session->get('user', 'id'));
+			$modelUser->updateById($sessionAdminUser->getData('id'));
+			$sessionFeedback->set('Profile successfully updated');
 			$this->route('current');
 		}
-		$user->readById($this->session->get('user', 'id'));
 		$this->view
-			->setObject($userAction)
-			->setObject($user)
 			->loadTemplate('admin/profile');
 	}
 }

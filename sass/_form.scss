@@ -2,7 +2,7 @@ input,
 input[type="password"],
 textarea {
     @include border-radius(3px);
-    @include transition(border-color 300ms);
+    @include transition(border-color 300ms); 
     border: 1px solid $color-secondary;
     color: $color-secondary;
     padding: 0.4em 0.5em 0.3em;

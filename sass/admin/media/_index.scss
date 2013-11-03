@@ -1,0 +1,45 @@
+.media {
+    float: left;
+    width: 16.2%;
+    margin: 1em;
+    height: 14em;
+    position: relative;
+
+    &:hover .media-thumb {
+        @include box-shadow(0.2em 0.2em 0.7em gray);
+        @include transform(scale(1.1) rotate(-6deg));
+    }
+}
+
+.media-thumb {
+    @include transition(all 200ms);
+    margin-bottom: 1em;
+    display: block;
+    text-align: center;
+}
+
+.media-thumb img {
+    max-width: 100%;
+}
+
+.media-title {
+    margin-bottom: 1em;
+}
+
+.media-date-published {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 0.8em;
+}
+
+.media-author {
+    position: absolute;  bottom: 0;
+    right: 0;
+    font-size: 0.8em;
+    display: none;
+}
+
+.media-delete {
+    position: absolute;  bottom: 0;  right: 0;  font-size: 0.8em;
+}

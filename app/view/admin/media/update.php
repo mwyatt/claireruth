@@ -1,16 +1,26 @@
 <?php require_once($this->pathView('admin/_header')); ?>
+<?php $media = $this->get('model_media') ?>
 
 <div class="content <?php echo $this->url(2); ?>">
 	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
 	<h1>Update <?php echo $this->get('model_media', 'title') ?></h1>
 	<form method="post" enctype="multipart/form-data">
+
+<?php if (array_key_exists('thumb', $media) && array_key_exists('150', $media['thumb'])): ?>
+
+		<div class="row">
+			<img src="<?php echo $media['thumb']['150'] ?>" alt="<?php echo $this->get('model_media', 'title') ?>">
+		</div>
+	
+<?php endif ?>
+
 		<div class="row">	
 			<label class="above" for="form_title">Title</label>
 			<input id="form_title" class="required" type="text" name="title" maxlength="75" value="<?php echo $this->get('model_media', 'title'); ?>" autofocus="autofocus">
 		</div>			
 		<div class="row">	
 			<label class="above" for="form_description">Description</label>
-			<input id="form_description" class="required" type="text" name="description" maxlength="75" value="<?php echo $this->get('model_media', 'description'); ?>" autofocus="autofocus">
+			<input id="form_description" class="required" type="text" name="description" maxlength="75" value="<?php echo $this->get('model_media', 'description'); ?>">
 		</div>			
 
 

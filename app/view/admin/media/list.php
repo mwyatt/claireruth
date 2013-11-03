@@ -1,8 +1,8 @@
 <?php require_once($this->pathView('admin/_header')); ?>
 
-<div class="media-browser view-select js-media-browser">
+<div class="content clearfix">
 	<input type="text" class="search-filter">
-    <input class="" type="file" name="media" multiple />
+    <input id="js-media-input-upload" type="file" name="media" multiple />
 
 <?php if ($medias = $this->get('model_media')): ?>
     <?php include($this->pathView('admin/_medias')); ?>
