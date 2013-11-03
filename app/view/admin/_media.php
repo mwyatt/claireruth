@@ -4,7 +4,7 @@
 
 <?php if (array_key_exists('thumb', $media) && array_key_exists('150', $media['thumb'])): ?>
 	
-	<a href="<?php echo $this->url('current_noquery'); ?>?edit=<?php echo $media['id']; ?>" target="_blank" class="media-thumb">
+	<a href="<?php echo $this->url('current_noquery'); ?>?edit=<?php echo $media['id']; ?>" class="media-thumb">
 		<img src="<?php echo $media['thumb']['150'] ?>" alt="<?php echo $media['title'] ?>">
 	</a>
 

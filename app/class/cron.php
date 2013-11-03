@@ -57,7 +57,7 @@ class Cron extends Model
 					$this->$key($recordedTime);
 
 					// remove option
-					$modelOptions->delete(array(
+					$modelOptions->lazyDelete(array(
 						'name' => $key
 						, 'value' => time()
 					));
@@ -67,7 +67,7 @@ class Cron extends Model
 			} else {
 
 				// add option
-				$modelOptions->create(array(
+				$modelOptions->lazyCreate(array(
 					'name' => $key
 					, 'value' => time()
 				));

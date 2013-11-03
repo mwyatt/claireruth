@@ -19,7 +19,7 @@ class Model_Media extends Model
 	public $dir = 'media/upload/';
 
 
-	public function read($select = "", $where = array(), $ids = array(), $limit = array())
+	public function read()
 	{
 		$baseurl = $this->config->getUrl('base'); 
 		$parsedData = array();
@@ -27,6 +27,7 @@ class Model_Media extends Model
 			select
 				media.id
 				, media.title
+				, media.description
 				, concat('$baseurl', '$this->dir', media.path) as path
 				, media.type
 				, media.time_published
@@ -45,6 +46,34 @@ class Model_Media extends Model
 	}
 
 
+	public function readById($ids = array())
+	{
+		$baseurl = $this->config->getUrl('base'); 
+		$parsedData = array();
+		$sth = $this->database->dbh->prepare("	
+			select
+				media.id
+				, media.title
+				, media.description
+				, concat('$baseurl', '$this->dir', media.path) as path
+				, media.type
+				, media.time_published
+				, concat(user.first_name, ' ', user.last_name) as user_full_name
+			from media
+				left join user on user.id = media.user_id
+			where media.id = ?
+		");
+		foreach ($ids as $id) {
+			$this->bindValue($sth, 1, $id);
+			$this->tryExecute($sth, '12315514344124');
+			if ($sth->rowCount()) {
+				$parsedData[] = $this->buildThumb($sth->fetch(PDO::FETCH_ASSOC));
+			}
+		}
+		return $this->setData($parsedData);
+	}
+
+
 	/**
 	 * reads out all media
 	 * @return int total rows bringing through
@@ -56,6 +85,7 @@ class Model_Media extends Model
 			select
 				media.id
 				, media.title
+				, media.description
 				, concat('$baseurl', '$this->dir', media.path) as path
 				, media.type
 				, media.time_published
@@ -200,18 +230,15 @@ class Model_Media extends Model
 	}
 
 
-	public function deleteById($id) {	
-		$sth = $this->database->dbh->prepare("
+	public function deleteById($ids = array()) {
+		$sth = $this->database->dbh->prepare("	
 			delete from media
 			where id = ? 
-		");				
-		$sth->execute(array($id));		
-		$sth = $this->database->dbh->prepare("
-			delete from content_meta
-			where content_id = ? and name = 'media'
-		");				
-		$sth->execute(array($id));		
-		$this->session->set('feedback', 'media was deleted');
+		");
+		foreach ($ids as $id) {
+			$this->bindValue($sth, 1, $id);
+			$this->tryExecute($sth, '12315514344124');
+		}
 		return $sth->rowCount();
 	}
 
@@ -228,31 +255,6 @@ class Model_Media extends Model
 			}    
 		}
 		return $new;
-	}
-
-
-	public function readById($ids) {	
-		if (! is_array($string = $ids)) {
-			$ids = array();
-			$ids[] = $string;
-		}
-		$sth = $this->database->dbh->prepare("	
-			select
-				id
-				, title
-				, path
-				, time_published
-				, user_id
-			from media
-			where id = ?
-		");
-		foreach ($ids as $id) {
-			$sth->execute(array($id));
-			$row = $sth->fetch(PDO::FETCH_ASSOC);
-			$row['guid'] = $this->buildUrl(array($row['path']), false);
-			$this->data[] = $row;
-		}
-		return $sth->rowCount();
 	}
 
 

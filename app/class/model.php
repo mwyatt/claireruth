@@ -19,7 +19,7 @@ class Model extends Config
 	 * @param  array  $limit  0, 200
 	 * @return bool         
 	 */
-	public function read($select = "", $where = array(), $ids = array(), $limit = array()) {
+	public function lazyRead($select = "", $where = array(), $ids = array(), $limit = array()) {
 
 		// build query
 		$query = "
@@ -87,7 +87,7 @@ class Model extends Config
 	 * @param  array  $columns colname => value
 	 * @return int            yay or nay
 	 */
-	public function create($colValues = array(), $secondary = array(), $tertiary = array(), $quantenary = array())
+	public function lazyCreate($colValues = array(), $secondary = array(), $tertiary = array(), $quantenary = array())
 	{
 		$valList = '';
 		$columns = array();
@@ -161,7 +161,7 @@ class Model extends Config
 	 * @param  array  $where where => value
 	 * @return int            yay or nay
 	 */
-	public function delete($where = array())
+	public function lazyDelete($where = array())
 	{
 		$values = array();
 		$query = "

@@ -1,3 +1,5 @@
+<?php require_once($this->pathView('admin/_header')); ?>
+
 <div class="media-browser view-select js-media-browser">
 	<input type="text" class="search-filter">
     <input class="" type="file" name="media" multiple />
@@ -8,7 +10,5 @@
 
     </div>
 </div>
-
-<?php require_once($this->pathView('admin/_header')); ?>
 
 <?php require_once($this->pathView('admin/_footer')); ?>

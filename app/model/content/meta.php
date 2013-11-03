@@ -32,4 +32,18 @@ class Model_Content_Meta extends Model
 		}
 		return $this->setData(array_unique($contentIds));
 	}
+
+
+	public function deleteByValue($colName, $colValue)
+	{
+		$sth = $this->database->dbh->prepare("	
+			delete
+				from content_meta
+			where content_meta.name = ?
+				and content_meta.value = ?
+		");
+		$this->bindValues($sth, array($colName, $colValue));
+		$this->tryExecute($sth, '12315514344124');
+		return $sth->rowCount();
+	}
 }
