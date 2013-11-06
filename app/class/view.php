@@ -131,25 +131,36 @@ class View extends Model
 	}
 
 
+	/**
+	 * will create an array within data of all pushed data
+	 * also will push the variables to the global scope
+	 * will always be set, false if no data present
+	 */
 	public function buildObjects()
 	{
 
 		// fly through all set objects and setup in $data array
 		foreach ($this->objects as $title => $object) {
-			$titles[] = $title; // testing purposes
+			if ($this->debug) {
+				$titles[] = $title;
+			}
+
+			// is a model with data property
 			if (is_object($object) && property_exists($object, 'data')) {
+				$$title = $object->getData();
 				if ($object->getData()) {
 					$this->data[$title] = $object->getData();
 				} else {
 					$this->data[$title] = false;
 				}
+
+			// is an array or variable
 			} else {
 				$this->data[$title] = $object;
+				$$title = $object;
 			}
 		}
 	}
-
-
 	
 	
 	/**
