@@ -70,11 +70,5 @@ class Cache
 
 	public function isActive() {
 		return $this->active;
-	}
-
-	
+	}	
 } 
-
-
-
-

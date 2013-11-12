@@ -39,6 +39,7 @@ class Config
 
 	/**
 	 * stores data relating to the class
+	 * needs to be set when getting objects
 	 * @var array
 	 */
 	public $data = array();

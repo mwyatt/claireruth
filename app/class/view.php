@@ -63,14 +63,13 @@ class View extends Model
 	 * @return bool                
 	 */
 	public function loadTemplate($templateTitle) {			
-		$path = BASE_PATH . 'app/view/' . strtolower($templateTitle);
-		$path .= '.php';
-		$cache = new Cache($this->database, $this->config)	;
-		if (!file_exists($path)) {
+		$path = $this->pathView($templateTitle);
+
+		// check path is valid
+		if (! file_exists($path)) {
 			echo 'Template ' . $path . ' does not exist.';
-			return false;
+			exit;
 		}
-		$this->template = $path;
 
 		// prepare common models
 		$this->header();
@@ -78,7 +77,19 @@ class View extends Model
 		// build objects into objects
 		$this->buildObjects();
 
-		// debug if retuired
+		// build scoped objects
+		// these will be accessible directly in view templates
+		foreach ($this->objects as $title => $object) {
+
+			// is a model with data property
+			if (is_object($object) && property_exists($object, 'data')) {
+				$$title = $object->getData();
+
+			// is an array or variable
+			} else {
+				$$title = $object;
+			}
+		}
 		if ($this->debug) {
 			echo '<pre>';
 			// print_r($this->session->getData());
@@ -92,48 +103,16 @@ class View extends Model
 		// correct content type?
 		header('Content-type: text/html; charset=utf-8'); 
 		
-		// presentation & cache
+		// presentation
 		ob_start();	
 		require_once($path);
-		$cache->create($templateTitle, ob_get_contents());
 		ob_end_flush();	
 		exit;
 	}
 
 
 	/**
-	 * simply loads a template this has been used for the sitemap
-	 * @param  string $templateTitle 
-	 */
-	public function loadJustTemplate($templateTitle)
-	{			
-		$path = BASE_PATH . 'app/view/' . strtolower($templateTitle) . '.php';
-		if (!file_exists($path)) {
-			echo 'Template ' . $path . ' does not exist.';
-			return false;
-		}
-		$this->template = $path;
-
-		foreach ($this->objects as $title => $object) {
-			$titles[] = $title; // temp
-			if ($object instanceof Model) {
-				if ($object->getData()) {
-					$this->data[$title] = $object->getData();
-				} else {
-					$this->data[$title] = false;
-				}
-			} else {
-				$this->data[$title] = $object;
-			}
-		}
-		require_once($path);
-		exit;
-	}
-
-
-	/**
 	 * will create an array within data of all pushed data
-	 * also will push the variables to the global scope
 	 * will always be set, false if no data present
 	 */
 	public function buildObjects()
@@ -147,7 +126,6 @@ class View extends Model
 
 			// is a model with data property
 			if (is_object($object) && property_exists($object, 'data')) {
-				$$title = $object->getData();
 				if ($object->getData()) {
 					$this->data[$title] = $object->getData();
 				} else {
@@ -157,7 +135,6 @@ class View extends Model
 			// is an array or variable
 			} else {
 				$this->data[$title] = $object;
-				$$title = $object;
 			}
 		}
 	}
