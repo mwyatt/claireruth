@@ -19,7 +19,7 @@ class Model_User extends Model
 	 * @param  boolean $password [description]
 	 * @return [type]            [description]
 	 */
-	public function validatePassword($email = false, $password = false) {	
+	public function validatePassword($email = false, $password = false) {
 		if ($this->lazyRead("user.id, user.password", array('email' => $email))) {
 			if (crypt($password, $this->getDataFirst('password')) == $this->getDataFirst('password')) {
 				return true;
@@ -28,6 +28,11 @@ class Model_User extends Model
 	}
 
 
+	/**
+	 * update a user by id value
+	 * @param  int $id 
+	 * @return int     
+	 */
 	public function updateById($id) {
 		$sth = $this->database->dbh->prepare("
 			update user set

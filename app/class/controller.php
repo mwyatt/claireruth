@@ -78,7 +78,7 @@ class Controller extends Config
 	 * @param  object $controller the previous controller
 	 */
 	public function loadClass() {
-		if ($this->debug) {
+		if ($this->isDebug($this)) {
 			echo 'urlkey - ' . $this->getUrlKey() . "<br>";
 			echo 'loadingclass - ' . $this->getClassName() . "<br>";
 		}
@@ -105,7 +105,7 @@ class Controller extends Config
 
 		// 1. always initialise the class
 		if (method_exists($this, 'initialise')) {
-			if ($this->debug) {
+			if ($this->isDebug($this)) {
 				echo 'initialising - ' . $this->getClassName() . "<br>";
 			}
 			$this->initialise();
@@ -116,7 +116,7 @@ class Controller extends Config
 
 		// check the method is illegal
 		if (in_array($methodName, $this->illegalMethods)) {
-			if ($this->debug) {
+			if ($this->isDebug($this)) {
 				echo 'illegal method - ' . $methodName . "<br>";
 			}
 			return;
@@ -135,7 +135,7 @@ class Controller extends Config
 
 		// 3. boot method
 		if (method_exists($this, $methodName)) {
-			if ($this->debug) {
+			if ($this->isDebug($this)) {
 				echo 'loadingmethod - ' . $methodName . "<br>";
 			}
 			$this->$methodName();
@@ -144,7 +144,7 @@ class Controller extends Config
 
 		// 4. boot index
 		if (method_exists($this, 'index')) {
-			if ($this->debug) {
+			if ($this->isDebug($this)) {
 				echo 'loadingindex - ' . $this->getClassName() . "<br>";
 			}
 			$this->index();

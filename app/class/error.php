@@ -15,12 +15,12 @@ class Error
 {
 
 	
-    private $debug;
+    private $reporting;
 	
 	
-    public function __construct($debug = false) {
-        $this->debug = $debug;
-        if ($this->debug == 'yes') {
+    public function __construct($reporting = false) {
+        $this->reporting = $reporting;
+        if ($this->reporting == 'yes') {
 	        ini_set('display_errors', 1);
         }
         error_reporting(30711);
@@ -29,7 +29,7 @@ class Error
 	
 	
     public function handle($errorType, $errorString, $errorFile, $errorLine) {  	
-		switch ($this->debug) {
+		switch ($this->reporting) {
 			case false:
 
 				// put error info and echo friendly schpiel
@@ -42,7 +42,7 @@ class Error
 
 				// trying this out
 				echo '<pre>';
-				print_r(debug_backtrace());
+				print_r(reporting_backtrace());
 				echo '</pre>';
 		}	
 		exit;

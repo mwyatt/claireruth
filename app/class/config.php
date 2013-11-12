@@ -517,4 +517,43 @@ class Config
 		$segments = explode('-', $segment);
 		return end($segments);
 	}
+
+
+	/**
+	 * debug mode is set
+	 * @return boolean true if debug equals this class name
+	 */
+	public function isDebug($theObject)
+	{
+		if (array_key_exists('debug', $_GET) && strtolower($_GET['debug']) == strtolower(get_class($theObject))) {
+			return true;
+		}
+	}
+
+
+	/**
+	 * converts a delimiter seperated string to camelCase
+	 * @param  string $delimiter the seperator for the original string
+	 * @param  string $value     
+	 * @return string            
+	 */	
+	public function delimiterToCamel($value, $delimiter = '_')
+	{
+
+		// return passed value if no underscores found
+		if (strpos($value, $delimiter) === false) {
+			return $value;
+		}
+
+		// initiate for concatenation
+		$newValue = '';
+
+		// mashes it together with each word as uppercase first
+		foreach (explode($delimiter, $value) as $value) {
+			$newValue .= ucfirst($value);
+		}
+
+		// always returns a camelcase
+		return lcfirst($newValue);
+	}
 }

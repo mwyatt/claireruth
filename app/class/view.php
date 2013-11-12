@@ -15,13 +15,6 @@ class View extends Model
 
 
 	/**
-	 * prints out array of data set for the view to handle
-	 * @var boolean
-	 */
-	public $debug = 0;
-
-
-	/**
 	 * the name of the template loaded
 	 * @var string
 	 */
@@ -65,6 +58,9 @@ class View extends Model
 	public function loadTemplate($templateTitle) {			
 		$path = $this->pathView($templateTitle);
 
+		// debugging
+		$debugTitles = array();
+
 		// check path is valid
 		if (! file_exists($path)) {
 			echo 'Template ' . $path . ' does not exist.';
@@ -80,21 +76,31 @@ class View extends Model
 		// build scoped objects
 		// these will be accessible directly in view templates
 		foreach ($this->objects as $title => $object) {
+			$dataStorage = false;
+			$camelTitle = $this->delimiterToCamel($title);
 
 			// is a model with data property
 			if (is_object($object) && property_exists($object, 'data')) {
-				$$title = $object->getData();
+				$dataStorage = $object->getData();
 
 			// is an array or variable
 			} else {
-				$$title = $object;
+				$dataStorage = $object;
+			}
+
+			// set the data
+			$$camelTitle = $dataStorage;
+
+			// set for debugging
+			if ($this->isDebug($this)) {
+				$debugTitles[$camelTitle] = $dataStorage;
 			}
 		}
-		if ($this->debug) {
+		if ($this->isDebug($this)) {
 			echo '<pre>';
-			// print_r($this->session->getData());
-			// print_r($this->config);
-			// print_r($titles);
+			echo '<h3>$variables</h3>';
+			print_r($debugTitles);
+			echo '<h3>this->data</h3>';
 			print_r($this->data);
 			echo '</pre>';
 			exit;
@@ -120,9 +126,6 @@ class View extends Model
 
 		// fly through all set objects and setup in $data array
 		foreach ($this->objects as $title => $object) {
-			if ($this->debug) {
-				$titles[] = $title;
-			}
 
 			// is a model with data property
 			if (is_object($object) && property_exists($object, 'data')) {
@@ -151,7 +154,7 @@ class View extends Model
 			$path .= $template . '.php';
 		}
 		return $path;
-	}	
+	}
 
 
 	/**
