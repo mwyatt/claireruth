@@ -4,69 +4,60 @@ var urlBaseJs = urlBase + 'js/';
 var urlBaseAjax = urlBase + 'admin/ajax/';
 
 
+function example () {
+	console.log('example construct');
+	this.ok = 50;
+	this.okTwo = 51;
+}
+
+example.prototype.exampleTwo = function() {
+	this.okTwo = 100;
+	console.log('exampleTwo construct');
+}
+
+example.prototype.exampleThree = function() {
+	console.log('exampleThree construct');
+	console.log(example.exampleTwo.okTwo);
+}
+
+var example = new example('construct info');
+example.exampleTwo();
+example.exampleThree();
+console.log(example.okTwo);
+
+
 /**
  * uploads the files which have been selected in the form
  */
-function mediaUpload() {
-
-	/**
-	 * sets all events for common functions
-	 */
-	this.setEvents = function() {
-	 	$('#js-media-input-upload').on("change", plugin.upload);
-		// $('.js-media-item')
-		// 	.off('click')
-		// 	.on('click', function() {
-		// 		$(this).toggleClass('selected');
-		// 		$('.js-media-browser').addClass('change-made');
-		// 		$('.js-media-browser').find('.button.attach')
-		// 			.off('click')
-		// 			.on('click', function(event) {
-		// 				attachSelections();
-
-		// 				// need public functions
-		// 				$('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
-		// 			});
-		// 	});
-		// $('.content .js-media-item').removeClass('selected');
-		// $('.content .js-media-item')
-		// 	.off('click')
-		// 	.on('click', function() {
-		// 		this = $(this);
-		// 		// remove hidden field and the media item
-		// 		$('[name="media[]"][value="' + this.data('id') + '"]').remove();
-		// 		this.remove();
-		// 	});
-	}
-
+function MediaUpload() {
 
 	this.setupFormData = function() {
 
 		// init formdata object
-		plugin.theFormData = false;
+		this.theFormData = false;
 		
 		if (window.FormData) {
-	  		plugin.theFormData = new FormData();
+	  		this.theFormData = new FormData();
 		}
 	}
 
 
 	this.sortFiles = function(files) {
 		for (var i = 0; i < files.length; i++ ) {
-			plugin.fileStore = files[i];
-			if (plugin.theFormData) {
-				plugin.theFormData.append("media[]", file);
+			this.fileStore = files[i];
+			if (this.theFormData) {
+				this.theFormData.append("media[]", file);
 			}
 		}
 	}
 
 
 	this.upload = function() {
-		plugin.sortFiles(this.files);
+		this.sortFiles(this.files);
 		$.ajax({
 			url: urlBaseAjax + 'media/upload/'
 			, type: 'POST'
-			, data: plugin.theFormData
+			, data: this.theFormData
 			, processData: false
 			, contentType: false
 			, timeout: 60000
@@ -79,8 +70,8 @@ function mediaUpload() {
 				$('.js-media-upload-container')
 					.append('<input id="js-media-input-upload" type="file" name="media" multiple />')
 					.append(result);
-		  		plugin.theFormData = new FormData();
-				plugin.setEvents();
+		  		this.theFormData = new FormData();
+				this.setEvents();
 			}
 			, error: function (jqXHR, textStatus, errorThrown) {
 				// alert(jqXHR);
@@ -93,6 +84,38 @@ function mediaUpload() {
 	// init plugin for functions
 	var plugin = this;
 	this.setEvents();
+}
+
+
+
+/**
+ * sets all events for common functions
+ */
+MediaUpload.prototype.setEvents = function() {
+ 	$('#js-media-input-upload').on("change", MediaUpload.upload);
+	// $('.js-media-item')
+	// 	.off('click')
+	// 	.on('click', function() {
+	// 		$(this).toggleClass('selected');
+	// 		$('.js-media-browser').addClass('change-made');
+	// 		$('.js-media-browser').find('.button.attach')
+	// 			.off('click')
+	// 			.on('click', function(event) {
+	// 				attachSelections();
+
+	// 				// need public functions
+	// 				$('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
+	// 			});
+	// 	});
+	// $('.content .js-media-item').removeClass('selected');
+	// $('.content .js-media-item')
+	// 	.off('click')
+	// 	.on('click', function() {
+	// 		this = $(this);
+	// 		// remove hidden field and the media item
+	// 		$('[name="media[]"][value="' + this.data('id') + '"]').remove();
+	// 		this.remove();
+	// 	});
 }
 
 
@@ -179,10 +202,10 @@ function mediaUpload() {
  * @todo should import scripts only when the functionality is needed..
  */
 $(document).ready(function() {
+	var mediaUpload = new MediaUpload();
 
 
 
-mediaUpload();
 
 	// // getscripts
 	// $.when(
