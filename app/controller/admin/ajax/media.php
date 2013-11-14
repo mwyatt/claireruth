@@ -18,13 +18,14 @@ class Controller_Admin_Ajax_Media extends Controller
 	/**
 	 * default display for the media browser
 	 */
-	public function read() {
-		$modelMedia = new model_media($this->database, $this->config);
-		$modelMedia->read();
-		$this->view
-			->setObject($modelMedia)
-			->loadTemplate('admin/media/all');
-	}
+	// public function read() {
+	// 	// // $modelMedia = new model_media($this->database, $this->config);
+	// 	// // $modelMedia->read();
+	// 	// $this->view
+	// 	// 	->setObject('successData', '')
+	// 	// 	// ->setObject($modelMedia)
+	// 	// 	->loadTemplate('admin/media');
+	// }
 
 
 	/**
@@ -32,20 +33,12 @@ class Controller_Admin_Ajax_Media extends Controller
 	 * @return string the forms and error messages required to update
 	 */
 	public function upload() {
-		if ($_FILES) {
-			$modelMedia = new model_media($this->database, $this->config);
-			if ($successData = $modelMedia->create()) {
-				$this->view
-					->setObject('feedback', $this->session->getUnset('feedback_array'))
-					->setObject('media', $successData)
-					->loadTemplate('admin/media/generate-forms');
-			} else {
-				$this->view
-					->setObject('feedback', $this->session->getUnset('feedback_array'))
-					->setObject('media', $successData)
-					->loadTemplate('admin/media/generate-forms');
-			}
-		}
+		$modelMedia = new model_media($this->database, $this->config);
+		$modelMedia->upload($_FILES);
+		$this
+			->view
+			->setObject($modelMedia)
+			->loadTemplate('admin/media/return');
 	}
 
 

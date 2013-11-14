@@ -134,10 +134,13 @@ class Model_Media extends Model
 	 *                  can be used to generate the form for ajax
 	 *                  uploader
 	 */
-	public function create($cols = array(), $secondary = array(), $tertiary = array(), $quantenary = array()) {
+	public function upload($files) {
+		if (! $files) {
+			return;
+		}
+		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 		$errorMessage = array();
 		$successData = array();
-		$files = $_FILES;
 		if (empty($files) || ! array_key_exists('media', $files)) {
 			return;
 		}
@@ -185,14 +188,14 @@ class Model_Media extends Model
 			// check for duplication
 			if (file_exists($filePath)) {
 				$errorMessage[$fileNameFriendly] = '"' . $fileInformation['filename'] . '" already exists, please rename it';
-				$this->session->set('feedback', '');
+				// $this->session->set('feedback', '');
 				continue;
 			}
 
 			// check its not too big
 			if ($file['size'] > 5000000 /* 5mb */) {
 				$errorMessage[$fileNameFriendly] = 'file is too big';
-				$this->session->set('feedback', '');
+				// $this->session->set('feedback', '');
 				continue;
 			}
 
@@ -210,7 +213,7 @@ class Model_Media extends Model
 					, $filePathWithoutBase
 					, $file['type']
 					, time()
-					, $this->session->get('user', 'id')
+					, $sessionAdminUser->getData('id')
 				);
 
 				// database
@@ -221,12 +224,10 @@ class Model_Media extends Model
 				$successData[] = $returnDataAndInsert;
 			}
 		}
-
-		// error messages can be accessed if required
-		if ($errorMessage) {
-			$this->session->set('feedback_array', $errorMessage);
-		}
-		return $successData;
+		return $this->setData(array(
+			'success' => $successData
+			, 'error' => $errorMessage
+		));
 	}
 
 

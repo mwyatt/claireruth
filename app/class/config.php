@@ -139,12 +139,11 @@ class Config
 	public function setObject($keyName, $objectOrArray = false) {
 
 		// looking for 'string' => object/array
-		if ((gettype($keyName) == 'string') && $objectOrArray) {
-			$preparedKeyName = strtolower($keyName);
+		if ((gettype($keyName) == 'string')) {
 
 			// array
 			if (is_array($objectOrArray)) {
-				$this->objects[$preparedKeyName] = $objectOrArray;
+				$this->objects[$keyName] = $objectOrArray;
 				return $this;
 			}
 
@@ -152,7 +151,7 @@ class Config
 			if (method_exists($objectOrArray, 'getData')) {
 				$objectOrArray = $objectOrArray->getData();
 			}
-			$this->objects[$preparedKeyName] = $objectOrArray;
+			$this->objects[$keyName] = $objectOrArray;
 			return $this;
 		}
 

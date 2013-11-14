@@ -4,63 +4,202 @@ var urlBaseJs = urlBase + 'js/';
 var urlBaseAjax = urlBase + 'admin/ajax/';
 
 
-function example () {
-	console.log('example construct');
-	this.ok = 50;
-	this.okTwo = 51;
-}
+// var mediaManager = {
+// 	formData: false;
+// 	, fileStore: false;
 
-example.prototype.exampleTwo = function() {
-	this.okTwo = 100;
-	console.log('exampleTwo construct');
-}
 
-example.prototype.exampleThree = function() {
-	console.log('exampleThree construct');
-	console.log(example.exampleTwo.okTwo);
-}
+// 	/**
+// 	 * sets all events for common functions
+// 	 */
+// 	, setEvents: function() {
+// 	 	$('.js-media-input-upload').on("change", this.upload);
+// 		// $('.js-media-item')
+// 		// 	.off('click')
+// 		// 	.on('click', function() {
+// 		// 		$(this).toggleClass('selected');
+// 		// 		$('.js-media-browser').addClass('change-made');
+// 		// 		$('.js-media-browser').find('.button.attach')
+// 		// 			.off('click')
+// 		// 			.on('click', function(event) {
+// 		// 				attachSelections();
 
-var example = new example('construct info');
-example.exampleTwo();
-example.exampleThree();
-console.log(example.okTwo);
+// 		// 				// need public functions
+// 		// 				$('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
+// 		// 			});
+// 		// 	});
+// 		// $('.content .js-media-item').removeClass('selected');
+// 		// $('.content .js-media-item')
+// 		// 	.off('click')
+// 		// 	.on('click', function() {
+// 		// 		this = $(this);
+// 		// 		// remove hidden field and the media item
+// 		// 		$('[name="media[]"][value="' + this.data('id') + '"]').remove();
+// 		// 		this.remove();
+// 		// 	});
+// 	}
+
+
+// 	, setupFormData: function() {
+// 		if (window.FormData) {
+// 	  		this.formData = new FormData();
+// 		}
+// 	}
+
+
+// 	sortFiles: function(files) {
+// 		for (var i = 0; i < files.length; i++ ) {
+// 			this.fileStore = files[i];
+// 			if (this.formData) {
+// 				this.formData.append("media[]", files[i]);
+// 			}
+// 		}
+// 	}
+
+
+// 	, upload: function() {
+// 		console.log('this.upload');
+// 		this.sortFiles(this.files);
+// 		$.ajax({
+// 			url: urlBaseAjax + 'media/upload/'
+// 			, type: 'POST'
+// 			, data: this.formData
+// 			, processData: false
+// 			, contentType: false
+// 			, timeout: 60000
+// 			, beforeSend: function(XMLHttpRequest) {
+
+// 				// upload progress
+// 				XMLHttpRequest.upload.addEventListener("progress", function(event){
+// 					if (event.lengthComputable) {  
+// 						var percentComplete = event.loaded / event.total;
+// 						console.log(percentComplete + '%');
+// 						console.log(event.lengthComputable);
+// 						console.log(event.loaded);
+// 						console.log(event.total);
+// 					}
+// 				}, false); 
+
+// 				// //Download progress
+// 				// XMLHttpRequest.addEventListener("progress", function(evt){
+// 				// if (evt.lengthComputable) {  
+// 				// var percentComplete = evt.loaded / evt.total;
+// 				// //Do something with download progress
+// 				// }
+// 				// }, false); 
+// 			}
+// 			, success: function (result) {
+
+// 				// reset the upload field
+// 				$('.js-media-input-upload').remove();
+
+// 				// add new upload field and result
+// 				$('.js-media-upload-container')
+// 					.append('<input id="js-media-input-upload" type="file" name="media" multiple />')
+// 					.append(result);
+// 		  		this.formData = new FormData();
+// 				this.setEvents();
+// 			}
+// 			, error: function (jqXHR, textStatus, errorThrown) {
+// 				// alert(jqXHR);
+// 				alert(textStatus);
+// 				// alert(errorThrown);
+// 			}
+// 		});
+// 	}
+// };
 
 
 /**
  * uploads the files which have been selected in the form
  */
-function MediaUpload() {
+function mediaManager() {
+	this.formData = false;
+	this.inputUpload = $('.js-media-input-upload');
+
+
+	/**
+	 * sets all events for common functions
+	 */
+	this.setEvents = function() {
+	 	$('.js-media-input-upload').on("change", this.upload);
+		// $('.js-media-item')
+		// 	.off('click')
+		// 	.on('click', function() {
+		// 		$(this).toggleClass('selected');
+		// 		$('.js-media-browser').addClass('change-made');
+		// 		$('.js-media-browser').find('.button.attach')
+		// 			.off('click')
+		// 			.on('click', function(event) {
+		// 				attachSelections();
+
+		// 				// need public functions
+		// 				$('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
+		// 			});
+		// 	});
+		// $('.content .js-media-item').removeClass('selected');
+		// $('.content .js-media-item')
+		// 	.off('click')
+		// 	.on('click', function() {
+		// 		this = $(this);
+		// 		// remove hidden field and the media item
+		// 		$('[name="media[]"][value="' + this.data('id') + '"]').remove();
+		// 		this.remove();
+		// 	});
+	}
+
 
 	this.setupFormData = function() {
-
-		// init formdata object
-		this.theFormData = false;
-		
 		if (window.FormData) {
-	  		this.theFormData = new FormData();
+	  		this.formData = new FormData();
 		}
 	}
 
 
-	this.sortFiles = function(files) {
+	/**
+	 * appends files to the formdata object
+	 * @param  {object} files 
+	 */
+	this.appendFiles = function(files) {
+		var singleFile;
 		for (var i = 0; i < files.length; i++ ) {
-			this.fileStore = files[i];
-			if (this.theFormData) {
-				this.theFormData.append("media[]", file);
+			singleFile = files[i];
+			if (this.formData) {
+				this.formData.append("media[]", singleFile);
 			}
 		}
 	}
 
 
+	/**
+	 * uploads the files
+	 */
 	this.upload = function() {
-		this.sortFiles(this.files);
+
+		// append to formdata
+		plugin.appendFiles(this.files);
+
+		// perform ajax
 		$.ajax({
 			url: urlBaseAjax + 'media/upload/'
 			, type: 'POST'
-			, data: this.theFormData
+			, data: plugin.formData
 			, processData: false
 			, contentType: false
 			, timeout: 60000
+			, xhr: function() {
+				var xhr = new window.XMLHttpRequest();
+
+				//Upload progress
+				xhr.upload.addEventListener("progress", function(evt) {
+					if (evt.lengthComputable) {
+						var percentComplete = evt.loaded / evt.total;
+						//Do something with upload progress
+						console.log(percentComplete);
+					}
+				}, false);
+				return xhr;
+			}
 			, success: function (result) {
 
 				// reset the upload field
@@ -68,10 +207,10 @@ function MediaUpload() {
 
 				// add new upload field and result
 				$('.js-media-upload-container')
-					.append('<input id="js-media-input-upload" type="file" name="media" multiple />')
+					.append(plugin.inputUpload)
 					.append(result);
-		  		this.theFormData = new FormData();
-				this.setEvents();
+		  		plugin.setupFormData();
+				plugin.setEvents();
 			}
 			, error: function (jqXHR, textStatus, errorThrown) {
 				// alert(jqXHR);
@@ -81,42 +220,11 @@ function MediaUpload() {
 		});
 	}
 
-	// init plugin for functions
 	var plugin = this;
-	this.setEvents();
 }
 
-
-
-/**
- * sets all events for common functions
- */
-MediaUpload.prototype.setEvents = function() {
- 	$('#js-media-input-upload').on("change", MediaUpload.upload);
-	// $('.js-media-item')
-	// 	.off('click')
-	// 	.on('click', function() {
-	// 		$(this).toggleClass('selected');
-	// 		$('.js-media-browser').addClass('change-made');
-	// 		$('.js-media-browser').find('.button.attach')
-	// 			.off('click')
-	// 			.on('click', function(event) {
-	// 				attachSelections();
-
-	// 				// need public functions
-	// 				$('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
-	// 			});
-	// 	});
-	// $('.content .js-media-item').removeClass('selected');
-	// $('.content .js-media-item')
-	// 	.off('click')
-	// 	.on('click', function() {
-	// 		this = $(this);
-	// 		// remove hidden field and the media item
-	// 		$('[name="media[]"][value="' + this.data('id') + '"]').remove();
-	// 		this.remove();
-	// 	});
-}
+// init
+var mediaManager = new mediaManager();
 
 
 /**
@@ -194,15 +302,12 @@ MediaUpload.prototype.setEvents = function() {
 })(jQuery);
 
 
-
-
-
-
 /**
  * @todo should import scripts only when the functionality is needed..
  */
 $(document).ready(function() {
-	var mediaUpload = new MediaUpload();
+	mediaManager.setupFormData();
+	mediaManager.setEvents();
 
 
 

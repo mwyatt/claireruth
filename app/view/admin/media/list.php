@@ -3,7 +3,7 @@
 <div class="content clearfix">
 	<div class="js-media-upload-container">
 		<input type="text" class="search-filter">
-	    <input id="js-media-input-upload" type="file" name="media" multiple />
+	    <input class="js-media-input-upload" type="file" name="media" multiple />
 	</div>
 
 <?php if ($medias = $this->get('model_media')): ?>
