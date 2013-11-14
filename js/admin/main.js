@@ -1,3 +1,23 @@
+mediaBrowser = (function (){
+	var x = 3;
+
+	var module = function (){}
+	
+	module.prototype.getX = function(){
+		return x;
+	}
+
+	return module;
+})();
+
+var instanceOfMediaBrowser = new mediaBrowser();
+console.log(instanceOfMediaBrowser);
+
+
+
+
+
+
 // base vars
 var urlBase = $('body').data('url-base');
 var urlBaseJs = urlBase + 'js/';
@@ -115,7 +135,7 @@ var urlBaseAjax = urlBase + 'admin/ajax/';
  */
 function mediaManager() {
 	this.formData = false;
-	this.inputUpload = $('.js-media-input-upload');
+	this.inputUpload = $('.js-media-input-upload')[0].outerHTML;
 
 
 	/**
@@ -175,6 +195,7 @@ function mediaManager() {
 	 * uploads the files
 	 */
 	this.upload = function() {
+		var progressBar = $('.js-media-progress');
 
 		// append to formdata
 		plugin.appendFiles(this.files);
@@ -190,12 +211,12 @@ function mediaManager() {
 			, xhr: function() {
 				var xhr = new window.XMLHttpRequest();
 
-				//Upload progress
-				xhr.upload.addEventListener("progress", function(evt) {
-					if (evt.lengthComputable) {
-						var percentComplete = evt.loaded / evt.total;
-						//Do something with upload progress
-						console.log(percentComplete);
+				// upload progress
+				xhr.upload.addEventListener('progress', function(event) {
+					if (event.lengthComputable) {
+						var percentComplete = event.loaded / event.total;
+						;
+						progressBar.val(parseInt(percentComplete * 100));
 					}
 				}, false);
 				return xhr;
