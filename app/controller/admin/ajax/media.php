@@ -18,14 +18,13 @@ class Controller_Admin_Ajax_Media extends Controller
 	/**
 	 * default display for the media browser
 	 */
-	// public function read() {
-	// 	// // $modelMedia = new model_media($this->database, $this->config);
-	// 	// // $modelMedia->read();
-	// 	// $this->view
-	// 	// 	->setObject('successData', '')
-	// 	// 	// ->setObject($modelMedia)
-	// 	// 	->loadTemplate('admin/media');
-	// }
+	public function read() {
+		$modelMedia = new model_media($this->database, $this->config);
+		$modelMedia->read();
+		$this->view
+			->setObject('medias', $modelMedia)
+			->loadTemplate('admin/_medias');
+	}
 
 
 	/**

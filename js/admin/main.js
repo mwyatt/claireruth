@@ -1,133 +1,7 @@
-mediaBrowser = (function (){
-	var x = 3;
-
-	var module = function (){}
-	
-	module.prototype.getX = function(){
-		return x;
-	}
-
-	return module;
-})();
-
-var instanceOfMediaBrowser = new mediaBrowser();
-console.log(instanceOfMediaBrowser);
-
-
-
-
-
-
 // base vars
 var urlBase = $('body').data('url-base');
 var urlBaseJs = urlBase + 'js/';
 var urlBaseAjax = urlBase + 'admin/ajax/';
-
-
-// var mediaManager = {
-// 	formData: false;
-// 	, fileStore: false;
-
-
-// 	/**
-// 	 * sets all events for common functions
-// 	 */
-// 	, setEvents: function() {
-// 	 	$('.js-media-input-upload').on("change", this.upload);
-// 		// $('.js-media-item')
-// 		// 	.off('click')
-// 		// 	.on('click', function() {
-// 		// 		$(this).toggleClass('selected');
-// 		// 		$('.js-media-browser').addClass('change-made');
-// 		// 		$('.js-media-browser').find('.button.attach')
-// 		// 			.off('click')
-// 		// 			.on('click', function(event) {
-// 		// 				attachSelections();
-
-// 		// 				// need public functions
-// 		// 				$('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
-// 		// 			});
-// 		// 	});
-// 		// $('.content .js-media-item').removeClass('selected');
-// 		// $('.content .js-media-item')
-// 		// 	.off('click')
-// 		// 	.on('click', function() {
-// 		// 		this = $(this);
-// 		// 		// remove hidden field and the media item
-// 		// 		$('[name="media[]"][value="' + this.data('id') + '"]').remove();
-// 		// 		this.remove();
-// 		// 	});
-// 	}
-
-
-// 	, setupFormData: function() {
-// 		if (window.FormData) {
-// 	  		this.formData = new FormData();
-// 		}
-// 	}
-
-
-// 	sortFiles: function(files) {
-// 		for (var i = 0; i < files.length; i++ ) {
-// 			this.fileStore = files[i];
-// 			if (this.formData) {
-// 				this.formData.append("media[]", files[i]);
-// 			}
-// 		}
-// 	}
-
-
-// 	, upload: function() {
-// 		console.log('this.upload');
-// 		this.sortFiles(this.files);
-// 		$.ajax({
-// 			url: urlBaseAjax + 'media/upload/'
-// 			, type: 'POST'
-// 			, data: this.formData
-// 			, processData: false
-// 			, contentType: false
-// 			, timeout: 60000
-// 			, beforeSend: function(XMLHttpRequest) {
-
-// 				// upload progress
-// 				XMLHttpRequest.upload.addEventListener("progress", function(event){
-// 					if (event.lengthComputable) {  
-// 						var percentComplete = event.loaded / event.total;
-// 						console.log(percentComplete + '%');
-// 						console.log(event.lengthComputable);
-// 						console.log(event.loaded);
-// 						console.log(event.total);
-// 					}
-// 				}, false); 
-
-// 				// //Download progress
-// 				// XMLHttpRequest.addEventListener("progress", function(evt){
-// 				// if (evt.lengthComputable) {  
-// 				// var percentComplete = evt.loaded / evt.total;
-// 				// //Do something with download progress
-// 				// }
-// 				// }, false); 
-// 			}
-// 			, success: function (result) {
-
-// 				// reset the upload field
-// 				$('.js-media-input-upload').remove();
-
-// 				// add new upload field and result
-// 				$('.js-media-upload-container')
-// 					.append('<input id="js-media-input-upload" type="file" name="media" multiple />')
-// 					.append(result);
-// 		  		this.formData = new FormData();
-// 				this.setEvents();
-// 			}
-// 			, error: function (jqXHR, textStatus, errorThrown) {
-// 				// alert(jqXHR);
-// 				alert(textStatus);
-// 				// alert(errorThrown);
-// 			}
-// 		});
-// 	}
-// };
 
 
 /**
@@ -269,7 +143,6 @@ var mediaManager = new mediaManager();
 
 	// standard function for setting events
 	function setEvents () {
-		console.log('value');
 		$(trigger)
 			.off('hover', open)
 			.on('hover', open);
@@ -324,14 +197,112 @@ var mediaManager = new mediaManager();
 
 
 /**
+ * module for all actions involved with media things
+ * this could be instanciated for each place where media manipulation
+ * is needed...
+ * @return {object} instance of self
+ */
+Model_Media = (function () {
+	var formData = false;
+
+	// methods
+	var module = function () {}
+
+
+	/**
+	 * setup form data
+	 * @return {[type]} [description]
+	 */
+	module.prototype.resetFormData = function() {
+		if (window.FormData) {
+	  		formData = new FormData();
+		}
+	}
+
+
+	module.prototype.getFormData = function() {
+		return formData;
+	}
+
+
+	/**
+	 * appends files to the formdata object
+	 * @param  {object} files 
+	 */
+	module.prototype.appendFiles = function(files) {
+		var singleFile;
+		for (var i = 0; i < files.length; i++ ) {
+			singleFile = files[i];
+			if (formData) {
+				formData.append("media[]", singleFile);
+			}
+		}
+	}
+
+	// methods
+	return module;
+})();
+
+
+/**
  * @todo should import scripts only when the functionality is needed..
  */
 $(document).ready(function() {
-	mediaManager.setupFormData();
-	mediaManager.setEvents();
 
+	// cache
+	var body = $('body');
 
+	// admin/media
+	if (body.hasClass('admin-media')) {
+		var modelMedia = new Model_Media();
+		$('.js-media-input-upload').on('change', function () {
+			var backupUploadInput = $('.js-media-input-upload')[0].outerHTML;
 
+			// append to formdata
+	  		modelMedia.resetFormData();
+			modelMedia.appendFiles(this.files);
+
+			// perform ajax
+			$.ajax({
+				url: urlBaseAjax + 'media/upload/'
+				, type: 'POST'
+				, data: modelMedia.getFormData()
+				, processData: false
+				, contentType: false
+				, timeout: 60000
+				, xhr: function() {
+					var xhr = new window.XMLHttpRequest();
+
+					// upload progress
+					xhr.upload.addEventListener('progress', function(event) {
+						if (event.lengthComputable) {
+							var percentComplete = event.loaded / event.total;
+							;
+							$('.js-media-progress').val(parseInt(percentComplete * 100));
+						}
+					}, false);
+					return xhr;
+				}
+				, success: function (result) {
+
+					// reset the upload field
+					$('.js-media-input-upload').remove();
+
+					// add new upload field and result
+					$('.js-media-upload-container')
+						.append(backupUploadInput)
+						.append(result);
+			  		modelMedia.resetFormData();
+					// modelMedia.setEvents();
+				}
+				, error: function (jqXHR, textStatus, errorThrown) {
+					// alert(jqXHR);
+					alert(textStatus);
+					// alert(errorThrown);
+				}
+			});
+		});
+	};
 
 	// // getscripts
 	// $.when(

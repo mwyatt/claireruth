@@ -387,7 +387,8 @@ class Config
 
 
 	/**
-	 * sets the identity property
+	 * sets the identity property manually
+	 * or get the class name and turn_into_this format
 	 */
 	public function setIdentity($identity)
 	{

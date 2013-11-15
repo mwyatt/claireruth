@@ -36,7 +36,7 @@ class Pagination extends Model
 		$this->database = $database;
 		$this->config = $config;
 		$this->tableName = $tableName;
-		$this->totalRows = $this->config->getOption('model_' . $this->tableName . '_rowcount');
+		$this->totalRows = $this->config->getOption('model_' . $this->getIdentity() . '_rowcount');
 
 		// check validity
 		if (($this->sanitizePage())) {
@@ -135,5 +135,11 @@ class Pagination extends Model
 		} else {
 			return $valid;
 		}
+	}
+
+
+	public function setMaxPerPage($number)
+	{
+		return $this->maxPerPage = $number;
 	}
 }
