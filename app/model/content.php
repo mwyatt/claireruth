@@ -162,7 +162,7 @@ class Model_Content extends Model
 				content.status = 'visible'
 		");
 		$model = new model_options($this->database, $this->config, 'options');
-		$model->delete(
+		$model->lazyDelete(
 			array('name' => 'model_content_rowcount')
 		);
 		return $model->create(array(

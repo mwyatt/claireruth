@@ -5,124 +5,6 @@ var urlBaseAjax = urlBase + 'admin/ajax/';
 
 
 /**
- * uploads the files which have been selected in the form
- */
-function mediaManager() {
-	this.formData = false;
-	this.inputUpload = $('.js-media-input-upload')[0].outerHTML;
-
-
-	/**
-	 * sets all events for common functions
-	 */
-	this.setEvents = function() {
-	 	$('.js-media-input-upload').on("change", this.upload);
-		// $('.js-media-item')
-		// 	.off('click')
-		// 	.on('click', function() {
-		// 		$(this).toggleClass('selected');
-		// 		$('.js-media-browser').addClass('change-made');
-		// 		$('.js-media-browser').find('.button.attach')
-		// 			.off('click')
-		// 			.on('click', function(event) {
-		// 				attachSelections();
-
-		// 				// need public functions
-		// 				$('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
-		// 			});
-		// 	});
-		// $('.content .js-media-item').removeClass('selected');
-		// $('.content .js-media-item')
-		// 	.off('click')
-		// 	.on('click', function() {
-		// 		this = $(this);
-		// 		// remove hidden field and the media item
-		// 		$('[name="media[]"][value="' + this.data('id') + '"]').remove();
-		// 		this.remove();
-		// 	});
-	}
-
-
-	this.setupFormData = function() {
-		if (window.FormData) {
-	  		this.formData = new FormData();
-		}
-	}
-
-
-	/**
-	 * appends files to the formdata object
-	 * @param  {object} files 
-	 */
-	this.appendFiles = function(files) {
-		var singleFile;
-		for (var i = 0; i < files.length; i++ ) {
-			singleFile = files[i];
-			if (this.formData) {
-				this.formData.append("media[]", singleFile);
-			}
-		}
-	}
-
-
-	/**
-	 * uploads the files
-	 */
-	this.upload = function() {
-		var progressBar = $('.js-media-progress');
-
-		// append to formdata
-		plugin.appendFiles(this.files);
-
-		// perform ajax
-		$.ajax({
-			url: urlBaseAjax + 'media/upload/'
-			, type: 'POST'
-			, data: plugin.formData
-			, processData: false
-			, contentType: false
-			, timeout: 60000
-			, xhr: function() {
-				var xhr = new window.XMLHttpRequest();
-
-				// upload progress
-				xhr.upload.addEventListener('progress', function(event) {
-					if (event.lengthComputable) {
-						var percentComplete = event.loaded / event.total;
-						;
-						progressBar.val(parseInt(percentComplete * 100));
-					}
-				}, false);
-				return xhr;
-			}
-			, success: function (result) {
-
-				// reset the upload field
-				$('.js-media-input-upload').remove();
-
-				// add new upload field and result
-				$('.js-media-upload-container')
-					.append(plugin.inputUpload)
-					.append(result);
-		  		plugin.setupFormData();
-				plugin.setEvents();
-			}
-			, error: function (jqXHR, textStatus, errorThrown) {
-				// alert(jqXHR);
-				alert(textStatus);
-				// alert(errorThrown);
-			}
-		});
-	}
-
-	var plugin = this;
-}
-
-// init
-var mediaManager = new mediaManager();
-
-
-/**
  * hovering which adds a class
  * start simple!
  * js-hover-addclass
@@ -203,15 +85,80 @@ var mediaManager = new mediaManager();
  * @return {object} instance of self
  */
 Model_Media = (function () {
-	var formData = false;
-
-	// methods
 	var module = function () {}
+		, formData = false
+		, inputUploadClass = '.js-media-input-upload'
+		, inputUpload = $(inputUploadClass);
 
 
 	/**
-	 * setup form data
-	 * @return {[type]} [description]
+	 * sets all required events, must be a better way to do this?
+	 */
+	module.prototype.setEvent = function() {
+		var lightbox = $('.lightbox')
+			, content = $('.content')
+			, contentRow = content.find('.row.media')
+			, contentItem = contentRow.find('.js-media-item')
+			, lightboxItem = lightbox.find('.js-media-item');
+
+		// add a file to the browse input, upload the files
+		// no need for off as this will be removed on success / failure
+		$('.js-media-input-upload').on('change', this.upload);
+
+		// clicking a media item in the lightbox
+		lightboxItem
+	        .off('click')
+	        .on('click', function(event) {
+	        	event.preventDefault();
+
+	        	// flag this as selected
+	            $(this).toggleClass('is-selected');
+
+	            // if any selected items
+	            if (lightbox.find('.js-media-item.is-selected').length) {
+		            lightbox.addClass('change-made');
+
+		            // click the attach all button
+		            lightbox.find('.js-button-attach')
+	                    .off('click')
+	                    .on('click', function(event) {
+	                        
+							// cleanup past attachments
+							contentRow.find('input[type="hidden"]').remove();
+							contentItem.remove();
+
+							// add new ones
+							$.each(lightbox.find('.js-media-item.is-selected'), function() {
+								contentRow.append('<input name="media[]" type="hidden" value="' + $(this).data('id') + '">');
+								$(this).appendTo(contentRow);
+							});
+
+							// setup events again (for attached items)
+							module.prototype.setEvent();
+
+	                        // need public functions for this
+	                        $('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
+	                    });
+	            } else {
+
+	            	// if items had been selected then all removed
+		            lightbox.removeClass('change-made');
+	            };
+	        });
+		contentItem
+	        .off('click')
+	        .on('click', function(event) {
+	        	event.preventDefault();
+	        	
+                // remove hidden field and the media item
+                $('[name="media[]"][value="' + $(this).data('id') + '"]').remove();
+                $(this).remove();
+	        });
+	}
+
+
+	/**
+	 * reset form data with new object
 	 */
 	module.prototype.resetFormData = function() {
 		if (window.FormData) {
@@ -220,6 +167,10 @@ Model_Media = (function () {
 	}
 
 
+	/**
+	 * simply return formdata
+	 * @return {object} 
+	 */
 	module.prototype.getFormData = function() {
 		return formData;
 	}
@@ -239,9 +190,111 @@ Model_Media = (function () {
 		}
 	}
 
+
+	/**
+	 * read in all media items and store in refreshpane
+	 */
+	module.prototype.readAll = function() {
+		var refreshPane = $('.js-media-refresh');
+		refreshPane.addClass('ajax');
+		$.get(
+			urlBaseAjax + 'media/read/'
+			// , {}
+			, function(result) { 
+				if (result) {
+					refreshPane
+						.removeClass('ajax')
+						.html(result);
+				}
+			}
+		);
+	}
+
+	/**
+	 * ajax upload procedure with progress bar support
+	 */
+	module.prototype.upload = function() {
+		var backupUploadInput = inputUpload[0].outerHTML
+			, progressBar = $('.js-media-progress');
+
+		// append to formdata
+  		module.prototype.resetFormData();
+		module.prototype.appendFiles(this.files);
+
+		// perform ajax
+		$.ajax({
+			url: urlBaseAjax + 'media/upload/'
+			, type: 'POST'
+			, data: module.prototype.getFormData()
+			, processData: false
+			, contentType: false
+			, timeout: 60000
+
+			// progress bar
+			, xhr: function() {
+				var xhr = new window.XMLHttpRequest();
+				xhr.upload.addEventListener('progress', function(event) {
+					if (event.lengthComputable) {
+						var percentComplete = event.loaded / event.total;
+						;
+						progressBar.val(parseInt(percentComplete * 100));
+					}
+				}, false);
+				return xhr;
+			}
+			, success: function (result) {
+
+				// reset the upload field
+				$(inputUploadClass).remove();
+
+				// add new upload field and result
+				progressBar
+					.before(backupUploadInput)
+					.after(result)
+					.val(0);
+		  		module.prototype.resetFormData();
+				module.prototype.setEvent();
+				module.prototype.readAll();
+			}
+			, error: function (jqXHR, textStatus, errorThrown) {
+				// alert(jqXHR);
+				progressBar.val(0);
+				alert(textStatus);
+				// alert(errorThrown);
+			}
+		});
+	}
+
 	// methods
 	return module;
 })();
+
+
+/**
+ * generic keyup
+ */
+$(document).keyup(function(event) {
+
+	// escape
+	if (event.keyCode == 27) {
+		$('.is-active').removeClass('is-active');
+	} 
+});
+
+
+/**
+ * handles generic form submission
+ * @todo possible to integrate the ajax script to validate?
+ * @return {bool} 
+ */
+function formSubmitDisable () {
+	if ($(this).hasClass('disabled')) {
+		return false;
+	}
+	$(this).addClass('disabled');
+	$(this).closest('form').submit();
+	return false;
+}
 
 
 /**
@@ -252,83 +305,46 @@ $(document).ready(function() {
 	// cache
 	var body = $('body');
 
-	// admin/media
+	// prevent ajax cache
+	$.ajaxSetup ({  
+		cache: false  
+	});
+
+	// form submission
+	$('form').find('a.submit').on('mouseup', formSubmitDisable);
+
+	// general logic seperation
 	if (body.hasClass('admin-media')) {
 		var modelMedia = new Model_Media();
-		$('.js-media-input-upload').on('change', function () {
-			var backupUploadInput = $('.js-media-input-upload')[0].outerHTML;
-
-			// append to formdata
-	  		modelMedia.resetFormData();
-			modelMedia.appendFiles(this.files);
-
-			// perform ajax
-			$.ajax({
-				url: urlBaseAjax + 'media/upload/'
-				, type: 'POST'
-				, data: modelMedia.getFormData()
-				, processData: false
-				, contentType: false
-				, timeout: 60000
-				, xhr: function() {
-					var xhr = new window.XMLHttpRequest();
-
-					// upload progress
-					xhr.upload.addEventListener('progress', function(event) {
-						if (event.lengthComputable) {
-							var percentComplete = event.loaded / event.total;
-							;
-							$('.js-media-progress').val(parseInt(percentComplete * 100));
-						}
-					}, false);
-					return xhr;
-				}
-				, success: function (result) {
-
-					// reset the upload field
-					$('.js-media-input-upload').remove();
-
-					// add new upload field and result
-					$('.js-media-upload-container')
-						.append(backupUploadInput)
-						.append(result);
-			  		modelMedia.resetFormData();
-					// modelMedia.setEvents();
-				}
-				, error: function (jqXHR, textStatus, errorThrown) {
-					// alert(jqXHR);
-					alert(textStatus);
-					// alert(errorThrown);
-				}
-			});
+	};
+	if (body.hasClass('admin-content-post')) {
+		var editor = new wysihtml5.Editor('form_html', {
+			toolbar: 'toolbar'
+			, parserRules: wysihtml5ParserRules
+			, useLineBreaks: false
 		});
 	};
 
 	// // getscripts
-	// $.when(
-	//     $.getScript(urlBaseJs + 'reusable.js')
-	//     , $.getScript(urlBaseJs + 'jquery.lightbox.js')
-	//     , $.getScript(urlBaseJs + 'admin/jquery.mediabrowser.js')
-	//     , $.getScript(urlBaseJs + 'admin/jquery.tags.js')
-	// ).done(function() {
-		
-	// 	*
-	// 	 * application logic, use of object and functions
-		 
+	$.when(
+	    $.getScript(urlBaseJs + 'jquery.lightbox.js')
+	    // , $.getScript(urlBaseJs + 'admin/jquery.tags.js')
+	).done(function() {
+		var modelMedia = new Model_Media();
 
-	// 	// lightboxes
-	// 	$('.js-lightbox-media-browser').lightbox({
-	// 		inline: true
-	// 		, maxWidth: 800
-	// 		, className: 'media-browser'
-	// 		, onComplete: $.fn.mediaBrowser
-	// 	});	
+		// lightboxes
+		$('.js-lightbox-media-browser').lightbox({
+			inline: true
+			, maxWidth: 800
+			, className: 'media-browser'
+			, onComplete: modelMedia.setEvent
+		});
 
-	// 	// header always following on scroll
-	// 	$('.js-header-main').scrollFollow();
+		// header always following on scroll
+		$('.js-header-main').scrollFollow();
 
 	// 	// media-browser
 	// 	$('.admin-media').mediaBrowser();
 
-	// });
+	});
 });

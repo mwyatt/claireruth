@@ -307,11 +307,11 @@
 		 * @param  {string} url 
 		 */
 		function updateContentInline(url) {
-			$('.lightbox-content').html(ajax);
+			$('.lightbox-content').addClass('ajax');
 			$.get(
 				url,
 				function(result) {
-					$('.ajax').remove();
+					$('.ajax').removeClass('ajax');
 					if (result) {
 						$('.lightbox-content').html(result);
 						if (options.onComplete) {

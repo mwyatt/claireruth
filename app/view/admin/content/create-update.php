@@ -62,7 +62,7 @@
 <?php if (! $this->get('model_media') || $this->url(2) != 'minutes'): ?>
 
 			<div class="row">
-				<a href="<?php echo $this->url() ?>admin/ajax/media/read/" class="button primary js-lightbox-media-browser">Attach files</a>
+				<a href="<?php echo $this->url() ?>admin/ajax/media/lightbox/" class="button primary js-lightbox-media-browser">Attach files</a>
 			</div>
 
 <?php endif ?>

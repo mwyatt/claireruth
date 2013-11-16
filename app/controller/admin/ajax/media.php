@@ -41,6 +41,18 @@ class Controller_Admin_Ajax_Media extends Controller
 	}
 
 
+	/**
+	 * lightbox view for attaching media
+	 */
+	public function lightbox() {
+		$modelMedia = new model_media($this->database, $this->config);
+		$modelMedia->read();
+		$this->view
+			->setObject('medias', $modelMedia)
+			->loadTemplate('admin/media/lightbox');
+	}
+
+
 	// public function getDirectory() {
 	// 	$handler = glob($this->basePath . $this->currentPath . '*', GLOB_MARK);
 	// 	$items = array(

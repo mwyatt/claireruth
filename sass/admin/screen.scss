@@ -6,10 +6,7 @@
 @import "admin/login";
 @import "tag";
 @import "feedback";
-
-body.admin-media {
-	@import "admin/media/index";
-}
+@import "admin/media";
 
 body {
 	background: $color-white;

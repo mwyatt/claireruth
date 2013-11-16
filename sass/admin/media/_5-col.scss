@@ -7,7 +7,7 @@
 
     &:hover .media-thumb {
         @include box-shadow(0.2em 0.2em 0.7em gray);
-        @include transform(scale(1.1) rotate(-6deg));
+        @include translate(0, -3px);
     }
 }
 

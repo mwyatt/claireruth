@@ -39,8 +39,10 @@ header.main.is-fixed-top + .content {
     float: left;
     position: relative;
     margin: 0 1.6em 0 0;
+    padding-bottom: 1em;
 
     &:hover .nav-main-level1-drop {
+        @include animation(drop-up 200ms ease both); 
     	display: block;
     }
 }

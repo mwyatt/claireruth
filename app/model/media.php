@@ -139,7 +139,7 @@ class Model_Media extends Model
 			return;
 		}
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
-		$errorMessage = array();
+		$errorData = array();
 		$successData = array();
 		if (empty($files) || ! array_key_exists('media', $files)) {
 			return;
@@ -167,7 +167,10 @@ class Model_Media extends Model
 
 			// any error at all
 			if ($file['error']) {
-				$errorMessage[$fileNameFriendly] = 'general error found';
+				$errorData[$key] = array(
+					'name' => $fileNameFriendly
+					, 'message' => 'general error found'
+				);
 				continue;
 			}
 
@@ -181,33 +184,45 @@ class Model_Media extends Model
 				&& $file['type'] != 'image/pjpeg'
 				&& $file['type'] != 'application/pdf'
 			) {
-				$errorMessage[$fileNameFriendly] = 'file must be .gif, .jpg, .png or .pdf';
+				$errorData[$key] = array(
+					'name' => $fileNameFriendly
+					, 'message' => 'file must be .gif, .jpg, .png or .pdf'
+				);
 				continue;
 			}
 
 			// check for duplication
 			if (file_exists($filePath)) {
-				$errorMessage[$fileNameFriendly] = '"' . $fileInformation['filename'] . '" already exists, please rename it';
+				$errorData[$key] = array(
+					'name' => $fileNameFriendly
+					, 'message' => '"' . $fileInformation['filename'] . '" already exists, please rename it'
+				);
 				// $this->session->set('feedback', '');
 				continue;
 			}
 
 			// check its not too big
 			if ($file['size'] > 5000000 /* 5mb */) {
-				$errorMessage[$fileNameFriendly] = 'file is too big';
+				$errorData[$key] = array(
+					'name' => $fileNameFriendly
+					, 'message' => 'file is too big'
+				);
 				// $this->session->set('feedback', '');
 				continue;
 			}
 
 			// check it is possible to move from tmp
 			if (! move_uploaded_file($file['tmp_name'], $filePath)) {
-				$errorMessage[$fileNameFriendly] = 'while moving the temporary file an error occured, try again';
+				$errorData[$key] = array(
+					'name' => $fileNameFriendly
+					, 'message' => 'while moving the temporary file an error occured, try again'
+				);
 				continue;
 			}
 
 			// store if all is ok
 			if ($valid) {
-				$returnDataAndInsert = array(
+				$inserData = array(
 					$fileInformation['basename']
 					, $fileInformation['basename']
 					, $filePathWithoutBase
@@ -217,16 +232,18 @@ class Model_Media extends Model
 				);
 
 				// database
-				$sthMedia->execute($returnDataAndInsert);
+				$sthMedia->execute($inserData);
 
-				// for return information
-				$returnDataAndInsert['id'] = $this->database->dbh->lastInsertId();
-				$successData[] = $returnDataAndInsert;
+				// for feedback
+				$successData[] = array(
+					'name' => $fileInformation['basename']
+					, 'message' => 'Successfully uploaded'
+				);
 			}
 		}
 		return $this->setData(array(
 			'success' => $successData
-			, 'error' => $errorMessage
+			, 'error' => $errorData
 		));
 	}
 

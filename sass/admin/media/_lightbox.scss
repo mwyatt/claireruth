@@ -1,0 +1,15 @@
+.media {
+    cursor: pointer;
+
+    &.is-selected {
+        -webkit-box-shadow: 0 0 3px $color-primary;
+    }
+}
+
+&.change-made .button.attach {
+	display: block;
+}
+
+.button.attach {
+	display: none;
+}

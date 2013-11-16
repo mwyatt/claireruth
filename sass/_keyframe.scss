@@ -75,3 +75,16 @@
 		@include opacity(0);
 	}
 }
+
+@-webkit-keyframes drop-up {
+
+	0% {
+		@include opacity(0);
+		@include translate(0, 1em);
+	}
+
+	100% {
+		@include opacity(1);
+		@include translate(0, 0);
+	}
+}

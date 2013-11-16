@@ -208,6 +208,30 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   }
 }
 
+@-webkit-keyframes drop-up {
+  /* line 81, ../sass/_keyframe.scss */
+  0% {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    -webkit-transform: translate(0, 1em);
+    -moz-transform: translate(0, 1em);
+    -ms-transform: translate(0, 1em);
+    -o-transform: translate(0, 1em);
+    transform: translate(0, 1em);
+  }
+
+  /* line 86, ../sass/_keyframe.scss */
+  100% {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+
 /* line 4, ../sass/_typography.scss */
 ::selection {
   background: #ffb7b7;
@@ -455,6 +479,7 @@ html.js input[type="submit"] {
 /* line 145, ../sass/_reusable.scss */
 .ajax {
   background-image: url('/claireruth/media/ajax.gif?1368257192');
+  height: 50px;
 }
 
 /* line 1, ../sass/lightbox/_media.scss */
