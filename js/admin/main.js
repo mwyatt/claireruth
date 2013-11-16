@@ -45,7 +45,7 @@ var urlBaseAjax = urlBase + 'admin/ajax/';
 		if (! this.length) return;
 		var defaults = {
 			timer: 0
-			, delay: 50
+			, delay: 0
 			, followAfter: 0
 		}
 		var options = $.extend(defaults, options);
@@ -303,6 +303,7 @@ function formSubmitDisable () {
 $(document).ready(function() {
 
 	// cache
+	var content = $('.content');
 	var body = $('body');
 
 	// prevent ajax cache
@@ -316,8 +317,9 @@ $(document).ready(function() {
 	// general logic seperation
 	if (body.hasClass('admin-media')) {
 		var modelMedia = new Model_Media();
+		modelMedia.setEvent();
 	};
-	if (body.hasClass('admin-content-post')) {
+	if (content.hasClass('post')) {
 		var editor = new wysihtml5.Editor('form_html', {
 			toolbar: 'toolbar'
 			, parserRules: wysihtml5ParserRules

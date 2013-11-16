@@ -68,7 +68,7 @@
 <?php endif ?>
 <?php if ($rowContent['media'] = $this->get('model_content', 'media')): ?>
 			
-			<div class="attached">
+			<div class="attached layout-media-5-col">
 
 	<?php include($this->pathView('_content-medias')); ?>
 	<?php foreach ($this->get('model_content', 'media') as $media): ?>
