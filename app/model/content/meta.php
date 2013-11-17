@@ -34,6 +34,13 @@ class Model_Content_Meta extends Model
 	}
 
 
+	/**
+	 * deletes a row or set of rows based on the name and value
+	 * combined
+	 * @param  string $colName  
+	 * @param  int|string|bool $colValue 
+	 * @return int           
+	 */
 	public function deleteByValue($colName, $colValue)
 	{
 		$sth = $this->database->dbh->prepare("	
@@ -45,5 +52,72 @@ class Model_Content_Meta extends Model
 		$this->bindValues($sth, array($colName, $colValue));
 		$this->tryExecute($sth, '12315514344124');
 		return $sth->rowCount();
+	}
+
+
+	/**
+	 * deletes all rows with a matching content id
+	 * @param  int $contentId 
+	 * @return int            
+	 */
+	public function deleteByContentId($contentId)
+	{
+		$sth = $this->database->dbh->prepare("	
+			delete
+				from content_meta
+			where content_meta.content_id = ?
+		");
+		$this->bindValues($sth, array($contentId));
+		$this->tryExecute($sth, '123663423');
+		return $sth->rowCount();
+	}
+
+
+	public function deleteByContentIdAndName($contentId, $name)
+	{
+		$sth = $this->database->dbh->prepare("	
+			delete
+				from content_meta
+			where content_meta.content_id = ?
+				and content_meta.name = ?
+		");
+		$this->bindValues($sth, array($contentId, $name));
+		$this->tryExecute($sth, '123698765463423');
+		return $sth->rowCount();
+	}
+
+
+	/**
+	 * create all required rows
+	 * @param  string $contentId   
+	 * @param  string $colName   
+	 * @param  array $colValues 
+	 * @return int            
+	 */
+	public function create($contentId, $colName, $colValues)
+	{
+        $sth = $this->database->dbh->prepare("
+            insert into content_meta (
+                content_meta.content_id
+                , content_meta.name
+                , content_meta.value
+            )
+            values (
+                ?
+                , ?
+                , ?
+            )
+        ");             
+
+        // execute all creates on each value
+        foreach ($colValues as $value) {
+			$this->bindValues($sth, array(
+	        	$contentId
+	        	, $colName
+	        	, $value
+	        ));
+			$this->tryExecute($sth, '578789867876789');
+        }
+        return $sth->rowCount();
 	}
 }

@@ -20,26 +20,20 @@ class Controller_Admin_Content extends Controller
 	 */
 	public function initialise() {
 		$userAction = new model($this->database, $this->config, 'user_action');
-		$content = new model_content($this->database, $this->config, 'content');
-		$user = new model_user($this->database, $this->config);
+		$content = new model_content($this->database, $this->config);
+		$contentMeta = new model_content_meta($this->database, $this->config);
 		$sessionFeedback = new session_feedback($this->database, $this->config);
+		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 
 		// create
 		if (array_key_exists('form_create', $_POST)) {
-			if ($content->create(array(
-				'title' => $_POST['title']
-				, 'html' => (array_key_exists('html', $_POST) ? $_POST['html'] : '')
-				, 'type' => $_POST['type']
-				, 'date_published' => time()
-				, 'status' => (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden')
-				, 'user_id' => $user->get('id')
-			))) {
-				$lastInsertId = $this->database->dbh->lastInsertId();
-				$content->addAttachment($lastInsertId);
-				$content->createTotal();
-				$userAction->create(array(
+			if ($content->create($_POST)) {
+				$createOrUpdateId = $this->database->dbh->lastInsertId();
+
+				// feedback
+				$userAction->lazyCreate(array(
 					'description' => ucfirst($_POST['type']) . ' / ' . $_POST['title']
-					, 'user_id' => $this->session->get('user', 'id')
+					, 'user_id' => $sessionAdminUser->getData('id')
 					, 'action' => 'create'
 				));
 				$sessionFeedback->set(ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
@@ -52,22 +46,20 @@ class Controller_Admin_Content extends Controller
 
 		// update
 		if (array_key_exists('form_update', $_POST)) {
-			if ($content->update(
-				array(
-					'title' => (array_key_exists('title', $_POST) ? $_POST['title'] : '')
-					, 'html' => (array_key_exists('html', $_POST) ? $_POST['html'] : '')
-					, 'status' => (array_key_exists('status', $_POST) ? $_POST['status'] : 'hidden')
-				)
-				, array('id' => $_GET['edit'])
-			)) {
-				$content->addAttachment($_GET['edit']);
-				$userAction->create(array(
+			if ($content->update($_GET['edit'], $_POST)) {
+				$createOrUpdateId = $_GET['edit'];
+
+				// wipe all existing tags and media assignments
+				$contentMeta->deleteByContentIdAndName($createOrUpdateId, 'tag');
+				$contentMeta->deleteByContentIdAndName($createOrUpdateId, 'media');
+
+				// feedback
+				$userAction->lazyCreate(array(
 					'description' => ucfirst($_POST['type']) . ' / ' . $_POST['title']
-					, 'user_id' => $this->session->get('user', 'id')
+					, 'user_id' => $sessionAdminUser->getData('id')
 					, 'action' => 'update'
 				));
 				$sessionFeedback->set('Content updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
-				$content->createTotal();
 			} else {
 				$sessionFeedback->set('Problem updating ' . $_POST['type'] . ', ' . $_POST['title']);
 			}
@@ -89,19 +81,14 @@ class Controller_Admin_Content extends Controller
 
 		// archive
 		if (array_key_exists('archive', $_GET)) {
-			if ($content->update(
+			if ($content->lazyUpdate(
 				array('status' => 'archive')
 				, array('id' => $_GET['archive'])
 			)) {
-				// $contentMany = new model_content_meta($this->database, $this->config, 'content_tag');
-				// $contentMany->delete(array('content_id', $_GET['delete']));
-				// $contentMany->setTableName('content_media');
-				// $contentMany->delete(array('content_id', $_GET['delete']));
-				$content->createTotal();
 				$sessionFeedback->set('Content archived successfully');
-				$userAction->create(array(
+				$userAction->lazyCreate(array(
 					'description' => 'content ' . $_GET['archive']
-					, 'user_id' => $this->session->get('user', 'id')
+					, 'user_id' => $sessionAdminUser->getData('id')
 					, 'action' => 'archive'
 				));
 			} else {
@@ -117,17 +104,43 @@ class Controller_Admin_Content extends Controller
 				// $contentMany->delete(array('content_id', $_GET['delete']));
 				// $contentMany->setTableName('content_media');
 				// $contentMany->delete(array('content_id', $_GET['delete']));
-				$content->createTotal();
 				$sessionFeedback->set('Content archived successfully');
-				$userAction->create(array(
+				$userAction->lazyCreate(array(
 					'description' => 'content ' . $_GET['archive']
-					, 'user_id' => $this->session->get('user', 'id')
+					, 'user_id' => $sessionAdminUser->getData('id')
 					, 'action' => 'archive'
 				));
 			} else {
 				$sessionFeedback->set('Problem archiving content');
 			}
 			$this->route('current_noquery');
+		}
+
+		// any post or get event
+		if (
+			array_key_exists('form_create', $_POST)
+			|| array_key_exists('form_update', $_POST)
+			|| array_key_exists('delete', $_GET)
+			|| array_key_exists('archive', $_GET)
+		) {
+			$content->createTotal();
+		}
+
+		// any create or update event
+		if (
+			array_key_exists('form_create', $_POST)
+			|| array_key_exists('form_update', $_POST)
+		) {
+
+			// apply tag assignemtns
+			if (array_key_exists('tag', $_POST)) {
+				$contentMeta->create($createOrUpdateId, 'tag', $_POST['tag']);
+			}
+
+			// apply media assignemtns
+			if (array_key_exists('media', $_POST)) {
+				$contentMeta->create($createOrUpdateId, 'media', $_POST['media']);
+			}
 		}
 
 		// new
@@ -143,11 +156,7 @@ class Controller_Admin_Content extends Controller
 
 
 	public function page() {
-		$content = new model_content($this->database, $this->config);
-		$content->read($this->config->getUrl(2));
-		$this->view
-			->setObject($content)
-			->loadTemplate('admin/content/list');
+		$this->post();
 	}
 
 

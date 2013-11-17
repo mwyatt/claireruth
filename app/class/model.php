@@ -106,6 +106,12 @@ class Model extends Config
 				$valList
 			)
 		");		
+
+		// echo '<pre>';
+		// print_r($sth);
+		// print_r($values);
+		// echo '</pre>';
+		
 		$this->bindValues($sth, $values);
 		$this->tryExecute($sth, '676767212');
 		return $sth->rowCount();
@@ -119,7 +125,7 @@ class Model extends Config
 	 * @return int            yay or nay
 	 * @todo the return value is not ideal
 	 */	
-	public function update($colValues = array(), $where = array())
+	public function lazyUpdate($colValues = array(), $where = array())
 	{
 
 		// build collist

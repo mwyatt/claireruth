@@ -41,7 +41,7 @@ class Model_Content extends Model
 			left join user on user.id = content.user_id
 			left join content_meta on content_meta.id = content.id and content_meta.name = 'love'
             where content.id != ''
-			" . ($this->config->getUrl(0) == 'admin' ? ' and content.status != \'archive\'' : ' and content.status = \'visible\'') . "
+			" . ($this->config->getUrl(0) == 'admin' ? ' ' : ' and content.status = \'visible\'') . "
 			" . ($where ? ' and content.type = :type ' : '') . "
 			" . ($ids ? ' and content.id = :id ' : '') . "
 			group by content.id
@@ -93,7 +93,65 @@ class Model_Content extends Model
 			}
 		}
 		return $this->setData($parsedData);
+	}
+
+
+	/**
+	 * key value values of the row which needs to be created
+	 * are passed then the row is created
+	 * session_admin_user used to tie in the id of the current user
+	 * @param  array $values 
+	 * @return int        
+	 */
+	public function create($values) {        
+		$sessionAdminUser = new session_admin_user($this->database, $this->config);
+        $sth = $this->database->dbh->prepare("
+            insert into content (
+                    title
+                    , html
+                    , type
+                    , time_published
+                    , status
+                    , user_id
+            )
+            values (
+                    :title
+                    , :html
+                    , :type
+                    , :time_published
+                    , :status
+                    , :user_id
+            )
+        ");             
+        $sth->execute(array(
+            ':title' => $values['title']
+            , ':html' => (array_key_exists('html', $values) ? $values['html'] : '')
+            , ':type' => $values['type']
+            , ':time_published' => time()
+            , ':status' => (array_key_exists('status', $values) ? 'visible' : 'hidden')
+            , ':user_id' => $sessionAdminUser->getData('id')
+        ));                
+        return $sth->rowCount();
 	}	
+
+
+	public function update($id, $values) {
+		$sth = $this->database->dbh->prepare("
+		update content set
+			title = ?
+			, html = ?
+			, status = ?
+		where
+			id = ?
+		");                                
+		$sth->execute(array(
+			(array_key_exists('title', $values) ? $values['title'] : '')
+			, (array_key_exists('html', $values) ? $values['html'] : '')
+			, (array_key_exists('status', $values) ? 'visible' : 'hidden')
+			, $id
+		));                
+        return $sth->rowCount();
+	}
 
 
 	public function readByType($type, $limit = 0) {	
@@ -170,40 +228,6 @@ class Model_Content extends Model
 			, 'value' => $sth->rowCount()
 		));
 	}
-
-
-	public function addAttachment($contentId)
-	{
-		
-		// tag
-		$contentMany = new model_content_many($this->database, $this->config, 'content_tag');
-		$contentMany->delete(
-			array('content_id' => $contentId)
-		);
-		if (array_key_exists('tag', $_POST)) {
-			foreach ($_POST['tag'] as $tag) {
-				$contentMany->create(array(
-					'content_id' => $contentId
-					, 'tag_id' => $tag
-				));
-			}
-		}
-
-		// media
-		$contentMany->setTableName('content_media');
-		$contentMany->delete(
-			array('content_id' => $contentId)
-		);
-		if (array_key_exists('media', $_POST)) {
-			foreach ($_POST['media'] as $media) {
-				$contentMany->create(array(
-					'content_id' => $contentId
-					, 'media_id' => $media
-				));
-			}
-		}
-	}
-
 
 
 	/**

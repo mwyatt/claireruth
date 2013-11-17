@@ -42,7 +42,7 @@ class Error
 
 				// trying this out
 				echo '<pre>';
-				print_r(reporting_backtrace());
+				print_r(debug_print_backtrace());
 				echo '</pre>';
 		}	
 		exit;
