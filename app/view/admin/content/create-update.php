@@ -66,11 +66,11 @@
 			</div>
 
 <?php endif ?>
-<?php if ($rowContent['media'] = $this->get('model_content', 'media')): ?>
+<?php if ($medias = $this->get('model_content', 'media')): ?>
 			
 			<div class="attached layout-media-5-col">
 
-	<?php include($this->pathView('_content-medias')); ?>
+	<?php include($this->pathView('admin/_medias')); ?>
 	<?php foreach ($this->get('model_content', 'media') as $media): ?>
 
 			<input type="hidden" name="media[]" value="<?php echo $media['id'] ?>">
@@ -89,8 +89,8 @@
 			</div>
 			<div class="tags">
 	
-<?php if ($rowContent['tag'] = $this->get('model_content', 'tag')): ?>
-	<?php include($this->pathView('_content-tags')); ?>
+<?php if ($tags = $this->get('model_content', 'tag')): ?>
+	<?php include($this->pathView('admin/_tags')); ?>
 	<?php foreach ($this->get('model_content', 'tag') as $tag): ?>
 			
 			<input name="tag[]" type="hidden" value="<?php echo $tag['id'] ?>">
