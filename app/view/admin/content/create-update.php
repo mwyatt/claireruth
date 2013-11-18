@@ -1,6 +1,6 @@
 <?php require_once($this->pathView() . 'admin/_header.php'); ?>
 
-<div class="content <?php echo $this->url(2); ?> <?php echo ($this->get('model_content') ? 'update' : 'create'); ?>" data-id="<?php echo $this->get('model_content', 'id'); ?>">
+<div class="content <?php echo $this->url(2); ?> <?php echo ($this->get('model_content') ? 'update' : 'create'); ?> content-create-update" data-id="<?php echo $this->get('model_content', 'id'); ?>">
 	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
 	<h1><?php echo ($this->get('model_content') ? 'Update ' . ucfirst($this->url(2)) . ' ' . $this->get('model_content', 'title') : 'Create new ' . ucfirst($this->url(2))); ?></h1>
 	<form class="main" method="post" enctype="multipart/form-data">
@@ -84,10 +84,11 @@
 		</div>
 		<div class="row management-tag">
 			<label class="above" for="form-tag-search">Tag</label>
-			<div class="area">
-				<input id="form-tag-search" class="search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
+			<div class="tag-action">
+				<input id="form-tag-search" class="search js-tag-input-search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
+				<div class="tag-drop js-tag-drop"></div>
 			</div>
-			<div class="tags">
+			<div class="tags js-tag-attached">
 	
 <?php if ($tags = $this->get('model_content', 'tag')): ?>
 	<?php include($this->pathView('admin/_tags')); ?>

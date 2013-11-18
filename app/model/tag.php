@@ -82,14 +82,35 @@ class Model_Tag extends Model
 				'%' . $word . '%'
 			));
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$row['url'] = $this->buildUrl(array('tag', $row['name']));
-				$row['name_friendly'] = ucwords($row['name']);
+				$row['url'] = $this->buildUrl(array('tag', $row['title']));
+				$row['title_friendly'] = ucwords($row['title']);
 				$rows[$row['id']] = $row;
 			}
 		}
 		$this->data = $rows;
 		return count($this->getData());
 	}
+
+
+	/**
+	 * creates a tag
+	 * @param  array $values 
+	 * @return int         
+	 */
+	public function create($values) {        
+        $sth = $this->database->dbh->prepare("
+            insert into tag (
+            	description
+            	, title
+            )
+            values (
+                ?
+                , ?
+            )
+        ");             
+        $sth->execute(array($values['description'], $values['title']));
+        return $sth->rowCount();
+	}	
 
 
 	/**
@@ -131,7 +152,7 @@ class Model_Tag extends Model
 	 * @param  strgin $tagName 
 	 * @return int          
 	 */
-	public function readSingle($tagName) {	
+	public function read($tagName) {	
 		$sth = $this->database->dbh->prepare("	
 			select
 				id
@@ -143,6 +164,6 @@ class Model_Tag extends Model
 		");
 		$this->bindValue($sth, ':tag_name', $tagName);
 		$this->tryExecute($sth, '90213203830');
-		return $this->setData($sth->fetch(PDO::FETCH_ASSOC));
+		return $this->setData($sth->fetchAll(PDO::FETCH_ASSOC));
 	}
 }

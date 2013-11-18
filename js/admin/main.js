@@ -85,82 +85,103 @@ var urlBaseAjax = urlBase + 'admin/ajax/';
  */
 Model_Tag = (function () {
 	var module = function () {}
+		, searchField = $('.js-tag-input-search')
+		, dropDown = $('.js-tag-drop')
+		, dropTags = dropDown.find('.js-tag')
+		, attachedTagContainer = $('.js-tag-attached')
+		, attachedTags = attachedTagContainer.find('.js-tag')
 		, timer;
 
 
-
+	/**
+	 * sets up core events for the module
+	 */
 	module.prototype.setEvent = function() {
 
-		// hit enterkey to submit input as new tag
-		$(core).find('#form-tag-search').off().on('keypress', function(e) {
-			if (e.which == 13) {
-				clearDrop();
-		       	$('.tags').append('<div class="tag">' + $(this).val() + '</div>');
-				addHiddenField($(this).val());
-		       	$(this).val('');
-				module.prototype.setEvent();
-			    return false;
-		    }
-		});
-		$(core).find('#form-tag-search').on('keyup', function(e) {
-			var query = $(this).val();
-			clearTimeout(timer);
-			if ($(this).val().length > 1) {
-				timer = setTimeout(function() {
-					poll(query);
-				}, 300);
-			}
-		});
-		$(core).find('.tags .tag').off().on('click', function(event) {
-			event.preventDefault();
-			removeTag(this);
-		});
-		$(core).find('.drop .tag').off().on('click', function(event) {
-			event.preventDefault();
-			addTag(this);
-		});
+
 	}
-	function addHiddenField(name) {
-		$(core).find('.tags').append('<input name="tag[]" type="hidden" value="' + name + '">');
-	}
-	function poll(query) {
+	
+
+	/**
+	 * perform ajax search and return result
+	 * @param  {string} query
+	 */
+	module.prototype.search = function(query) {
 		$.get(
-			$('body').data('url-base') + 'ajax/tag-management/',
+			urlBaseAjax + 'tag/search',
 			{
 				query: query
 			},
 			function(result) { 
-				clearDrop();
-				if (! $('#form-tag-search').val()) {
-					return;
-				};
 				if (result) {
-					$(core).find('.area').append('<div class="drop">' + result + '</div>');
+					dropDown.append(result);
 				}
-				module.prototype.setEvent();
 			}
 		);
 	}
-	function clearDrop() {
-		$(core).find('.drop').remove();
+	
+
+	/**
+	 * attaches a tag when clicked in the dropdown
+	 * @param {object} button 
+	 */
+	module.prototype.create = function(callback, title) {
+		$.get(
+			urlBaseAjax + 'tag/create'
+			, {
+				title: title
+			}
+			, success: callback
+		);
 	}
-	function addTag(button) {
-		$(button).appendTo($(core).find('.tags'));
-		addHiddenField($(button).html());
-		module.prototype.setEvent();
-		if (! $(core).find('.drop .tag').length) {
-			clearDrop();
+
+
+	/**
+	 * attaches a tag when clicked in the dropdown
+	 * @param {object} button 
+	 */
+	module.prototype.clickAdd = function() {
+		var button = $(this);
+		button.appendTo($('js-tag-attached'));
+		module.prototype.addHiddenField(button.data('id'));
+		if (! $(core).find('.js-tag-drop .js-tag').length) {
+			dropDown.html('');
 		};
-		$('#form-tag-search').val('');
+		searchField.val('');
 	}
-	function removeTag(button) {
-		$('input[type="hidden"][value="' + $(button).html() + '"]').remove();
-		$(button).remove();
+	
+
+	/**
+	 * store a hidden field for creating or attaching tags	
+	 */
+	module.prototype.addHiddenField = function(id) {
+		attachedTagContainer.append('<input name="tag[]" type="hidden" value="' + id + '">');
+	}
+
+
+	/**
+	 * removes a hiddend vields based on the id
+	 * @param  {int} id 
+	 */
+	module.prototype.removeHiddenField = function(id) {
+		attachedTagContainer.find('input[name="tag[]"][type="hidden"][value="' + id + '"]').remove();
+	}
+
+
+	/**
+	 * removes a tag when clicked in the admin area
+	 * @param {object} button 
+	 */
+	module.prototype.clickRemove = function() {
+		var button = $(this);
+		module.prototype.removeHiddenField(button.data('id'));
+		button.remove();
 	}
 
 	// methods
 	return module;
 })();
+
 
 /**
  * interfaces with content_meta table
@@ -170,7 +191,17 @@ Model_Tag = (function () {
 Model_Content_Meta = (function () {
 	var module = function () {};
 
-
+	module.prototype.create = function(callback, contentId, name, value) {
+		$.get(
+			urlBaseAjax + 'content/meta/create'
+			, {
+				content_id: contentId
+				, name: name
+				, value: value
+			}
+			, success: callback
+		);
+	}
 
 	// methods
 	return module;
@@ -418,12 +449,55 @@ $(document).ready(function() {
 		var modelMedia = new Model_Media();
 		modelMedia.setEvent();
 	};
-	if (content.hasClass('post')) {
+
+	// try adding all logic for manipulating objects here...
+	if (content.hasClass('content-create-update')) {
+
+		// html5wysi
 		var editor = new wysihtml5.Editor('form_html', {
 			toolbar: 'toolbar'
 			, parserRules: wysihtml5ParserRules
 			, useLineBreaks: false
 		});
+
+		// tie in content meta
+		var modelContentMeta = new Model_Content_Meta();
+
+		// tag
+		var modelTag = new Model_Tag();
+
+		// enter key
+		modelTag.searchField.live('keypress', function(event) {
+			var field = $(this);
+			if (event.which == 13) {
+	    		modelTag.create(field.val());
+				return false;
+		    }
+		});
+
+		// hitting keys when in the search field
+		modelTag.searchField.live('keyup', function(event) {
+			var field = $(this);
+
+			// clear timer always
+		    clearTimeout(modelTag.timer);
+			modelTag.dropDown.html('');
+
+		    // handle search terms if long enough
+		    if (field.val().length > 1) {
+		    	modelTag.timer = setTimeout(function() {
+		    		modelTag.search(field.val());
+		    	}, 300);
+		    }
+		});
+
+		// clicking a existing tag
+		modelTag.attachedTags.live('click', modelTag.clickRemove);
+
+		// clicking a tag in the dropdown
+		modelTag.dropTags.live('click', modelTag.clickAdd);
+
+
 	};
 
 	// // getscripts

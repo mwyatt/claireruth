@@ -107,20 +107,20 @@ class Model_Content extends Model
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
         $sth = $this->database->dbh->prepare("
             insert into content (
-                    title
-                    , html
-                    , type
-                    , time_published
-                    , status
-                    , user_id
+                title
+                , html
+                , type
+                , time_published
+                , status
+                , user_id
             )
             values (
-                    :title
-                    , :html
-                    , :type
-                    , :time_published
-                    , :status
-                    , :user_id
+                :title
+                , :html
+                , :type
+                , :time_published
+                , :status
+                , :user_id
             )
         ");             
         $sth->execute(array(
