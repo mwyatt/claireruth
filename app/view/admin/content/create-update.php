@@ -104,7 +104,7 @@
 			<label for="status">Show on website</label>
 			<input id="status" type="checkbox" name="status" value="visible"<?php echo ($this->get('model_content', 'status') == 'visible' ? ' checked' : ''); ?>>
 		</div>
-		<input name="form_<?php echo ($this->get('model_content') ? 'update' : 'create'); ?>" type="hidden" value="true">
+		<input name="<?php echo ($this->get('model_content') ? 'update' : 'create'); ?>" type="hidden" value="true">
 		<input name="type" type="hidden" value="<?php echo $this->url(2); ?>">
 		<a href="#" class="submit button">Save</a>
 		<input type="submit">

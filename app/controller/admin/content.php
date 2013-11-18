@@ -26,7 +26,7 @@ class Controller_Admin_Content extends Controller
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 
 		// create
-		if (array_key_exists('form_create', $_POST)) {
+		if (array_key_exists('create', $_POST)) {
 			if ($content->create($_POST)) {
 				$createOrUpdateId = $this->database->dbh->lastInsertId();
 
@@ -45,7 +45,7 @@ class Controller_Admin_Content extends Controller
 		}
 
 		// update
-		if (array_key_exists('form_update', $_POST)) {
+		if (array_key_exists('update', $_POST)) {
 			if ($content->update($_GET['edit'], $_POST)) {
 				$createOrUpdateId = $_GET['edit'];
 
@@ -118,8 +118,8 @@ class Controller_Admin_Content extends Controller
 
 		// any post or get event
 		if (
-			array_key_exists('form_create', $_POST)
-			|| array_key_exists('form_update', $_POST)
+			array_key_exists('create', $_POST)
+			|| array_key_exists('update', $_POST)
 			|| array_key_exists('delete', $_GET)
 			|| array_key_exists('archive', $_GET)
 		) {
@@ -128,8 +128,8 @@ class Controller_Admin_Content extends Controller
 
 		// any create or update event
 		if (
-			array_key_exists('form_create', $_POST)
-			|| array_key_exists('form_update', $_POST)
+			array_key_exists('create', $_POST)
+			|| array_key_exists('update', $_POST)
 		) {
 
 			// apply tag assignemtns
