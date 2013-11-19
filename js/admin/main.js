@@ -125,31 +125,19 @@ Model_Tag = (function () {
 	 * attaches a tag when clicked in the dropdown
 	 * @param {object} button 
 	 */
-	module.prototype.create = function(callback, title) {
+	module.prototype.create = function(data) {
 		$.get(
 			urlBaseAjax + 'tag/create'
 			, {
-				title: title
+				title: data.title
+				, description: data.description
 			}
-			, success: callback
+			, function(result) { 
+				data.callback.call();
+			}
 		);
 	}
 
-
-	/**
-	 * attaches a tag when clicked in the dropdown
-	 * @param {object} button 
-	 */
-	module.prototype.clickAdd = function() {
-		var button = $(this);
-		button.appendTo($('js-tag-attached'));
-		module.prototype.addHiddenField(button.data('id'));
-		if (! $(core).find('.js-tag-drop .js-tag').length) {
-			dropDown.html('');
-		};
-		searchField.val('');
-	}
-	
 
 	/**
 	 * store a hidden field for creating or attaching tags	
@@ -191,15 +179,17 @@ Model_Tag = (function () {
 Model_Content_Meta = (function () {
 	var module = function () {};
 
-	module.prototype.create = function(callback, contentId, name, value) {
+	module.prototype.create = function(data) {
 		$.get(
 			urlBaseAjax + 'content/meta/create'
 			, {
-				content_id: contentId
-				, name: name
-				, value: value
+				content_id: data.content_id
+				, name: data.name
+				, value: data.value
 			}
-			, success: callback
+			, function(result) { 
+				data.callback.call();
+			}
 		);
 	}
 
@@ -495,9 +485,20 @@ $(document).ready(function() {
 		modelTag.attachedTags.live('click', modelTag.clickRemove);
 
 		// clicking a tag in the dropdown
-		modelTag.dropTags.live('click', modelTag.clickAdd);
-
-
+		modelTag.dropTags.live('click', function() {
+			var button = $(this);
+			button.appendTo(modelTag.attachedTagContainer);
+			modelContentMeta.create({
+				contentId: content.data('id')
+				, callback: function() {}
+				, name: 'tag'
+				, value: button.data('id')
+			});
+			if (! modelTag.dropTags) {
+				dropDown.html('');
+			};
+			searchField.val('');
+		});
 	};
 
 	// // getscripts
