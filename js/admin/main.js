@@ -1,5 +1,5 @@
 // base vars
-var urlBase = $('body').data('url-base');
+var urlBase = document.body.data('url-base');
 var urlBaseJs = urlBase + 'js/';
 var urlBaseAjax = urlBase + 'admin/ajax/';
 
@@ -525,7 +525,7 @@ $(document).ready(function() {
 
 	// cache
 	var content = $('.content');
-	var body = $('body');
+	var body = document.body;
 
 	// prevent ajax cache
 	$.ajaxSetup ({  
