@@ -105,7 +105,13 @@ class Controller_Admin extends Controller
 
 	public function media()
 	{
-		# code...
+		// for nav menu
+	}
+
+
+	public function tag()
+	{
+		// for nav menu
 	}
 
 

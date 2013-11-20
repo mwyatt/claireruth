@@ -82,7 +82,7 @@
 <?php endif ?>
 
 		</div>
-		<div class="row management-tag">
+		<div class="row tag-manage-container">
 			<label class="above" for="form-tag-search">Tag</label>
 			<div class="tag-action">
 				<input id="form-tag-search" class="search js-tag-input-search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
@@ -92,11 +92,6 @@
 	
 <?php if ($tags = $this->get('model_content', 'tag')): ?>
 	<?php include($this->pathView('admin/_tags')); ?>
-	<?php foreach ($this->get('model_content', 'tag') as $tag): ?>
-			
-			<input name="tag[]" type="hidden" value="<?php echo $tag['id'] ?>">
-		
-	<?php endforeach ?>
 <?php endif ?>
 
 			</div>

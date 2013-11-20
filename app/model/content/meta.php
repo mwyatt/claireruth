@@ -34,6 +34,29 @@ class Model_Content_Meta extends Model
 	}
 
 
+	public function delete($contentId, $colName, $colValues)
+	{
+        $sth = $this->database->dbh->prepare("
+        	delete
+        		from content_meta
+        	where content_meta.content_id = ?
+        		and content_meta.name = ?
+        		and content_meta.value = ?
+        ");             
+
+        // execute all delete on each value
+        foreach ($colValues as $value) {
+			$this->bindValues($sth, array(
+	        	$contentId
+	        	, $colName
+	        	, $value
+	        ));
+			$this->tryExecute($sth, '09876');
+        }
+        return $sth->rowCount();
+	}
+
+
 	/**
 	 * deletes a row or set of rows based on the name and value
 	 * combined

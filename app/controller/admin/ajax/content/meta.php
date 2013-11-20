@@ -15,16 +15,38 @@ class Controller_Admin_Ajax_Content_Meta extends Controller
 {
 
 
-	public function read() {
-		echo '<pre>';
-		print_r('variable');
-		echo '</pre>';
-		exit;
-		
-		$modelTag = new model_tag($this->database, $this->config);
-		$modelTag->readUniqueLike();
-		$this->view
-			->setObject('tags', $modelTag)
-			->loadTemplate('admin/_tags');
+	/**
+	 * creates the desired meta key
+	 * @return null|string 
+	 */
+	public function create() {
+		if (! array_key_exists('content_id', $_GET) || ! array_key_exists('name', $_GET) || ! array_key_exists('value', $_GET)) {
+			exit;
+		}
+		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		if (! $modelContentMeta->create(
+			$_GET['content_id']
+			, $_GET['name']
+			, array($_GET['value'])
+		)) {
+			exit;
+		}
+		echo 'success';
+	}
+
+
+	public function delete() {
+		if (! array_key_exists('content_id', $_GET) || ! array_key_exists('name', $_GET) || ! array_key_exists('value', $_GET)) {
+			exit;
+		}
+		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		if (! $modelContentMeta->delete(
+			$_GET['content_id']
+			, $_GET['name']
+			, array($_GET['value'])
+		)) {
+			exit;
+		}
+		echo 'success';
 	}
 }

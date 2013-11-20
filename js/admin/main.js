@@ -84,21 +84,20 @@ var urlBaseAjax = urlBase + 'admin/ajax/';
  * @return {object} 
  */
 Model_Tag = (function () {
-	var module = function () {}
-		, searchField = $('.js-tag-input-search')
-		, dropDown = $('.js-tag-drop')
-		, dropTags = dropDown.find('.js-tag')
-		, attachedTagContainer = $('.js-tag-attached')
-		, attachedTags = attachedTagContainer.find('.js-tag')
-		, timer;
+	var module = function () {};
+	var dropDown = $('.js-tag-drop');
 
 
 	/**
-	 * sets up core events for the module
+	 * sets up core selections 
 	 */
-	module.prototype.setEvent = function() {
-
-
+	module.prototype.setElement = function() {
+		this.searchField = $('.js-tag-input-search');
+		this.dropDown = $('.js-tag-drop');
+		this.dropTags = this.dropDown.find('.js-tag');
+		this.attachedTagContainer = $('.js-tag-attached');
+		this.attachedTags = this.attachedTagContainer.find('.js-tag');
+		this.timer = 0;
 	}
 	
 
@@ -114,7 +113,7 @@ Model_Tag = (function () {
 			},
 			function(result) { 
 				if (result) {
-					dropDown.append(result);
+					dropDown.html(result);
 				}
 			}
 		);
@@ -138,22 +137,21 @@ Model_Tag = (function () {
 		);
 	}
 
+	// /**
+	//  * store a hidden field for creating or attaching tags	
+	//  */
+	// module.prototype.addHiddenField = function(id) {
+	// 	attachedTagContainer.append('<input name="tag[]" type="hidden" value="' + id + '">');
+	// }
 
-	/**
-	 * store a hidden field for creating or attaching tags	
-	 */
-	module.prototype.addHiddenField = function(id) {
-		attachedTagContainer.append('<input name="tag[]" type="hidden" value="' + id + '">');
-	}
 
-
-	/**
-	 * removes a hiddend vields based on the id
-	 * @param  {int} id 
-	 */
-	module.prototype.removeHiddenField = function(id) {
-		attachedTagContainer.find('input[name="tag[]"][type="hidden"][value="' + id + '"]').remove();
-	}
+	// *
+	//  * removes a hiddend vields based on the id
+	//  * @param  {int} id 
+	 
+	// module.prototype.removeHiddenField = function(id) {
+	// 	attachedTagContainer.find('input[name="tag[]"][type="hidden"][value="' + id + '"]').remove();
+	// }
 
 
 	/**
@@ -162,11 +160,25 @@ Model_Tag = (function () {
 	 */
 	module.prototype.clickRemove = function() {
 		var button = $(this);
-		module.prototype.removeHiddenField(button.data('id'));
-		button.remove();
+		$.ajax({
+			url: urlBaseAjax + 'content/meta/delete'
+			, type: 'get'
+			, data: {
+				content_id: $('.content').data('id')
+				, name: 'tag'
+				, value: $(this).data('id')
+			}
+			, success: function (result) {
+				button.remove();
+			}
+			, error: function (jqXHR, textStatus, errorThrown) {
+				alert(textStatus);
+			}
+		});
 	}
 
 	// methods
+	module.prototype.setElement();
 	return module;
 })();
 
@@ -417,6 +429,95 @@ function formSubmitDisable () {
 }
 
 
+function contentCreateUpdate () {
+	
+	// html5wysi
+	var editor = new wysihtml5.Editor('form_html', {
+		toolbar: 'toolbar'
+		, parserRules: wysihtml5ParserRules
+		, useLineBreaks: false
+	});
+
+	// tie in content meta
+	var modelContentMeta = new Model_Content_Meta();
+
+	// tag
+	var modelTag = new Model_Tag();
+
+	// enter key
+	modelTag.searchField.live('keypress', function(event) {
+		var field = $(this);
+		if (event.which == 13) {
+    		$.ajax({
+    			url: urlBaseAjax + 'tag/create'
+    			, type: 'get'
+    			, data: {
+    				title: field.val()
+    				, description: ''
+    			}
+    			, success: function (result) {
+    				
+    			}
+    			, error: function (jqXHR, textStatus, errorThrown) {
+    				alert(textStatus);
+    			}
+    		});
+			return false;
+	    }
+	});
+
+	// hitting keys when in the search field
+	modelTag.searchField.live('keyup', function(event) {
+		var field = $(this);
+
+		// clear timer always
+	    clearTimeout(modelTag.timer);
+		modelTag.dropDown.html('');
+
+	    // handle search terms if long enough
+	    if (field.val().length > 1) {
+	    	modelTag.timer = setTimeout(function() {
+	    		modelTag.search(field.val());
+	    	}, 300);
+	    }
+	});
+
+	// clicking a existing tag
+	modelTag.attachedTags.live('click', modelTag.clickRemove);
+
+	// clicking a tag in the dropdown
+	modelTag.dropTags.live('click', function() {
+		var button = $(this);
+
+		// create content association
+		$.ajax({
+			url: urlBaseAjax + 'content/meta/create'
+			, type: 'get'
+			, data: {
+				content_id: $('.content').data('id')
+				, name: 'tag'
+				, value: $(this).data('id')
+			}
+			, success: function (result) {
+				
+				// move the button to the attached area
+				button.appendTo(modelTag.attachedTagContainer);
+			}
+			, error: function (jqXHR, textStatus, errorThrown) {
+				alert(textStatus);
+			}
+		});
+
+		// no more tags in the dropdown
+		if (! modelTag.dropTags) {
+			modelTag.dropDown.html('');
+		};
+
+		// empty the searchfield
+		modelTag.searchField.val('');
+	});
+}
+
 /**
  * @todo should import scripts only when the functionality is needed..
  */
@@ -442,63 +543,7 @@ $(document).ready(function() {
 
 	// try adding all logic for manipulating objects here...
 	if (content.hasClass('content-create-update')) {
-
-		// html5wysi
-		var editor = new wysihtml5.Editor('form_html', {
-			toolbar: 'toolbar'
-			, parserRules: wysihtml5ParserRules
-			, useLineBreaks: false
-		});
-
-		// tie in content meta
-		var modelContentMeta = new Model_Content_Meta();
-
-		// tag
-		var modelTag = new Model_Tag();
-
-		// enter key
-		modelTag.searchField.live('keypress', function(event) {
-			var field = $(this);
-			if (event.which == 13) {
-	    		modelTag.create(field.val());
-				return false;
-		    }
-		});
-
-		// hitting keys when in the search field
-		modelTag.searchField.live('keyup', function(event) {
-			var field = $(this);
-
-			// clear timer always
-		    clearTimeout(modelTag.timer);
-			modelTag.dropDown.html('');
-
-		    // handle search terms if long enough
-		    if (field.val().length > 1) {
-		    	modelTag.timer = setTimeout(function() {
-		    		modelTag.search(field.val());
-		    	}, 300);
-		    }
-		});
-
-		// clicking a existing tag
-		modelTag.attachedTags.live('click', modelTag.clickRemove);
-
-		// clicking a tag in the dropdown
-		modelTag.dropTags.live('click', function() {
-			var button = $(this);
-			button.appendTo(modelTag.attachedTagContainer);
-			modelContentMeta.create({
-				contentId: content.data('id')
-				, callback: function() {}
-				, name: 'tag'
-				, value: button.data('id')
-			});
-			if (! modelTag.dropTags) {
-				dropDown.html('');
-			};
-			searchField.val('');
-		});
+		contentCreateUpdate();
 	};
 
 	// // getscripts
