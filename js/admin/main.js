@@ -1,4 +1,4 @@
-// base vars
+// base vars  
 var urlBase = document.body.data('url-base');
 var urlBaseJs = urlBase + 'js/';
 var urlBaseAjax = urlBase + 'admin/ajax/';
