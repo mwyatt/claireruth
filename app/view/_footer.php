@@ -15,8 +15,6 @@
 				</div>
 			</footer>
         </div>
-        <script src="<?php echo $this->url(); ?>js/vendor/jquery-1.8.2.min.js"></script>
-        <script src="<?php echo $this->url(); ?>js/vendor/jquery.magnific-popup.min.js"></script>
-        <script src="<?php echo $this->url(); ?>js/main.js"></script>
+        <script src="<?php echo $this->url(); ?>js/main.min.js"></script>
     </body>
 </html>

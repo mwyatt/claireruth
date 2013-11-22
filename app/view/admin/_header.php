@@ -4,9 +4,14 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-
-<?php require_once($this->pathView('admin/header/_resource')); ?>
-
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title><?php echo $this->getMeta('title'); ?></title>	
+	<meta name="keywords" content="<?php echo $this->getMeta('keywords'); ?>">
+	<meta name="description" content="<?php echo $this->getMeta('description'); ?>">
+	<meta name="viewport" content="width=device-width">
+	<link href="<?php echo $this->url(); ?>css/admin/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	<script src="<?php echo $this->url(); ?>js/vendor/modernizr.custom.73218.js"></script>
 </head>
 <body<?php echo ($this->getBodyClass() ? ' class="' . $this->getBodyClass() . '"' : '') ?> data-url-base="<?php echo $this->url(); ?>">
 	<!--[if lt IE 7]>

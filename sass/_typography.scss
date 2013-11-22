@@ -1,5 +1,6 @@
-@import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800");
-@import url("http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic");
+/**
+ * selection
+ */
 
 ::selection {
 	background: #ffb7b7; /* Safari */
@@ -9,6 +10,10 @@
 	background: #ffb7b7; /* Firefox */
 }
 
+
+/**
+ * placeholder
+ */
 ::-webkit-input-placeholder {
    color: $color-secondary; 
 }
@@ -25,6 +30,10 @@
    color: $color-secondary;  
 }
 
+
+/**
+ * links
+ */
 a,
 a:visited {
     color: $color-primary;
@@ -49,60 +58,142 @@ a:link {
     outline: none;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	line-height: 1.5;
+
+/**
+ * headings, spacing
+ */
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: $heading-font-family;
+    font-weight: $heading-font-weight;
 }
 
+.h1, 
+.h2 {
+    line-height: 1.1;
+}
 
-// new sass ideas
+.h3, .h4 {
+    line-height: 1.3;
+}
 
-// .h1, .h2, .h3, .h4, .h5, .h6 { font-family: $heading-font-family;font-weight: $heading-font-weight;}
-// .h1, .h2 { line-height: 1.1;}
-// .h3, .h4 { line-height: 1.3;}
-// .h1 { font-size: 400%;letter-spacing: -2px;}
-// .h2 { font-size: 250%;letter-spacing: -1px;}
-// .h3 { font-size: 200%;}
-// .h4 { font-size: 180%;}
-// .h5 { font-size: 130%;}
+.h1 {
+    font-size: 400%;
+    letter-spacing: -2px;
+}
 
-// .fixed { font-family: $fixed-font-family;font-size: $fixed-font-size;line-height: $fixed-line-height;}
+.h2 {
+    font-size: 250%;
+    letter-spacing: -1px;
+}
 
-// .quiet { font-color: $quiet-color;}
-// .loud  { font-color: $loud-color;}
+.h3 {
+    font-size: 200%;
+}
 
-// .italic { font-style: italic;}
-// .bold   { font-weight: 700;@extend .loud;}
+.h4 {
+    font-size: 180%;
+}
 
-// .block-margins { margin: 1em 0;}
+.h5 {
+    font-size: 130%;
+}
 
-// .unordered-list { list-style-type: disc;}
-// .ordered-list { list-style: decimal;}
+.fixed {
+    font-family: $fixed-font-family;font-size: $fixed-font-size;line-height: $fixed-line-height;
+}
 
+.quiet {
+    font-color: $quiet-color;
+}
 
-// // house all in typography when tags need to take over
+.loud  {
+    font-color: $loud-color;
+}
 
+.italic {
+    font-style: italic;
+}
 
-// .typography {
-//   i, em { @extend .italic;}
-//   b, strong { @extend .bold;}
+.bold   {
+    @extend .loud;
+    font-weight: 700;
+}
 
-//   h1 { @extend .h1;margin: 1em 0 0.5em;}
-//   h2 { @extend .h2;margin: 1em 0 0.5em;}
-//   h3 { @extend .h3;margin: 1em 0 0.5em;}
-//   h4 { @extend .h4;margin: 1em 0 0.5em;}
-//   h5 { @extend .h5;margin: 1em 0 0.5em;}
-//   h6 { @extend .h6;margin: 1em 0 0.5em;}
+.block-margins {
+    margin: 1em 0;
+}
 
-//   p, ul, ol, pre { @extend .block-margins;}
+.unordered-list {
+    list-style-type: disc;
+}
 
-//   ul { @extend .unordered-list;}
-//   ol { @extend .ordered-list;}
+.ordered-list {
+    list-style: decimal;
+}
 
-//   pre, code { @extend .fixed;}
-// }
+.typography {
+
+    i,
+    em {
+        @extend .italic;
+    }
+
+    b, strong {
+        @extend .bold;
+    }
+
+    h1 {
+        @extend .h1;
+        margin: 1em 0 0.5em;
+    }
+
+    h2 {
+        @extend .h2;
+        margin: 1em 0 0.5em;
+    }
+
+    h3 {
+        @extend .h3;
+        margin: 1em 0 0.5em;
+    }
+
+    h4 {
+        @extend .h4;
+        margin: 1em 0 0.5em;
+    }
+
+    h5 {
+        @extend .h5;
+        margin: 1em 0 0.5em;
+    }
+
+    h6 {
+        @extend .h6;
+        margin: 1em 0 0.5em;
+    }
+
+    p,
+    ul,
+    ol,
+    pre {
+        @extend .block-margins;
+    }
+
+    ul {
+        @extend .unordered-list;
+    }
+
+    ol {
+        @extend .ordered-list;
+    }
+
+    pre,
+    code {
+        @extend .fixed;
+    }
+}

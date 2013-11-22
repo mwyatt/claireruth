@@ -4,14 +4,19 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     concat: {
-      js: {
+	    js: {
         options: {
           separator: ';'
         },
-        src: [
-          'js/*.js'
-        ],
+        src: ['js/*', 'js/vendor/*'],
         dest: 'js/main.min.js'
+      },
+	    js_admin: {
+        options: {
+          separator: ';'
+        },
+        src: ['js/admin/*', 'js/vendor/*'],
+        dest: 'js/admin/main.min.js'
       },
     },
     uglify: {
@@ -40,8 +45,15 @@ module.exports = function(grunt) {
     },
     watch: {
       js: {
-        files: ['js/*.js'],
-        tasks: ['concat:js', 'uglify:js'],
+        files: ['js/*'],
+        tasks: ['concat:js'],
+        options: {
+          livereload: true
+        }
+      },
+      js_admin: {
+        files: ['js/admin/*'],
+        tasks: ['concat:js_admin'],
         options: {
           livereload: true
         }
