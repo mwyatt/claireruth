@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="<?php echo $this->url(); ?>css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
     <script src="<?php echo $this->url(); ?>js/vendor/respond.min.js"></script>
-    <script src="<?php echo $this->url(); ?>js/vendor/modernizr.custom.73218.js"></script>
+    <script src="<?php echo $this->url(); ?>js/exclude/modernizr.js"></script>
 </head>
 <body<?php echo ($this->getBodyClass() ? ' class="' . $this->getBodyClass() . '"' : '') ?> data-url-base="<?php echo $this->url(); ?>">
     <!--[if lt IE 7]>

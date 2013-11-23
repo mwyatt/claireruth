@@ -8,15 +8,24 @@ module.exports = function(grunt) {
         options: {
           separator: ';'
         },
-        src: ['js/*', 'js/vendor/*'],
-        dest: 'js/main.min.js'
+        src: [
+          'js/vendor/*.js',
+          'js/global/*.js',
+          'js/*.js'
+        ],
+        dest: 'js/public/main.js'
       },
 	    js_admin: {
         options: {
           separator: ';'
         },
-        src: ['js/admin/*', 'js/vendor/*'],
-        dest: 'js/admin/main.min.js'
+        src: [
+          'js/vendor/*.js',
+          'js/global/*.js',
+          'js/admin/vendor/*.js',
+          'js/admin/*.js'
+        ],
+        dest: 'js/public/main-admin.js'
       },
     },
     uglify: {
@@ -45,14 +54,23 @@ module.exports = function(grunt) {
     },
     watch: {
       js: {
-        files: ['js/*'],
+        files: [
+          'js/vendor/*.js',
+          'js/global/*.js',
+          'js/*.js'
+        ],
         tasks: ['concat:js'],
         options: {
           livereload: true
         }
       },
       js_admin: {
-        files: ['js/admin/*'],
+        files: [
+          'js/vendor/*.js',
+          'js/global/*.js',
+          'js/admin/vendor/*.js',
+          'js/admin/*.js'
+        ],
         tasks: ['concat:js_admin'],
         options: {
           livereload: true

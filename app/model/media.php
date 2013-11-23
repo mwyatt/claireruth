@@ -255,7 +255,10 @@ class Model_Media extends Model
 		");
 		foreach ($ids as $id) {
 			$this->bindValue($sth, 1, $id);
-			$this->tryExecute($sth, '12315514344124');
+			if ($this->tryExecute($sth, '12315514344124')) {
+				$this->readById(array($id));
+				unlink(BASE_PATH . $this->dir . $this->getDataFirst('path'));
+			}
 		}
 		return $sth->rowCount();
 	}

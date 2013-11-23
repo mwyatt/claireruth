@@ -1,5 +1,5 @@
-// base vars   
-var urlBase = document.body.data('url-base');
+// base vars     
+var urlBase = $('body').data('url-base');
 var urlBaseJs = urlBase + 'js/';
 var urlBaseAjax = urlBase + 'admin/ajax/';
 
@@ -20,7 +20,7 @@ function contentCreateUpdate () {
 	var modelTag = new Model_Tag();
 
 	// enter key
-	modelTag.searchField.live('keypress', function(event) {
+	modelTag.searchField.on('keypress', function(event) {
 		var field = $(this);
 		if (event.which == 13) {
     		$.ajax({
@@ -42,7 +42,7 @@ function contentCreateUpdate () {
 	});
 
 	// hitting keys when in the search field
-	modelTag.searchField.live('keyup', function(event) {
+	modelTag.searchField.on('keyup', function(event) {
 		var field = $(this);
 
 		// clear timer always
@@ -58,10 +58,10 @@ function contentCreateUpdate () {
 	});
 
 	// clicking a existing tag
-	modelTag.attachedTags.live('click', modelTag.clickRemove);
+	modelTag.attachedTags.on('click', modelTag.clickRemove);
 
 	// clicking a tag in the dropdown
-	modelTag.dropTags.live('click', function() {
+	modelTag.dropTags.on('click', function() {
 		var button = $(this);
 
 		// create content association
@@ -100,7 +100,7 @@ $(document).ready(function() {
 
 	// cache
 	var content = $('.content');
-	var body = document.body;
+	var body = $('body');
 
 	// prevent ajax cache
 	$.ajaxSetup ({  
