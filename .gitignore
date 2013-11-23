@@ -169,4 +169,4 @@ thumb/cache/
 app/cache/
 .sass-cache/
 Guardfile
-compass/
+node_modules/
