@@ -9326,19 +9326,41 @@ $(document).keyup(function(event) {
 
 
 /**
- * handles generic form submission
- * @todo possible to integrate the ajax script to validate?
- * @return {bool} 
+ * sets the submit classes found within the forms to handle
+ * prevents double submission with keyboard and button press
+ * form submission
  */
-function formSubmitDisable () {
-	if ($(this).hasClass('disabled')) {
-		return false;
-	}
-	$(this).addClass('disabled');
-	$(this).closest('form').submit();
-	return false;
-}
-;/**
+function setSubmit() {
+
+	// generic form submission
+	$('form')
+		.off('submit')
+		.on('submit', function(event) {
+			var form = $(this);
+
+			// dont submit if already submitting
+			if (form.hasClass('is-submitting')) {
+				return false;
+			}
+			form.addClass('is-submitting');
+		});
+
+	// a.submit buttons trigger form submission
+	$('form')
+		.find('.submit')
+		.off('click')
+		.on('click',  function(event) {
+			event.preventDefault();
+			var button = $(this);
+
+			// dont submit if already disabled
+			if (button.hasClass('disabled')) {
+				return false;
+			}
+			button.addClass('disabled');
+			button.closest('form').submit();
+		});
+};/**
  * takes control of a list of items and makes them scrollable fun
  * functions this can perform:
  * scroll between banners using speed option

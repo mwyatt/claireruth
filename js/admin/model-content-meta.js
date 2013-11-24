@@ -8,7 +8,7 @@ Model_Content_Meta = (function () {
 
 	module.prototype.create = function(data) {
 		$.get(
-			urlBaseAjax + 'content/meta/create'
+			url.ajax + 'content/meta/create'
 			, {
 				content_id: data.content_id
 				, name: data.name

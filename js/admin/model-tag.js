@@ -26,7 +26,7 @@ Model_Tag = (function () {
 	 */
 	module.prototype.search = function(query) {
 		$.get(
-			urlBaseAjax + 'tag/search',
+			url.ajax + 'tag/search',
 			{
 				query: query
 			},
@@ -45,7 +45,7 @@ Model_Tag = (function () {
 	 */
 	module.prototype.create = function(data) {
 		$.get(
-			urlBaseAjax + 'tag/create'
+			url.ajax + 'tag/create'
 			, {
 				title: data.title
 				, description: data.description
@@ -64,7 +64,7 @@ Model_Tag = (function () {
 	module.prototype.clickRemove = function() {
 		var button = $(this);
 		$.ajax({
-			url: urlBaseAjax + 'content/meta/delete'
+			url: url.ajax + 'content/meta/delete'
 			, type: 'get'
 			, data: {
 				content_id: $('.content').data('id')

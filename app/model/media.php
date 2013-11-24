@@ -28,7 +28,8 @@ class Model_Media extends Model
 				media.id
 				, media.title
 				, media.description
-				, concat('$baseurl', '$this->dir', media.path) as path
+				, concat('$baseurl', '$this->dir', media.path) as path_http
+				, concat('" . BASE_PATH . "', '$this->dir', media.path) as path_file
 				, media.type
 				, media.time_published
 				, concat(user.first_name, ' ', user.last_name) as user_full_name
@@ -55,7 +56,8 @@ class Model_Media extends Model
 				media.id
 				, media.title
 				, media.description
-				, concat('$baseurl', '$this->dir', media.path) as path
+				, concat('$baseurl', '$this->dir', media.path) as path_http
+				, concat('" . BASE_PATH . "', '$this->dir', media.path) as path_file
 				, media.type
 				, media.time_published
 				, concat(user.first_name, ' ', user.last_name) as user_full_name
@@ -70,6 +72,11 @@ class Model_Media extends Model
 				$parsedData[] = $this->buildThumb($sth->fetch(PDO::FETCH_ASSOC));
 			}
 		}
+		echo '<pre>';
+		print_r($parsedData);
+		echo '</pre>';
+		exit;
+		
 		return $this->setData($parsedData);
 	}
 
@@ -86,7 +93,8 @@ class Model_Media extends Model
 				media.id
 				, media.title
 				, media.description
-				, concat('$baseurl', '$this->dir', media.path) as path
+				, concat('$baseurl', '$this->dir', media.path) as path_http
+				, concat('" . BASE_PATH . "', '$this->dir', media.path) as path_file
 				, media.type
 				, media.time_published
 				, concat(user.first_name, ' ', user.last_name) as user_full_name
@@ -117,10 +125,10 @@ class Model_Media extends Model
 	public function buildThumb($row)
 	{
 		if ($row['type'] != 'application/pdf') {
-			$row['thumb']['300'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=300&h=130'), false);
-			$row['thumb']['150'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=150&h=120'), false);
-			$row['thumb']['350'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=350&h=220'), false);
-			$row['thumb']['760'] = $this->buildUrl(array('thumb/?src=' . $row['path'] . '&w=760&h=540'), false);
+			$row['thumb']['300'] = $this->buildUrl(array('thumb/?src=' . $row['path_http'] . '&w=300&h=130'), false);
+			$row['thumb']['150'] = $this->buildUrl(array('thumb/?src=' . $row['path_http'] . '&w=150&h=120'), false);
+			$row['thumb']['350'] = $this->buildUrl(array('thumb/?src=' . $row['path_http'] . '&w=350&h=220'), false);
+			$row['thumb']['760'] = $this->buildUrl(array('thumb/?src=' . $row['path_http'] . '&w=760&h=540'), false);
 		}
 		return $row;
 	}
@@ -255,8 +263,15 @@ class Model_Media extends Model
 		");
 		foreach ($ids as $id) {
 			$this->bindValue($sth, 1, $id);
+			$this->readById(array($id));
+			echo '<pre>';
+			print_r($this->getData());
+			echo '</pre>';
+				exit;
 			if ($this->tryExecute($sth, '12315514344124')) {
-				$this->readById(array($id));
+
+				
+				
 				unlink(BASE_PATH . $this->dir . $this->getDataFirst('path'));
 			}
 		}

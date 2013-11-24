@@ -9326,19 +9326,41 @@ $(document).keyup(function(event) {
 
 
 /**
- * handles generic form submission
- * @todo possible to integrate the ajax script to validate?
- * @return {bool} 
+ * sets the submit classes found within the forms to handle
+ * prevents double submission with keyboard and button press
+ * form submission
  */
-function formSubmitDisable () {
-	if ($(this).hasClass('disabled')) {
-		return false;
-	}
-	$(this).addClass('disabled');
-	$(this).closest('form').submit();
-	return false;
-}
-;/**
+function setSubmit() {
+
+	// generic form submission
+	$('form')
+		.off('submit')
+		.on('submit', function(event) {
+			var form = $(this);
+
+			// dont submit if already submitting
+			if (form.hasClass('is-submitting')) {
+				return false;
+			}
+			form.addClass('is-submitting');
+		});
+
+	// a.submit buttons trigger form submission
+	$('form')
+		.find('.submit')
+		.off('click')
+		.on('click',  function(event) {
+			event.preventDefault();
+			var button = $(this);
+
+			// dont submit if already disabled
+			if (button.hasClass('disabled')) {
+				return false;
+			}
+			button.addClass('disabled');
+			button.closest('form').submit();
+		});
+};/**
  * @license wysihtml5 v0.3.0
  * https://github.com/xing/wysihtml5
  *
@@ -19533,7 +19555,7 @@ var wysihtml5ParserRules = {
 			}
 			if (uploadFormData) {
 				$.ajax({
-					url: urlBase + 'admin/ajax/media/upload/',
+					url: url.base + 'admin/ajax/media/upload/',
 					type: 'POST',
 					data: uploadFormData,
 					processData: false,
@@ -19608,10 +19630,12 @@ var wysihtml5ParserRules = {
 
     }
 })(jQuery);
-;// base vars     
-var urlBase = $('body').data('url-base');
-var urlBaseJs = urlBase + 'js/';
-var urlBaseAjax = urlBase + 'admin/ajax/';
+;// init global variables
+var url = {
+	base: '',
+	js: '',
+	ajax: ''
+};
 
 
 function contentCreateUpdate () {
@@ -19634,7 +19658,7 @@ function contentCreateUpdate () {
 		var field = $(this);
 		if (event.which == 13) {
     		$.ajax({
-    			url: urlBaseAjax + 'tag/create'
+    			url: url.ajax + 'tag/create'
     			, type: 'get'
     			, data: {
     				title: field.val()
@@ -19676,7 +19700,7 @@ function contentCreateUpdate () {
 
 		// create content association
 		$.ajax({
-			url: urlBaseAjax + 'content/meta/create'
+			url: url.ajax + 'content/meta/create'
 			, type: 'get'
 			, data: {
 				content_id: $('.content').data('id')
@@ -19712,13 +19736,20 @@ $(document).ready(function() {
 	var content = $('.content');
 	var body = $('body');
 
+	// url helpers
+	url = {
+		base: body.data('url-base')
+	}
+	url.js = url.base + 'js/';
+	url.ajax = url.base + 'admin/ajax/';
+
 	// prevent ajax cache
 	$.ajaxSetup ({  
 		cache: false  
 	});
 
 	// form submission
-	$('form').find('a.submit').on('mouseup', formSubmitDisable);
+	$('form').find('a.submit').on('mouseup', setSubmit);
 
 	// general logic seperation
 	if (body.hasClass('admin-media')) {
@@ -19754,7 +19785,7 @@ Model_Content_Meta = (function () {
 
 	module.prototype.create = function(data) {
 		$.get(
-			urlBaseAjax + 'content/meta/create'
+			url.ajax + 'content/meta/create'
 			, {
 				content_id: data.content_id
 				, name: data.name
@@ -19889,7 +19920,7 @@ Model_Media = (function () {
 		var refreshPane = $('.js-media-refresh');
 		refreshPane.addClass('ajax');
 		$.get(
-			urlBaseAjax + 'media/read/'
+			url.ajax + 'media/read/'
 			// , {}
 			, function(result) { 
 				if (result) {
@@ -19914,7 +19945,7 @@ Model_Media = (function () {
 
 		// perform ajax
 		$.ajax({
-			url: urlBaseAjax + 'media/upload/'
+			url: url.ajax + 'media/upload/'
 			, type: 'POST'
 			, data: module.prototype.getFormData()
 			, processData: false
@@ -19987,7 +20018,7 @@ Model_Tag = (function () {
 	 */
 	module.prototype.search = function(query) {
 		$.get(
-			urlBaseAjax + 'tag/search',
+			url.ajax + 'tag/search',
 			{
 				query: query
 			},
@@ -20006,7 +20037,7 @@ Model_Tag = (function () {
 	 */
 	module.prototype.create = function(data) {
 		$.get(
-			urlBaseAjax + 'tag/create'
+			url.ajax + 'tag/create'
 			, {
 				title: data.title
 				, description: data.description
@@ -20025,7 +20056,7 @@ Model_Tag = (function () {
 	module.prototype.clickRemove = function() {
 		var button = $(this);
 		$.ajax({
-			url: urlBaseAjax + 'content/meta/delete'
+			url: url.ajax + 'content/meta/delete'
 			, type: 'get'
 			, data: {
 				content_id: $('.content').data('id')

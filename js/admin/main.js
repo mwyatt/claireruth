@@ -1,7 +1,9 @@
-// base vars     
-var urlBase = $('body').data('url-base');
-var urlBaseJs = urlBase + 'js/';
-var urlBaseAjax = urlBase + 'admin/ajax/';
+// init global variables
+var url = {
+	base: '',
+	js: '',
+	ajax: ''
+};
 
 
 function contentCreateUpdate () {
@@ -24,7 +26,7 @@ function contentCreateUpdate () {
 		var field = $(this);
 		if (event.which == 13) {
     		$.ajax({
-    			url: urlBaseAjax + 'tag/create'
+    			url: url.ajax + 'tag/create'
     			, type: 'get'
     			, data: {
     				title: field.val()
@@ -66,7 +68,7 @@ function contentCreateUpdate () {
 
 		// create content association
 		$.ajax({
-			url: urlBaseAjax + 'content/meta/create'
+			url: url.ajax + 'content/meta/create'
 			, type: 'get'
 			, data: {
 				content_id: $('.content').data('id')
@@ -102,13 +104,20 @@ $(document).ready(function() {
 	var content = $('.content');
 	var body = $('body');
 
+	// url helpers
+	url = {
+		base: body.data('url-base')
+	}
+	url.js = url.base + 'js/';
+	url.ajax = url.base + 'admin/ajax/';
+
 	// prevent ajax cache
 	$.ajaxSetup ({  
 		cache: false  
 	});
 
 	// form submission
-	$('form').find('a.submit').on('mouseup', formSubmitDisable);
+	$('form').find('a.submit').on('mouseup', setSubmit);
 
 	// general logic seperation
 	if (body.hasClass('admin-media')) {
