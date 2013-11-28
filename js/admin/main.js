@@ -105,9 +105,7 @@ $(document).ready(function() {
 	var body = $('body');
 
 	// url helpers
-	url = {
-		base: body.data('url-base')
-	}
+	url.base = body.data('url-base');
 	url.js = url.base + 'js/';
 	url.ajax = url.base + 'admin/ajax/';
 
