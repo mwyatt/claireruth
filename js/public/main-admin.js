@@ -9313,7 +9313,7 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 		}
 	};
 })(jQuery);
-;/**
+;/** 
  * generic keyup
  */
 $(document).keyup(function(event) {
@@ -9360,7 +9360,22 @@ function setSubmit() {
 			button.addClass('disabled');
 			button.closest('form').submit();
 		});
-};/**
+}
+
+
+/**
+ * Array.prototype.[method name] allows you to define/overwrite an objects method
+ * needle is the item you are searching for
+ * this is a special variable that refers to "this" instance of an Array.
+ * returns true if needle is in the array, and false otherwise
+ */
+Array.prototype.contains = function ( needle ) {
+   for (i in this) {
+       if (this[i] == needle) return true;
+   }
+   return false;
+}
+;/**
  * @license wysihtml5 v0.3.0
  * https://github.com/xing/wysihtml5
  *
@@ -19652,79 +19667,6 @@ function contentCreateUpdate () {
 
 	// tag
 	var modelTag = new Model_Tag();
-
-	// enter key
-	modelTag.searchField.on('keypress', function(event) {
-		var field = $(this);
-		if (event.which == 13) {
-    		$.ajax({
-    			url: url.ajax + 'tag/create'
-    			, type: 'get'
-    			, data: {
-    				title: field.val()
-    				, description: ''
-    			}
-    			, success: function (result) {
-    				
-    			}
-    			, error: function (jqXHR, textStatus, errorThrown) {
-    				alert(textStatus);
-    			}
-    		});
-			return false;
-	    }
-	});
-
-	// hitting keys when in the search field
-	modelTag.searchField.on('keyup', function(event) {
-		var field = $(this);
-
-		// clear timer always
-	    clearTimeout(modelTag.timer);
-		modelTag.dropDown.html('');
-
-	    // handle search terms if long enough
-	    if (field.val().length > 1) {
-	    	modelTag.timer = setTimeout(function() {
-	    		modelTag.search(field.val());
-	    	}, 300);
-	    }
-	});
-
-	// clicking a existing tag
-	modelTag.attachedTags.on('click', modelTag.clickRemove);
-
-	// clicking a tag in the dropdown
-	modelTag.dropTags.on('click', function() {
-		var button = $(this);
-
-		// create content association
-		$.ajax({
-			url: url.ajax + 'content/meta/create'
-			, type: 'get'
-			, data: {
-				content_id: $('.content').data('id')
-				, name: 'tag'
-				, value: $(this).data('id')
-			}
-			, success: function (result) {
-				
-				// move the button to the attached area
-				button.appendTo(modelTag.attachedTagContainer);
-			}
-			, error: function (jqXHR, textStatus, errorThrown) {
-				alert(textStatus);
-			}
-		});
-
-		// no more tags in the dropdown
-		if (! modelTag.dropTags) {
-			modelTag.dropDown.html('');
-		};
-
-		// empty the searchfield
-		modelTag.searchField.val('');
-	});
 }
 
 /**
@@ -19737,9 +19679,7 @@ $(document).ready(function() {
 	var body = $('body');
 
 	// url helpers
-	url = {
-		base: body.data('url-base')
-	}
+	url.base = body.data('url-base');
 	url.js = url.base + 'js/';
 	url.ajax = url.base + 'admin/ajax/';
 
@@ -19800,6 +19740,44 @@ Model_Content_Meta = (function () {
 	// methods
 	return module;
 })();
+;/**
+ * testing the modular approach to js
+ */
+var Model_Example = function (options) {
+	var globalfun = 'hello';
+	this.hello = 'default';
+	this.options = options;
+};
+
+
+Model_Example.prototype.getGlobalfun = function(value) {
+	return globalfun;
+};
+
+
+Model_Example.prototype.setHello = function(value) {
+	return this.hello = value;
+};
+
+
+Model_Example.prototype.getHello = function() {
+	return this.hello;
+};
+
+
+Model_Example.prototype.getOptions = function() {
+	return this.options;
+};
+
+
+Model_Example.prototype.setEvent = function() {
+};
+
+
+modelExample = new Model_Example({
+	option1: true,
+	option2: false
+});
 ;/**
  * module for all actions involved with media things
  * this could be instanciated for each place where media manipulation
@@ -19991,88 +19969,176 @@ Model_Media = (function () {
 	return module;
 })();
 ;/**
- * interfaces with tag table
- * @return {object} 
+ * interfaces with the tag table for the admin area
+ * dependancy $
  */
-Model_Tag = (function () {
-	var module = function () {};
-	var dropDown = $('.js-tag-drop');
+var Model_Tag = function (options) {
+	this.options = options;
+	this.dropDown = $('.js-tag-drop');
+	this.attachedTagContainer = $('.js-tag-attached');
+	this.searchField = $('.js-tag-input-search');
+	this.timer = 0;
+	this.data = this;
 
-
-	/**
-	 * sets up core selections 
-	 */
-	module.prototype.setElement = function() {
-		this.searchField = $('.js-tag-input-search');
-		this.dropDown = $('.js-tag-drop');
-		this.dropTags = this.dropDown.find('.js-tag');
-		this.attachedTagContainer = $('.js-tag-attached');
-		this.attachedTags = this.attachedTagContainer.find('.js-tag');
-		this.timer = 0;
-	}
-	
-
-	/**
-	 * perform ajax search and return result
-	 * @param  {string} query
-	 */
-	module.prototype.search = function(query) {
-		$.get(
-			url.ajax + 'tag/search',
-			{
-				query: query
-			},
-			function(result) { 
-				if (result) {
-					dropDown.html(result);
-				}
-			}
-		);
-	}
-	
-
-	/**
-	 * attaches a tag when clicked in the dropdown
-	 * @param {object} button 
-	 */
-	module.prototype.create = function(data) {
-		$.get(
-			url.ajax + 'tag/create'
-			, {
-				title: data.title
-				, description: data.description
-			}
-			, function(result) { 
-				data.callback.call();
-			}
-		);
-	}
-
-
-	/**
-	 * removes a tag when clicked in the admin area
-	 * @param {object} button 
-	 */
-	module.prototype.clickRemove = function() {
-		var button = $(this);
-		$.ajax({
-			url: url.ajax + 'content/meta/delete'
-			, type: 'get'
-			, data: {
-				content_id: $('.content').data('id')
-				, name: 'tag'
-				, value: $(this).data('id')
-			}
-			, success: function (result) {
-				button.remove();
-			}
-			, error: function (jqXHR, textStatus, errorThrown) {
-				alert(textStatus);
-			}
+	// var dropTags = dropDown.find('.js-tag');
+	// typing generally in tag field
+	// passing this through as event data
+	this.searchField
+		.off('keyup.modelTag')
+		.on('keyup.modelTag', this, function (event) {
+			event.data.keyupSearchField(event, $(this));
 		});
-	}
 
-	// methods
-	module.prototype.setElement();
-	return module;
-})();
+	// setup already attached tags to be removed
+	this.refreshEventAttachedTags(this);
+};
+
+
+/**
+ * replenish the attached tags event
+ */
+Model_Tag.prototype.refreshEventAttachedTags = function(event) {
+	event.data.attachedTagContainer.find('.js-tag')
+		.off('click.modelTag')
+		.on('click.modelTag', function () {
+			event.data.clickRemove(event, $(this));
+		});
+};
+
+
+/**
+ * attaches a tag when clicked in the dropdown
+ * @param {object} button 
+ */
+Model_Tag.prototype.create = function(data) {
+	$.ajax({
+		url: url.ajax + 'tag/create'
+		, data: {
+			title: data.title
+			, description: data.description
+		}
+		, type: 'get'
+		, success: function (result) {
+			if (! result) {
+				return;
+			};
+			result.appendTo(event.data.attachedTagContainer);
+		}
+		, error: function (jqXHR, textStatus, errorThrown) {
+			alert(textStatus);
+		}
+	});
+};
+
+
+/**
+ * perform ajax search and return result
+ * @param  {string} query
+ */
+Model_Tag.prototype.search = function(event, query) {
+	$.get(
+		url.ajax + 'tag/search',
+		{
+			query: query
+		},
+		function(result) { 
+			if (result) {
+				event.data.dropDown.html(result);
+				event.data.dropDown.find('.js-tag')
+					.off('click.modelTag')
+					.on('click.modelTag', function () {
+						event.data.dropTagsClick(event, $(this));
+					});
+			}
+		}
+	);
+};
+
+
+/**
+ * removes a tag when clicked in the admin area
+ * @param {object} button 
+ */
+Model_Tag.prototype.clickRemove = function(event, tag) {
+	$.ajax({
+		url: url.ajax + 'content/meta/delete'
+		, type: 'get'
+		, data: {
+			content_id: $('.content').data('id')
+			, name: 'tag'
+			, value: tag.data('id')
+		}
+		, success: function (result) {
+			tag.remove();
+		}
+		, error: function (jqXHR, textStatus, errorThrown) {
+			alert(textStatus);
+		}
+	});
+};
+
+
+/**
+ * clicking a dropdown tag to attach
+ * depentant on meta
+ */
+Model_Tag.prototype.dropTagsClick = function(event, tag) {
+
+	// create content association
+	$.ajax({
+		url: url.ajax + 'content/meta/create'
+		, type: 'get'
+		, data: {
+			content_id: $('.content').data('id')
+			, name: 'tag'
+			, value: tag.data('id')
+		}
+		, success: function (result) {
+			
+			// move the button to the attached area
+			tag.appendTo(event.data.attachedTagContainer);
+			event.data.refreshEventAttachedTags(event);
+		}
+		, error: function (jqXHR, textStatus, errorThrown) {
+			alert(textStatus);
+		}
+	});
+
+	// no more tags in the dropdown
+	if (! event.data.dropTags) {
+		event.data.dropDown.html('');
+	};
+
+	// empty the searchfield
+	event.data.searchField.val('');
+};
+
+
+/**
+ * hitting keys when in the search field
+ */
+Model_Tag.prototype.keyupSearchField = function(event, field) {
+
+	// clear timer always
+    clearTimeout(event.data.timer);
+	event.data.dropDown.html('');
+
+	// enter key
+	if (event.which == 13) {
+		event.data.create({
+			title: field.val()
+			, description: ''
+		});
+		event.preventDefault();
+    }
+
+    // handle search terms if long enough
+    if (field.val().length < 2) {
+    	return;
+    }
+
+    // timeout for search
+	event.data.timer = setTimeout(function() {
+		event.data.search(event, field.val());
+	}, 300);
+};

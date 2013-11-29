@@ -31,7 +31,7 @@ class Controller_Admin_Ajax_Content_Meta extends Controller
 		)) {
 			exit;
 		}
-		echo 'success';
+		exit('success');
 	}
 
 
@@ -47,6 +47,6 @@ class Controller_Admin_Ajax_Content_Meta extends Controller
 		)) {
 			exit;
 		}
-		echo 'success';
+		exit('success');
 	}
 }

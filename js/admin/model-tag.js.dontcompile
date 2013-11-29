@@ -1,0 +1,163 @@
+/**
+ * interfaces with tag table
+ * @return {object} 
+ */
+Model_Tag = (function () {
+	var module = function () {};
+	var dropDown = $('.js-tag-drop');
+
+
+	/**
+	 * sets up core selections 
+	 */
+	module.prototype.setElement = function() {
+		this.searchField = $('.js-tag-input-search');
+		this.dropDown = $('.js-tag-drop');
+		this.dropTags = this.dropDown.find('.js-tag');
+		this.attachedTagContainer = $('.js-tag-attached');
+		this.attachedTags = this.attachedTagContainer.find('.js-tag');
+		this.timer = 0;
+	}
+	
+
+	/**
+	 * perform ajax search and return result
+	 * @param  {string} query
+	 */
+	module.prototype.search = function(query) {
+		$.get(
+			url.ajax + 'tag/search',
+			{
+				query: query
+			},
+			function(result) { 
+				if (result) {
+					dropDown.html(result);
+				}
+			}
+		);
+	}
+	
+
+	/**
+	 * attaches a tag when clicked in the dropdown
+	 * @param {object} button 
+	 */
+	module.prototype.create = function(data) {
+		$.get(
+			url.ajax + 'tag/create'
+			, {
+				title: data.title
+				, description: data.description
+			}
+			, function(result) { 
+				data.callback.call();
+			}
+		);
+	}
+
+
+	/**
+	 * removes a tag when clicked in the admin area
+	 * @param {object} button 
+	 */
+	module.prototype.clickRemove = function() {
+		var button = $(this);
+		$.ajax({
+			url: url.ajax + 'content/meta/delete'
+			, type: 'get'
+			, data: {
+				content_id: $('.content').data('id')
+				, name: 'tag'
+				, value: $(this).data('id')
+			}
+			, success: function (result) {
+				button.remove();
+			}
+			, error: function (jqXHR, textStatus, errorThrown) {
+				alert(textStatus);
+			}
+		});
+	}
+
+
+	module.prototype.setEvent = function() {
+		console.log(this);
+		// enter key
+		searchField.off('keypress.modelTag').on('keypress.modelTag', function(event) {
+			var field = $(this);
+			if (event.which == 13) {
+				$.ajax({
+					url: url.ajax + 'tag/create'
+					, type: 'get'
+					, data: {
+						title: field.val()
+						, description: ''
+					}
+					, success: function (result) {
+						
+					}
+					, error: function (jqXHR, textStatus, errorThrown) {
+						alert(textStatus);
+					}
+				});
+				return false;
+		    }
+		});
+
+		// hitting keys when in the search field
+		searchField.off('keyup.modelTag').on('keyup.modelTag', function(event) {
+			var field = $(this);
+
+			// clear timer always
+		    clearTimeout(timer);
+			dropDown.html('');
+
+		    // handle search terms if long enough
+		    if (field.val().length > 1) {
+		    	timer = setTimeout(function() {
+		    		Model_Tag.prototype.search(field.val());
+		    	}, 300);
+		    }
+		});
+
+		// clicking a existing tag
+		attachedTags.off('click.modelTag').on('click.modelTag', this.clickRemove);
+
+		// clicking a tag in the dropdown
+		dropTags.off('click.modelTag').on('click.modelTag', function() {
+			var button = $(this);
+
+			// create content association
+			$.ajax({
+				url: url.ajax + 'content/meta/create'
+				, type: 'get'
+				, data: {
+					content_id: $('.content').data('id')
+					, name: 'tag'
+					, value: $(this).data('id')
+				}
+				, success: function (result) {
+					
+					// move the button to the attached area
+					button.appendTo(attachedTagContainer);
+				}
+				, error: function (jqXHR, textStatus, errorThrown) {
+					alert(textStatus);
+				}
+			});
+
+			// no more tags in the dropdown
+			if (! dropTags) {
+				this.dropDown.html('');
+			};
+
+			// empty the searchfield
+			searchField.val('');
+		});
+	}
+
+	// methods
+	module.prototype.setElement();
+	return module;
+})();

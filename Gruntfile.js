@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
  
-  grunt.registerTask('watch', [ 'watch' ]);
+  grunt.registerTask('default', ['watch']);
 
   grunt.initConfig({
     concat: {

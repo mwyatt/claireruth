@@ -41,14 +41,14 @@ class Controller_Admin_Ajax_Tag extends Controller
 
 	public function create() {
 		if (! array_key_exists('title', $_GET)) {
-			return;
+			exit;
 		}
 		$modelTag = new model_tag($this->database, $this->config);
 		if (! $modelTag->create(array(
 			'title' => $_GET['title']
 			, 'description' => ''
 		))) {
-			return;
+			exit;
 		}
 		$modelTag->read($_GET['title']);
 		$this->view

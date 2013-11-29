@@ -20,7 +20,7 @@ class Controller_Tag extends Controller
 		$modelTag = new model_tag($this->database, $this->config);
 		$modelContentMeta = new model_content_meta($this->database, $this->config);
 		$modelTagName = str_replace('-', ' ', $this->config->getUrl(1));
-		if (! $modelTag->readSingle($modelTagName)) {
+		if (! $modelTag->getDataFirst($modelTagName)) {
 			$this->view->loadTemplate('404');
 		}
 		$this->view->setObject('single_tag', $modelTag);
