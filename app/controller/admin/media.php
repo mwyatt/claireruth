@@ -22,7 +22,7 @@ class Controller_Admin_Media extends Controller
 
 		// update
 		if (array_key_exists('update', $_POST)) {
-			if ($modelMedia->update(
+			if ($modelMedia->lazyUpdate(
 				array(
 					'title' => (array_key_exists('title', $_POST) ? $_POST['title'] : '')
 					, 'description' => (array_key_exists('description', $_POST) ? $_POST['description'] : '')

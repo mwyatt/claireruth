@@ -17,10 +17,20 @@
 		border-color: $color-gray-30;
 		background-color: $color-gray-20;
 	}
+
+	.tag-action {
+		display: none;
+	}
 }
 
 .tag-manage-container .search {
 	margin-bottom: 1em;
+}
+
+.tag-manage-container .tag-drop {
+	@extend .clearfix;
+    @include box-shadow(0 0 3px);
+    padding: 0.5em;
 }
 
 .tag-manage-container .drop {

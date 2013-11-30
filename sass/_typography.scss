@@ -104,20 +104,22 @@ a:link {
 }
 
 .fixed {
-    font-family: $fixed-font-family;font-size: $fixed-font-size;line-height: $fixed-line-height;
+    // font-family: $fixed-font-family;font-size: $fixed-font-size;line-height: $fixed-line-height;
+    color: red;
 }
 
 .quiet {
-    font-color: $quiet-color;
+    // font-color: $quiet-color;
 }
 
 .loud  {
-    font-color: $loud-color;
+    // font-color: $loud-color;
+    color: red;
 }
 
 .italic {
     font-style: italic;
-}
+} 
 
 .bold   {
     @extend .loud;

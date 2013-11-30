@@ -1,0 +1,72 @@
+// table.main {
+//  margin: 0 0 2em;
+    
+//  table {
+//      border: 1px solid #eee;
+//      margin: 0 0 2em;
+//  }
+
+//  thead th {
+//      background-color: #eee;
+
+//      padding: 1em;
+//  }
+
+//  th,
+//  td {
+//      border-left: 1px solid #eee;
+//  }
+
+//  th:first-child,
+//  td:first-child {
+//  }
+
+//  td.action a {
+//      margin: 0 0.9em 0 0;
+//  }
+
+//  td {
+//      padding: 0.6em;
+//  }
+
+//  tbody tr {
+
+//      &:nth-child(even) {
+//          background: darken($color-white, 2%);
+//      }
+
+//      &:hover {
+//          background: darken($color-white, 5%);
+//          // border-bottom: 1px solid darken($color-white, 7%);
+//      }
+//  }
+
+//  tr {
+//      @include transition(background-color .1s ease-in-out);
+//  }
+
+//  tr:hover {
+//      @include text-shadow(1px 1px 0 $color-white);
+//      background: darken($color-white, 3%);
+//  }
+
+//  tr:first-child td {
+//      // border-top: none;
+//  }
+
+//  th {
+//      text-align: left;
+//      background: darken($color-white, 5%);
+//  }
+    
+//  th,
+//  td {
+//      border: 1px solid #e6e4e3;
+//      // border-bottom: 1px solid #e6e4e3;
+//      padding: 1em;
+//  }
+
+//  td:first-child {
+//      // border-left: 1px solid #e6e4e3;
+//  }
+// }

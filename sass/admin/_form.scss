@@ -1,0 +1,39 @@
+textarea {
+    height: 20em;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+    @include border-radius(3px);
+    border: 1px solid darken($color-white, 15%);
+    padding: 0.6em 0.8em;
+    margin: 0;
+    font-weight: bold;
+    color: darken($color-white, 60%);
+
+    &:focus {
+        @include box-shadow(0 2px 1px darken($color-white, 5%));
+        border-color: darken($color-white, 25%);
+        color: darken($color-white, 70%);
+    }
+}
+
+input.error {
+    border-color: red;
+}
+
+input[placeholder] { 
+    // color: darken($color-white, 20%);
+}
+
+label.above {
+    display: block;
+    margin: 0 0 1.1em;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+label {
+    color: darken($color-white, 40%);
+}

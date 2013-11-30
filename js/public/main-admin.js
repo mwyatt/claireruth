@@ -19666,7 +19666,9 @@ function contentCreateUpdate () {
 	var modelContentMeta = new Model_Content_Meta();
 
 	// tag
-	var modelTag = new Model_Tag();
+	var modelTag = new Model_Tag({
+		template: 'create-update'
+	});
 }
 
 /**
@@ -19973,24 +19975,31 @@ Model_Media = (function () {
  * dependancy $
  */
 var Model_Tag = function (options) {
-	this.options = options;
+	var defaults = {
+		template: 'default'
+	}
+	this.options = $.extend(defaults, options);
 	this.dropDown = $('.js-tag-drop');
 	this.attachedTagContainer = $('.js-tag-attached');
 	this.searchField = $('.js-tag-input-search');
 	this.timer = 0;
 	this.data = this;
+	if (options.template == 'create-update') {
+		
+		// typing generally in tag field
+		// passing this through as event data
+		this.searchField
+			.off('keyup.modelTag')
+			.on('keyup.modelTag', this, function (event) {
+				event.data.keyupSearchField(event, $(this));
+			});
 
-	// var dropTags = dropDown.find('.js-tag');
-	// typing generally in tag field
-	// passing this through as event data
-	this.searchField
-		.off('keyup.modelTag')
-		.on('keyup.modelTag', this, function (event) {
-			event.data.keyupSearchField(event, $(this));
-		});
+		// setup already attached tags to be removed
+		this.refreshEventAttachedTags(this);
+	};
+	if (options.template == 'default') {
 
-	// setup already attached tags to be removed
-	this.refreshEventAttachedTags(this);
+	};
 };
 
 
@@ -20000,7 +20009,8 @@ var Model_Tag = function (options) {
 Model_Tag.prototype.refreshEventAttachedTags = function(event) {
 	event.data.attachedTagContainer.find('.js-tag')
 		.off('click.modelTag')
-		.on('click.modelTag', function () {
+		.on('click.modelTag', function (currentEvent) {
+			currentEvent.preventDefault();
 			event.data.clickRemove(event, $(this));
 		});
 };
@@ -20046,8 +20056,9 @@ Model_Tag.prototype.search = function(event, query) {
 				event.data.dropDown.html(result);
 				event.data.dropDown.find('.js-tag')
 					.off('click.modelTag')
-					.on('click.modelTag', function () {
-						event.data.dropTagsClick(event, $(this));
+					.on('click.modelTag', function (currentEvent) {
+						currentEvent.preventDefault();
+						event.data.clickAdd(event, $(this));
 					});
 			}
 		}
@@ -20082,7 +20093,7 @@ Model_Tag.prototype.clickRemove = function(event, tag) {
  * clicking a dropdown tag to attach
  * depentant on meta
  */
-Model_Tag.prototype.dropTagsClick = function(event, tag) {
+Model_Tag.prototype.clickAdd = function(event, tag) {
 
 	// create content association
 	$.ajax({

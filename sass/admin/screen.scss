@@ -1,6 +1,8 @@
-@import "global";  
+@import "global";     
 @import "admin/header";
-@import "admin/content/post";
+@import "admin/form";
+// @import "admin/content/post";
+@import "admin/list";
 @import "admin/media";
 @import "admin/footer";
 @import "admin/login";
@@ -10,128 +12,15 @@
 body {
 	background: $color-white;
 	color: darken($color-white, 50%);
-	font-family: 'Open Sans', 'Arial', 'sans-serif';
+	font-family: $font-family;
 }
 
 .wrap-full-width {
 	width: 860px;
 }
 
-// table.main {
-// 	margin: 0 0 2em;
-	
-// 	table {
-// 		border: 1px solid #eee;
-// 		margin: 0 0 2em;
-// 	}
-
-// 	thead th {
-// 		background-color: #eee;
-
-// 		padding: 1em;
-// 	}
-
-// 	th,
-// 	td {
-// 		border-left: 1px solid #eee;
-// 	}
-
-// 	th:first-child,
-// 	td:first-child {
-// 	}
-
-// 	td.action a {
-// 		margin: 0 0.9em 0 0;
-// 	}
-
-// 	td {
-// 		padding: 0.6em;
-// 	}
-
-// 	tbody tr {
-
-// 		&:nth-child(even) {
-// 			background: darken($color-white, 2%);
-// 		}
-
-// 		&:hover {
-// 			background: darken($color-white, 5%);
-// 			// border-bottom: 1px solid darken($color-white, 7%);
-// 		}
-// 	}
-
-// 	tr {
-// 		@include transition(background-color .1s ease-in-out);
-// 	}
-
-// 	tr:hover {
-// 		@include text-shadow(1px 1px 0 $color-white);
-// 		background: darken($color-white, 3%);
-// 	}
-
-// 	tr:first-child td {
-// 		// border-top: none;
-// 	}
-
-// 	th {
-// 		text-align: left;
-// 		background: darken($color-white, 5%);
-// 	}
-	
-// 	th,
-// 	td {
-// 		border: 1px solid #e6e4e3;
-// 		// border-bottom: 1px solid #e6e4e3;
-// 		padding: 1em;
-// 	}
-
-// 	td:first-child {
-// 		// border-left: 1px solid #e6e4e3;
-// 	}
-// }
-
 .button.back {
 	float: right;
-}
-
-textarea {
-	height: 20em;
-}
-
-input[type="text"],
-input[type="password"],
-textarea {
-	@include border-radius(3px);
-	border: 1px solid darken($color-white, 15%);
-	padding: 0.6em 0.8em;
-	margin: 0;
-	font-weight: bold;
-	color: darken($color-white, 60%);
-
-	&:focus {
-		@include box-shadow(0 2px 1px darken($color-white, 5%));
-		border-color: darken($color-white, 25%);
-		color: darken($color-white, 70%);
-	}
-}
-
-input.error {
-	border-color: red;
-}
-
-input[placeholder] { 
-	// color: darken($color-white, 20%);
-}
-
-label.above {
-	display: block;
-	margin: 0 0 1.1em;
-	font-weight: 600;
-	font-size: 1.1em;
-}
-
-label {
-	color: darken($color-white, 40%);
 }
 
 .nothing-yet {

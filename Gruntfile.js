@@ -44,13 +44,13 @@ module.exports = function(grunt) {
           'screen.css': 'screen.scss',        
           'admin/screen.css': 'admin/screen.scss'
         }
-      },
-      dev: {                                  
-        files: {
-          'screen.css': 'screen.scss',
-          'admin/screen.css': 'admin/screen.scss',
-        }
       }
+      // dev: {                                  
+      //   files: {
+      //     'screen.css': 'screen.scss',
+      //     'admin/screen.css': 'admin/screen.scss',
+      //   }
+      // }
     },
     watch: {
       js: {
@@ -77,7 +77,7 @@ module.exports = function(grunt) {
         }
       },
       css: {
-        files: ['sass/*.scss'],
+        files: ['sass/**'],
         tasks: ['compass'],
         options: {
           livereload: true

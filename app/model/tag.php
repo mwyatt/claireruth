@@ -27,7 +27,7 @@ class Model_Tag extends Model
 	 * @param  array $contentIds 
 	 * @return array content_id => array of tags   
 	 */
-	public function readByContentId($contentIds) {	
+	public function readByContentId($contentIds = array()) {	
 		$parsedData = array();
 		$sth = $this->database->dbh->prepare("	
 			select
@@ -51,6 +51,24 @@ class Model_Tag extends Model
 			}
 		}
 		return $this->setData($parsedData);
+	}
+
+
+	public function readById($ids = array())
+	{
+		$sth = $this->database->dbh->prepare("	
+			select
+				tag.id
+				, tag.title
+				, tag.description
+			from tag
+			where tag.id = ?
+		");
+		foreach ($ids as $id) {
+			$this->bindValue($sth, 1, $id);
+			$this->tryExecute($sth, '987967867456');
+		}
+		return $this->setData($sth->fetchAll(PDO::FETCH_ASSOC));
 	}
 
 
@@ -152,18 +170,43 @@ class Model_Tag extends Model
 	 * @param  strgin $tagName 
 	 * @return int          
 	 */
-	public function read($tagName) {	
-		$sth = $this->database->dbh->prepare("	
+	public function read($tagName = '') {	
+		$query = "	
 			select
 				id
 				, title
 				, description
 			from tag
+		";
+		if ($tagName) {
+			$query .= "
 			where
 				tag.title like :tag_name
-		");
-		$this->bindValue($sth, ':tag_name', $tagName);
+			";
+		}
+		$sth = $this->database->dbh->prepare($query);
+		if ($tagName) {
+			$this->bindValue($sth, ':tag_name', $tagName);
+		}
 		$this->tryExecute($sth, '90213203830');
 		return $this->setData($sth->fetchAll(PDO::FETCH_ASSOC));
+	}
+
+
+	/**
+	 * deletes tags based on id/ids
+	 * @param  array  $ids 
+	 * @return int      
+	 */
+	public function deleteById($ids = array()) {
+		$sth = $this->database->dbh->prepare("	
+			delete from tag
+			where id = ? 
+		");
+		foreach ($ids as $id) {
+			$this->bindValue($sth, 1, $id);
+			$this->tryExecute($sth, 'tag.deleteById');
+		}
+		return $sth->rowCount();
 	}
 }

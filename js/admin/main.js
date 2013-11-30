@@ -19,7 +19,9 @@ function contentCreateUpdate () {
 	var modelContentMeta = new Model_Content_Meta();
 
 	// tag
-	var modelTag = new Model_Tag();
+	var modelTag = new Model_Tag({
+		template: 'create-update'
+	});
 }
 
 /**

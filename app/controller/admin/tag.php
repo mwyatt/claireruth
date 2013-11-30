@@ -22,7 +22,7 @@ class Controller_Admin_Tag extends Controller
 
 		// updated
 		if (array_key_exists('update', $_POST)) {
-			if ($modelTag->update(
+			if ($modelTag->lazyUpdate(
 				array(
 					'title' => (array_key_exists('title', $_POST) ? $_POST['title'] : '')
 					, 'description' => (array_key_exists('description', $_POST) ? $_POST['description'] : '')
@@ -40,7 +40,7 @@ class Controller_Admin_Tag extends Controller
 		if (array_key_exists('edit', $_GET)) {
 			if ($modelTag->readById(array($_GET['edit']))) {
 				$this->view
-					->setObject('model_tag', $modelTag->getDataFirst())
+					->setObject('tag', $modelTag->getDataFirst())
 					->loadTemplate('admin/tag/update');
 			} else {
 				$this->route('current_noquery');

@@ -1,4 +1,5 @@
-.content-post {
+.admin-tag .tag,
+.admin-content-post .content-post {
     height: 1.1em;
     border-top: 1px solid $color-gray-10;
     padding: 0.6em 0;
@@ -22,10 +23,12 @@
         float: right;
     }
 
+    .tag-action,
     .content-action {
         float: right;
     }
 
+    .tag-action-link,
     .content-action-link {
         margin-left: 1em;
     }
@@ -39,3 +42,4 @@
         display: none;
     }
 }
+     
