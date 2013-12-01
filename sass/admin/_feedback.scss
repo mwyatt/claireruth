@@ -8,21 +8,9 @@
     background: lighten(green, 50%);
     border-color: lighten(green, 10%);
     color: green;
-    width: 50%;
     margin: 0 auto;
 
     &:hover {
 		@include opacity(.5);
 	}
-}
-
-.is-fixed-top .feedback-container {
-	position: absolute;
-	top: 1.4em;
-	left: 0;
-	right: 0;
-}
-
-.feedback-description {
-    margin: 0;
 }

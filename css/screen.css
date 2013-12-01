@@ -79,6 +79,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /**
  * allows generation of buttons, this can then be used to set
  */
+/**
+ * allows generation of buttons, this can then be used to set
+ */
 @-webkit-keyframes introducing-diva {
   /* line 3, ../sass/_keyframe.scss */
   0% {
@@ -1320,33 +1323,6 @@ body {
   display: block;
   font-weight: bold;
   font-size: 0.9em;
-    /* 
-a.button,
-.button {
-    @include gradient(darken($color-white, 2%), darken($color-white, 4%));
-    @include border-radius(3px);
-    @include text-shadow(1px 1px 0 $color-white);
-    border: 1px solid darken($color-white, 15%);
-    color: darken($color-white, 50%);
-    padding: 0.5em 1em 0.6em;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-        @include gradient(darken($color-white, 1%), darken($color-white, 3%));
-        @include box-shadow(0 2px 1px darken($color-white, 5%));
-        border-color: darken($color-white, 25%);
-        color: darken($color-white, 70%);
-        text-decoration: none;
-    }
-
-    &:active {
-        @include gradient(darken($color-white, 5%), darken($color-white, 7%));
-        @include box-shadow(inset 0 1px 3px darken($color-white, 10%));
-    }
-}
-     */
 }
 /* line 42, ../sass/_mixin.scss */
 .button:hover {
@@ -1378,33 +1354,6 @@ a.button,
   display: block;
   font-weight: bold;
   font-size: 0.9em;
-    /* 
-a.button,
-.button {
-    @include gradient(darken($color-white, 2%), darken($color-white, 4%));
-    @include border-radius(3px);
-    @include text-shadow(1px 1px 0 $color-white);
-    border: 1px solid darken($color-white, 15%);
-    color: darken($color-white, 50%);
-    padding: 0.5em 1em 0.6em;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-        @include gradient(darken($color-white, 1%), darken($color-white, 3%));
-        @include box-shadow(0 2px 1px darken($color-white, 5%));
-        border-color: darken($color-white, 25%);
-        color: darken($color-white, 70%);
-        text-decoration: none;
-    }
-
-    &:active {
-        @include gradient(darken($color-white, 5%), darken($color-white, 7%));
-        @include box-shadow(inset 0 1px 3px darken($color-white, 10%));
-    }
-}
-     */
 }
 /* line 42, ../sass/_mixin.scss */
 .button.primary:hover {
@@ -1436,33 +1385,6 @@ a.button,
   display: block;
   font-weight: bold;
   font-size: 0.9em;
-    /* 
-a.button,
-.button {
-    @include gradient(darken($color-white, 2%), darken($color-white, 4%));
-    @include border-radius(3px);
-    @include text-shadow(1px 1px 0 $color-white);
-    border: 1px solid darken($color-white, 15%);
-    color: darken($color-white, 50%);
-    padding: 0.5em 1em 0.6em;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-        @include gradient(darken($color-white, 1%), darken($color-white, 3%));
-        @include box-shadow(0 2px 1px darken($color-white, 5%));
-        border-color: darken($color-white, 25%);
-        color: darken($color-white, 70%);
-        text-decoration: none;
-    }
-
-    &:active {
-        @include gradient(darken($color-white, 5%), darken($color-white, 7%));
-        @include box-shadow(inset 0 1px 3px darken($color-white, 10%));
-    }
-}
-     */
 }
 /* line 42, ../sass/_mixin.scss */
 .button.secondary:hover {
@@ -1494,33 +1416,6 @@ a.button,
   display: block;
   font-weight: bold;
   font-size: 0.9em;
-    /* 
-a.button,
-.button {
-    @include gradient(darken($color-white, 2%), darken($color-white, 4%));
-    @include border-radius(3px);
-    @include text-shadow(1px 1px 0 $color-white);
-    border: 1px solid darken($color-white, 15%);
-    color: darken($color-white, 50%);
-    padding: 0.5em 1em 0.6em;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-        @include gradient(darken($color-white, 1%), darken($color-white, 3%));
-        @include box-shadow(0 2px 1px darken($color-white, 5%));
-        border-color: darken($color-white, 25%);
-        color: darken($color-white, 70%);
-        text-decoration: none;
-    }
-
-    &:active {
-        @include gradient(darken($color-white, 5%), darken($color-white, 7%));
-        @include box-shadow(inset 0 1px 3px darken($color-white, 10%));
-    }
-}
-     */
 }
 /* line 42, ../sass/_mixin.scss */
 .button.tertiary:hover {

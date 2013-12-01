@@ -1,7 +1,6 @@
 @import "global";     
 @import "admin/header";
 @import "admin/form";
-// @import "admin/content/post";
 @import "admin/list";
 @import "admin/media";
 @import "admin/footer";
@@ -21,6 +20,13 @@ body {
 
 .button.back {
 	float: right;
+}
+
+.button.primary,
+.button.secondary,
+.button.tertiary,
+.button {
+    @include admin-button($color-white);
 }
 
 .nothing-yet {

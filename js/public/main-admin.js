@@ -19599,125 +19599,6 @@ var wysihtml5ParserRules = {
 	};
 })(jQuery);
 ;/**
- * adds a class to an element when it goes past a certain point on the screen
- */
-(function($){
-	$.fn.scrollFollow = function(options) {
-		if (! this.length) return;
-		var defaults = {
-			timer: 0
-			, delay: 0
-			, followAfter: 0
-		}
-		var options = $.extend(defaults, options);
-		var element = $(this);
-
-		// init
-		timeUpdateClass();
-
-		// start checking for the scrolling
-		$(window).scroll(timeUpdateClass);
-
-
-		function timeUpdateClass () {
-			clearTimeout(options.timer);
-			options.timer = setTimeout(updateClass, options.delay);
-		}
-
-
-		/**
-		 * updates the class periodically
-		 */
-		function updateClass () {
-			if ($(window).scrollTop() > Math.floor(options.followAfter)) {
-				$(element).addClass('is-fixed-top');
-			} else {
-				$(element).removeClass('is-fixed-top');
-			}
-		}
-	}
-})(jQuery);
-;/**
- * tag management, search, add, remove
- */
-(function($) {
-    $.fn.tags = function(options) {
-
-    }
-})(jQuery);
-;// init global variables
-var url = {
-	base: '',
-	js: '',
-	ajax: ''
-};
-
-
-function contentCreateUpdate () {
-	
-	// html5wysi
-	var editor = new wysihtml5.Editor('form_html', {
-		toolbar: 'toolbar'
-		, parserRules: wysihtml5ParserRules
-		, useLineBreaks: false
-	});
-
-	// tie in content meta
-	var modelContentMeta = new Model_Content_Meta();
-
-	// tag
-	var modelTag = new Model_Tag({
-		template: 'create-update'
-	});
-}
-
-/**
- * @todo should import scripts only when the functionality is needed..
- */
-$(document).ready(function() {
-
-	// cache
-	var content = $('.content');
-	var body = $('body');
-
-	// url helpers
-	url.base = body.data('url-base');
-	url.js = url.base + 'js/';
-	url.ajax = url.base + 'admin/ajax/';
-
-	// prevent ajax cache
-	$.ajaxSetup ({  
-		cache: false  
-	});
-
-	// form submission
-	$('form').find('a.submit').on('mouseup', setSubmit);
-
-	// general logic seperation
-	if (body.hasClass('admin-media')) {
-		var modelMedia = new Model_Media();
-		modelMedia.setEvent();
-	};
-
-	// try adding all logic for manipulating objects here...
-	if (content.hasClass('content-create-update')) {
-		contentCreateUpdate();
-	};
-
-	var modelMedia = new Model_Media();
-
-	// lightboxes
-	$('.js-lightbox-media-browser').lightbox({
-		inline: true
-		, maxWidth: 800
-		, className: 'media-browser'
-		, onComplete: modelMedia.setEvent
-	});
-
-	// header always following on scroll
-	$('.js-header-main').scrollFollow();
-});
-;/**
  * interfaces with content_meta table
  * @todo  needs to be converted to module
  * @return {object} 
@@ -20153,3 +20034,145 @@ Model_Tag.prototype.keyupSearchField = function(event, field) {
 		event.data.search(event, field.val());
 	}, 300);
 };
+;var Prompt = function (options) {
+	var defaults = {
+		template: 'default'
+	}
+	this.options = $.extend(defaults, options);
+	this.dropDown = $('.js-tag-drop');
+	this.attachedTagContainer = $('.js-tag-attached');
+	this.searchField = $('.js-tag-input-search');
+	this.timer = 0;
+	this.data = this;
+	if (options.template == 'create-update') {
+		
+		// typing generally in tag field
+		// passing this through as event data
+		this.searchField
+			.off('keyup.modelTag')
+			.on('keyup.modelTag', this, function (event) {
+				event.data.keyupSearchField(event, $(this));
+			});
+
+		// setup already attached tags to be removed
+		this.refreshEventAttachedTags(this);
+	};
+	if (options.template == 'default') {
+
+	};
+};
+
+
+Prompt.prototype.refreshEventAttachedTags = function(event) {
+};
+;/**
+ * adds a class to an element when it goes past a certain point on the screen
+ */
+(function($){
+	$.fn.scrollFollow = function(options) {
+		if (! this.length) return;
+		var defaults = {
+			timer: 0
+			, delay: 0
+			, followAfter: 0
+		}
+		var options = $.extend(defaults, options);
+		var element = $(this);
+
+		// init
+		timeUpdateClass();
+
+		// start checking for the scrolling
+		$(window).scroll(timeUpdateClass);
+
+
+		function timeUpdateClass () {
+			clearTimeout(options.timer);
+			options.timer = setTimeout(updateClass, options.delay);
+		}
+
+
+		/**
+		 * updates the class periodically
+		 */
+		function updateClass () {
+			if ($(window).scrollTop() > Math.floor(options.followAfter)) {
+				$(element).addClass('is-fixed-top');
+			} else {
+				$(element).removeClass('is-fixed-top');
+			}
+		}
+	}
+})(jQuery);
+;// init global variables
+var url = {
+	base: '',
+	js: '',
+	ajax: ''
+};
+
+
+function contentCreateUpdate () {
+	
+	// html5wysi
+	var editor = new wysihtml5.Editor('form_html', {
+		toolbar: 'toolbar'
+		, parserRules: wysihtml5ParserRules
+		, useLineBreaks: false
+	});
+
+	// tie in content meta
+	var modelContentMeta = new Model_Content_Meta();
+
+	// tag
+	var modelTag = new Model_Tag({
+		template: 'create-update'
+	});
+}
+
+/**
+ * @todo should import scripts only when the functionality is needed..
+ */
+$(document).ready(function() {
+
+	// cache
+	var content = $('.content');
+	var body = $('body');
+
+	// url helpers
+	url.base = body.data('url-base');
+	url.js = url.base + 'js/';
+	url.ajax = url.base + 'admin/ajax/';
+
+	// prevent ajax cache
+	$.ajaxSetup ({  
+		cache: false  
+	});
+
+	// form submission
+	$('form').find('a.submit').on('mouseup', setSubmit);
+
+	// general logic seperation
+	if (body.hasClass('admin-media')) {
+		var modelMedia = new Model_Media();
+		modelMedia.setEvent();
+	};
+
+	// try adding all logic for manipulating objects here...
+	if (content.hasClass('content-create-update')) {
+		contentCreateUpdate();
+	};
+
+	var modelMedia = new Model_Media();
+
+	// lightboxes
+	$('.js-lightbox-media-browser').lightbox({
+		inline: true
+		, maxWidth: 800
+		, className: 'media-browser'
+		, onComplete: modelMedia.setEvent
+	});
+
+	// header always following on scroll
+	$('.js-header-main').scrollFollow();
+});

@@ -1,13 +1,11 @@
-header.main {
+header.main { 
     border-bottom: 1px solid $color-gray-10;
-
-    .feedback-container {
-    	margin: 0;
-    }
+    padding-bottom: 2em;
 }
 
 header.main.is-fixed-top {
     background-color: $color-white;
+    padding-bottom: 1em;
 }
 
 header.main.is-fixed-top + .content {

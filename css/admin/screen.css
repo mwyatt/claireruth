@@ -73,6 +73,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /**
  * allows generation of buttons, this can then be used to set
  */
+/**
+ * allows generation of buttons, this can then be used to set
+ */
 @-webkit-keyframes introducing-diva {
   /* line 3, ../../sass/_keyframe.scss */
   0% {
@@ -842,28 +845,26 @@ html.js input[type="submit"] {
 /* line 1, ../../sass/admin/_header.scss */
 header.main {
   border-bottom: 1px solid #e6e6e6;
-}
-/* line 4, ../../sass/admin/_header.scss */
-header.main .feedback-container {
-  margin: 0;
+  padding-bottom: 2em;
 }
 
-/* line 9, ../../sass/admin/_header.scss */
+/* line 6, ../../sass/admin/_header.scss */
 header.main.is-fixed-top {
   background-color: white;
+  padding-bottom: 1em;
 }
 
-/* line 13, ../../sass/admin/_header.scss */
+/* line 11, ../../sass/admin/_header.scss */
 header.main.is-fixed-top + .content {
   padding-top: 111px;
 }
 
-/* line 17, ../../sass/admin/_header.scss */
+/* line 15, ../../sass/admin/_header.scss */
 .inner-title-nav-user {
   padding: 0.4em 0;
 }
 
-/* line 21, ../../sass/admin/_header.scss */
+/* line 19, ../../sass/admin/_header.scss */
 .header-site-title {
   float: left;
   width: 20%;
@@ -873,24 +874,24 @@ header.main.is-fixed-top + .content {
   white-space: nowrap;
 }
 
-/* line 30, ../../sass/admin/_header.scss */
+/* line 28, ../../sass/admin/_header.scss */
 .nav-main-container {
   float: left;
 }
 
-/* line 34, ../../sass/admin/_header.scss */
+/* line 32, ../../sass/admin/_header.scss */
 .nav-user {
   float: right;
 }
 
-/* line 38, ../../sass/admin/_header.scss */
+/* line 36, ../../sass/admin/_header.scss */
 .nav-main-level1 {
   float: left;
   position: relative;
   margin: 0 1.6em 0 0;
   padding-bottom: 1em;
 }
-/* line 44, ../../sass/admin/_header.scss */
+/* line 42, ../../sass/admin/_header.scss */
 .nav-main-level1:hover .nav-main-level1-drop {
   -webkit-animation: drop-up 200ms ease both;
   -moz-animation: drop-up 200ms ease both;
@@ -898,12 +899,12 @@ header.main.is-fixed-top + .content {
   display: block;
 }
 
-/* line 50, ../../sass/admin/_header.scss */
+/* line 48, ../../sass/admin/_header.scss */
 .drop.nav-user-drop {
   display: none;
 }
 
-/* line 54, ../../sass/admin/_header.scss */
+/* line 52, ../../sass/admin/_header.scss */
 .nav-main-level1-drop {
   background: white;
   display: none;
@@ -916,7 +917,7 @@ header.main.is-fixed-top + .content {
   padding: 1em 0;
 }
 
-/* line 66, ../../sass/admin/_header.scss */
+/* line 64, ../../sass/admin/_header.scss */
 .nav-main-level2-link {
   display: block;
   padding: 0 1em 0.4em;
@@ -1206,46 +1207,82 @@ footer.main {
   background: #80ff80;
   border-color: #00b300;
   color: green;
-  width: 50%;
   margin: 0 auto;
 }
-/* line 14, ../../sass/admin/_feedback.scss */
+/* line 13, ../../sass/admin/_feedback.scss */
 .feedback-container:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
   opacity: 0.5;
 }
 
-/* line 19, ../../sass/admin/_feedback.scss */
-.is-fixed-top .feedback-container {
-  position: absolute;
-  top: 1.4em;
-  left: 0;
-  right: 0;
-}
-
-/* line 26, ../../sass/admin/_feedback.scss */
-.feedback-description {
-  margin: 0;
-}
-
-/* line 12, ../../sass/admin/screen.scss */
+/* line 11, ../../sass/admin/screen.scss */
 body {
   background: white;
   color: gray;
   font-family: "Open Sans", "Arial", "Sans-serif";
 }
 
-/* line 18, ../../sass/admin/screen.scss */
+/* line 17, ../../sass/admin/screen.scss */
 .wrap-full-width {
   width: 860px;
 }
 
-/* line 22, ../../sass/admin/screen.scss */
+/* line 21, ../../sass/admin/screen.scss */
 .button.back {
   float: right;
 }
 
-/* line 26, ../../sass/admin/screen.scss */
+/* line 28, ../../sass/admin/screen.scss */
+.button.primary,
+.button.secondary,
+.button.tertiary,
+.button {
+  background-image: -webkit-linear-gradient(#fafafa, #f5f5f5);
+  background-image: -moz-linear-gradient(#fafafa, #f5f5f5);
+  background-image: -o-linear-gradient(#fafafa, #f5f5f5);
+  background-image: linear-gradient(#fafafa, #f5f5f5);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  text-shadow: 1px 1px 0 white;
+  border: 1px solid #d9d9d9;
+  color: gray;
+  padding: 0.5em 1em 0.6em;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* line 68, ../../sass/_mixin.scss */
+.button.primary:hover,
+.button.secondary:hover,
+.button.tertiary:hover,
+.button:hover {
+  background-image: -webkit-linear-gradient(#fcfcfc, #f7f7f7);
+  background-image: -moz-linear-gradient(#fcfcfc, #f7f7f7);
+  background-image: -o-linear-gradient(#fcfcfc, #f7f7f7);
+  background-image: linear-gradient(#fcfcfc, #f7f7f7);
+  -webkit-box-shadow: 0 2px 1px #f2f2f2;
+  -moz-box-shadow: 0 2px 1px #f2f2f2;
+  box-shadow: 0 2px 1px #f2f2f2;
+  border-color: #bfbfbf;
+  color: #4d4d4d;
+  text-decoration: none;
+}
+/* line 76, ../../sass/_mixin.scss */
+.button.primary:active,
+.button.secondary:active,
+.button.tertiary:active,
+.button:active {
+  background-image: -webkit-linear-gradient(#f2f2f2, #ededed);
+  background-image: -moz-linear-gradient(#f2f2f2, #ededed);
+  background-image: -o-linear-gradient(#f2f2f2, #ededed);
+  background-image: linear-gradient(#f2f2f2, #ededed);
+  -webkit-box-shadow: inset 0 1px 3px #e6e6e6;
+  -moz-box-shadow: inset 0 1px 3px #e6e6e6;
+  box-shadow: inset 0 1px 3px #e6e6e6;
+}
+
+/* line 32, ../../sass/admin/screen.scss */
 .nothing-yet {
   text-shadow: 0 1px 0 white;
   background: #fafafa;
@@ -1254,7 +1291,7 @@ body {
   border-bottom: 1px solid #d9d9d9;
   padding: 2em;
 }
-/* line 35, ../../sass/admin/screen.scss */
+/* line 41, ../../sass/admin/screen.scss */
 .nothing-yet p {
   color: #999999;
   cursor: default;
@@ -1262,12 +1299,12 @@ body {
   margin: 0;
 }
 
-/* line 43, ../../sass/admin/screen.scss */
+/* line 49, ../../sass/admin/screen.scss */
 .toolbar {
   margin: 0 0 1em;
 }
 
-/* line 47, ../../sass/admin/screen.scss */
+/* line 53, ../../sass/admin/screen.scss */
 .toolbar .button {
   float: left;
   margin: 0 .5em .5em 0;
@@ -1275,7 +1312,7 @@ body {
   padding: .5em 1em;
 }
 
-/* line 56, ../../sass/admin/screen.scss */
+/* line 62, ../../sass/admin/screen.scss */
 .content.page textarea,
 .content.post textarea {
   width: 100%;

@@ -2,7 +2,7 @@
 
 <div class="content <?php echo $this->url(2); ?> <?php echo ($this->get('model_content') ? 'update' : 'create'); ?> content-create-update" data-id="<?php echo $this->get('model_content', 'id'); ?>">
 	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
-	<h1><?php echo ($this->get('model_content') ? 'Update ' . ucfirst($this->url(2)) . ' ' . $this->get('model_content', 'title') : 'Create new ' . ucfirst($this->url(2))); ?></h1>
+	<h1 class="h1"><?php echo ($this->get('model_content') ? 'Update ' . ucfirst($this->url(2)) . ' ' . $this->get('model_content', 'title') : 'Create new ' . ucfirst($this->url(2))); ?></h1>
 	<form class="main" method="post" enctype="multipart/form-data">
 		<div class="row">	
 			<label class="above" for="form_title">Title</label>
