@@ -1,7 +1,7 @@
 <?php require_once($this->pathView('admin/_header')); ?>
 <?php require_once($this->pathView('_logo')) ?>
 
-	<form method="post">
+	<form method="post" action="">
 
 <?php $feedback = $this->get('session_feedback') ?>
 <?php require_once($this->pathView('_feedback')); ?>

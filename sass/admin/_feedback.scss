@@ -4,11 +4,11 @@
     margin: 1em 0 0;
     border: 1px solid;
     padding: 0.5em 0.8em;
-    font-size: 0.9em;
     background: lighten(green, 50%);
     border-color: lighten(green, 10%);
     color: green;
     margin: 0 auto;
+    cursor: default;
 
     &:hover {
 		@include opacity(.5);

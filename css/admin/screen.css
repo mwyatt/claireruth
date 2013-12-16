@@ -498,9 +498,8 @@ a:link {
 }
 
 /* line 70, ../../sass/_reusable.scss */
-.clearfix:before, .row:before, .lightbox:before, .tag-manage-container .tag-drop:before,
+.clearfix:before, .lightbox:before, .tag-manage-container .tag-drop:before,
 .clearfix:after,
-.row:after,
 .lightbox:after,
 .tag-manage-container .tag-drop:after {
   content: " ";
@@ -508,12 +507,12 @@ a:link {
 }
 
 /* line 75, ../../sass/_reusable.scss */
-.clearfix:after, .row:after, .lightbox:after, .tag-manage-container .tag-drop:after {
+.clearfix:after, .lightbox:after, .tag-manage-container .tag-drop:after {
   clear: both;
 }
 
 /* line 79, ../../sass/_reusable.scss */
-.clearfix, .row, .lightbox, .tag-manage-container .tag-drop {
+.clearfix, .lightbox, .tag-manage-container .tag-drop {
   *zoom: 1;
 }
 
@@ -526,15 +525,15 @@ a:link {
 
 /* line 89, ../../sass/_reusable.scss */
 .row {
-  margin-top: 1em;
+  margin: 1em 0;
 }
 
-/* line 94, ../../sass/_reusable.scss */
+/* line 93, ../../sass/_reusable.scss */
 .icon {
   display: block;
 }
 
-/* line 98, ../../sass/_reusable.scss */
+/* line 97, ../../sass/_reusable.scss */
 .drop {
   -webkit-box-shadow: 0 1px 3px #999999;
   -moz-box-shadow: 0 1px 3px #999999;
@@ -550,7 +549,7 @@ a:link {
   left: 0;
 }
 
-/* line 109, ../../sass/_reusable.scss */
+/* line 108, ../../sass/_reusable.scss */
 .area {
   position: relative;
 }
@@ -559,7 +558,7 @@ a:link {
  * js must be active for main submit buttons to hide away
  * @type {String}
  */
-/* line 118, ../../sass/_reusable.scss */
+/* line 117, ../../sass/_reusable.scss */
 html.js input[type="submit"] {
   position: absolute;
   left: -999em;
@@ -567,20 +566,20 @@ html.js input[type="submit"] {
   height: 1px;
 }
 
-/* line 125, ../../sass/_reusable.scss */
+/* line 124, ../../sass/_reusable.scss */
 .wrap-full-width {
   position: relative;
   margin: 0 auto;
 }
 
-/* line 130, ../../sass/_reusable.scss */
+/* line 129, ../../sass/_reusable.scss */
 .ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-/* line 136, ../../sass/_reusable.scss */
+/* line 135, ../../sass/_reusable.scss */
 .is-fixed-top {
   -webkit-box-shadow: 0 1px 3px gray;
   -moz-box-shadow: 0 1px 3px gray;
@@ -592,10 +591,132 @@ html.js input[type="submit"] {
   position: fixed;
 }
 
-/* line 145, ../../sass/_reusable.scss */
+/* line 144, ../../sass/_reusable.scss */
 .ajax {
   background-image: url('/claireruth/media/ajax.gif?1368257192');
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+/* line 149, ../../sass/_reusable.scss */
+.ajax .is-tall {
   height: 50px;
+}
+
+/* line 166, ../../sass/_reusable.scss */
+.mt0 {
+  margin-top: 0;
+}
+
+/* line 170, ../../sass/_reusable.scss */
+.mt1 {
+  margin-top: 1em;
+}
+
+/* line 174, ../../sass/_reusable.scss */
+.mb0 {
+  margin-bottom: 0;
+}
+
+/* line 178, ../../sass/_reusable.scss */
+.mb1 {
+  margin-bottom: 1em;
+}
+
+/* line 182, ../../sass/_reusable.scss */
+.mr05 {
+  margin-right: .5em;
+}
+
+/* line 186, ../../sass/_reusable.scss */
+.ml05 {
+  margin-left: .5em;
+}
+
+/* line 190, ../../sass/_reusable.scss */
+.mr1 {
+  margin-right: 1em;
+}
+
+/* line 194, ../../sass/_reusable.scss */
+.ml1 {
+  margin-left: 1em;
+}
+
+/* line 198, ../../sass/_reusable.scss */
+.is-highlighted {
+  font-weight: bold;
+}
+
+/* line 202, ../../sass/_reusable.scss */
+.is-fixed {
+  position: fixed;
+}
+
+/* line 207, ../../sass/_reusable.scss */
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  /* left arrow slant */
+  border-right: 5px solid transparent;
+  /* right arrow slant */
+  border-bottom: 5px solid black;
+  /* bottom, add background color here */
+  font-size: 0;
+  line-height: 0;
+}
+
+/* create an arrow that points down */
+/* line 218, ../../sass/_reusable.scss */
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+  font-size: 0;
+  line-height: 0;
+}
+
+/* create an arrow that points left */
+/* line 229, ../../sass/_reusable.scss */
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-bottom: 5px solid transparent;
+  /* left arrow slant */
+  border-top: 5px solid transparent;
+  /* right arrow slant */
+  border-right: 5px solid black;
+  /* bottom, add background color here */
+  font-size: 0;
+  line-height: 0;
+}
+
+/* create an arrow that points right */
+/* line 240, ../../sass/_reusable.scss */
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-bottom: 5px solid transparent;
+  /* left arrow slant */
+  border-top: 5px solid transparent;
+  /* right arrow slant */
+  border-left: 5px solid black;
+  /* bottom, add background color here */
+  font-size: 0;
+  line-height: 0;
+}
+
+/* line 250, ../../sass/_reusable.scss */
+table.basic {
+  margin: 1em 0;
+}
+/* line 254, ../../sass/_reusable.scss */
+table.basic th,
+table.basic td {
+  padding: 0.5em;
+  border: 1px solid #995799;
 }
 
 /* line 1, ../../sass/lightbox/_media.scss */
@@ -845,26 +966,27 @@ html.js input[type="submit"] {
 /* line 1, ../../sass/admin/_header.scss */
 header.main {
   border-bottom: 1px solid #e6e6e6;
-  padding-bottom: 2em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
 }
 
-/* line 6, ../../sass/admin/_header.scss */
+/* line 7, ../../sass/admin/_header.scss */
 header.main.is-fixed-top {
   background-color: white;
   padding-bottom: 1em;
 }
 
-/* line 11, ../../sass/admin/_header.scss */
+/* line 12, ../../sass/admin/_header.scss */
 header.main.is-fixed-top + .content {
   padding-top: 111px;
 }
 
-/* line 15, ../../sass/admin/_header.scss */
+/* line 16, ../../sass/admin/_header.scss */
 .inner-title-nav-user {
   padding: 0.4em 0;
 }
 
-/* line 19, ../../sass/admin/_header.scss */
+/* line 20, ../../sass/admin/_header.scss */
 .header-site-title {
   float: left;
   width: 20%;
@@ -874,24 +996,24 @@ header.main.is-fixed-top + .content {
   white-space: nowrap;
 }
 
-/* line 28, ../../sass/admin/_header.scss */
+/* line 29, ../../sass/admin/_header.scss */
 .nav-main-container {
   float: left;
 }
 
-/* line 32, ../../sass/admin/_header.scss */
+/* line 33, ../../sass/admin/_header.scss */
 .nav-user {
   float: right;
 }
 
-/* line 36, ../../sass/admin/_header.scss */
+/* line 37, ../../sass/admin/_header.scss */
 .nav-main-level1 {
   float: left;
   position: relative;
   margin: 0 1.6em 0 0;
   padding-bottom: 1em;
 }
-/* line 42, ../../sass/admin/_header.scss */
+/* line 43, ../../sass/admin/_header.scss */
 .nav-main-level1:hover .nav-main-level1-drop {
   -webkit-animation: drop-up 200ms ease both;
   -moz-animation: drop-up 200ms ease both;
@@ -899,12 +1021,12 @@ header.main.is-fixed-top + .content {
   display: block;
 }
 
-/* line 48, ../../sass/admin/_header.scss */
+/* line 49, ../../sass/admin/_header.scss */
 .drop.nav-user-drop {
   display: none;
 }
 
-/* line 52, ../../sass/admin/_header.scss */
+/* line 53, ../../sass/admin/_header.scss */
 .nav-main-level1-drop {
   background: white;
   display: none;
@@ -917,7 +1039,7 @@ header.main.is-fixed-top + .content {
   padding: 1em 0;
 }
 
-/* line 64, ../../sass/admin/_header.scss */
+/* line 65, ../../sass/admin/_header.scss */
 .nav-main-level2-link {
   display: block;
   padding: 0 1em 0.4em;
@@ -1106,7 +1228,9 @@ label {
 
 /* line 1, ../../sass/admin/_footer.scss */
 footer.main {
-  border-top: 1px solid;
+  border-top: 1px solid #cccccc;
+  padding: 1em 0;
+  margin-top: 2em;
 }
 
 /* line 1, ../../sass/admin/_login.scss */
@@ -1203,11 +1327,11 @@ footer.main {
   margin: 1em 0 0;
   border: 1px solid;
   padding: 0.5em 0.8em;
-  font-size: 0.9em;
   background: #80ff80;
   border-color: #00b300;
   color: green;
   margin: 0 auto;
+  cursor: default;
 }
 /* line 13, ../../sass/admin/_feedback.scss */
 .feedback-container:hover {
