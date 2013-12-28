@@ -2,7 +2,7 @@
 
 <div class="content <?php echo $this->url(2); ?> <?php echo ($this->get('model_content') ? 'update' : 'create'); ?> content-create-update" data-id="<?php echo $this->get('model_content', 'id'); ?>">
 	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
-	<h1 class="h1"><?php echo ($this->get('model_content') ? 'Update ' . ucfirst($this->url(2)) . ' ' . $this->get('model_content', 'title') : 'Create new ' . ucfirst($this->url(2))); ?></h1>
+	<h1 class="h3 mb1"><?php echo ($this->get('model_content') ? 'Update ' . ucfirst($this->url(2)) . ' ' . $this->get('model_content', 'title') : 'Create new ' . ucfirst($this->url(2))); ?></h1>
 	<form class="main" method="post" enctype="multipart/form-data">
 		<div class="row">	
 			<label class="above" for="form_title">Title</label>
@@ -10,50 +10,7 @@
 		</div>			
 
 <?php if ($this->url(2) != 'minutes' && $this->url(2) != 'cup'): ?>
-
-		<div class="row">
-			<label class="above" for="form_html">Content</label>
-			<div id="toolbar" class="toolbar clearfix" style="display: none;">
-				<a class="button" data-wysihtml5-command="bold" title="CTRL+B">bold</a>
-				<a class="button" data-wysihtml5-command="italic" title="CTRL+I">italic</a>
-				<a class="button" data-wysihtml5-command="createLink">insert link</a>
-				<a class="button" data-wysihtml5-command="insertImage">insert image</a>
-				<a class="button" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1">h1</a>
-				<a class="button" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2">h2</a>
-				<a class="button" data-wysihtml5-command="insertUnorderedList">insertUnorderedList</a>
-				<a class="button" data-wysihtml5-command="insertOrderedList">insertOrderedList</a>
-				<a class="button" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a>
-				<a class="button" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a>
-				<a class="button" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a>
-				<a class="button" data-wysihtml5-command="insertSpeech">speech</a>
-				<a class="button" data-wysihtml5-action="change_view">switch to html view</a>
-				<div data-wysihtml5-dialog="createLink" style="display: none;">
-					<label>
-						Link:
-						<input data-wysihtml5-dialog-field="href" value="http://">
-					</label>
-					<a class="button" data-wysihtml5-dialog-action="save">OK</a>
-					<a class="button" data-wysihtml5-dialog-action="cancel">Cancel</a>
-				</div>
-				<div data-wysihtml5-dialog="insertImage" style="display: none;">
-					<label>
-						Image:
-						<input data-wysihtml5-dialog-field="src" value="http://">
-					</label>
-					<label>
-						Align:
-						<select data-wysihtml5-dialog-field="className">
-							<option value="">default</option>
-							<option value="wysiwyg-float-left">left</option>
-							<option value="wysiwyg-float-right">right</option>
-						</select>
-					</label>
-					<a class="button" data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a class="button" data-wysihtml5-dialog-action="cancel">Cancel</a>
-				</div>
-			</div>
-			<textarea id="form_html" name="html"><?php echo $this->get('model_content', 'html'); ?></textarea>
-		</div>
-
+	<?php include($this->pathView('admin/content/_wysihtml5')); ?>
 <?php endif ?>
 
 		<div class="row media">	
@@ -96,10 +53,24 @@
 
 			</div>
 		</div>
+
+<?php if ($contentStatus): ?>
+	
 		<div class="row">
-			<label for="status">Show on website</label>
-			<input id="status" type="checkbox" name="status" value="visible"<?php echo ($this->get('model_content', 'status') == 'visible' ? ' checked' : ''); ?>>
+			<label for="status">Status</label>
+			<select name="status" id="status">
+
+	<?php foreach ($contentStatus as $status): ?>
+
+				<option value="<?php echo $status ?>"<?php echo ($this->get('model_content', 'status') == $status ? ' selected="selected"' : ''); ?>><?php echo ucfirst($status) ?></option>
+		
+	<?php endforeach ?>
+
+			</select>
 		</div>
+
+<?php endif ?>
+
 		<input name="<?php echo ($this->get('model_content') ? 'update' : 'create'); ?>" type="hidden" value="true">
 		<input name="type" type="hidden" value="<?php echo $this->url(2); ?>">
 		<a href="#" class="submit button">Save</a>

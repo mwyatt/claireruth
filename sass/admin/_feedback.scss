@@ -1,13 +1,12 @@
 .feedback-container {
     @include border-radius(3px);
     @include box-shadow(0 1px 3px green);
-    margin: 1em 0 0;
+    margin: 1em auto;
     border: 1px solid;
     padding: 0.5em 0.8em;
     background: lighten(green, 50%);
     border-color: lighten(green, 10%);
     color: green;
-    margin: 0 auto;
     cursor: default;
 
     &:hover {

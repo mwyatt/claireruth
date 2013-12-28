@@ -1,6 +1,3 @@
-@import "content/tag";
-@import "content/media";
-
 .content-post {
     @include box-shadow(0 1px 0 $color-gray-50);
     border: 1px solid $color-gray-10;

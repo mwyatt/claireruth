@@ -613,46 +613,56 @@ html.js input[type="submit"] {
 }
 
 /* line 174, ../../sass/_reusable.scss */
+.mt05 {
+  margin-top: .5em;
+}
+
+/* line 178, ../../sass/_reusable.scss */
 .mb0 {
   margin-bottom: 0;
 }
 
-/* line 178, ../../sass/_reusable.scss */
+/* line 182, ../../sass/_reusable.scss */
+.mb05 {
+  margin-bottom: .5em;
+}
+
+/* line 186, ../../sass/_reusable.scss */
 .mb1 {
   margin-bottom: 1em;
 }
 
-/* line 182, ../../sass/_reusable.scss */
+/* line 190, ../../sass/_reusable.scss */
 .mr05 {
   margin-right: .5em;
 }
 
-/* line 186, ../../sass/_reusable.scss */
+/* line 194, ../../sass/_reusable.scss */
 .ml05 {
   margin-left: .5em;
 }
 
-/* line 190, ../../sass/_reusable.scss */
+/* line 198, ../../sass/_reusable.scss */
 .mr1 {
   margin-right: 1em;
 }
 
-/* line 194, ../../sass/_reusable.scss */
+/* line 202, ../../sass/_reusable.scss */
 .ml1 {
   margin-left: 1em;
 }
 
-/* line 198, ../../sass/_reusable.scss */
+/* line 206, ../../sass/_reusable.scss */
 .is-highlighted {
   font-weight: bold;
 }
 
-/* line 202, ../../sass/_reusable.scss */
+/* line 210, ../../sass/_reusable.scss */
 .is-fixed {
   position: fixed;
 }
 
-/* line 207, ../../sass/_reusable.scss */
+/* line 215, ../../sass/_reusable.scss */
 .arrow-up {
   width: 0;
   height: 0;
@@ -667,7 +677,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points down */
-/* line 218, ../../sass/_reusable.scss */
+/* line 226, ../../sass/_reusable.scss */
 .arrow-down {
   width: 0;
   height: 0;
@@ -679,7 +689,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points left */
-/* line 229, ../../sass/_reusable.scss */
+/* line 237, ../../sass/_reusable.scss */
 .arrow-left {
   width: 0;
   height: 0;
@@ -694,7 +704,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points right */
-/* line 240, ../../sass/_reusable.scss */
+/* line 248, ../../sass/_reusable.scss */
 .arrow-right {
   width: 0;
   height: 0;
@@ -708,11 +718,11 @@ html.js input[type="submit"] {
   line-height: 0;
 }
 
-/* line 250, ../../sass/_reusable.scss */
+/* line 258, ../../sass/_reusable.scss */
 table.basic {
   margin: 1em 0;
 }
-/* line 254, ../../sass/_reusable.scss */
+/* line 262, ../../sass/_reusable.scss */
 table.basic th,
 table.basic td {
   padding: 0.5em;
@@ -1228,7 +1238,7 @@ label {
 
 /* line 1, ../../sass/admin/_footer.scss */
 footer.main {
-  border-top: 1px solid #cccccc;
+  border-top: 1px solid #e6e6e6;
   padding: 1em 0;
   margin-top: 2em;
 }
@@ -1247,14 +1257,15 @@ footer.main {
 .content.login .logo {
   display: block;
   text-align: center;
+  margin-bottom: 2em;
   width: 60%;
   margin: 0 auto;
 }
-/* line 17, ../../sass/admin/_login.scss */
+/* line 18, ../../sass/admin/_login.scss */
 .content.login .logo img {
   width: 100%;
 }
-/* line 21, ../../sass/admin/_login.scss */
+/* line 22, ../../sass/admin/_login.scss */
 .content.login input {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1262,7 +1273,7 @@ footer.main {
   width: 100%;
   margin-top: 0.4em;
 }
-/* line 27, ../../sass/admin/_login.scss */
+/* line 28, ../../sass/admin/_login.scss */
 .content.login label {
   display: block;
 }
@@ -1324,16 +1335,15 @@ footer.main {
   -webkit-box-shadow: 0 1px 3px green;
   -moz-box-shadow: 0 1px 3px green;
   box-shadow: 0 1px 3px green;
-  margin: 1em 0 0;
+  margin: 1em auto;
   border: 1px solid;
   padding: 0.5em 0.8em;
   background: #80ff80;
   border-color: #00b300;
   color: green;
-  margin: 0 auto;
   cursor: default;
 }
-/* line 13, ../../sass/admin/_feedback.scss */
+/* line 12, ../../sass/admin/_feedback.scss */
 .feedback-container:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
   opacity: 0.5;

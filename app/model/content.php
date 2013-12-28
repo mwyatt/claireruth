@@ -128,7 +128,7 @@ class Model_Content extends Model
             , ':html' => (array_key_exists('html', $values) ? $values['html'] : '')
             , ':type' => $values['type']
             , ':time_published' => time()
-            , ':status' => (array_key_exists('status', $values) ? 'visible' : 'hidden')
+            , ':status' => (array_key_exists('status', $values) ? $values['status'] : 'hidden')
             , ':user_id' => $sessionAdminUser->getData('id')
         ));                
         return $sth->rowCount();
@@ -147,7 +147,7 @@ class Model_Content extends Model
 		$sth->execute(array(
 			(array_key_exists('title', $values) ? $values['title'] : '')
 			, (array_key_exists('html', $values) ? $values['html'] : '')
-			, (array_key_exists('status', $values) ? 'visible' : 'hidden')
+			, (array_key_exists('status', $values) ? $values['status'] : 'hidden')
 			, $id
 		));                
         return $sth->rowCount();

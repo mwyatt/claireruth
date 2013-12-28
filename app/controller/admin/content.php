@@ -25,6 +25,14 @@ class Controller_Admin_Content extends Controller
 		$sessionFeedback = new session_feedback($this->database, $this->config);
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 
+		// build and always set
+		$contentStatus = array(
+			'visible'
+			, 'hidden'
+			, 'draft'
+		);
+		$this->view->setObject('contentStatus', $contentStatus);
+
 		// create
 		if (array_key_exists('create', $_POST)) {
 			if ($content->create($_POST)) {
@@ -146,6 +154,14 @@ class Controller_Admin_Content extends Controller
 		// new
 		if ($this->config->getUrl(3) == 'new') {
 			$this->view->loadTemplate('admin/content/create-update');
+
+			// create draft entry
+			$content->create(array(
+				'title' => ''
+				, 'html' => ''
+				, 'type' => ''
+				, 'status' => 'draft'
+			));
 		}
 	}
 
