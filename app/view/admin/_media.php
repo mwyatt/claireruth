@@ -11,7 +11,7 @@
 <?php endif ?>
 
 	<p class="media-title"><a href="<?php echo $this->url('admin') ?>media/?edit=<?php echo $media['id']; ?>" class="media-title-link"><?php echo $media['title'] ?></a></p>
-	<span class="media-date-published"><?php echo $media['time_published'] ?></span>
+	<span class="media-date-published"><?php echo date('d m y', $media['time_published']) ?></span>
 	<span class="media-author"><?php echo $media['user_full_name'] ?></span>
 	<a href="<?php echo $this->url('admin') ?>media/?delete=<?php echo $media['id']; ?>" class="media-delete js-media-delete">Delete</a>
 </div>

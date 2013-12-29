@@ -16,7 +16,7 @@ class Session_History extends Session
 	 * @return string url
 	 */
 	public function getLast() {
-		$currentHistory = $this->getData();
+		$currentHistory = $this->getData('common');
 		end($currentHistory);
 		return prev($currentHistory);
 	}

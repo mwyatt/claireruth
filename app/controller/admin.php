@@ -94,12 +94,12 @@ class Controller_Admin extends Controller
 
 	public function index()
 	{
-		$this->view->loadTemplate('admin/dashboard');		
+		$this->route('current_noquery', 'content/post/');
 	}
 
 
 	public function content() {
-		$this->view->loadTemplate('admin/dashboard');		
+		$this->route('current_noquery', 'content/post/');
 	}
 
 

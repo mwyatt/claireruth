@@ -170,3 +170,4 @@ app/cache/
 .sass-cache/
 Guardfile
 node_modules/
+css/

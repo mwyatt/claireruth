@@ -25,13 +25,8 @@ class Controller_Admin_Content extends Controller
 		$sessionFeedback = new session_feedback($this->database, $this->config);
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 
-		// build and always set
-		$contentStatus = array(
-			'visible'
-			, 'hidden'
-			, 'draft'
-		);
-		$this->view->setObject('contentStatus', $contentStatus);
+		// get content status always
+		$this->view->setObject('contentStatus', $content->getStatus());
 
 		// create
 		if (array_key_exists('create', $_POST)) {
@@ -72,19 +67,6 @@ class Controller_Admin_Content extends Controller
 				$sessionFeedback->set('Problem updating ' . $_POST['type'] . ', ' . $_POST['title']);
 			}
 			$this->route('current');
-		}
-
-		// edit
-		if (array_key_exists('edit', $_GET)) {
-			if ($content->read($this->config->getUrl(2), false, array($_GET['edit']))) {
-				$content = $content->getData();
-				$content = current($content);
-				$this->view
-					->setObject('model_content', $content)
-					->loadTemplate('admin/content/create-update');
-			} else {
-				$this->route('current_noquery');
-			}
 		}
 
 		// archive
@@ -151,17 +133,26 @@ class Controller_Admin_Content extends Controller
 			}
 		}
 
-		// new
-		if ($this->config->getUrl(3) == 'new') {
-			$this->view->loadTemplate('admin/content/create-update');
+		// edit
+		if (array_key_exists('edit', $_GET)) {
+			if (! $content->read($this->config->getUrl(2), false, array($_GET['edit']))) {
+				$this->route('current_noquery');
+			}
+			$this->view
+				->setObject('model_content', $content->getDataFirst())
+				->loadTemplate('admin/content/create-update');
+		}
 
-			// create draft entry
+		// create draft entry and redirect to edit page
+		if ($this->config->getUrl(3) == 'new') {
+			$sessionHistory = new session_history($this->database, $this->config);
 			$content->create(array(
-				'title' => ''
+				'title' => 'Untitled'
 				, 'html' => ''
-				, 'type' => ''
+				, 'type' => 'post'
 				, 'status' => 'draft'
 			));
+			$this->route($sessionHistory->getLast() . '?edit=' . $content->getLastInsertId());
 		}
 	}
 

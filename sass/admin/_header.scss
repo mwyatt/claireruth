@@ -7,6 +7,7 @@ header.main {
 header.main.is-fixed-top {
     background-color: $color-white;
     padding-bottom: 1em;
+    z-index: 5;
 }
 
 header.main.is-fixed-top + .content {
@@ -51,14 +52,14 @@ header.main.is-fixed-top + .content {
 }
 
 .nav-main-level1-drop {
+    @include box-shadow(0 0 3px $color-gray-50);
     background: $color-white;
     display: none;
     position: absolute;
     width: 9em;
     border: 1px solid $color-gray-10;
     border-top: none;
-    top: 1.5em;
-    -webkit-box-shadow: 0 1px 2px;
+    top: 1.8em;
     padding: 1em 0;
 }
 

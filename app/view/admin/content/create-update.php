@@ -1,11 +1,11 @@
 <?php require_once($this->pathView() . 'admin/_header.php'); ?>
 
 <div class="content <?php echo $this->url(2); ?> <?php echo ($this->get('model_content') ? 'update' : 'create'); ?> content-create-update" data-id="<?php echo $this->get('model_content', 'id'); ?>">
-	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
+	<!-- <a href="<?php echo $this->url('back') ?>" class="button back">Back</a> -->
 	<h1 class="h3 mb1"><?php echo ($this->get('model_content') ? 'Update ' . ucfirst($this->url(2)) . ' ' . $this->get('model_content', 'title') : 'Create new ' . ucfirst($this->url(2))); ?></h1>
 	<form class="main" method="post" enctype="multipart/form-data">
 		<div class="row">	
-			<label class="above" for="form_title">Title</label>
+			<label class="h5 block mb05" for="form_title">Title</label>
 			<input id="form_title" class="required" type="text" name="title" maxlength="75" value="<?php echo $this->get('model_content', 'title'); ?>" autofocus="autofocus">
 		</div>			
 
@@ -14,11 +14,11 @@
 <?php endif ?>
 
 		<div class="row media">	
-			<label class="above">Media</label>
+			<label class="h5 block mb05">Media</label>
 
 <?php if (! $this->get('model_media') || $this->url(2) != 'minutes'): ?>
 
-			<div class="row">
+			<div class="clearfix">
 				<a href="<?php echo $this->url() ?>admin/ajax/media/lightbox/" class="button primary js-lightbox-media-browser">Attach files</a>
 			</div>
 
@@ -40,7 +40,7 @@
 
 		</div>
 		<div class="row tag-manage-container">
-			<label class="above" for="form-tag-search">Tag</label>
+			<label class="h5 block mb05" for="form-tag-search">Tag</label>
 			<div class="tag-action">
 				<input id="form-tag-search" class="search js-tag-input-search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
 				<div class="tag-drop js-tag-drop"></div>

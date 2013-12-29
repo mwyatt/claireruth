@@ -15,6 +15,37 @@ class Model_Content extends Model
 
 
 	/**
+	 * possible status of a content item
+	 * @var array
+	 */
+	var $status = array(
+		'visible'
+		, 'hidden'
+		, 'draft'
+		, 'archive'
+	);
+
+
+	/**
+	 * check to see if a value is a valid status
+	 * @param  string $value 
+	 * @return bool        
+	 */
+	public function validateStatus($value = '')
+	{
+		if (in_array($value, $this->getStatus)) {
+			return true;
+		}
+	}
+
+
+	public function getStatus()
+	{
+		return $this->status;
+	}
+
+
+	/**
 	 * reads any and all content stored in this table
 	 * a number of custom parameters can be used to
 	 * bring in differing result sets

@@ -445,6 +445,11 @@ a:link {
 }
 
 /* line 24, ../../sass/_reusable.scss */
+.block {
+  display: block;
+}
+
+/* line 28, ../../sass/_reusable.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -456,22 +461,22 @@ a:link {
   width: 1px;
 }
 
-/* line 35, ../../sass/_reusable.scss */
+/* line 39, ../../sass/_reusable.scss */
 .text-left {
   text-align: left;
 }
 
-/* line 39, ../../sass/_reusable.scss */
+/* line 43, ../../sass/_reusable.scss */
 .text-center {
   text-align: center;
 }
 
-/* line 43, ../../sass/_reusable.scss */
+/* line 47, ../../sass/_reusable.scss */
 .text-right {
   text-align: right;
 }
 
-/* line 48, ../../sass/_reusable.scss */
+/* line 52, ../../sass/_reusable.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -482,22 +487,22 @@ a:link {
   width: auto;
 }
 
-/* line 57, ../../sass/_reusable.scss */
+/* line 61, ../../sass/_reusable.scss */
 .invisible {
   visibility: hidden;
 }
 
-/* line 61, ../../sass/_reusable.scss */
+/* line 65, ../../sass/_reusable.scss */
 .left {
   float: left;
 }
 
-/* line 65, ../../sass/_reusable.scss */
+/* line 69, ../../sass/_reusable.scss */
 .right {
   float: right;
 }
 
-/* line 70, ../../sass/_reusable.scss */
+/* line 74, ../../sass/_reusable.scss */
 .clearfix:before, .lightbox:before, .tag-manage-container .tag-drop:before,
 .clearfix:after,
 .lightbox:after,
@@ -506,34 +511,34 @@ a:link {
   display: table;
 }
 
-/* line 75, ../../sass/_reusable.scss */
+/* line 79, ../../sass/_reusable.scss */
 .clearfix:after, .lightbox:after, .tag-manage-container .tag-drop:after {
   clear: both;
 }
 
-/* line 79, ../../sass/_reusable.scss */
+/* line 83, ../../sass/_reusable.scss */
 .clearfix, .lightbox, .tag-manage-container .tag-drop {
   *zoom: 1;
 }
 
-/* line 83, ../../sass/_reusable.scss */
+/* line 87, ../../sass/_reusable.scss */
 .floatfix {
   position: relative;
   clear: both;
   margin-right: -20px;
 }
 
-/* line 89, ../../sass/_reusable.scss */
+/* line 93, ../../sass/_reusable.scss */
 .row {
   margin: 1em 0;
 }
 
-/* line 93, ../../sass/_reusable.scss */
+/* line 97, ../../sass/_reusable.scss */
 .icon {
   display: block;
 }
 
-/* line 97, ../../sass/_reusable.scss */
+/* line 101, ../../sass/_reusable.scss */
 .drop {
   -webkit-box-shadow: 0 1px 3px #999999;
   -moz-box-shadow: 0 1px 3px #999999;
@@ -549,7 +554,7 @@ a:link {
   left: 0;
 }
 
-/* line 108, ../../sass/_reusable.scss */
+/* line 112, ../../sass/_reusable.scss */
 .area {
   position: relative;
 }
@@ -558,7 +563,7 @@ a:link {
  * js must be active for main submit buttons to hide away
  * @type {String}
  */
-/* line 117, ../../sass/_reusable.scss */
+/* line 121, ../../sass/_reusable.scss */
 html.js input[type="submit"] {
   position: absolute;
   left: -999em;
@@ -566,20 +571,20 @@ html.js input[type="submit"] {
   height: 1px;
 }
 
-/* line 124, ../../sass/_reusable.scss */
+/* line 128, ../../sass/_reusable.scss */
 .wrap-full-width {
   position: relative;
   margin: 0 auto;
 }
 
-/* line 129, ../../sass/_reusable.scss */
+/* line 133, ../../sass/_reusable.scss */
 .ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-/* line 135, ../../sass/_reusable.scss */
+/* line 139, ../../sass/_reusable.scss */
 .is-fixed-top {
   -webkit-box-shadow: 0 1px 3px gray;
   -moz-box-shadow: 0 1px 3px gray;
@@ -591,78 +596,78 @@ html.js input[type="submit"] {
   position: fixed;
 }
 
-/* line 144, ../../sass/_reusable.scss */
+/* line 148, ../../sass/_reusable.scss */
 .ajax {
   background-image: url('/claireruth/media/ajax.gif?1368257192');
   background-repeat: no-repeat;
   background-position: center center;
 }
-/* line 149, ../../sass/_reusable.scss */
+/* line 153, ../../sass/_reusable.scss */
 .ajax .is-tall {
   height: 50px;
 }
 
-/* line 166, ../../sass/_reusable.scss */
+/* line 170, ../../sass/_reusable.scss */
 .mt0 {
   margin-top: 0;
 }
 
-/* line 170, ../../sass/_reusable.scss */
+/* line 174, ../../sass/_reusable.scss */
 .mt1 {
   margin-top: 1em;
 }
 
-/* line 174, ../../sass/_reusable.scss */
+/* line 178, ../../sass/_reusable.scss */
 .mt05 {
   margin-top: .5em;
 }
 
-/* line 178, ../../sass/_reusable.scss */
+/* line 182, ../../sass/_reusable.scss */
 .mb0 {
   margin-bottom: 0;
 }
 
-/* line 182, ../../sass/_reusable.scss */
+/* line 186, ../../sass/_reusable.scss */
 .mb05 {
   margin-bottom: .5em;
 }
 
-/* line 186, ../../sass/_reusable.scss */
+/* line 190, ../../sass/_reusable.scss */
 .mb1 {
   margin-bottom: 1em;
 }
 
-/* line 190, ../../sass/_reusable.scss */
+/* line 194, ../../sass/_reusable.scss */
 .mr05 {
   margin-right: .5em;
 }
 
-/* line 194, ../../sass/_reusable.scss */
+/* line 198, ../../sass/_reusable.scss */
 .ml05 {
   margin-left: .5em;
 }
 
-/* line 198, ../../sass/_reusable.scss */
+/* line 202, ../../sass/_reusable.scss */
 .mr1 {
   margin-right: 1em;
 }
 
-/* line 202, ../../sass/_reusable.scss */
+/* line 206, ../../sass/_reusable.scss */
 .ml1 {
   margin-left: 1em;
 }
 
-/* line 206, ../../sass/_reusable.scss */
+/* line 210, ../../sass/_reusable.scss */
 .is-highlighted {
   font-weight: bold;
 }
 
-/* line 210, ../../sass/_reusable.scss */
+/* line 214, ../../sass/_reusable.scss */
 .is-fixed {
   position: fixed;
 }
 
-/* line 215, ../../sass/_reusable.scss */
+/* line 219, ../../sass/_reusable.scss */
 .arrow-up {
   width: 0;
   height: 0;
@@ -677,7 +682,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points down */
-/* line 226, ../../sass/_reusable.scss */
+/* line 230, ../../sass/_reusable.scss */
 .arrow-down {
   width: 0;
   height: 0;
@@ -689,7 +694,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points left */
-/* line 237, ../../sass/_reusable.scss */
+/* line 241, ../../sass/_reusable.scss */
 .arrow-left {
   width: 0;
   height: 0;
@@ -704,7 +709,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points right */
-/* line 248, ../../sass/_reusable.scss */
+/* line 252, ../../sass/_reusable.scss */
 .arrow-right {
   width: 0;
   height: 0;
@@ -718,11 +723,11 @@ html.js input[type="submit"] {
   line-height: 0;
 }
 
-/* line 258, ../../sass/_reusable.scss */
+/* line 262, ../../sass/_reusable.scss */
 table.basic {
   margin: 1em 0;
 }
-/* line 262, ../../sass/_reusable.scss */
+/* line 266, ../../sass/_reusable.scss */
 table.basic th,
 table.basic td {
   padding: 0.5em;
@@ -984,19 +989,20 @@ header.main {
 header.main.is-fixed-top {
   background-color: white;
   padding-bottom: 1em;
+  z-index: 5;
 }
 
-/* line 12, ../../sass/admin/_header.scss */
+/* line 13, ../../sass/admin/_header.scss */
 header.main.is-fixed-top + .content {
   padding-top: 111px;
 }
 
-/* line 16, ../../sass/admin/_header.scss */
+/* line 17, ../../sass/admin/_header.scss */
 .inner-title-nav-user {
   padding: 0.4em 0;
 }
 
-/* line 20, ../../sass/admin/_header.scss */
+/* line 21, ../../sass/admin/_header.scss */
 .header-site-title {
   float: left;
   width: 20%;
@@ -1006,24 +1012,24 @@ header.main.is-fixed-top + .content {
   white-space: nowrap;
 }
 
-/* line 29, ../../sass/admin/_header.scss */
+/* line 30, ../../sass/admin/_header.scss */
 .nav-main-container {
   float: left;
 }
 
-/* line 33, ../../sass/admin/_header.scss */
+/* line 34, ../../sass/admin/_header.scss */
 .nav-user {
   float: right;
 }
 
-/* line 37, ../../sass/admin/_header.scss */
+/* line 38, ../../sass/admin/_header.scss */
 .nav-main-level1 {
   float: left;
   position: relative;
   margin: 0 1.6em 0 0;
   padding-bottom: 1em;
 }
-/* line 43, ../../sass/admin/_header.scss */
+/* line 44, ../../sass/admin/_header.scss */
 .nav-main-level1:hover .nav-main-level1-drop {
   -webkit-animation: drop-up 200ms ease both;
   -moz-animation: drop-up 200ms ease both;
@@ -1031,25 +1037,27 @@ header.main.is-fixed-top + .content {
   display: block;
 }
 
-/* line 49, ../../sass/admin/_header.scss */
+/* line 50, ../../sass/admin/_header.scss */
 .drop.nav-user-drop {
   display: none;
 }
 
-/* line 53, ../../sass/admin/_header.scss */
+/* line 54, ../../sass/admin/_header.scss */
 .nav-main-level1-drop {
+  -webkit-box-shadow: 0 0 3px gray;
+  -moz-box-shadow: 0 0 3px gray;
+  box-shadow: 0 0 3px gray;
   background: white;
   display: none;
   position: absolute;
   width: 9em;
   border: 1px solid #e6e6e6;
   border-top: none;
-  top: 1.5em;
-  -webkit-box-shadow: 0 1px 2px;
+  top: 1.8em;
   padding: 1em 0;
 }
 
-/* line 65, ../../sass/admin/_header.scss */
+/* line 66, ../../sass/admin/_header.scss */
 .nav-main-level2-link {
   display: block;
   padding: 0 1em 0.4em;
@@ -1090,14 +1098,6 @@ input.error {
 }
 
 /* line 30, ../../sass/admin/_form.scss */
-label.above {
-  display: block;
-  margin: 0 0 1.1em;
-  font-weight: 600;
-  font-size: 1.1em;
-}
-
-/* line 37, ../../sass/admin/_form.scss */
 label {
   color: #999999;
 }
@@ -1236,6 +1236,12 @@ label {
   display: none;
 }
 
+/* line 9, ../../sass/admin/_media.scss */
+.media-title-link {
+  word-wrap: break-word;
+  line-height: 1.5;
+}
+
 /* line 1, ../../sass/admin/_footer.scss */
 footer.main {
   border-top: 1px solid #e6e6e6;
@@ -1354,19 +1360,20 @@ body {
   background: white;
   color: gray;
   font-family: "Open Sans", "Arial", "Sans-serif";
+  line-height: 1.5;
 }
 
-/* line 17, ../../sass/admin/screen.scss */
+/* line 18, ../../sass/admin/screen.scss */
 .wrap-full-width {
   width: 860px;
 }
 
-/* line 21, ../../sass/admin/screen.scss */
+/* line 22, ../../sass/admin/screen.scss */
 .button.back {
   float: right;
 }
 
-/* line 28, ../../sass/admin/screen.scss */
+/* line 29, ../../sass/admin/screen.scss */
 .button.primary,
 .button.secondary,
 .button.tertiary,
@@ -1416,7 +1423,7 @@ body {
   box-shadow: inset 0 1px 3px #e6e6e6;
 }
 
-/* line 32, ../../sass/admin/screen.scss */
+/* line 33, ../../sass/admin/screen.scss */
 .nothing-yet {
   text-shadow: 0 1px 0 white;
   background: #fafafa;
@@ -1425,7 +1432,7 @@ body {
   border-bottom: 1px solid #d9d9d9;
   padding: 2em;
 }
-/* line 41, ../../sass/admin/screen.scss */
+/* line 42, ../../sass/admin/screen.scss */
 .nothing-yet p {
   color: #999999;
   cursor: default;
@@ -1433,12 +1440,12 @@ body {
   margin: 0;
 }
 
-/* line 49, ../../sass/admin/screen.scss */
+/* line 50, ../../sass/admin/screen.scss */
 .toolbar {
   margin: 0 0 1em;
 }
 
-/* line 53, ../../sass/admin/screen.scss */
+/* line 54, ../../sass/admin/screen.scss */
 .toolbar .button {
   float: left;
   margin: 0 .5em .5em 0;
@@ -1446,7 +1453,7 @@ body {
   padding: .5em 1em;
 }
 
-/* line 62, ../../sass/admin/screen.scss */
+/* line 63, ../../sass/admin/screen.scss */
 .content.page textarea,
 .content.post textarea {
   width: 100%;
