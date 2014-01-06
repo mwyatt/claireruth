@@ -1,4 +1,4 @@
-.media {
+.layout-media-5-col .media {
     float: left;
     width: 16.2%;
     margin: 1em;
@@ -11,35 +11,61 @@
     }
 }
 
-.media-thumb {
+.layout-media-5-col .media-thumb {
     @include transition(all 200ms);
     margin-bottom: 1em;
     display: block;
     text-align: center;
 }
 
-.media-thumb img {
+.layout-media-5-col .media-thumb img {
     max-width: 100%;
 }
 
-.media-title {
+.layout-media-5-col .media-title {
     margin-bottom: 1em;
 }
 
-.media-date-published {
+.layout-media-5-col .media-date-published {
     position: absolute;
     bottom: 0;
     left: 0;
     font-size: 0.8em;
 }
 
-.media-author {
+.layout-media-5-col .media-author {
     position: absolute;  bottom: 0;
     right: 0;
     font-size: 0.8em;
     display: none;
 }
 
-.media-delete {
+.layout-media-5-col .media-delete {
     position: absolute;  bottom: 0;  right: 0;  font-size: 0.8em;
+}
+
+
+// new
+
+
+
+.layout-media-5-col .media-thumb img {
+    position: static;
+    border-radius: 3px;
+}
+.layout-media-5-col .media {
+    width: 11%;
+    height: 9.9em;
+    margin: 0.4em;
+    padding: 0.4em;
+    border-radius: 3px;
+}
+.media-title-link {}
+.layout-media-5-col .media-delete {
+    bottom: .4em;
+    right: .4em;
+    display: none;
+}
+.layout-media-5-col .media-date-published {
+    display: none;
 }

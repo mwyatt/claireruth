@@ -1,4 +1,4 @@
-.media {
+.lightbox .media {
     cursor: pointer;
 
     &.is-selected {
@@ -6,10 +6,10 @@
     }
 }
 
-&.change-made .button.attach {
+.lightbox .change-made .button.attach {
 	display: block;
 }
 
-.button.attach {
+.lightbox .button.attach {
 	display: none;
 }

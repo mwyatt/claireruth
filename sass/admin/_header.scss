@@ -7,7 +7,7 @@ header.main {
 header.main.is-fixed-top {
     background-color: $color-white;
     padding-bottom: 1em;
-    z-index: 5;
+    z-index: 2;
 }
 
 header.main.is-fixed-top + .content {

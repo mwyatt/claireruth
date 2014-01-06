@@ -13,16 +13,9 @@
 	<?php include($this->pathView('admin/content/_wysihtml5')); ?>
 <?php endif ?>
 
-		<div class="row media">	
-			<label class="h5 block mb05">Media</label>
+		<div class="row media layout-media-5-col clearfix">	
+			<label class="h5 block mb05"><a href="<?php echo $this->url() ?>admin/ajax/media/lightbox/" class="button primary js-lightbox-media-browser right">Attach files</a>Media</label>
 
-<?php if (! $this->get('model_media') || $this->url(2) != 'minutes'): ?>
-
-			<div class="clearfix">
-				<a href="<?php echo $this->url() ?>admin/ajax/media/lightbox/" class="button primary js-lightbox-media-browser">Attach files</a>
-			</div>
-
-<?php endif ?>
 <?php if ($medias = $this->get('model_content', 'media')): ?>
 			
 			<div class="attached layout-media-5-col">
