@@ -268,3 +268,9 @@ table.basic {
         border: 1px solid $color-secondary;
     }
 }
+
+.text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
