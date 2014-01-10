@@ -27,7 +27,7 @@ class Controller_Admin_Ajax_Content_Meta extends Controller
 		if (! $modelContentMeta->create(
 			$_GET['content_id']
 			, $_GET['name']
-			, array($_GET['value'])
+			, $_GET['value']
 		)) {
 			exit;
 		}

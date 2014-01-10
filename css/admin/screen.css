@@ -586,9 +586,6 @@ html.js input[type="submit"] {
 
 /* line 139, ../../sass/_reusable.scss */
 .is-fixed-top {
-  -webkit-box-shadow: 0 1px 3px gray;
-  -moz-box-shadow: 0 1px 3px gray;
-  box-shadow: 0 1px 3px gray;
   top: 0;
   left: 0;
   right: 0;
@@ -596,78 +593,78 @@ html.js input[type="submit"] {
   position: fixed;
 }
 
-/* line 148, ../../sass/_reusable.scss */
+/* line 147, ../../sass/_reusable.scss */
 .ajax {
   background-image: url('/claireruth/media/ajax.gif?1368257192');
   background-repeat: no-repeat;
   background-position: center center;
 }
-/* line 153, ../../sass/_reusable.scss */
+/* line 152, ../../sass/_reusable.scss */
 .ajax .is-tall {
   height: 50px;
 }
 
-/* line 170, ../../sass/_reusable.scss */
+/* line 169, ../../sass/_reusable.scss */
 .mt0 {
   margin-top: 0;
 }
 
-/* line 174, ../../sass/_reusable.scss */
+/* line 173, ../../sass/_reusable.scss */
 .mt1 {
   margin-top: 1em;
 }
 
-/* line 178, ../../sass/_reusable.scss */
+/* line 177, ../../sass/_reusable.scss */
 .mt05 {
   margin-top: .5em;
 }
 
-/* line 182, ../../sass/_reusable.scss */
+/* line 181, ../../sass/_reusable.scss */
 .mb0 {
   margin-bottom: 0;
 }
 
-/* line 186, ../../sass/_reusable.scss */
+/* line 185, ../../sass/_reusable.scss */
 .mb05 {
   margin-bottom: .5em;
 }
 
-/* line 190, ../../sass/_reusable.scss */
+/* line 189, ../../sass/_reusable.scss */
 .mb1 {
   margin-bottom: 1em;
 }
 
-/* line 194, ../../sass/_reusable.scss */
+/* line 193, ../../sass/_reusable.scss */
 .mr05 {
   margin-right: .5em;
 }
 
-/* line 198, ../../sass/_reusable.scss */
+/* line 197, ../../sass/_reusable.scss */
 .ml05 {
   margin-left: .5em;
 }
 
-/* line 202, ../../sass/_reusable.scss */
+/* line 201, ../../sass/_reusable.scss */
 .mr1 {
   margin-right: 1em;
 }
 
-/* line 206, ../../sass/_reusable.scss */
+/* line 205, ../../sass/_reusable.scss */
 .ml1 {
   margin-left: 1em;
 }
 
-/* line 210, ../../sass/_reusable.scss */
+/* line 209, ../../sass/_reusable.scss */
 .is-highlighted {
   font-weight: bold;
 }
 
-/* line 214, ../../sass/_reusable.scss */
+/* line 213, ../../sass/_reusable.scss */
 .is-fixed {
   position: fixed;
 }
 
-/* line 219, ../../sass/_reusable.scss */
+/* line 218, ../../sass/_reusable.scss */
 .arrow-up {
   width: 0;
   height: 0;
@@ -682,7 +679,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points down */
-/* line 230, ../../sass/_reusable.scss */
+/* line 229, ../../sass/_reusable.scss */
 .arrow-down {
   width: 0;
   height: 0;
@@ -694,7 +691,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points left */
-/* line 241, ../../sass/_reusable.scss */
+/* line 240, ../../sass/_reusable.scss */
 .arrow-left {
   width: 0;
   height: 0;
@@ -709,7 +706,7 @@ html.js input[type="submit"] {
 }
 
 /* create an arrow that points right */
-/* line 252, ../../sass/_reusable.scss */
+/* line 251, ../../sass/_reusable.scss */
 .arrow-right {
   width: 0;
   height: 0;
@@ -723,11 +720,11 @@ html.js input[type="submit"] {
   line-height: 0;
 }
 
-/* line 262, ../../sass/_reusable.scss */
+/* line 261, ../../sass/_reusable.scss */
 table.basic {
   margin: 1em 0;
 }
-/* line 266, ../../sass/_reusable.scss */
+/* line 265, ../../sass/_reusable.scss */
 table.basic th,
 table.basic td {
   padding: 0.5em;
@@ -981,28 +978,27 @@ table.basic td {
 /* line 1, ../../sass/admin/_header.scss */
 header.main {
   border-bottom: 1px solid #e6e6e6;
-  padding-bottom: 1em;
   margin-bottom: 1em;
 }
 
-/* line 7, ../../sass/admin/_header.scss */
+/* line 6, ../../sass/admin/_header.scss */
 header.main.is-fixed-top {
   background-color: white;
-  padding-bottom: 1em;
   z-index: 2;
 }
 
-/* line 13, ../../sass/admin/_header.scss */
+/* line 11, ../../sass/admin/_header.scss */
 header.main.is-fixed-top + .content {
   padding-top: 111px;
 }
 
-/* line 17, ../../sass/admin/_header.scss */
+/* line 15, ../../sass/admin/_header.scss */
 .inner-title-nav-user {
   padding: 0.4em 0;
+  height: 1em;
 }
 
-/* line 21, ../../sass/admin/_header.scss */
+/* line 20, ../../sass/admin/_header.scss */
 .header-site-title {
   float: left;
   width: 20%;
@@ -1012,24 +1008,31 @@ header.main.is-fixed-top + .content {
   white-space: nowrap;
 }
 
-/* line 30, ../../sass/admin/_header.scss */
+/* line 29, ../../sass/admin/_header.scss */
 .nav-main-container {
   float: left;
 }
 
-/* line 34, ../../sass/admin/_header.scss */
-.nav-user {
+/* line 33, ../../sass/admin/_header.scss */
+.nav-user.nav-main-level1 {
   float: right;
+  margin: 0;
 }
 
-/* line 38, ../../sass/admin/_header.scss */
+/* line 37, ../../sass/admin/_header.scss */
+.nav-user.nav-main-level1 .nav-user-drop {
+  right: 0;
+  left: auto;
+}
+
+/* line 42, ../../sass/admin/_header.scss */
 .nav-main-level1 {
   float: left;
   position: relative;
   margin: 0 1.6em 0 0;
   padding-bottom: 1em;
 }
-/* line 44, ../../sass/admin/_header.scss */
+/* line 48, ../../sass/admin/_header.scss */
 .nav-main-level1:hover .nav-main-level1-drop {
   -webkit-animation: drop-up 200ms ease both;
   -moz-animation: drop-up 200ms ease both;
@@ -1037,12 +1040,12 @@ header.main.is-fixed-top + .content {
   display: block;
 }
 
-/* line 50, ../../sass/admin/_header.scss */
+/* line 54, ../../sass/admin/_header.scss */
 .drop.nav-user-drop {
   display: none;
 }
 
-/* line 54, ../../sass/admin/_header.scss */
+/* line 58, ../../sass/admin/_header.scss */
 .nav-main-level1-drop {
   -webkit-box-shadow: 0 0 3px gray;
   -moz-box-shadow: 0 0 3px gray;
@@ -1057,7 +1060,7 @@ header.main.is-fixed-top + .content {
   padding: 1em 0;
 }
 
-/* line 66, ../../sass/admin/_header.scss */
+/* line 70, ../../sass/admin/_header.scss */
 .nav-main-level2-link {
   display: block;
   padding: 0 1em 0.4em;
@@ -1268,7 +1271,7 @@ label {
 }
 
 /* line 9, ../../sass/admin/media/_lightbox.scss */
-.lightbox .change-made .button.attach {
+.lightbox.change-made .button.attach {
   display: block;
 }
 
@@ -1423,7 +1426,7 @@ body {
   text-shadow: 1px 1px 0 white;
   border: 1px solid #d9d9d9;
   color: gray;
-  padding: 0.5em 1em 0.6em;
+  padding: 0.4em 0.8em;
   font-size: 1em;
   font-weight: bold;
   cursor: pointer;

@@ -91,7 +91,7 @@
 			}
 			if (uploadFormData) {
 				$.ajax({
-					url: url.base + 'admin/ajax/media/upload/',
+					url: config.url.base + 'admin/ajax/media/upload/',
 					type: 'POST',
 					data: uploadFormData,
 					processData: false,

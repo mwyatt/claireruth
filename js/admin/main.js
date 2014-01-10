@@ -28,38 +28,21 @@ function contentCreateUpdate () {
  * @todo should import scripts only when the functionality is needed..
  */
 $(document).ready(function() {
-
-	// cache
-	var content = $('.content');
-	var body = $('body');
-
-	// url helpers
-	url.base = body.data('url-base');
-	url.js = url.base + 'js/';
-	url.ajax = url.base + 'admin/ajax/';
-
-	// prevent ajax cache
-	$.ajaxSetup ({  
-		cache: false  
-	});
+	config.setup();
 
 	// form submission
 	$('form').find('a.submit').on('mouseup', setSubmit);
-
-	// general logic seperation
-	if (body.hasClass('admin-media')) {
-		var modelMedia = new Model_Media();
-		modelMedia.setEvent();
-	};
-
-	// try adding all logic for manipulating objects here...
-	if (content.hasClass('content-create-update')) {
-		contentCreateUpdate();
-	};
-
 	var modelMedia = new Model_Media();
 
-	// lightboxes
+	// general logic seperation
+	if (config.documentBody.hasClass('admin-media')) {
+		var modelMedia = new Model_Media();
+		modelMedia.setEvent();
+
+
+	};
+
+	// lightbox
 	$('.js-lightbox-media-browser').lightbox({
 		inline: true
 		, maxWidth: 800
@@ -67,6 +50,16 @@ $(document).ready(function() {
 		, onComplete: modelMedia.setEvent
 	});
 
+	// try adding all logic for manipulating objects here...
+	if (config.content.hasClass('content-create-update')) {
+		contentCreateUpdate();
+	};
+
+
+
 	// header always following on scroll
 	$('.js-header-main').scrollFollow();
+
+	// watch for dismissers
+	var dismiss = new Dismiss();
 });

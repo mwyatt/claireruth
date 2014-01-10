@@ -89,4 +89,14 @@ class Controller_Ajax extends Controller
 			->setObject($contentMeta)
 			->loadTemplate('_love');
 	}
+
+
+	/**
+	 * clears the currently set feedback in the session
+	 */
+	public function dismiss()
+	{
+		$sessionFeedback = new session_feedback($this->database, $this->config);
+		exit($sessionFeedback->delete());
+	}
 }

@@ -2,7 +2,7 @@ var config = {
         site: 'claire-ruth',
         content: '',
         documentBody: '',
-        url~~~: {
+        url: {
                 base: '/',
                 admin: '/',
                 admin_ajax: '/',
@@ -12,10 +12,13 @@ var config = {
         setup: function() {
                 config.content = $('.content');
                 config.documentBody = $(document.body);
-                config.url~~~.base = $('body').data('url~~~-base');
-                config.url~~~.ajax = config.url~~~.base + 'ajax.php'
-                config.url~~~.admin = config.url~~~.base + 'administration/';
-                config.url~~~.adminAjax = config.url~~~.admin + 'ajax.php';
-                config.url~~~.currentNoQuery = [location.protocol, '//', location.host, location.pathname].join('');
+                config.url.base = $('body').data('url-base');
+                config.url.ajax = config.url.base + 'ajax/'
+                config.url.admin = config.url.base + 'admin/';
+                config.url.adminAjax = config.url.admin + 'ajax/';
+                config.url.currentNoQuery = [location.protocol, '//', location.host, location.pathname].join('');
         },
 };
+$.ajaxSetup ({  
+        cache: false  
+});
