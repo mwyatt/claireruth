@@ -15,6 +15,10 @@ Model_Media = (function () {
 	 * sets all required events, must be a better way to do this?
 	 */
 	module.prototype.setEvent = function() {
+		var contentMeta = new Content_Meta({
+			name: 'media'
+		});
+
 		var lightbox = $('.lightbox')
 			, content = $('.content')
 			, contentRow = content.find('.row.media')
@@ -46,7 +50,15 @@ Model_Media = (function () {
 
 							// cleanup past attachments
 							contentRow.find('input[type="hidden"]').remove();
-							contentItem.remove();
+
+							// remove current items
+							var ids = [];
+							for (var i = contentItem.length - 1; i >= 0; i--) {
+								ids[i] = $(contentItem[i]).data('id');
+							};
+							contentMeta.modify(false, 'delete', ids, function() {
+								contentItem.remove();
+							});
 
 							// add new ones
 							$.each(selectedMedia, function() {
@@ -59,7 +71,13 @@ Model_Media = (function () {
 
 	                        // need public functions for this
 	                        $('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
-	                        module.prototype.ajaxAddMedia(selectedMedia);
+
+	                        // set meta
+	                        var ids = [];
+	                        for (var i = selectedMedia.length - 1; i >= 0; i--) {
+	                        	ids[i] = $(selectedMedia[i]).data('id');
+	                        };
+	                        contentMeta.modify(false, 'create', ids, function() {});
 	                    });
 	            } else {
 
@@ -71,7 +89,9 @@ Model_Media = (function () {
 	        .off('click')
 	        .on('click', function(event) {
 	        	event.preventDefault();
-                module.prototype.ajaxRemoveMedia($(this));
+                var ids = [$(this).data('id')];
+                contentMeta.modify(false, 'delete', ids, function() {});
+            	$(this).remove();
 	        });
 	}
 
@@ -180,50 +200,6 @@ Model_Media = (function () {
 				progressBar.val(0);
 				alert(textStatus);
 				// alert(errorThrown);
-			}
-		});
-	}
-
-
-	/**
-	 * creates a content association with the content and the media
-	 */
-	module.prototype.ajaxAddMedia = function(medias) {
-		var ids = [];
-		for (var i = medias.length - 1; i >= 0; i--) {
-			ids[i] = $(medias[i]).data('id');
-		};
-		$.ajax({
-			url: config.url.adminAjax + 'content/meta/create'
-			, type: 'get'
-			, data: {
-				content_id: config.content.data('id')
-				, name: 'media'
-				, value: ids
-			}
-			, error: function (jqXHR, textStatus, errorThrown) {
-				alert(textStatus);
-			}
-		});
-	}
-
-
-	/**
-	 */
-	module.prototype.ajaxRemoveMedia = function(media) {
-		$.ajax({
-			url: config.url.adminAjax + 'content/meta/delete'
-			, type: 'get'
-			, data: {
-				content_id: config.content.data('id')
-				, name: 'media'
-				, value: media.data('id')
-			}
-			, success: function () {
-				media.remove();
-			}
-			, error: function (jqXHR, textStatus, errorThrown) {
-				alert(textStatus);
 			}
 		});
 	}

@@ -1,32 +1,3 @@
-// init global variables
-var url = {
-	base: '',
-	js: '',
-	ajax: ''
-};
-
-
-function contentCreateUpdate () {
-	
-	// html5wysi
-	var editor = new wysihtml5.Editor('form_html', {
-		toolbar: 'toolbar'
-		, parserRules: wysihtml5ParserRules
-		, useLineBreaks: false
-	});
-
-	// tie in content meta
-	var modelContentMeta = new Model_Content_Meta();
-
-	// tag
-	var modelTag = new Model_Tag({
-		template: 'create-update'
-	});
-}
-
-/**
- * @todo should import scripts only when the functionality is needed..
- */
 $(document).ready(function() {
 	config.setup();
 
@@ -35,11 +6,9 @@ $(document).ready(function() {
 	var modelMedia = new Model_Media();
 
 	// general logic seperation
-	if (config.documentBody.hasClass('admin-media')) {
+	if (config.documentBody.hasClass('admin-media') || config.content.hasClass('content-create-update')) {
 		var modelMedia = new Model_Media();
 		modelMedia.setEvent();
-
-
 	};
 
 	// lightbox
@@ -54,8 +23,6 @@ $(document).ready(function() {
 	if (config.content.hasClass('content-create-update')) {
 		contentCreateUpdate();
 	};
-
-
 
 	// header always following on scroll
 	$('.js-header-main').scrollFollow();

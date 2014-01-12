@@ -15,38 +15,43 @@ class Controller_Admin_Ajax_Content_Meta extends Controller
 {
 
 
+	public function initialise()
+	{
+		if (! array_key_exists('content_id', $_GET) || ! array_key_exists('name', $_GET) || ! array_key_exists('values', $_GET)) {
+			exit (json_encode(false));
+		}
+		if (! is_array($_GET['values'])) {
+			exit (json_encode(false));
+		}
+	}
+
+
 	/**
 	 * creates the desired meta key
 	 * @return null|string 
 	 */
 	public function create() {
-		if (! array_key_exists('content_id', $_GET) || ! array_key_exists('name', $_GET) || ! array_key_exists('value', $_GET)) {
-			exit;
-		}
 		$modelContentMeta = new model_content_meta($this->database, $this->config);
 		if (! $modelContentMeta->create(
 			$_GET['content_id']
 			, $_GET['name']
-			, $_GET['value']
+			, $_GET['values']
 		)) {
-			exit;
+			exit (json_encode(false));
 		}
-		exit('success');
+		exit (json_encode(true));
 	}
 
 
 	public function delete() {
-		if (! array_key_exists('content_id', $_GET) || ! array_key_exists('name', $_GET) || ! array_key_exists('value', $_GET)) {
-			exit;
-		}
 		$modelContentMeta = new model_content_meta($this->database, $this->config);
 		if (! $modelContentMeta->delete(
 			$_GET['content_id']
 			, $_GET['name']
-			, array($_GET['value'])
+			, $_GET['values']
 		)) {
-			exit;
+			exit (json_encode(false));
 		}
-		exit('success');
+		exit (json_encode(true));
 	}
 }

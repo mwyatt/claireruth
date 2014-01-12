@@ -19470,7 +19470,59 @@ var wysihtml5ParserRules = {
             "rename_tag": "div"
         }
     }
-};;/**
+};;function contentCreateUpdate () {
+	
+	// html5wysi
+	var editor = new wysihtml5.Editor('form_html', {
+		toolbar: 'toolbar'
+		, parserRules: wysihtml5ParserRules
+		, useLineBreaks: false
+	});
+
+	// tie in content meta
+	var modelContentMeta = new Model_Content_Meta();
+
+	// tag
+	var modelTag = new Model_Tag({
+		template: 'create-update'
+	});
+}
+;/**
+ */
+var Content_Meta = function (options) {
+	var defaults = {
+		content_id: config.content.data('id'),
+		name: 'tag',
+	}
+	this.options = $.extend(defaults, options);
+};
+
+
+/**
+ * performs an ajax call to the content meta model
+ * @param  {string}   action   create | delete
+ * @param  {array}   ids      
+ * @param  {Function} callback what do do once complete
+ * @return {function}            callback
+ */
+Content_Meta.prototype.modify = function(event, action, ids, callback) {
+	$.ajax({
+		url: config.url.adminAjax + 'content/meta/' + action,
+		type: 'get',
+		data: {
+			content_id: this.options.content_id,
+			name: this.options.name,
+			values: ids,
+		},
+		success: function() {
+			callback.call(event);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert('error while performing Content_Meta.prototype.ajaxmethod');
+		},
+	});
+};
+;/**
  * scours for 'js-dismiss' and attaches an event
  * which calls ajax, wipes the session variable and hides the element
  */
@@ -19753,6 +19805,10 @@ Model_Media = (function () {
 	 * sets all required events, must be a better way to do this?
 	 */
 	module.prototype.setEvent = function() {
+		var contentMeta = new Content_Meta({
+			name: 'media'
+		});
+
 		var lightbox = $('.lightbox')
 			, content = $('.content')
 			, contentRow = content.find('.row.media')
@@ -19784,7 +19840,15 @@ Model_Media = (function () {
 
 							// cleanup past attachments
 							contentRow.find('input[type="hidden"]').remove();
-							contentItem.remove();
+
+							// remove current items
+							var ids = [];
+							for (var i = contentItem.length - 1; i >= 0; i--) {
+								ids[i] = $(contentItem[i]).data('id');
+							};
+							contentMeta.modify(false, 'delete', ids, function() {
+								contentItem.remove();
+							});
 
 							// add new ones
 							$.each(selectedMedia, function() {
@@ -19797,7 +19861,13 @@ Model_Media = (function () {
 
 	                        // need public functions for this
 	                        $('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
-	                        module.prototype.ajaxAddMedia(selectedMedia);
+
+	                        // set meta
+	                        var ids = [];
+	                        for (var i = selectedMedia.length - 1; i >= 0; i--) {
+	                        	ids[i] = $(selectedMedia[i]).data('id');
+	                        };
+	                        contentMeta.modify(false, 'create', ids, function() {});
 	                    });
 	            } else {
 
@@ -19809,7 +19879,9 @@ Model_Media = (function () {
 	        .off('click')
 	        .on('click', function(event) {
 	        	event.preventDefault();
-                module.prototype.ajaxRemoveMedia($(this));
+                var ids = [$(this).data('id')];
+                contentMeta.modify(false, 'delete', ids, function() {});
+            	$(this).remove();
 	        });
 	}
 
@@ -19918,50 +19990,6 @@ Model_Media = (function () {
 				progressBar.val(0);
 				alert(textStatus);
 				// alert(errorThrown);
-			}
-		});
-	}
-
-
-	/**
-	 * creates a content association with the content and the media
-	 */
-	module.prototype.ajaxAddMedia = function(medias) {
-		var ids = [];
-		for (var i = medias.length - 1; i >= 0; i--) {
-			ids[i] = $(medias[i]).data('id');
-		};
-		$.ajax({
-			url: config.url.adminAjax + 'content/meta/create'
-			, type: 'get'
-			, data: {
-				content_id: config.content.data('id')
-				, name: 'media'
-				, value: ids
-			}
-			, error: function (jqXHR, textStatus, errorThrown) {
-				alert(textStatus);
-			}
-		});
-	}
-
-
-	/**
-	 */
-	module.prototype.ajaxRemoveMedia = function(media) {
-		$.ajax({
-			url: config.url.adminAjax + 'content/meta/delete'
-			, type: 'get'
-			, data: {
-				content_id: config.content.data('id')
-				, name: 'media'
-				, value: media.data('id')
-			}
-			, success: function () {
-				media.remove();
-			}
-			, error: function (jqXHR, textStatus, errorThrown) {
-				alert(textStatus);
 			}
 		});
 	}
@@ -20223,36 +20251,7 @@ Prompt.prototype.refreshEventAttachedTags = function(event) {
 		}
 	}
 })(jQuery);
-;// init global variables
-var url = {
-	base: '',
-	js: '',
-	ajax: ''
-};
-
-
-function contentCreateUpdate () {
-	
-	// html5wysi
-	var editor = new wysihtml5.Editor('form_html', {
-		toolbar: 'toolbar'
-		, parserRules: wysihtml5ParserRules
-		, useLineBreaks: false
-	});
-
-	// tie in content meta
-	var modelContentMeta = new Model_Content_Meta();
-
-	// tag
-	var modelTag = new Model_Tag({
-		template: 'create-update'
-	});
-}
-
-/**
- * @todo should import scripts only when the functionality is needed..
- */
-$(document).ready(function() {
+;$(document).ready(function() {
 	config.setup();
 
 	// form submission
@@ -20260,11 +20259,9 @@ $(document).ready(function() {
 	var modelMedia = new Model_Media();
 
 	// general logic seperation
-	if (config.documentBody.hasClass('admin-media')) {
+	if (config.documentBody.hasClass('admin-media') || config.content.hasClass('content-create-update')) {
 		var modelMedia = new Model_Media();
 		modelMedia.setEvent();
-
-
 	};
 
 	// lightbox
@@ -20279,8 +20276,6 @@ $(document).ready(function() {
 	if (config.content.hasClass('content-create-update')) {
 		contentCreateUpdate();
 	};
-
-
 
 	// header always following on scroll
 	$('.js-header-main').scrollFollow();
