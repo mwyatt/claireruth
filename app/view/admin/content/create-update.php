@@ -34,11 +34,8 @@
 
 		</div>
 		<div class="row tag-manage-container">
+			<input id="form-tag-search" class="search js-tag-input-search right" type="text" name="tag_search" maxlength="100" value="" placeholder="Tag Name">
 			<label class="h5 block mb05" for="form-tag-search">Tag</label>
-			<div class="tag-action">
-				<input id="form-tag-search" class="search js-tag-input-search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
-				<div class="tag-drop js-tag-drop"></div>
-			</div>
 			<div class="tags js-tag-attached">
 	
 <?php if ($tags = $this->get('model_content', 'tag')): ?>
