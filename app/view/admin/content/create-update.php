@@ -13,8 +13,9 @@
 	<?php include($this->pathView('admin/content/_wysihtml5')); ?>
 <?php endif ?>
 
-		<div class="row media layout-media-5-col clearfix">	
-			<label class="h5 block mb05"><a href="<?php echo $this->url() ?>admin/ajax/media/lightbox/" class="button primary js-lightbox-media-browser right">Attach files</a>Media</label>
+		<div class="row media layout-media-5-col clearfix">
+			<a href="<?php echo $this->url() ?>admin/ajax/media/lightbox/" class="button primary js-lightbox-media-browser right">Attach files</a>
+			<label class="h5 block mb05">Media</label>
 
 <?php if ($medias = $this->get('model_content', 'media')): ?>
 			
@@ -33,11 +34,8 @@
 
 		</div>
 		<div class="row tag-manage-container">
+			<input id="form-tag-search" class="search js-tag-input-search right" type="text" name="tag_search" maxlength="100" value="" placeholder="Tag Name">
 			<label class="h5 block mb05" for="form-tag-search">Tag</label>
-			<div class="tag-action">
-				<input id="form-tag-search" class="search js-tag-input-search" type="text" name="tag_search" maxlength="100" value="" placeholder="Add tag">
-				<div class="tag-drop js-tag-drop"></div>
-			</div>
 			<div class="tags js-tag-attached">
 	
 <?php if ($tags = $this->get('model_content', 'tag')): ?>

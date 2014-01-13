@@ -1,12 +1,10 @@
 header.main { 
     border-bottom: 1px solid $color-gray-10;
-    padding-bottom: 1em;
     margin-bottom: 1em;
 }
 
 header.main.is-fixed-top {
     background-color: $color-white;
-    padding-bottom: 1em;
     z-index: 2;
 }
 
@@ -16,6 +14,7 @@ header.main.is-fixed-top + .content {
 
 .inner-title-nav-user {
     padding: 0.4em 0;
+    height: 1em;
 }
 
 .header-site-title {
@@ -31,8 +30,13 @@ header.main.is-fixed-top + .content {
     float: left;
 }
 
-.nav-user {
+.nav-user.nav-main-level1 {
     float: right;
+    margin: 0;
+}
+.nav-user.nav-main-level1 .nav-user-drop {
+    right: 0;
+    left: auto;
 }
 
 .nav-main-level1 {

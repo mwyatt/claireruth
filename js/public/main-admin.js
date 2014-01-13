@@ -8827,6 +8827,30 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 }
 
 })( window );
+;var config = {
+        site: 'claire-ruth',
+        content: '',
+        documentBody: '',
+        url: {
+                base: '/',
+                admin: '/',
+                admin_ajax: '/',
+                ajax: '/',
+        },
+        spinner: '<div class="spinner is-tall"></div>',
+        setup: function() {
+                config.content = $('.content');
+                config.documentBody = $(document.body);
+                config.url.base = $('body').data('url-base');
+                config.url.ajax = config.url.base + 'ajax/'
+                config.url.admin = config.url.base + 'admin/';
+                config.url.adminAjax = config.url.admin + 'ajax/';
+                config.url.currentNoQuery = [location.protocol, '//', location.host, location.pathname].join('');
+        },
+};
+$.ajaxSetup ({  
+        cache: false  
+});
 ;/**
  * lightbox
  *
@@ -19446,7 +19470,110 @@ var wysihtml5ParserRules = {
             "rename_tag": "div"
         }
     }
-};;/**
+};;function contentCreateUpdate () {
+	
+	// html5wysi
+	var editor = new wysihtml5.Editor('form_html', {
+		toolbar: 'toolbar'
+		, parserRules: wysihtml5ParserRules
+		, useLineBreaks: false
+	});
+
+	// tie in content meta
+	var modelContentMeta = new Model_Content_Meta();
+
+	// tag
+	var modelTag = new Model_Tag({
+		template: 'create-update'
+	});
+}
+;/**
+ */
+var Content_Meta = function (options) {
+	var defaults = {
+		content_id: config.content.data('id'),
+		name: 'tag',
+	}
+	this.options = $.extend(defaults, options);
+};
+
+
+/**
+ * performs an ajax call to the content meta model
+ * @param  {string}   action   create | delete
+ * @param  {array}   ids      
+ * @param  {Function} callback what do do once complete
+ * @return {function}            callback
+ */
+Content_Meta.prototype.modify = function(event, action, ids, callback) {
+	$.ajax({
+		url: config.url.adminAjax + 'content/meta/' + action,
+		type: 'get',
+		data: {
+			content_id: this.options.content_id,
+			name: this.options.name,
+			values: ids,
+		},
+		success: function() {
+			callback.call(event);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert('error while performing Content_Meta.prototype.ajaxmethod');
+		},
+	});
+};
+;/**
+ * scours for 'js-dismiss' and attaches an event
+ * which calls ajax, wipes the session variable and hides the element
+ */
+var Dismiss = function (options) {
+	var defaults = {};
+	this.options = $.extend(defaults, options);
+	this.data = this;
+	this.timer = 0;
+	this.dismissElement = $('.js-dismiss');
+	timerData = this;
+
+	// dont act if nothing there
+	if (! this.dismissElement.length) {
+		return;
+	};
+
+	// timed remove 30 sec
+	this.timer = setTimeout(function(event) {
+		timerData.wipeSession(event, timerData.dismissElement);
+	}, 1000*30);
+
+	// event
+	this.dismissElement.on('click', this, function(event) {
+		event.preventDefault();
+		event.data.wipeSession(event, $(this))
+	});
+
+	// hover to remain
+	this.dismissElement.on('hover', function(event) {
+		clearTimeout(this.timer);
+	});
+};
+
+
+/**
+ * will wipe the session key
+ * @param  {object} event       
+ * @param  {$} thisElement 
+ */
+Dismiss.prototype.wipeSession = function(event, thisElement) {
+	$.ajax({
+		url: config.url.ajax + 'dismiss/',
+		success: function () {
+			thisElement.remove();
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert('error while dismissing');
+		},
+	});
+}
+;/**
  * hovering which adds a class
  * start simple!
  * js-hover-addclass
@@ -19570,7 +19697,7 @@ var wysihtml5ParserRules = {
 			}
 			if (uploadFormData) {
 				$.ajax({
-					url: url.base + 'admin/ajax/media/upload/',
+					url: config.url.base + 'admin/ajax/media/upload/',
 					type: 'POST',
 					data: uploadFormData,
 					processData: false,
@@ -19608,7 +19735,7 @@ Model_Content_Meta = (function () {
 
 	module.prototype.create = function(data) {
 		$.get(
-			url.ajax + 'content/meta/create'
+			config.url.ajax + 'content/meta/create'
 			, {
 				content_id: data.content_id
 				, name: data.name
@@ -19678,6 +19805,10 @@ Model_Media = (function () {
 	 * sets all required events, must be a better way to do this?
 	 */
 	module.prototype.setEvent = function() {
+		var contentMeta = new Content_Meta({
+			name: 'media'
+		});
+
 		var lightbox = $('.lightbox')
 			, content = $('.content')
 			, contentRow = content.find('.row.media')
@@ -19705,13 +19836,22 @@ Model_Media = (function () {
 		            lightbox.find('.js-button-attach')
 	                    .off('click')
 	                    .on('click', function(event) {
-	                        
+	                        var selectedMedia = lightbox.find('.js-media-item.is-selected');
+
 							// cleanup past attachments
 							contentRow.find('input[type="hidden"]').remove();
-							contentItem.remove();
+
+							// remove current items
+							var ids = [];
+							for (var i = contentItem.length - 1; i >= 0; i--) {
+								ids[i] = $(contentItem[i]).data('id');
+							};
+							contentMeta.modify(false, 'delete', ids, function() {
+								contentItem.remove();
+							});
 
 							// add new ones
-							$.each(lightbox.find('.js-media-item.is-selected'), function() {
+							$.each(selectedMedia, function() {
 								contentRow.append('<input name="media[]" type="hidden" value="' + $(this).data('id') + '">');
 								$(this).appendTo(contentRow);
 							});
@@ -19721,6 +19861,13 @@ Model_Media = (function () {
 
 	                        // need public functions for this
 	                        $('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
+
+	                        // set meta
+	                        var ids = [];
+	                        for (var i = selectedMedia.length - 1; i >= 0; i--) {
+	                        	ids[i] = $(selectedMedia[i]).data('id');
+	                        };
+	                        contentMeta.modify(false, 'create', ids, function() {});
 	                    });
 	            } else {
 
@@ -19732,10 +19879,9 @@ Model_Media = (function () {
 	        .off('click')
 	        .on('click', function(event) {
 	        	event.preventDefault();
-	        	
-                // remove hidden field and the media item
-                $('[name="media[]"][value="' + $(this).data('id') + '"]').remove();
-                $(this).remove();
+                var ids = [$(this).data('id')];
+                contentMeta.modify(false, 'delete', ids, function() {});
+            	$(this).remove();
 	        });
 	}
 
@@ -19781,7 +19927,7 @@ Model_Media = (function () {
 		var refreshPane = $('.js-media-refresh');
 		refreshPane.addClass('ajax');
 		$.get(
-			url.ajax + 'media/read/'
+			config.url.ajax + 'media/read/'
 			// , {}
 			, function(result) { 
 				if (result) {
@@ -19806,7 +19952,7 @@ Model_Media = (function () {
 
 		// perform ajax
 		$.ajax({
-			url: url.ajax + 'media/upload/'
+			url: config.url.ajax + 'media/upload/'
 			, type: 'POST'
 			, data: module.prototype.getFormData()
 			, processData: false
@@ -19903,7 +20049,7 @@ Model_Tag.prototype.refreshEventAttachedTags = function(event) {
  */
 Model_Tag.prototype.create = function(data) {
 	$.ajax({
-		url: url.ajax + 'tag/create'
+		url: config.url.ajax + 'tag/create'
 		, data: {
 			title: data.title
 			, description: data.description
@@ -19928,7 +20074,7 @@ Model_Tag.prototype.create = function(data) {
  */
 Model_Tag.prototype.search = function(event, query) {
 	$.get(
-		url.ajax + 'tag/search',
+		config.url.ajax + 'tag/search',
 		{
 			query: query
 		},
@@ -19953,7 +20099,7 @@ Model_Tag.prototype.search = function(event, query) {
  */
 Model_Tag.prototype.clickRemove = function(event, tag) {
 	$.ajax({
-		url: url.ajax + 'content/meta/delete'
+		url: config.url.ajax + 'content/meta/delete'
 		, type: 'get'
 		, data: {
 			content_id: $('.content').data('id')
@@ -19975,15 +20121,16 @@ Model_Tag.prototype.clickRemove = function(event, tag) {
  * depentant on meta
  */
 Model_Tag.prototype.clickAdd = function(event, tag) {
+	var tags = [tag.data('id')];
 
 	// create content association
 	$.ajax({
-		url: url.ajax + 'content/meta/create'
+		url: config.url.ajax + 'content/meta/create'
 		, type: 'get'
 		, data: {
 			content_id: $('.content').data('id')
 			, name: 'tag'
-			, value: tag.data('id')
+			, value: tags
 		}
 		, success: function (result) {
 			
@@ -20104,68 +20251,20 @@ Prompt.prototype.refreshEventAttachedTags = function(event) {
 		}
 	}
 })(jQuery);
-;// init global variables
-var url = {
-	base: '',
-	js: '',
-	ajax: ''
-};
-
-
-function contentCreateUpdate () {
-	
-	// html5wysi
-	var editor = new wysihtml5.Editor('form_html', {
-		toolbar: 'toolbar'
-		, parserRules: wysihtml5ParserRules
-		, useLineBreaks: false
-	});
-
-	// tie in content meta
-	var modelContentMeta = new Model_Content_Meta();
-
-	// tag
-	var modelTag = new Model_Tag({
-		template: 'create-update'
-	});
-}
-
-/**
- * @todo should import scripts only when the functionality is needed..
- */
-$(document).ready(function() {
-
-	// cache
-	var content = $('.content');
-	var body = $('body');
-
-	// url helpers
-	url.base = body.data('url-base');
-	url.js = url.base + 'js/';
-	url.ajax = url.base + 'admin/ajax/';
-
-	// prevent ajax cache
-	$.ajaxSetup ({  
-		cache: false  
-	});
+;$(document).ready(function() {
+	config.setup();
 
 	// form submission
 	$('form').find('a.submit').on('mouseup', setSubmit);
+	var modelMedia = new Model_Media();
 
 	// general logic seperation
-	if (body.hasClass('admin-media')) {
+	if (config.documentBody.hasClass('admin-media') || config.content.hasClass('content-create-update')) {
 		var modelMedia = new Model_Media();
 		modelMedia.setEvent();
 	};
 
-	// try adding all logic for manipulating objects here...
-	if (content.hasClass('content-create-update')) {
-		contentCreateUpdate();
-	};
-
-	var modelMedia = new Model_Media();
-
-	// lightboxes
+	// lightbox
 	$('.js-lightbox-media-browser').lightbox({
 		inline: true
 		, maxWidth: 800
@@ -20173,6 +20272,14 @@ $(document).ready(function() {
 		, onComplete: modelMedia.setEvent
 	});
 
+	// try adding all logic for manipulating objects here...
+	if (config.content.hasClass('content-create-update')) {
+		contentCreateUpdate();
+	};
+
 	// header always following on scroll
 	$('.js-header-main').scrollFollow();
+
+	// watch for dismissers
+	var dismiss = new Dismiss();
 });

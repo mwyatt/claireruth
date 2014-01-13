@@ -50,7 +50,7 @@ Model_Tag.prototype.refreshEventAttachedTags = function(event) {
  */
 Model_Tag.prototype.create = function(data) {
 	$.ajax({
-		url: url.ajax + 'tag/create'
+		url: config.url.ajax + 'tag/create'
 		, data: {
 			title: data.title
 			, description: data.description
@@ -75,7 +75,7 @@ Model_Tag.prototype.create = function(data) {
  */
 Model_Tag.prototype.search = function(event, query) {
 	$.get(
-		url.ajax + 'tag/search',
+		config.url.ajax + 'tag/search',
 		{
 			query: query
 		},
@@ -100,7 +100,7 @@ Model_Tag.prototype.search = function(event, query) {
  */
 Model_Tag.prototype.clickRemove = function(event, tag) {
 	$.ajax({
-		url: url.ajax + 'content/meta/delete'
+		url: config.url.ajax + 'content/meta/delete'
 		, type: 'get'
 		, data: {
 			content_id: $('.content').data('id')
@@ -122,15 +122,16 @@ Model_Tag.prototype.clickRemove = function(event, tag) {
  * depentant on meta
  */
 Model_Tag.prototype.clickAdd = function(event, tag) {
+	var tags = [tag.data('id')];
 
 	// create content association
 	$.ajax({
-		url: url.ajax + 'content/meta/create'
+		url: config.url.ajax + 'content/meta/create'
 		, type: 'get'
 		, data: {
 			content_id: $('.content').data('id')
 			, name: 'tag'
-			, value: tag.data('id')
+			, value: tags
 		}
 		, success: function (result) {
 			

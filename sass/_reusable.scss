@@ -137,7 +137,6 @@ html.js input[type="submit"] {
 }
 
 .is-fixed-top {
-    @include box-shadow(0 1px 3px $color-gray-50);
     top: 0;
     left: 0;
     right: 0;

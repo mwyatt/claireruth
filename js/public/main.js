@@ -8827,6 +8827,30 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 }
 
 })( window );
+;var config = {
+        site: 'claire-ruth',
+        content: '',
+        documentBody: '',
+        url: {
+                base: '/',
+                admin: '/',
+                admin_ajax: '/',
+                ajax: '/',
+        },
+        spinner: '<div class="spinner is-tall"></div>',
+        setup: function() {
+                config.content = $('.content');
+                config.documentBody = $(document.body);
+                config.url.base = $('body').data('url-base');
+                config.url.ajax = config.url.base + 'ajax/'
+                config.url.admin = config.url.base + 'admin/';
+                config.url.adminAjax = config.url.admin + 'ajax/';
+                config.url.currentNoQuery = [location.protocol, '//', location.host, location.pathname].join('');
+        },
+};
+$.ajaxSetup ({  
+        cache: false  
+});
 ;/**
  * lightbox
  *
@@ -9434,29 +9458,9 @@ Array.prototype.contains = function ( needle ) {
 		}
 	};
 })(jQuery);
-;/** 
- * app
- */
-function app () {
+;$(document).ready(function() {
 	$('.js-lightbox-gallery').lightbox({
 		galleryClass: 'group-1'
 		, title: $('h1.main').html()
 	});	
-}
-
-
-/**
- * ready!
- */
-$(document).ready(function() {
-
-	// getscripts
-	$.when(
-	    $.getScript(url.base + 'js/reusable.js')
-	    , $.getScript(url.base + 'js/jquery.lightbox.js')
-	    // $.Deferred(function( deferred ){
-	    //     $( deferred.resolve );
-	    // })
-	).done(app);
 });
-       

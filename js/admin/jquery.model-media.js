@@ -15,6 +15,10 @@ Model_Media = (function () {
 	 * sets all required events, must be a better way to do this?
 	 */
 	module.prototype.setEvent = function() {
+		var contentMeta = new Content_Meta({
+			name: 'media'
+		});
+
 		var lightbox = $('.lightbox')
 			, content = $('.content')
 			, contentRow = content.find('.row.media')
@@ -42,13 +46,22 @@ Model_Media = (function () {
 		            lightbox.find('.js-button-attach')
 	                    .off('click')
 	                    .on('click', function(event) {
-	                        
+	                        var selectedMedia = lightbox.find('.js-media-item.is-selected');
+
 							// cleanup past attachments
 							contentRow.find('input[type="hidden"]').remove();
-							contentItem.remove();
+
+							// remove current items
+							var ids = [];
+							for (var i = contentItem.length - 1; i >= 0; i--) {
+								ids[i] = $(contentItem[i]).data('id');
+							};
+							contentMeta.modify(false, 'delete', ids, function() {
+								contentItem.remove();
+							});
 
 							// add new ones
-							$.each(lightbox.find('.js-media-item.is-selected'), function() {
+							$.each(selectedMedia, function() {
 								contentRow.append('<input name="media[]" type="hidden" value="' + $(this).data('id') + '">');
 								$(this).appendTo(contentRow);
 							});
@@ -58,6 +71,13 @@ Model_Media = (function () {
 
 	                        // need public functions for this
 	                        $('.lightbox-blackout, .lightbox-anchor').removeClass('is-active');
+
+	                        // set meta
+	                        var ids = [];
+	                        for (var i = selectedMedia.length - 1; i >= 0; i--) {
+	                        	ids[i] = $(selectedMedia[i]).data('id');
+	                        };
+	                        contentMeta.modify(false, 'create', ids, function() {});
 	                    });
 	            } else {
 
@@ -69,10 +89,9 @@ Model_Media = (function () {
 	        .off('click')
 	        .on('click', function(event) {
 	        	event.preventDefault();
-	        	
-                // remove hidden field and the media item
-                $('[name="media[]"][value="' + $(this).data('id') + '"]').remove();
-                $(this).remove();
+                var ids = [$(this).data('id')];
+                contentMeta.modify(false, 'delete', ids, function() {});
+            	$(this).remove();
 	        });
 	}
 
@@ -118,7 +137,7 @@ Model_Media = (function () {
 		var refreshPane = $('.js-media-refresh');
 		refreshPane.addClass('ajax');
 		$.get(
-			url.ajax + 'media/read/'
+			config.url.ajax + 'media/read/'
 			// , {}
 			, function(result) { 
 				if (result) {
@@ -143,7 +162,7 @@ Model_Media = (function () {
 
 		// perform ajax
 		$.ajax({
-			url: url.ajax + 'media/upload/'
+			url: config.url.ajax + 'media/upload/'
 			, type: 'POST'
 			, data: module.prototype.getFormData()
 			, processData: false
