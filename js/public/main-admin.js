@@ -8834,7 +8834,7 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
         url: {
                 base: '/',
                 admin: '/',
-                admin_ajax: '/',
+                adminAjax: '/',
                 ajax: '/',
         },
         spinner: '<div class="spinner is-tall"></div>',
@@ -20049,7 +20049,7 @@ Model_Tag.prototype.refreshEventAttachedTags = function(event) {
  */
 Model_Tag.prototype.create = function(data) {
 	$.ajax({
-		url: config.url.ajax + 'tag/create'
+		url: config.url.adminAjax + 'tag/create'
 		, data: {
 			title: data.title
 			, description: data.description
@@ -20098,20 +20098,11 @@ Model_Tag.prototype.search = function(event, query) {
  * @param {object} button 
  */
 Model_Tag.prototype.clickRemove = function(event, tag) {
-	$.ajax({
-		url: config.url.ajax + 'content/meta/delete'
-		, type: 'get'
-		, data: {
-			content_id: $('.content').data('id')
-			, name: 'tag'
-			, value: tag.data('id')
-		}
-		, success: function (result) {
-			tag.remove();
-		}
-		, error: function (jqXHR, textStatus, errorThrown) {
-			alert(textStatus);
-		}
+	var contentMeta = new Content_Meta({
+		name: 'media'
+	});
+	contentMeta.modify(event, 'delete', [tag.data('id')], function() {
+		tag.remove();
 	});
 };
 
@@ -20125,7 +20116,7 @@ Model_Tag.prototype.clickAdd = function(event, tag) {
 
 	// create content association
 	$.ajax({
-		url: config.url.ajax + 'content/meta/create'
+		url: config.url.adminAjax + 'content/meta/create'
 		, type: 'get'
 		, data: {
 			content_id: $('.content').data('id')

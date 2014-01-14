@@ -8834,7 +8834,7 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
         url: {
                 base: '/',
                 admin: '/',
-                admin_ajax: '/',
+                adminAjax: '/',
                 ajax: '/',
         },
         spinner: '<div class="spinner is-tall"></div>',

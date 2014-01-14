@@ -33,7 +33,7 @@
 <?php endif ?>
 
 		</div>
-		<div class="row tag-manage-container">
+		<div class="row tag-manage-container clearfix">
 			<input id="form-tag-search" class="search js-tag-input-search right" type="text" name="tag_search" maxlength="100" value="" placeholder="Tag Name">
 			<label class="h5 block mb05" for="form-tag-search">Tag</label>
 			<div class="tags js-tag-attached">
@@ -47,7 +47,7 @@
 
 <?php if ($contentStatus): ?>
 	
-		<div class="row">
+		<div class="row clearfix">
 			<label for="status">Status</label>
 			<select name="status" id="status">
 
