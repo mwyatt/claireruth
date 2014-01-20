@@ -15,6 +15,6 @@
 				</div>
 			</footer>
         </div>
-        <script src="<?php echo $this->url(); ?>js/public/main.js"></script>
+        <script src="<?php echo $this->url(); ?>js/public/main.js?v=1"></script>
     </body>
 </html>

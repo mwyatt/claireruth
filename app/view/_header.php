@@ -10,7 +10,7 @@
     <meta name="keywords" content="<?php echo $this->getMeta('keywords'); ?>">
     <meta name="description" content="<?php echo $this->getMeta('description'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="<?php echo $this->url(); ?>css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->url(); ?>css/screen.css?v=1" media="screen, projection" rel="stylesheet" type="text/css" />
     <!-- // <script src="<?php echo $this->url(); ?>js/vendor/respond.min.js"></script> -->
     <script src="<?php echo $this->url(); ?>js/exclude/modernizr.js"></script>
 </head>

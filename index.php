@@ -15,7 +15,6 @@ $error = new error($errorReporting);
 $database = new database($credentials);
 $options = new model_options($database);
 $options->read();
-
 $config = new config($database);
 $config
 	->setOptions($options->getData())
