@@ -1,15 +1,28 @@
 footer.main {
-    margin: 0 0 1em;
+    border-radius: 5px;
+    border: 1px solid;
     padding: 1em;
     background: $color-white;
 
     .book-stack {
-        @include sprite-sprite('bookstack');
-        @include block-width-height('sprite/bookstack.png');
-        display: block;
-        margin: 0 auto;
-        float: left;
+        display: none;
     }
+
+    .propos-portrait {
+        width: 30%;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    /* 
+@include sprite-sprite('bookstack');
+@include block-width-height('sprite/bookstack.png');
+display: block;
+margin: 0 auto;
+float: left;
+     */
 }
 
 footer.main .propos {
@@ -17,34 +30,19 @@ footer.main .propos {
     padding: 0 0 0 36%;
     position: relative;
 
-    .propos-title {
-        color: green;
-        font-size: 1em;
-    }
+    .propos-title {}
 
     .propos-description {
-        margin: 0 0 1em;
-        font-size: 0.8em;
-        line-height: 1.5em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    .propos-button.button.primary {
-        display: block;
-    }
-
-    .propos-portrait {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 30%;
-    }
-
-    img {
-        width: 100%;
-    }
+    .propos-button.button.primary {}
 }
 
 footer.main nav {
+    display: none;
     margin: 0 0 1em;
     padding: 0 0 1em;
     border-bottom: 1px solid #ECECEC;

@@ -29,7 +29,7 @@
 		 * updates the class periodically
 		 */
 		function updateClass () {
-			if ($(window).scrollTop() > Math.floor(options.followAfter)) {
+			if ($(document).scrollTop() > Math.floor(options.followAfter)) {
 				$(element).addClass('is-fixed-top');
 			} else {
 				$(element).removeClass('is-fixed-top');

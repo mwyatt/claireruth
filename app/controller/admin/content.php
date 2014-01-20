@@ -40,6 +40,7 @@ class Controller_Admin_Content extends Controller
 					, 'action' => 'create'
 				));
 				$sessionFeedback->set(ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
+
 				$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/?edit=' . $lastInsertId);
 			} else {
 				$sessionFeedback->set('Problem while creating ' . ucfirst($_POST['type']));
@@ -51,10 +52,6 @@ class Controller_Admin_Content extends Controller
 		if (array_key_exists('update', $_POST)) {
 			if ($content->update($_GET['edit'], $_POST)) {
 				$createOrUpdateId = $_GET['edit'];
-
-				// wipe all existing tags and media assignments
-				$contentMeta->deleteByContentIdAndName($createOrUpdateId, 'tag');
-				$contentMeta->deleteByContentIdAndName($createOrUpdateId, 'media');
 
 				// feedback
 				$userAction->lazyCreate(array(
@@ -89,19 +86,17 @@ class Controller_Admin_Content extends Controller
 
 		// delete
 		if (array_key_exists('delete', $_GET)) {
-			if ($content->delete(array('id' => $_GET['delete']))) {
-				// $contentMany = new model_content_meta($this->database, $this->config, 'content_tag');
-				// $contentMany->delete(array('content_id', $_GET['delete']));
-				// $contentMany->setTableName('content_media');
-				// $contentMany->delete(array('content_id', $_GET['delete']));
-				$sessionFeedback->set('Content archived successfully');
+			if ($content->lazyDelete(array(
+				'id' => $_GET['delete']
+			))) {
+				$sessionFeedback->set('Content deleted successfully');
 				$userAction->lazyCreate(array(
-					'description' => 'content ' . $_GET['archive']
+					'description' => 'content ' . $_GET['delete']
 					, 'user_id' => $sessionAdminUser->getData('id')
 					, 'action' => 'archive'
 				));
 			} else {
-				$sessionFeedback->set('Problem archiving content');
+				$sessionFeedback->set('Problem deleting content');
 			}
 			$this->route('current_noquery');
 		}
@@ -113,7 +108,7 @@ class Controller_Admin_Content extends Controller
 			|| array_key_exists('delete', $_GET)
 			|| array_key_exists('archive', $_GET)
 		) {
-			$content->createTotal();
+			$content->storeTotalRows($this->config->getUrl(2));
 		}
 
 		// any create or update event

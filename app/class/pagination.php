@@ -17,7 +17,7 @@ class Pagination extends Model
 	public $pageCurrent = 1;
 
 
-	public $maxPerPage = 3;
+	public $maxPerPage = 5;
 
 
 	public $totalRows;
@@ -36,7 +36,7 @@ class Pagination extends Model
 		$this->database = $database;
 		$this->config = $config;
 		$this->tableName = $tableName;
-		$this->totalRows = $this->config->getOption('model_' . $this->getIdentity() . '_rowcount');
+		$this->totalRows = $this->config->getOption('model_' . 'content' . '_total');
 
 		// check validity
 		if (($this->sanitizePage())) {

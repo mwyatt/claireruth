@@ -19470,24 +19470,7 @@ var wysihtml5ParserRules = {
             "rename_tag": "div"
         }
     }
-};;function contentCreateUpdate () {
-	
-	// html5wysi
-	var editor = new wysihtml5.Editor('form_html', {
-		toolbar: 'toolbar'
-		, parserRules: wysihtml5ParserRules
-		, useLineBreaks: false
-	});
-
-	// tie in content meta
-	var modelContentMeta = new Model_Content_Meta();
-
-	// tag
-	var modelTag = new Model_Tag({
-		template: 'create-update'
-	});
-}
-;/**
+};;;/**
  */
 var Content_Meta = function (options) {
 	var defaults = {
@@ -20006,7 +19989,7 @@ var Model_Tag = function (options) {
 		template: 'default'
 	}
 	this.options = $.extend(defaults, options);
-	this.dropDown = $('.js-tag-drop');
+	this.dropDown = $('.js-form-tag-drop');
 	this.attachedTagContainer = $('.js-tag-attached');
 	this.searchField = $('.js-tag-input-search');
 	this.timer = 0;
@@ -20038,7 +20021,7 @@ Model_Tag.prototype.refreshEventAttachedTags = function(event) {
 		.off('click.modelTag')
 		.on('click.modelTag', function (currentEvent) {
 			currentEvent.preventDefault();
-			event.data.clickRemove(event, $(this));
+			event.data.aRemove(event, $(this));
 		});
 };
 
@@ -20074,19 +20057,19 @@ Model_Tag.prototype.create = function(data) {
  */
 Model_Tag.prototype.search = function(event, query) {
 	$.get(
-		config.url.ajax + 'tag/search',
+		config.url.adminAjax + 'tag/search',
 		{
 			query: query
 		},
 		function(result) { 
 			if (result) {
-				event.data.dropDown.html(result);
-				event.data.dropDown.find('.js-tag')
-					.off('click.modelTag')
-					.on('click.modelTag', function (currentEvent) {
-						currentEvent.preventDefault();
-						event.data.clickAdd(event, $(this));
-					});
+				event.data.dropDown
+					.removeClass('hidden')
+					.html(result);
+				$(event.data.dropDown.selector).find('.js-tag').on('click.modelTag', function (thisEvent) {
+					thisEvent.preventDefault();
+					event.data.aAdd(event, $(this));
+				});
 			}
 		}
 	);
@@ -20097,9 +20080,9 @@ Model_Tag.prototype.search = function(event, query) {
  * removes a tag when clicked in the admin area
  * @param {object} button 
  */
-Model_Tag.prototype.clickRemove = function(event, tag) {
+Model_Tag.prototype.aRemove = function(event, tag) {
 	var contentMeta = new Content_Meta({
-		name: 'media'
+		name: 'tag'
 	});
 	contentMeta.modify(event, 'delete', [tag.data('id')], function() {
 		tag.remove();
@@ -20111,7 +20094,7 @@ Model_Tag.prototype.clickRemove = function(event, tag) {
  * clicking a dropdown tag to attach
  * depentant on meta
  */
-Model_Tag.prototype.clickAdd = function(event, tag) {
+Model_Tag.prototype.aAdd = function(event, tag) {
 	var tags = [tag.data('id')];
 
 	// create content association
@@ -20119,9 +20102,9 @@ Model_Tag.prototype.clickAdd = function(event, tag) {
 		url: config.url.adminAjax + 'content/meta/create'
 		, type: 'get'
 		, data: {
-			content_id: $('.content').data('id')
+			content_id: config.content.data('id')
 			, name: 'tag'
-			, value: tags
+			, values: tags
 		}
 		, success: function (result) {
 			
@@ -20234,7 +20217,7 @@ Prompt.prototype.refreshEventAttachedTags = function(event) {
 		 * updates the class periodically
 		 */
 		function updateClass () {
-			if ($(window).scrollTop() > Math.floor(options.followAfter)) {
+			if ($(document).scrollTop() > Math.floor(options.followAfter)) {
 				$(element).addClass('is-fixed-top');
 			} else {
 				$(element).removeClass('is-fixed-top');
@@ -20242,7 +20225,11 @@ Prompt.prototype.refreshEventAttachedTags = function(event) {
 		}
 	}
 })(jQuery);
-;$(document).ready(function() {
+;/**
+ * rules
+ * all blocks of functionaltiy seperated into 'module**'
+ */
+$(document).ready(function() {
 	config.setup();
 
 	// form submission
@@ -20265,7 +20252,7 @@ Prompt.prototype.refreshEventAttachedTags = function(event) {
 
 	// try adding all logic for manipulating objects here...
 	if (config.content.hasClass('content-create-update')) {
-		contentCreateUpdate();
+		moduleContentCreateUpdate();
 	};
 
 	// header always following on scroll
@@ -20274,3 +20261,25 @@ Prompt.prototype.refreshEventAttachedTags = function(event) {
 	// watch for dismissers
 	var dismiss = new Dismiss();
 });
+
+
+/**
+ * content create update functionality
+ */
+function moduleContentCreateUpdate () {
+	
+	// html5wysi
+	var editor = new wysihtml5.Editor('form_html', {
+		toolbar: 'toolbar'
+		, parserRules: wysihtml5ParserRules
+		, useLineBreaks: false
+	});
+
+	// tie in content meta
+	var modelContentMeta = new Model_Content_Meta();
+
+	// tag
+	var modelTag = new Model_Tag({
+		template: 'create-update'
+	});
+}

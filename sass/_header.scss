@@ -1,6 +1,21 @@
 header.main {
-    padding: 0 0 0.6em;
-    border-bottom: 1px solid #C4C4C4;
+    margin: 0 0 2em; 
+
+    .logo {
+        width: 66%;
+        display: block;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .propos {
+        display: none;
+    }
 
     .button.tertiary {
         display: none;
@@ -10,72 +25,45 @@ header.main {
         display: none;
     }
 
-    .logo {
-        width: 47%;
-        float: left;
-        display: block;
-        height: auto;
-        margin: 0;
-    }
-
-    img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    .propos {
-        float: right;
-        width: 20%;
-        line-height: 1em;
-        position: relative;
-        width: 27%;
-        padding-left: 18%;
-    }
-
-    .propos-flower {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        width: 36%;
-        height: auto;
-    }
-
-    .propos-lettering {
-        font-weight: 600;
-        color: $color-primary-02;
-        line-height: 1.5em;
-    }
-
-    @media screen and (min-width: 480px) {
+    @media screen and (min-width: 450px) {
 
         .logo {
-            width: 215px;
-        }
-    }
-
-    @media screen and (min-width: 500px) {
-        margin-bottom: 1em;
-
-        .propos-flower {
-            width: 78px;
-        }
-
-        .propos-lettering {
-            font-size: 1.5em;
+            width: auto;
         }
 
         .propos {
-            width: 122px;
-            padding-left: 85px;
+            display: block;
+            float: right;
+            position: relative;
+            width: 6em;
+            top: 0.5em;
+            padding-left: 4.7em;
+        }
+
+        .propos-flower {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 36%;
+            height: auto;
+        }
+
+        .propos-lettering {
+            color: $color-primary;
+            font-size: 1.7em;
+            line-height: 1.1;
         }
     }
 
-    @media screen and (min-width: 660px) {
-        margin-bottom: 1.1em;
-    }
+    @media screen and (min-width: 590px) {
 
-    @media screen and (min-width: 800px) {
-        border-bottom: none;
+        .button.tertiary {
+            display: inline;
+            position: relative;
+            top: -2.5em;
+            left: 40.7%;
+            font-size: 1.1em;
+        }
     }
 }

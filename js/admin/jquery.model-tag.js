@@ -7,7 +7,7 @@ var Model_Tag = function (options) {
 		template: 'default'
 	}
 	this.options = $.extend(defaults, options);
-	this.dropDown = $('.js-tag-drop');
+	this.dropDown = $('.js-form-tag-drop');
 	this.attachedTagContainer = $('.js-tag-attached');
 	this.searchField = $('.js-tag-input-search');
 	this.timer = 0;
@@ -39,7 +39,7 @@ Model_Tag.prototype.refreshEventAttachedTags = function(event) {
 		.off('click.modelTag')
 		.on('click.modelTag', function (currentEvent) {
 			currentEvent.preventDefault();
-			event.data.clickRemove(event, $(this));
+			event.data.aRemove(event, $(this));
 		});
 };
 
@@ -75,19 +75,19 @@ Model_Tag.prototype.create = function(data) {
  */
 Model_Tag.prototype.search = function(event, query) {
 	$.get(
-		config.url.ajax + 'tag/search',
+		config.url.adminAjax + 'tag/search',
 		{
 			query: query
 		},
 		function(result) { 
 			if (result) {
-				event.data.dropDown.html(result);
-				event.data.dropDown.find('.js-tag')
-					.off('click.modelTag')
-					.on('click.modelTag', function (currentEvent) {
-						currentEvent.preventDefault();
-						event.data.clickAdd(event, $(this));
-					});
+				event.data.dropDown
+					.removeClass('hidden')
+					.html(result);
+				$(event.data.dropDown.selector).find('.js-tag').on('click.modelTag', function (thisEvent) {
+					thisEvent.preventDefault();
+					event.data.aAdd(event, $(this));
+				});
 			}
 		}
 	);
@@ -98,9 +98,9 @@ Model_Tag.prototype.search = function(event, query) {
  * removes a tag when clicked in the admin area
  * @param {object} button 
  */
-Model_Tag.prototype.clickRemove = function(event, tag) {
+Model_Tag.prototype.aRemove = function(event, tag) {
 	var contentMeta = new Content_Meta({
-		name: 'media'
+		name: 'tag'
 	});
 	contentMeta.modify(event, 'delete', [tag.data('id')], function() {
 		tag.remove();
@@ -112,7 +112,7 @@ Model_Tag.prototype.clickRemove = function(event, tag) {
  * clicking a dropdown tag to attach
  * depentant on meta
  */
-Model_Tag.prototype.clickAdd = function(event, tag) {
+Model_Tag.prototype.aAdd = function(event, tag) {
 	var tags = [tag.data('id')];
 
 	// create content association
@@ -120,9 +120,9 @@ Model_Tag.prototype.clickAdd = function(event, tag) {
 		url: config.url.adminAjax + 'content/meta/create'
 		, type: 'get'
 		, data: {
-			content_id: $('.content').data('id')
+			content_id: config.content.data('id')
 			, name: 'tag'
-			, value: tags
+			, values: tags
 		}
 		, success: function (result) {
 			

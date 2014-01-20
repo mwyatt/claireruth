@@ -2,7 +2,9 @@
 @import "global";
 @import "form";
 @import "header";
+@import "home";
 @import "content/post";
+@import "content/single";
 @import "content/tag";
 @import "content/media";
 @import "month"; 
@@ -50,4 +52,16 @@ body {
 
 .button.tertiary {
     @include button($color-tertiary);
+}
+
+.to-top {
+    display: none;
+
+    &.is-active {
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
+        display: block;
+        background: red;
+    }
 }

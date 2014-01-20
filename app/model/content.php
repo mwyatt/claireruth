@@ -232,33 +232,9 @@ class Model_Content extends Model
 				and content.status = 'visible'
 		");
 		$sth->execute(array('%' . current($title) . '%'));
-		$this->data = $sth->fetch(PDO::FETCH_ASSOC);
+		$this->data = $sth->fetchAll(PDO::FETCH_ASSOC);
 		return $sth->rowCount();
 	}	
-
-
-	/**
-	 * sets the total rowcount in options table
-	 * @return bool 
-	 */
-	public function createTotal()
-	{
-		$sth = $this->database->dbh->query("	
-			select
-				content.id
-			from content
-			where
-				content.status = 'visible'
-		");
-		$model = new model_options($this->database, $this->config, 'options');
-		$model->lazyDelete(
-			array('name' => 'model_content_rowcount')
-		);
-		return $model->create(array(
-			'name' => 'model_content_rowcount'
-			, 'value' => $sth->rowCount()
-		));
-	}
 
 
 	/**
@@ -313,4 +289,33 @@ class Model_Content extends Model
 		return $this->setData($rows);
 	}
 
+
+	/**
+	 * store a count for a tables rows
+	 * @param  string $type content type
+	 * @return null
+	 */
+	public function storeTotalRows($type)
+	{
+		$key = 'model_' . 'content_' . 'total';
+		$sth = $this->database->dbh->prepare("	
+			select
+				content.id
+			from content
+            where
+            	content.status = 'visible'
+            	and content.type = :type
+		");
+		$sth->bindValue(':type', $type, PDO::PARAM_STR);
+		$this->tryExecute($sth);
+		;
+		$modelOptions = new model_options($this->database, $this->config);
+		$modelOptions->lazyDelete(array(
+			'name' => $key
+		));
+		$modelOptions->lazyCreate(array(
+			'name' => $key
+			, 'value' => $sth->rowCount()
+		));
+	}
 }

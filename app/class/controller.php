@@ -265,7 +265,7 @@ class Controller extends Config
 					'title' => $page->getData('title')
 				))
 				->setObject($page)
-				->loadTemplate('page');
+				->loadTemplate('content-single');
 		}
 		$this->route('base');
 	}

@@ -1,16 +1,16 @@
 .content-post {
-    @include box-shadow(0 1px 0 $color-gray-50);
-    border: 1px solid $color-gray-10;
     background: $color-white;
     position: relative;
-    padding: 1em;
     margin-bottom: 1em;
+    @include border-radius(5px);
+    border: 1px solid $color-secondary;
+    padding: 0.7em;
+    min-height: 4em;
 
     .content-post-title {
-        margin-top: 0;
-        font-weight: 400;
-        font-size: 23px;
-        line-height: 1.3em;
+        margin: 0 0 0.5em;
+        font-size: 1.3em;
+        letter-spacing: 0;
     }
 
     .content-post-html {
@@ -18,13 +18,10 @@
     }
 
     .content-post-date {
+        color: $color-secondary;
         position: absolute;
-        font-style: normal;
-        font-size: 0.8em;
-        bottom: 16px;  
-        right: 16px;
-        letter-spacing: 1px;
-        color: #A8A8A8;
+        bottom: 1em;
+        right: 1em;
     }
 
     .content-post-author {
@@ -32,27 +29,46 @@
         bottom: 1em;
         left: 1em;
         font-size: 0.7em;
-
         display: none;
     }
 
     .content-thumb {
+        @include border-radius(5px);
+        height: 5em;
         display: block;
         text-align: center;
         overflow: hidden;
         margin: 0 0 1em;
-        border-radius: 3px;
 
         img {
             width: 100%;
         }
     }
 
-    @media screen and (min-width: 660px) {
-        float: left;
-        width: 41.2%;
-        margin: 0.6em;
-        height: 20em;
+    @media screen and (min-width: 326px) {
+
+        .content-thumb {
+            height: 6em;
+        }
+    }
+
+    @media screen and (min-width: 500px) {
+
+        &.has-thumb {
+            padding-left: 35%;
+            min-height: 7em;
+        }
+
+        .content-thumb {
+            position: absolute;
+            top: 1em;
+            left: 1em;
+            width: 30%;
+
+            img {
+                width: 180%;
+            }
+        }
     }
 
     @media screen and (min-width: 975px) {}

@@ -21,11 +21,11 @@ $config
 	->setOptions($options->getData())
 	->initiateUrl()
 	->setObject($error);
-$cron = new cron($database, $config);
-$cron->poll(array(
-	'emailErrorReport'
-	, 'emailNewsletter'
-));
+// $cron = new cron($database, $config);
+// $cron->poll(array(
+// 	'emailErrorReport'
+// 	, 'emailNewsletter'
+// ));
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
 $initialController = new controller();

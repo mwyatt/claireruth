@@ -309,7 +309,7 @@ a:link {
 .typography h5,
 .h6,
 .typography h6 {
-  font-family: "Open Sans", "Arial", "Sans-serif";
+  font-family: "Droid Serif", "serif";
   font-weight: 400;
 }
 
@@ -328,53 +328,40 @@ a:link {
 /* line 84, ../../sass/_typography.scss */
 .h1, .typography h1 {
   font-size: 400%;
-  letter-spacing: -2px;
 }
 
-/* line 89, ../../sass/_typography.scss */
+/* line 88, ../../sass/_typography.scss */
 .h2, .typography h2 {
   font-size: 250%;
-  letter-spacing: -1px;
 }
 
-/* line 94, ../../sass/_typography.scss */
+/* line 92, ../../sass/_typography.scss */
 .h3, .typography h3 {
   font-size: 200%;
 }
 
-/* line 98, ../../sass/_typography.scss */
+/* line 96, ../../sass/_typography.scss */
 .h4, .typography h4 {
   font-size: 180%;
 }
 
-/* line 102, ../../sass/_typography.scss */
+/* line 100, ../../sass/_typography.scss */
 .h5, .typography h5 {
   font-size: 130%;
 }
 
-/* line 106, ../../sass/_typography.scss */
-.fixed, .typography pre,
-.typography code {
-  color: red;
-}
-
-/* line 115, ../../sass/_typography.scss */
-.loud, .bold, .typography b, .typography strong {
-  color: red;
-}
-
-/* line 120, ../../sass/_typography.scss */
+/* line 116, ../../sass/_typography.scss */
 .italic, .typography i,
 .typography em {
   font-style: italic;
 }
 
-/* line 124, ../../sass/_typography.scss */
+/* line 120, ../../sass/_typography.scss */
 .bold, .typography b, .typography strong {
   font-weight: 700;
 }
 
-/* line 129, ../../sass/_typography.scss */
+/* line 125, ../../sass/_typography.scss */
 .block-margins, .typography p,
 .typography ul,
 .typography ol,
@@ -382,37 +369,37 @@ a:link {
   margin: 1em 0;
 }
 
-/* line 133, ../../sass/_typography.scss */
+/* line 129, ../../sass/_typography.scss */
 .unordered-list, .typography ul {
   list-style-type: disc;
 }
 
-/* line 137, ../../sass/_typography.scss */
+/* line 133, ../../sass/_typography.scss */
 .ordered-list, .typography ol {
   list-style: decimal;
 }
 
-/* line 152, ../../sass/_typography.scss */
+/* line 148, ../../sass/_typography.scss */
 .typography h1 {
   margin: 1em 0 0.5em;
 }
-/* line 157, ../../sass/_typography.scss */
+/* line 153, ../../sass/_typography.scss */
 .typography h2 {
   margin: 1em 0 0.5em;
 }
-/* line 162, ../../sass/_typography.scss */
+/* line 158, ../../sass/_typography.scss */
 .typography h3 {
   margin: 1em 0 0.5em;
 }
-/* line 167, ../../sass/_typography.scss */
+/* line 163, ../../sass/_typography.scss */
 .typography h4 {
   margin: 1em 0 0.5em;
 }
-/* line 172, ../../sass/_typography.scss */
+/* line 168, ../../sass/_typography.scss */
 .typography h5 {
   margin: 1em 0 0.5em;
 }
-/* line 177, ../../sass/_typography.scss */
+/* line 173, ../../sass/_typography.scss */
 .typography h6 {
   margin: 1em 0 0.5em;
 }
@@ -503,21 +490,20 @@ a:link {
 }
 
 /* line 74, ../../sass/_reusable.scss */
-.clearfix:before, .lightbox:before, .tag-manage-container .tag-drop:before,
+.clearfix:before, .lightbox:before,
 .clearfix:after,
-.lightbox:after,
-.tag-manage-container .tag-drop:after {
+.lightbox:after {
   content: " ";
   display: table;
 }
 
 /* line 79, ../../sass/_reusable.scss */
-.clearfix:after, .lightbox:after, .tag-manage-container .tag-drop:after {
+.clearfix:after, .lightbox:after {
   clear: both;
 }
 
 /* line 83, ../../sass/_reusable.scss */
-.clearfix, .lightbox, .tag-manage-container .tag-drop {
+.clearfix, .lightbox {
   *zoom: 1;
 }
 
@@ -729,6 +715,13 @@ table.basic th,
 table.basic td {
   padding: 0.5em;
   border: 1px solid #995799;
+}
+
+/* line 271, ../../sass/_reusable.scss */
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* line 1, ../../sass/lightbox/_media.scss */
@@ -973,6 +966,11 @@ table.basic td {
 /* line 191, ../../sass/_lightbox.scss */
 .lightbox-remove:active {
   background-color: #995799;
+}
+
+/* line 12, ../../sass/_global.scss */
+body {
+  line-height: 1.5;
 }
 
 /* line 1, ../../sass/admin/_header.scss */
@@ -1349,26 +1347,26 @@ footer.main {
 }
 
 /* line 26, ../../sass/admin/_tag.scss */
-.tag-manage-container .search {
-  margin-bottom: 1em;
-}
-
-/* line 30, ../../sass/admin/_tag.scss */
-.tag-manage-container .tag-drop {
-  -webkit-box-shadow: 0 0 3px;
-  -moz-box-shadow: 0 0 3px;
-  box-shadow: 0 0 3px;
-  padding: 0.5em;
-}
-
-/* line 36, ../../sass/admin/_tag.scss */
-.tag-manage-container .drop {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
+.form-tag-drop {
   -webkit-animation: bubble-in 300ms 0 ease both;
   -moz-animation: bubble-in 300ms 0 ease both;
   -ms-animation: bubble-in 300ms 0 ease both;
+  -webkit-box-shadow: 0 0 3px;
+  -moz-box-shadow: 0 0 3px;
+  box-shadow: 0 0 3px;
+  position: absolute;
   top: 3em;
+  right: 0;
+  border: 1px solid;
+  padding: 1em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+/* line 37, ../../sass/admin/_tag.scss */
+.tag-manage-container {
+  position: relative;
 }
 
 /* line 1, ../../sass/admin/_feedback.scss */
@@ -1393,25 +1391,25 @@ footer.main {
   opacity: 0.5;
 }
 
-/* line 15, ../../sass/admin/screen.scss */
+/* line 13, ../../sass/admin/screen.scss */
 body {
   background: white;
   color: gray;
-  font-family: "Open Sans", "Arial", "Sans-serif";
+  font-family: "Droid Serif", "serif";
   line-height: 1.5;
 }
 
-/* line 22, ../../sass/admin/screen.scss */
+/* line 20, ../../sass/admin/screen.scss */
 .wrap-full-width {
   width: 860px;
 }
 
-/* line 26, ../../sass/admin/screen.scss */
+/* line 24, ../../sass/admin/screen.scss */
 .button.back {
   float: right;
 }
 
-/* line 33, ../../sass/admin/screen.scss */
+/* line 31, ../../sass/admin/screen.scss */
 .button.primary,
 .button.secondary,
 .button.tertiary,
@@ -1431,7 +1429,7 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
-/* line 68, ../../sass/_mixin.scss */
+/* line 62, ../../sass/_mixin.scss */
 .button.primary:hover,
 .button.secondary:hover,
 .button.tertiary:hover,
@@ -1447,7 +1445,7 @@ body {
   color: #4d4d4d;
   text-decoration: none;
 }
-/* line 76, ../../sass/_mixin.scss */
+/* line 70, ../../sass/_mixin.scss */
 .button.primary:active,
 .button.secondary:active,
 .button.tertiary:active,
@@ -1461,7 +1459,7 @@ body {
   box-shadow: inset 0 1px 3px #e6e6e6;
 }
 
-/* line 37, ../../sass/admin/screen.scss */
+/* line 35, ../../sass/admin/screen.scss */
 .nothing-yet {
   text-shadow: 0 1px 0 white;
   background: #fafafa;
@@ -1470,7 +1468,7 @@ body {
   border-bottom: 1px solid #d9d9d9;
   padding: 2em;
 }
-/* line 46, ../../sass/admin/screen.scss */
+/* line 44, ../../sass/admin/screen.scss */
 .nothing-yet p {
   color: #999999;
   cursor: default;
@@ -1478,12 +1476,12 @@ body {
   margin: 0;
 }
 
-/* line 54, ../../sass/admin/screen.scss */
+/* line 52, ../../sass/admin/screen.scss */
 .toolbar {
   margin: 0 0 1em;
 }
 
-/* line 58, ../../sass/admin/screen.scss */
+/* line 56, ../../sass/admin/screen.scss */
 .toolbar .button {
   float: left;
   margin: 0 .5em .5em 0;
@@ -1491,7 +1489,7 @@ body {
   padding: .5em 1em;
 }
 
-/* line 67, ../../sass/admin/screen.scss */
+/* line 65, ../../sass/admin/screen.scss */
 .content.page textarea,
 .content.post textarea {
   width: 100%;

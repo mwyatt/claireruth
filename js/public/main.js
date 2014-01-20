@@ -9400,6 +9400,38 @@ Array.prototype.contains = function ( needle ) {
    return false;
 }
 ;/**
+ * watches the scrollwindow and displays a to top button when moving down
+ * over a threshold
+ * dependancy $
+ */
+var Button_To_Top = function (options) {
+	var defaults = {
+		threshold: 300,
+		button: '.null',
+		classLabel: 'is-active',
+		delay: 200
+	};
+	this.options = $.extend(defaults, options);
+	var timer = 0;
+	var thisPlugin = event.data = this;
+	$(window).scroll(function(event) {
+		clearTimeout(timer);
+		timer = setTimeout(function(event) {
+			thisPlugin.poll(event);
+		}, thisPlugin.options.delay);
+	});
+};
+
+
+Button_To_Top.prototype.poll = function(event) {
+	documentPosition = $(document).scrollTop();
+	if (documentPosition > event.data.options.threshold) {
+		$(event.data.options.button).fadeIn().addClass('.' + event.data.options.classLabel);
+	} else {
+		$(event.data.options.button).fadeOut().removeClass('.' + event.data.options.classLabel);
+	}
+};
+;/**
  * takes control of a list of items and makes them scrollable fun
  * functions this can perform:
  * scroll between banners using speed option
@@ -9460,7 +9492,10 @@ Array.prototype.contains = function ( needle ) {
 })(jQuery);
 ;$(document).ready(function() {
 	$('.js-lightbox-gallery').lightbox({
-		galleryClass: 'group-1'
-		, title: $('h1.main').html()
+		galleryClass: 'group-1',
+		title: $('h1.main').html()
 	});	
+	var topButton = new Button_To_Top({
+		button: '.to-top'
+	});
 });
