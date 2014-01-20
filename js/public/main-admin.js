@@ -20225,7 +20225,7 @@ Prompt.prototype.refreshEventAttachedTags = function(event) {
 		}
 	}
 })(jQuery);
-;/**
+;/** 
  * rules
  * all blocks of functionaltiy seperated into 'module**'
  */

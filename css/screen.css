@@ -1,6 +1,6 @@
 /* line 55, sprite/*.png */
 .sprite-sprite {
-  background-image: url('/claireruth/media/sprite-s6495869aa8.png');
+  background-image: url('/media/sprite-s6495869aa8.png');
   background-repeat: no-repeat;
 }
 
@@ -356,18 +356,34 @@ a:link {
   font-size: 130%;
 }
 
-/* line 116, ../sass/_typography.scss */
+/* line 104, ../sass/_typography.scss */
+.fixed, .typography pre,
+.typography code {
+  font-weight: inherit;
+}
+
+/* line 109, ../sass/_typography.scss */
+.quiet {
+  font-weight: inherit;
+}
+
+/* line 113, ../sass/_typography.scss */
+.loud, .bold, .typography b, .typography strong {
+  font-weight: inherit;
+}
+
+/* line 117, ../sass/_typography.scss */
 .italic, .typography i,
 .typography em {
   font-style: italic;
 }
 
-/* line 120, ../sass/_typography.scss */
+/* line 121, ../sass/_typography.scss */
 .bold, .typography b, .typography strong {
   font-weight: 700;
 }
 
-/* line 125, ../sass/_typography.scss */
+/* line 126, ../sass/_typography.scss */
 .block-margins, .typography p,
 .typography ul,
 .typography ol,
@@ -375,37 +391,37 @@ a:link {
   margin: 1em 0;
 }
 
-/* line 129, ../sass/_typography.scss */
+/* line 130, ../sass/_typography.scss */
 .unordered-list, .typography ul {
   list-style-type: disc;
 }
 
-/* line 133, ../sass/_typography.scss */
+/* line 134, ../sass/_typography.scss */
 .ordered-list, .typography ol {
   list-style: decimal;
 }
 
-/* line 148, ../sass/_typography.scss */
+/* line 149, ../sass/_typography.scss */
 .typography h1 {
   margin: 1em 0 0.5em;
 }
-/* line 153, ../sass/_typography.scss */
+/* line 154, ../sass/_typography.scss */
 .typography h2 {
   margin: 1em 0 0.5em;
 }
-/* line 158, ../sass/_typography.scss */
+/* line 159, ../sass/_typography.scss */
 .typography h3 {
   margin: 1em 0 0.5em;
 }
-/* line 163, ../sass/_typography.scss */
+/* line 164, ../sass/_typography.scss */
 .typography h4 {
   margin: 1em 0 0.5em;
 }
-/* line 168, ../sass/_typography.scss */
+/* line 169, ../sass/_typography.scss */
 .typography h5 {
   margin: 1em 0 0.5em;
 }
-/* line 173, ../sass/_typography.scss */
+/* line 174, ../sass/_typography.scss */
 .typography h6 {
   margin: 1em 0 0.5em;
 }
@@ -588,7 +604,7 @@ html.js input[type="submit"] {
 
 /* line 147, ../sass/_reusable.scss */
 .ajax {
-  background-image: url('/claireruth/media/ajax.gif?1368257192');
+  background-image: url('/media/ajax.gif?1368257192');
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -1434,7 +1450,7 @@ footer.main nav a {
 
 /* line 15, ../sass/screen.scss */
 html {
-  background: url('/claireruth/media/45degreee_fabric.png?1361993638') repeat;
+  background: url('/media/45degreee_fabric.png?1361993638') repeat;
 }
 
 /* line 19, ../sass/screen.scss */

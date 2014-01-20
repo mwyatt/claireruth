@@ -2,7 +2,8 @@
 require "animate"
 
 # Set this to the root of your project when deployed:
-http_path = "/claireruth/"
+http_path = "/"
+# http_path = "/claireruth/"
 css_dir = "css"
 sass_dir = "sass"
 images_dir = "media"

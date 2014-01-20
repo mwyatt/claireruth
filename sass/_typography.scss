@@ -103,14 +103,15 @@ a:link {
 
 .fixed {
     // font-family: $fixed-font-family;font-size: $fixed-font-size;line-height: $fixed-line-height;
+    font-weight: inherit;
 }
 
 .quiet {
-    // font-color: $quiet-color;
+    font-weight: inherit;
 }
 
 .loud  {
-    // font-color: $loud-color;
+    font-weight: inherit;
 }
 
 .italic {
