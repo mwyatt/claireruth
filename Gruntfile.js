@@ -1,7 +1,5 @@
 module.exports = function(grunt) {
- 
   grunt.registerTask('default', ['watch']);
-
   grunt.initConfig({
     concat: {
 	    js: {
@@ -13,7 +11,7 @@ module.exports = function(grunt) {
           'js/global/*.js',
           'js/*.js'
         ],
-        dest: 'js/public/main.js'
+        dest: 'asset/main.js'
       },
 	    js_admin: {
         options: {
@@ -25,21 +23,26 @@ module.exports = function(grunt) {
           'js/admin/vendor/*.js',
           'js/admin/*.js'
         ],
-        dest: 'js/public/main-admin.js'
-      },
-    },
-    uglify: {
-      options: {
-        mangle: false
-      },
-      js: {
-        files: {
-          'js/main.min.js': ['js/main.min.js']
-        }
+        dest: 'asset/main-admin.js'
       },
     },
     compass: {
       dist: {
+        options: {
+          // httpPath = '/claireruth/',
+          httpPath: '/',
+          cssDir: 'asset'
+          sassDir: 'sass'
+          imagesDir: 'media'
+          imagesDir: 'media'
+
+          css_dir = "css"
+          sass_dir = "sass"
+          images_dir = "media"
+          javascripts_dir = "js"
+
+
+        },
         files: {                            
           'screen.css': 'screen.scss',        
           'admin/screen.css': 'admin/screen.scss'
@@ -85,10 +88,7 @@ module.exports = function(grunt) {
       },
     },
   });
- 
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
- 
 };
