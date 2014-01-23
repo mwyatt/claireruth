@@ -31,16 +31,11 @@ module.exports = function(grunt) {
         options: {
           // httpPath = '/claireruth/',
           httpPath: '/',
-          cssDir: 'asset'
-          sassDir: 'sass'
+          cssDir: 'asset',
+          sassDir: 'sass',
+          javascriptsDir: 'js',
           imagesDir: 'media'
-          imagesDir: 'media'
-
-          css_dir = "css"
-          sass_dir = "sass"
-          images_dir = "media"
-          javascripts_dir = "js"
-
+// # output_style = :expanded or :nested or :compact or :compressed
 
         },
         files: {                            
