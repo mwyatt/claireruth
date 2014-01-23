@@ -15,6 +15,17 @@ class View extends Model
 
 
 	/**
+	 * commonly shared keys
+	 * @var array|string|int
+	 */
+	public $id;
+	public $title;
+	public $description;
+	public $time_published;
+	public $user;
+
+
+	/**
 	 * the name of the template loaded
 	 * @var string
 	 */
