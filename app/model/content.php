@@ -27,6 +27,64 @@ class Model_Content extends Model
 
 
 	/**
+	 * seperate methods for each type of read, this will mean that the reads
+	 * cannot be too dry, handle the resulting in a seperate function?
+	 * @param  string  $type  
+	 * @return array         
+	 */
+	public function readType($type) {	
+		$sth = $this->database->dbh->prepare("	
+			select
+				content.id
+				, content.title
+				, content.html
+				, content.time_published
+				, content.status
+				, content.type
+			from content
+			left join user on user.id = content.user_id
+			where content.type = :type and content.status = 'visible'
+			order by content.time_published desc
+		");
+		$sth->bindValue(':type', $type, PDO::PARAM_STR);
+		$this->tryExecute($sth);
+		return $this->storeResult($sth);
+	}	
+
+
+	/**
+	 * fetch all attachments
+	 * sets fetch mode and fetches all results into class
+	 * @param  object $sth
+	 * @return bool
+	 */
+	public function storeResult($sth)
+	{
+		$results = $sth->fetchAll(PDO::FETCH_CLASS, 'view_content');
+
+		// read all needed media and tags
+		// build url
+		foreach ($results as $result) {
+			$ids[] = $result->id;
+			$result->url = $this->buildUrl(array($result->type, $result->title . '-' . $result->id));
+		}
+		$media = new model_media($this->database, $this->config);
+		$medias = $media->readContentId($ids);
+		$tag = new model_tag($this->database, $this->config);
+		$tags = $tag->readContentId($ids);
+		foreach ($results as $key => $result) {
+			if ($tags && array_key_exists($result->id, $tags)) {
+				$results[$key]->tag = $tags[$result->id];
+			}
+			if ($medias && array_key_exists($result->id, $medias)) {
+				$results[$key]->media = $medias[$result->id];
+			}
+		}
+		return $this->setData($results);
+	}
+
+
+	/**
 	 * check to see if a value is a valid status
 	 * @param  string $value 
 	 * @return bool        
@@ -101,28 +159,7 @@ class Model_Content extends Model
 			$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		// collect all ids queried
-		foreach ($contents as $content) {
-			$contentIds[] = $content['id'];
-		}
-		
-		// read all needed media and tags
-		$media = new model_media($this->database, $this->config);
-		$tag = new model_tag($this->database, $this->config);
-		$tags = $tag->readByContentId($contentIds);
-		$medias = $media->readByContentId($contentIds);
 
-		// generate url, append media or tags where applicable
-		foreach ($contents as $content) {
-			$content['url'] = $this->buildUrl(array($content['type'], $content['title'] . '-' . $content['id']));
-			$parsedData[$content['id']] = $content;
-			if ($tags && array_key_exists($content['id'], $tags)) {
-				$parsedData[$content['id']]['tag'] = $tags[$content['id']];
-			}
-			if ($medias && array_key_exists($content['id'], $medias)) {
-				$parsedData[$content['id']]['media'] = $medias[$content['id']];
-			}
-		}
 		return $this->setData($parsedData);
 	}
 
@@ -185,29 +222,7 @@ class Model_Content extends Model
 	}
 
 
-	public function readByType($type, $limit = 0) {	
-		$sth = $this->database->dbh->prepare("	
-			select
-				content.id
-				, content.title
-				, content.html
-				, content.time_published
-				, content.status
-				, content.type
-			from content
-			left join user on user.id = content.user_id
-			where content.type = :type and content.status = 'visible'
-			order by content.time_published desc
-			" . ($limit ? ' limit :limit ' : '') . "
-		");
-		$sth->bindValue(':type', $type, PDO::PARAM_STR);
-		if ($limit) {
-			$sth->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
-		}
-		$sth->execute();
-		$this->data = $this->setMeta($sth->fetchAll(PDO::FETCH_ASSOC));
-		return $this;
-	}	
+
 
 
 	/**

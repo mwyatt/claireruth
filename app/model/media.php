@@ -78,9 +78,7 @@ class Model_Media extends Model
 	 * reads out all media
 	 * @return int total rows bringing through
 	 */
-	public function readByContentId($contentIds = array()) {	
-		$baseurl = $this->config->getUrl('base'); 
-		$parsedData = array();
+	public function readContentId($contentIds = array()) {	
 		$sth = $this->database->dbh->prepare("	
 			select
 				media.id
@@ -98,7 +96,7 @@ class Model_Media extends Model
 		");
 		foreach ($contentIds as $contentId) {
 			$this->bindValue($sth, ':content_id', $contentId);
-			$this->tryExecute($sth, '88667845');
+			$this->tryExecute($sth);
 			if ($sth->rowCount()) {
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$row = $this->buildThumb($row);
@@ -106,9 +104,43 @@ class Model_Media extends Model
 				}
 			}
 		}
+		
+
+
+		$this->tryExecute($sth);
+		return $this->storeResult($sth);
+
+
 		return $this->setData($parsedData);
 	}	
 	
+
+	public function storeResult($sth)
+	{
+		$results = $sth->fetchAll(PDO::FETCH_CLASS, 'view_media');
+
+		// read all needed media and tags
+		// build url
+		foreach ($results as $result) {
+			$ids[] = $result->id;
+			$result->url = $this->buildUrl(array($result->type, $result->title . '-' . $result->id));
+		}
+		$media = new model_media($this->database, $this->config);
+		$medias = $media->readContentId($ids);
+		$tag = new model_tag($this->database, $this->config);
+		$tags = $tag->readContentId($ids);
+		foreach ($results as $key => $result) {
+			if ($tags && array_key_exists($result->id, $tags)) {
+				$results[$key]->tag = $tags[$result->id];
+			}
+			if ($medias && array_key_exists($result->id, $medias)) {
+				$results[$key]->media = $medias[$result->id];
+			}
+		}
+		return $this->setData($results);
+	}
+
+
 
 	/**
 	 * appends thumbnail information if it is an image

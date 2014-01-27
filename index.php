@@ -20,6 +20,12 @@ $config
 	->setOptions($options->getData())
 	->initiateUrl()
 	->setObject($error);
+$content = new model_content($database, $config);
+$content->readType('post');echo '<pre>';
+print_r($content);
+echo '</pre>';
+exit;
+
 // $cron = new cron($database, $config);
 // $cron->poll(array(
 // 	'emailErrorReport'

@@ -23,6 +23,7 @@ class View extends Model
 	public $description;
 	public $time_published;
 	public $user;
+	public $url;
 
 
 	/**

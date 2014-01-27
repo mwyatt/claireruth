@@ -27,7 +27,7 @@ class Model_Tag extends Model
 	 * @param  array $contentIds 
 	 * @return array content_id => array of tags   
 	 */
-	public function readByContentId($contentIds = array()) {	
+	public function readContentId($contentIds = array()) {	
 		$parsedData = array();
 		$sth = $this->database->dbh->prepare("	
 			select
