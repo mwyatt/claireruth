@@ -107,11 +107,12 @@ class Model_Content extends Model
 	 * reads any and all content stored in this table
 	 * a number of custom parameters can be used to
 	 * bring in differing result sets
+	 * @todo  possibly send in a $config var array..
 	 * @param  string $type  the type of content
 	 * @param  string $limit the amount of content required
 	 * @return null        data property will be set
 	 */
-	public function read($where = '', $limit = array(), $ids = array(), $compliance = array()) {
+	public function read($type = '', $limit = array(), $ids = array()) {
 		$contents = array();
 		$contentIds = array();
 		$parsedData = array();
@@ -131,14 +132,14 @@ class Model_Content extends Model
 			left join content_meta on content_meta.id = content.id and content_meta.name = 'love'
             where content.id != ''
 			" . ($this->config->getUrl(0) == 'admin' ? ' ' : ' and content.status = \'visible\'') . "
-			" . ($where ? ' and content.type = :type ' : '') . "
+			" . ($type ? ' and content.type = :type ' : '') . "
 			" . ($ids ? ' and content.id = :id ' : '') . "
 			group by content.id
 			order by content.time_published desc
 			" . ($limit ? ' limit :limit_start, :limit_end ' : '') . "
 		");
-		if ($where) {
-			$sth->bindValue(':type', $where, PDO::PARAM_STR);
+		if ($type) {
+			$sth->bindValue(':type', $type, PDO::PARAM_STR);
 		}
 		if ($limit) {
 			$sth->bindValue(':limit_start', (int) current($limit), PDO::PARAM_INT);
