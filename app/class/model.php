@@ -11,6 +11,30 @@ class Model extends Config
 {
 
 
+	public function read($properties = array())
+	{
+		# code...
+	}
+
+
+	/**
+	 * builds an array of ids from the data property
+	 * @return array 
+	 */
+	public function getDataIds()
+	{
+		$datas = $this->getData();
+		if (! is_array($datas)) {
+			return array();
+		}
+		$ids = array();
+		foreach ($datas as $data) {
+			$ids[] = $data->id;
+		}
+		return $ids;
+	}
+
+
 	/**
 	 * generic lazy read!
 	 * @param  string $select the full select statement, could be easier!

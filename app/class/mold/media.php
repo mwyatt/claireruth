@@ -6,10 +6,14 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Mold_Content_Meta extends Mold
+class Mold_Media extends Mold
 {
 
 
-	public $name;
-	public $value;
+	// public $title;
+	// public $html;
+	// public $type;
+	// public $time_published;
+	// public $status;
+	// public $user_name;
 }

@@ -28,6 +28,9 @@ class Session_History extends Session
 	 */
 	public function add($url)
 	{
+		if (! $this->validate($url)) {
+			return;
+		}
 
 		// first one
 		if (! $currentHistory = $this->getData('common')) {
@@ -59,5 +62,23 @@ class Session_History extends Session
 	public function getCaptureUrl()
 	{
 		return $this->getData('capture_url');
+	}
+
+
+	/**
+	 * searches a url for invalid key words in a url, this way the history is
+	 * not stuffed with ajax requests (for example)
+	 * @param  string $url 
+	 * @return bool      
+	 */
+	public function validate($url)
+	{
+		$invalidThings = array('ajax');
+		foreach ($invalidThings as $invalidThing) {
+			if (strpos($url, $invalidThing) !== false) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

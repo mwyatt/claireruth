@@ -21,16 +21,14 @@ $config
 	->initiateUrl()
 	->setObject($error);
 $content = new model_content($database, $config);
-$content->readType('post');echo '<pre>';
-print_r($content);
+$content->read(array('type' => 'post'));
+$media = new model_media($database, $config);
+$media->readContentId($content->getDataIds());
+echo '<pre>';
+print_r($media);
 echo '</pre>';
 exit;
 
-// $cron = new cron($database, $config);
-// $cron->poll(array(
-// 	'emailErrorReport'
-// 	, 'emailNewsletter'
-// ));
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
 $initialController = new controller();

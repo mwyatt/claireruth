@@ -19,7 +19,7 @@ class Model_Media extends Model
 	public $dir = 'media/upload/';
 
 
-	public function read()
+	public function read($properties = array())
 	{
 		$baseurl = $this->config->getUrl('base'); 
 		$parsedData = array();
@@ -75,10 +75,12 @@ class Model_Media extends Model
 
 
 	/**
-	 * reads out all media
-	 * @return int total rows bringing through
+	 * reads media by content id
+	 * @param  array  $contentIds 
+	 * @return bool             
 	 */
-	public function readContentId($contentIds = array()) {	
+	public function readContentId($contentIds = array())
+	{	
 		$sth = $this->database->dbh->prepare("	
 			select
 				media.id
@@ -94,24 +96,18 @@ class Model_Media extends Model
 			where content_meta.content_id = :content_id
                 and content_meta.name = 'media'
 		");
+		$results = array();
 		foreach ($contentIds as $contentId) {
 			$this->bindValue($sth, ':content_id', $contentId);
 			$this->tryExecute($sth);
 			if ($sth->rowCount()) {
-				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					$row = $this->buildThumb($row);
-					$parsedData[$contentId][] = $row;
+				while ($result = $sth->fetch(PDO::FETCH_CLASS, 'Mold_Media')) {
+					$result = $this->buildThumb($result);
+					$results[] = $result;
 				}
 			}
 		}
-		
-
-
-		$this->tryExecute($sth);
-		return $this->storeResult($sth);
-
-
-		return $this->setData($parsedData);
+		return $this->setData($results);
 	}	
 	
 
@@ -144,17 +140,18 @@ class Model_Media extends Model
 
 	/**
 	 * appends thumbnail information if it is an image
-	 * @param array $row modified row
+	 * @param array $result modified row
 	 */
-	public function buildThumb($row)
+	public function buildThumb($result)
 	{
-		if ($row['type'] != 'application/pdf') {
-			$row['thumb']['300'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $row['path'] . '&w=300&h=130'), false);
-			$row['thumb']['150'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $row['path'] . '&w=150&h=120'), false);
-			$row['thumb']['350'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $row['path'] . '&w=350&h=220'), false);
-			$row['thumb']['760'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $row['path'] . '&w=760&h=540'), false);
+		if ($result->type != 'application/pdf') {
+			$result->thumb = array();
+			$result->thumb['300'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=300&h=130'), false);
+			$result->thumb['150'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=150&h=120'), false);
+			$result->thumb['350'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=350&h=220'), false);
+			$result->thumb['760'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=760&h=540'), false);
 		}
-		return $row;
+		return $result;
 	}
 
 

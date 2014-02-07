@@ -27,6 +27,56 @@ class Model_Content extends Model
 
 
 	/**
+	 * @param  array  $properties type, limit, ids
+	 * @return bool             
+	 */
+	public function read($properties = array())
+	{
+		$sth = $this->database->dbh->prepare("	
+			select
+				content.id
+				, content.title
+				, content.html
+				, content.type
+				, content.time_published
+				, content.status
+				, content.user_id
+				, concat(user.first_name, ' ', user.last_name) as user_name
+				, content_meta.value as content_meta_love
+			from content
+			left join user on user.id = content.user_id
+			left join content_meta on content_meta.id = content.id and content_meta.name = 'love'
+            where content.id != ''
+			" . ($this->config->getUrl(0) == 'admin' ? ' ' : ' and content.status = \'visible\'') . "
+			" . (array_key_exists('type', $properties) ? ' and content.type = :type ' : '') . "
+			" . (array_key_exists('ids', $properties) ? ' and content.id = :id ' : '') . "
+			group by content.id
+			order by content.time_published desc
+			" . (array_key_exists('limit', $properties) ? ' limit :limit_start, :limit_end ' : '') . "
+		");
+		if (array_key_exists('type', $properties)) {
+			$sth->bindValue(':type', $properties['type'], PDO::PARAM_STR);
+		}
+		if (array_key_exists('limit', $properties)) {
+			$sth->bindValue(':limit_start', (int) current($properties['limit']), PDO::PARAM_INT);
+			$sth->bindValue(':limit_end', (int) next($properties['limit']), PDO::PARAM_INT);
+		}
+		$data = array();
+		if (array_key_exists('ids', $properties)) {
+			foreach ($properties['ids'] as $id) {
+				$sth->bindValue(':id', $id, PDO::PARAM_STR);
+				$this->tryExecute($sth);
+				while ($row = $sth->fetch(PDO::FETCH_CLASS, 'Mold_Content')) {
+					$data[] = $row;
+				}
+			}
+			return $this->setData($data);
+		}
+		$this->tryExecute($sth);
+		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Content'));
+	}
+
+	/**
 	 * seperate methods for each type of read, this will mean that the reads
 	 * cannot be too dry, handle the resulting in a seperate function?
 	 * @param  string  $type  
@@ -102,67 +152,6 @@ class Model_Content extends Model
 		return $this->status;
 	}
 
-
-	/**
-	 * reads any and all content stored in this table
-	 * a number of custom parameters can be used to
-	 * bring in differing result sets
-	 * @todo  possibly send in a $config var array..
-	 * @param  string $type  the type of content
-	 * @param  string $limit the amount of content required
-	 * @return null        data property will be set
-	 */
-	public function read($type = '', $limit = array(), $ids = array()) {
-		$contents = array();
-		$contentIds = array();
-		$parsedData = array();
-		$sth = $this->database->dbh->prepare("	
-			select
-				content.id
-				, content.title
-				, content.html
-				, content.type
-				, content.time_published
-				, content.status
-				, content.user_id
-				, concat(user.first_name, ' ', user.last_name) as user_name
-				, content_meta.value as content_meta_love
-			from content
-			left join user on user.id = content.user_id
-			left join content_meta on content_meta.id = content.id and content_meta.name = 'love'
-            where content.id != ''
-			" . ($this->config->getUrl(0) == 'admin' ? ' ' : ' and content.status = \'visible\'') . "
-			" . ($type ? ' and content.type = :type ' : '') . "
-			" . ($ids ? ' and content.id = :id ' : '') . "
-			group by content.id
-			order by content.time_published desc
-			" . ($limit ? ' limit :limit_start, :limit_end ' : '') . "
-		");
-		if ($type) {
-			$sth->bindValue(':type', $type, PDO::PARAM_STR);
-		}
-		if ($limit) {
-			$sth->bindValue(':limit_start', (int) current($limit), PDO::PARAM_INT);
-			$sth->bindValue(':limit_end', (int) next($limit), PDO::PARAM_INT);
-		}
-
-		// @todo make this better?
-		if ($ids) {
-			foreach ($ids as $id) {
-				$sth->bindValue(':id', $id, PDO::PARAM_STR);
-				$this->tryExecute($sth);
-				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					$contents[] = $row;
-				}
-			}
-		} else {
-			$this->tryExecute($sth);				
-			$contents = $sth->fetchAll(PDO::FETCH_ASSOC);
-		}
-
-
-		return $this->setData($parsedData);
-	}
 
 
 	/**
