@@ -27,6 +27,46 @@ class Model_Content extends Model
 
 
 	/**
+	 * key value values of the row which needs to be created
+	 * are passed then the row is created
+	 * session_admin_user used to tie in the id of the current user
+	 * @param  array $values 
+	 * @return int        
+	 */
+	public function create($properties = array())
+	{
+		$sessionAdminUser = new session_admin_user($this->database, $this->config);
+        $sth = $this->database->dbh->prepare("
+            insert into content (
+                title
+                , html
+                , type
+                , time_published
+                , status
+                , user_id
+            )
+            values (
+                :title
+                , :html
+                , :type
+                , :time_published
+                , :status
+                , :user_id
+            )
+        ");             
+        $sth->execute(array(
+            ':title' => $values['title']
+            , ':html' => (array_key_exists('html', $values) ? $values['html'] : '')
+            , ':type' => $values['type']
+            , ':time_published' => time()
+            , ':status' => (array_key_exists('status', $values) ? $values['status'] : 'hidden')
+            , ':user_id' => $sessionAdminUser->getData('id')
+        ));                
+        return $sth->rowCount();
+	}	
+
+
+	/**
 	 * @param  array  $properties type, limit, ids
 	 * @return bool             
 	 */
@@ -76,62 +116,63 @@ class Model_Content extends Model
 		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Content'));
 	}
 
-	/**
-	 * seperate methods for each type of read, this will mean that the reads
-	 * cannot be too dry, handle the resulting in a seperate function?
-	 * @param  string  $type  
-	 * @return array         
-	 */
-	public function readType($type) {	
-		$sth = $this->database->dbh->prepare("	
-			select
-				content.id
-				, content.title
-				, content.html
-				, content.time_published
-				, content.status
-				, content.type
-			from content
-			left join user on user.id = content.user_id
-			where content.type = :type and content.status = 'visible'
-			order by content.time_published desc
-		");
-		$sth->bindValue(':type', $type, PDO::PARAM_STR);
-		$this->tryExecute($sth);
-		return $this->storeResult($sth);
-	}	
 
-
-	/**
-	 * fetch all attachments
-	 * sets fetch mode and fetches all results into class
-	 * @param  object $sth
-	 * @return bool
-	 */
-	public function storeResult($sth)
+	public function update($id, $values)
 	{
-		$results = $sth->fetchAll(PDO::FETCH_CLASS, 'view_content');
-
-		// read all needed media and tags
-		// build url
-		foreach ($results as $result) {
-			$ids[] = $result->id;
-			$result->url = $this->buildUrl(array($result->type, $result->title . '-' . $result->id));
-		}
-		$media = new model_media($this->database, $this->config);
-		$medias = $media->readContentId($ids);
-		$tag = new model_tag($this->database, $this->config);
-		$tags = $tag->readContentId($ids);
-		foreach ($results as $key => $result) {
-			if ($tags && array_key_exists($result->id, $tags)) {
-				$results[$key]->tag = $tags[$result->id];
-			}
-			if ($medias && array_key_exists($result->id, $medias)) {
-				$results[$key]->media = $medias[$result->id];
-			}
-		}
-		return $this->setData($results);
+		$sth = $this->database->dbh->prepare("
+		update content set
+			title = ?
+			, html = ?
+			, status = ?
+		where
+			id = ?
+		");                                
+		$sth->execute(array(
+			(array_key_exists('title', $values) ? $values['title'] : '')
+			, (array_key_exists('html', $values) ? $values['html'] : '')
+			, (array_key_exists('status', $values) ? $values['status'] : 'hidden')
+			, $id
+		));                
+        return $sth->rowCount();
 	}
+
+
+	public function delete($properties = array())
+	{
+		# code...
+	}
+
+
+	/**
+	 * passed models to combine to the data within this model
+	 * @param  array $models label => model
+	 * @return bool         
+	 */
+	public function combine($models)
+	{
+		$data = array();
+
+		// get the data in this model
+		foreach ($this->getData() as $thisData) {
+			$data[$thisData->id] = $thisData;
+
+			// all models sent through and the desired label
+			foreach ($models as $label => $model) {
+
+				// all data within the model
+				foreach ($model->getData() as $modelRow) {
+
+					// find a matching contentid with this models row id
+					if ($modelRow->content_id == $thisData->id) {
+						$data[$thisData->id]->{$label}[] = $modelRow;
+					}
+				}
+			}
+		}
+		return $this->setData($data);
+	}
+
+
 
 
 	/**
@@ -153,75 +194,14 @@ class Model_Content extends Model
 	}
 
 
-
-	/**
-	 * key value values of the row which needs to be created
-	 * are passed then the row is created
-	 * session_admin_user used to tie in the id of the current user
-	 * @param  array $values 
-	 * @return int        
-	 */
-	public function create($values) {        
-		$sessionAdminUser = new session_admin_user($this->database, $this->config);
-        $sth = $this->database->dbh->prepare("
-            insert into content (
-                title
-                , html
-                , type
-                , time_published
-                , status
-                , user_id
-            )
-            values (
-                :title
-                , :html
-                , :type
-                , :time_published
-                , :status
-                , :user_id
-            )
-        ");             
-        $sth->execute(array(
-            ':title' => $values['title']
-            , ':html' => (array_key_exists('html', $values) ? $values['html'] : '')
-            , ':type' => $values['type']
-            , ':time_published' => time()
-            , ':status' => (array_key_exists('status', $values) ? $values['status'] : 'hidden')
-            , ':user_id' => $sessionAdminUser->getData('id')
-        ));                
-        return $sth->rowCount();
-	}	
-
-
-	public function update($id, $values) {
-		$sth = $this->database->dbh->prepare("
-		update content set
-			title = ?
-			, html = ?
-			, status = ?
-		where
-			id = ?
-		");                                
-		$sth->execute(array(
-			(array_key_exists('title', $values) ? $values['title'] : '')
-			, (array_key_exists('html', $values) ? $values['html'] : '')
-			, (array_key_exists('status', $values) ? $values['status'] : 'hidden')
-			, $id
-		));                
-        return $sth->rowCount();
-	}
-
-
-
-
-
 	/**
 	 * seems to be used only for /page/
 	 * @todo  could be adapted to be used for posts too.. if all titles will be unique?
 	 * @param  string $title 
 	 * @return int        
 	 */
-	public function readByTitle($title) {
+	public function readByTitle($title)
+	{
 		$title = str_replace('-', ' ', $title);
 		$sth = $this->database->dbh->prepare("	
 			select

@@ -130,7 +130,7 @@ class Controller_Admin_Content extends Controller
 
 		// edit
 		if (array_key_exists('edit', $_GET)) {
-			if (! $content->read($this->config->getUrl(2), false, array($_GET['edit']))) {
+			if (! $content->read(array('type' => $this->config->getUrl(2), 'ids' => array($_GET['edit'])))) {
 				$this->route('current_noquery');
 			}
 			$this->view
@@ -164,7 +164,7 @@ class Controller_Admin_Content extends Controller
 
 	public function post() {
 		$content = new model_content($this->database, $this->config);
-		$content->read($this->config->getUrl(2));
+		$content->read(array('type' => $this->config->getUrl(2)));
 		$this->view
 			->setObject($content)
 			->loadTemplate('admin/content/list');

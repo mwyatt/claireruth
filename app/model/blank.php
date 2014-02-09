@@ -1,1 +1,0 @@
-<?php class Model_Blank extends Model {} ?>

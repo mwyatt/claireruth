@@ -14,6 +14,30 @@ class Model_User extends Model
 {
 
 
+	public function create($properties = array())
+	{
+		# code...
+	}
+
+
+	public function read($properties = array())
+	{
+		# code...
+	}
+
+
+	public function update($properties = array())
+	{
+		# code...
+	}
+
+
+	public function delete($properties = array())
+	{
+		# code...
+	}
+	
+
 	/**
 	 * check the password
 	 * @param  boolean $password [description]

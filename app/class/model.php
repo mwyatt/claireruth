@@ -11,7 +11,30 @@ class Model extends Config
 {
 
 
+	/**
+	 * [create description]
+	 * @param  array  $properties values => array()
+	 * @return bool             
+	 */
+	public function create($properties = array())
+	{
+		# code...
+	}
+
+
 	public function read($properties = array())
+	{
+		# code...
+	}
+
+
+	public function update($properties = array())
+	{
+		# code...
+	}
+
+
+	public function delete($properties = array())
 	{
 		# code...
 	}
@@ -32,188 +55,6 @@ class Model extends Config
 			$ids[] = $data->id;
 		}
 		return $ids;
-	}
-
-
-	/**
-	 * generic lazy read!
-	 * @param  string $select the full select statement, could be easier!
-	 * @param  array  $where  label, value
-	 * @param  array  $ids    2, 53, 12
-	 * @param  array  $limit  0, 200
-	 * @return bool         
-	 */
-	public function lazyRead($select = "", $where = array(), $ids = array(), $limit = array()) {
-
-		// build query
-		$query = "
-			select
-				{$select}
-			from
-				{$this->getIdentity()}
-			where
-				{$this->getIdentity()}.id != 0
-		";
-
-		// build query - where
-		foreach ($where as $colName => $value) {
-			$query .= " and {$this->getIdentity()}.$colName = :$colName ";
-		}
-
-		// build query - ids
-		if ($ids) {
-			$query .= " and {$this->getIdentity()}.id = :id ";
-		}
-
-		// build query - limit
-		if ($limit) {
-			$query .= " limit :limit_start, :limit_end ";
-		}
-
-		// prepare
-		$sth = $this->database->dbh->prepare($query);		
-
-		// binding
-		foreach ($where as $colName => $value) {
-			$this->bindValue($sth, ':' . $colName, $value);
-		}
-		if ($limit) {
-			$this->bindValue($sth, ':limit_start', (int) reset($limit));
-			$this->bindValue($sth, ':limit_end', (int) next($limit));
-		}	
-
-		// execution
-		if ($ids) {
-			foreach ($ids as $id) {
-				$this->bindValue($sth, ':id', $id);
-				$this->tryExecute($sth, '12312345');
-				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					$results[] = $row;
-				}
-			}
-		} else {
-			$this->tryExecute($sth, '38219381');				
-			$results = $sth->fetchAll(PDO::FETCH_ASSOC);
-		}
-
-		// uses the parserows function to add any urls or post processing
-		if (method_exists($this, 'parseRows')) {
-			$results = $this->parseRows($results);
-		}
-
-		// returns the set data function result
-		return $this->setData($results);
-	}	
-
-	
-	/**
-	 * builds and creates create query
-	 * @param  array  $columns colname => value
-	 * @return int            yay or nay
-	 */
-	public function lazyCreate($colValues = array(), $secondary = array(), $tertiary = array(), $quantenary = array())
-	{
-		$valList = '';
-		$columns = array();
-		$values = array();
-		foreach ($colValues as $col => $val) {
-			$columns[] = $col;
-			$values[] = $val;
-			$valList .= ', ?';
-		}
-		$colList = implode(', ', $columns);
-		$valList = ltrim($valList, ', ');
-		$sth = $this->database->dbh->prepare("
-			insert into {$this->getIdentity()} (
-				$colList
-			) values (
-				$valList
-			)
-		");		
-
-		// echo '<pre>';
-		// print_r($sth);
-		// print_r($values);
-		// echo '</pre>';
-		
-		$this->bindValues($sth, $values);
-		$this->tryExecute($sth, '676767212');
-		return $sth->rowCount();
-	}
-
-
-	/**
-	 * builds and creates update query
-	 * @param  array  $colValues colname => value
-	 * @param  array  $where where => value
-	 * @return int            yay or nay
-	 * @todo the return value is not ideal
-	 */	
-	public function lazyUpdate($colValues = array(), $where = array())
-	{
-
-		// build collist
-		$colList = '';
-		$values = array();
-		foreach ($colValues as $col => $val) {
-			$values[] = $val;
-			$colList .= ', ' . $col . ' = ?';
-		}
-		$colList = ltrim($colList, ', ');
-
-		// build query
-		$query = "
-			update {$this->getIdentity()} set
-				$colList
-			where
-				{$this->getIdentity()}.id != 0
-		";
-
-		// build query - where
-		foreach ($where as $colName => $value) {
-			$query .= " and {$this->getIdentity()}.$colName = ? ";
-			$values[] = $value;
-		}
-
-		// prepare and bind
-		$sth = $this->database->dbh->prepare($query);		
-		$this->bindValues($sth, $values);
-
-		// return failure or sth object (success)
-		$this->tryExecute($sth, '45654645645');
-		return $sth->rowCount();
-	}
-
-	
-	/**
-	 * builds and creates delete query
-	 * example usage: $content->delete(array('id' => $_GET['delete']))
-	 * @param  array  $where where => value
-	 * @return int            yay or nay
-	 */
-	public function lazyDelete($where = array())
-	{
-		$values = array();
-		$query = "
-			delete from 
-				{$this->getIdentity()}
-			where
-				{$this->getIdentity()}.id != 0
-		";
-
-		// build query - where
-		foreach ($where as $colName => $value) {
-			$query .= " and {$this->getIdentity()}.$colName = ? ";
-			$values[] = $value;
-		}
-
-		// prepare
-		$sth = $this->database->dbh->prepare($query);				
-
-		// bind
-		$this->bindValues($sth, $values);
-		$this->tryExecute($sth, '45654645645');
-		return $sth->rowCount();
 	}
 	
 

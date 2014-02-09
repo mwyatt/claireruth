@@ -16,4 +16,6 @@ class Mold_Content extends Mold
 	public $time_published;
 	public $status;
 	public $user_name;
+	public $tags = array();
+	public $media = array();
 }

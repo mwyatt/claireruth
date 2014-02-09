@@ -24,8 +24,9 @@ $content = new model_content($database, $config);
 $content->read(array('type' => 'post'));
 $media = new model_media($database, $config);
 $media->readContentId($content->getDataIds());
+$content->combine(array('media' => $media));
 echo '<pre>';
-print_r($media);
+print_r($content);
 echo '</pre>';
 exit;
 

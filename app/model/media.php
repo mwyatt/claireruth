@@ -89,6 +89,7 @@ class Model_Media extends Model
 				, concat('$this->dir', media.path) as path
 				, media.type
 				, media.time_published
+				, content_meta.content_id
 				, concat(user.first_name, ' ', user.last_name) as user_full_name
 			from content_meta
                 left join media on media.id = content_meta.value
@@ -100,14 +101,13 @@ class Model_Media extends Model
 		foreach ($contentIds as $contentId) {
 			$this->bindValue($sth, ':content_id', $contentId);
 			$this->tryExecute($sth);
-			if ($sth->rowCount()) {
-				while ($result = $sth->fetch(PDO::FETCH_CLASS, 'Mold_Media')) {
-					$result = $this->buildThumb($result);
-					$results[] = $result;
-				}
+			$results = $sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Media');
+			foreach ($results as $result) {
+				$result = $this->buildThumb($result);
+				$parsedResults[] = $result;
 			}
 		}
-		return $this->setData($results);
+		return $this->setData($parsedResults);
 	}	
 	
 
@@ -145,11 +145,11 @@ class Model_Media extends Model
 	public function buildThumb($result)
 	{
 		if ($result->type != 'application/pdf') {
-			$result->thumb = array();
-			$result->thumb['300'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=300&h=130'), false);
-			$result->thumb['150'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=150&h=120'), false);
-			$result->thumb['350'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=350&h=220'), false);
-			$result->thumb['760'] = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=760&h=540'), false);
+			$result->thumb = new stdClass();
+			$result->thumb->{'300'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=300&h=130'), false);
+			$result->thumb->{'150'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=150&h=120'), false);
+			$result->thumb->{'350'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=350&h=220'), false);
+			$result->thumb->{'760'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=760&h=540'), false);
 		}
 		return $result;
 	}
