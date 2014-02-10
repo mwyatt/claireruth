@@ -11,12 +11,7 @@ class Model extends Config
 {
 
 
-	/**
-	 * [create description]
-	 * @param  array  $properties values => array()
-	 * @return bool             
-	 */
-	public function create($properties = array())
+	public function create($molds = array())
 	{
 		# code...
 	}
@@ -28,13 +23,13 @@ class Model extends Config
 	}
 
 
-	public function update($properties = array())
+	public function update($id, $mold)
 	{
 		# code...
 	}
 
 
-	public function delete($properties = array())
+	public function delete($ids = array())
 	{
 		# code...
 	}

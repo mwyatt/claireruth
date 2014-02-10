@@ -10,6 +10,49 @@ class Model_Content_Meta extends Model
 {	
 
 
+	public function create($molds = array())
+	{
+        $sth = $this->database->dbh->prepare("
+            insert into content_meta (
+                content_id
+                , name
+                , value
+            )
+            values (
+                ?
+                , ?
+                , ?
+            )
+        ");
+        foreach ($molds as $mold) {
+	        $sth->execute(array(
+	            $mold->content_id
+	            , $mold->name
+	            , $mold->value
+	        ));                
+        }
+        return $sth->rowCount();
+	}
+
+
+	public function read($properties = array())
+	{
+		# code...
+	}
+
+
+	public function update($id, $mold)
+	{
+		# code...
+	}
+
+
+	public function delete($ids = array())
+	{
+		# code...
+	}
+
+
 	/**
 	 * returns all the content ids that the tag is assigned to
 	 * @param  string $tagName 
@@ -95,31 +138,7 @@ class Model_Content_Meta extends Model
 	 * @return int            
 	 */
 	public function create($contentId, $colName, $colValues)
-	{
-        $sth = $this->database->dbh->prepare("
-            insert into content_meta (
-                content_meta.content_id
-                , content_meta.name
-                , content_meta.value
-            )
-            values (
-                ?
-                , ?
-                , ?
-            )
-        ");             
-
-        // execute all creates on each value
-        foreach ($colValues as $value) {
-			$this->bindValues($sth, array(
-	        	$contentId
-	        	, $colName
-	        	, $value
-	        ));
-			$this->tryExecute($sth, '578789867876789');
-        }
-        return $sth->rowCount();
-	}
+	{}
 	
 
 	public function delete($contentId, $colName, $colValues)

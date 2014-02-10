@@ -27,15 +27,11 @@ class Model_Content extends Model
 
 
 	/**
-	 * key value values of the row which needs to be created
-	 * are passed then the row is created
-	 * session_admin_user used to tie in the id of the current user
-	 * @param  array $values 
-	 * @return int        
+	 * @param  object $mold 
+	 * @return bool       
 	 */
-	public function create($properties = array())
+	public function create($molds = array())
 	{
-		$sessionAdminUser = new session_admin_user($this->database, $this->config);
         $sth = $this->database->dbh->prepare("
             insert into content (
                 title
@@ -46,22 +42,24 @@ class Model_Content extends Model
                 , user_id
             )
             values (
-                :title
-                , :html
-                , :type
-                , :time_published
-                , :status
-                , :user_id
+                ?
+                , ?
+                , ?
+                , ?
+                , ?
+                , ?
             )
-        ");             
-        $sth->execute(array(
-            ':title' => $values['title']
-            , ':html' => (array_key_exists('html', $values) ? $values['html'] : '')
-            , ':type' => $values['type']
-            , ':time_published' => time()
-            , ':status' => (array_key_exists('status', $values) ? $values['status'] : 'hidden')
-            , ':user_id' => $sessionAdminUser->getData('id')
-        ));                
+        ");
+        foreach ($molds as $mold) {
+	        $sth->execute(array(
+	            $mold->title
+	            , $mold->html
+	            , $mold->type
+	            , time()
+	            , $mold->status
+	            , $mold->user_id
+	        ));                
+        }
         return $sth->rowCount();
 	}	
 
@@ -117,29 +115,48 @@ class Model_Content extends Model
 	}
 
 
-	public function update($id, $values)
+	/**
+	 * @param  array  $properties (id => ?, array(key => value))
+	 * @return bool             
+	 */
+	public function update($id, $mold)
 	{
 		$sth = $this->database->dbh->prepare("
-		update content set
-			title = ?
-			, html = ?
-			, status = ?
-		where
-			id = ?
+			update content set
+				title = ?
+				, html = ?
+				, type = ?
+				, status = ?
+				, user_id = ?
+			where id = ?
 		");                                
 		$sth->execute(array(
-			(array_key_exists('title', $values) ? $values['title'] : '')
-			, (array_key_exists('html', $values) ? $values['html'] : '')
-			, (array_key_exists('status', $values) ? $values['status'] : 'hidden')
+			$mold->title
+			, $mold->html
+			, $mold->type
+			, $mold->status
+			, $mold->user_id
 			, $id
 		));                
         return $sth->rowCount();
 	}
 
 
-	public function delete($properties = array())
+	/**
+	 * @param  array  $ids 
+	 * @return bool      
+	 */
+	public function delete($ids = array())
 	{
-		# code...
+		$sth = $this->database->dbh->prepare("	
+			delete from content
+			where id = ?
+		");
+		foreach ($ids as $id) {
+			$this->bindValue($sth, 1, $id);
+			$this->tryExecute($sth, 'model_content->delete');
+		}
+		return $sth->rowCount();
 	}
 
 
