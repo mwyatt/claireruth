@@ -13,35 +13,21 @@ class Model_Options extends Model
 	public function create($properties = array())
 	{
         $sth = $this->database->dbh->prepare("
-            insert into user (
-                email
-                , password
-                , first_name
-                , last_name
-                , time_registered
+            insert into options (
+                name
+                , value
             )
             values (
-                :email
-                , :password
-                , :first_name
-                , :last_name
-                , :time_registered
+                ?
+                , ?
             )
-        ");      
-
-
-
-
-
-
-               
-        $sth->execute(array(
-            ':title' => $values['title']
-            , ':html' => (array_key_exists('html', $values) ? $values['html'] : '')
-            , ':type' => $values['type']
-            , ':time_published' => time()
-            , ':status' => (array_key_exists('status', $values) ? $values['status'] : 'hidden')
-        ));                
+        ");
+        foreach ($molds as $mold) {
+	        $sth->execute(array(
+	            $mold->name
+	            , $mold->value
+	        ));                
+        }
         return $sth->rowCount();
 	}
 

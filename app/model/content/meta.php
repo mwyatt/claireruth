@@ -37,7 +37,23 @@ class Model_Content_Meta extends Model
 
 	public function read($properties = array())
 	{
-		# code...
+		$contentIds = array();
+		$sth = $this->database->dbh->prepare("	
+			select
+				content_id
+			from content_meta
+			where value = :value
+			" . (array_key_exists('name', $properties) ? ' and name = :name ' : '') . "
+		");
+		if (array_key_exists('name', $properties)) {
+			$sth->bindValue(':name', $properties['name'], PDO::PARAM_STR);
+		}
+		$sth->bindValue(':value', $properties['value'], PDO::PARAM_STR);
+		$this->tryExecute($sth, 'model_content_meta->read');
+		while ($mold = $sth->fetch(PDO::FETCH_CLASS, 'Mold_Content_Meta')) {
+			$contentIds[] = $mold->content_id;
+		}
+		return $this->setData(array_unique($contentIds));
 	}
 
 
@@ -47,119 +63,26 @@ class Model_Content_Meta extends Model
 	}
 
 
-	public function delete($ids = array())
-	{
-		# code...
-	}
-
-
-	/**
-	 * returns all the content ids that the tag is assigned to
-	 * @param  string $tagName 
-	 * @return bool          
-	 */
-	public function readByValue($colName, $colValue)
-	{
-		$contentIds = array();
-		$sth = $this->database->dbh->prepare("	
-			select
-				content_id
-			from content_meta
-			where content_meta.value = :$colName
-				and content_meta.name = 'tag'
-		");
-		$this->bindValue($sth, ':' . $colName, $colValue);
-		$this->tryExecute($sth, '098765432');
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			$contentIds[] = $row['content_id'];
-		}
-		return $this->setData(array_unique($contentIds));
-	}
-
-
-	/**
-	 * deletes a row or set of rows based on the name and value
-	 * combined
-	 * @param  string $colName  
-	 * @param  int|string|bool $colValue 
-	 * @return int           
-	 */
-	public function deleteByValue($colName, $colValue)
-	{
-		$sth = $this->database->dbh->prepare("	
-			delete
-				from content_meta
-			where content_meta.name = ?
-				and content_meta.value = ?
-		");
-		$this->bindValues($sth, array($colName, $colValue));
-		$this->tryExecute($sth, '12315514344124');
-		return $sth->rowCount();
-	}
-
-
-	/**
-	 * deletes all rows with a matching content id
-	 * @param  int $contentId 
-	 * @return int            
-	 */
-	public function deleteByContentId($contentId)
-	{
-		$sth = $this->database->dbh->prepare("	
-			delete
-				from content_meta
-			where content_meta.content_id = ?
-		");
-		$this->bindValues($sth, array($contentId));
-		$this->tryExecute($sth, '123663423');
-		return $sth->rowCount();
-	}
-
-
-	public function deleteByContentIdAndName($contentId, $name)
-	{
-		$sth = $this->database->dbh->prepare("	
-			delete
-				from content_meta
-			where content_meta.content_id = ?
-				and content_meta.name = ?
-		");
-		$this->bindValues($sth, array($contentId, $name));
-		$this->tryExecute($sth, '123698765463423');
-		return $sth->rowCount();
-	}
-
-
-	/**
-	 * create all required rows
-	 * @param  string $contentId   
-	 * @param  string $colName   
-	 * @param  array $colValues 
-	 * @return int            
-	 */
-	public function create($contentId, $colName, $colValues)
-	{}
-	
-
-	public function delete($contentId, $colName, $colValues)
+	public function delete($properties = array())
 	{
         $sth = $this->database->dbh->prepare("
         	delete
         		from content_meta
-        	where content_meta.content_id = ?
-        		and content_meta.name = ?
-        		and content_meta.value = ?
+        	where id != 0
+			" . (array_key_exists('content_id', $properties) ? ' and content_id = :content_id ' : '') . "
+			" . (array_key_exists('name', $properties) ? ' and name = :name ' : '') . "
+			" . (array_key_exists('value', $properties) ? ' and value = :value ' : '') . "
         ");             
-
-        // execute all delete on each value
-        foreach ($colValues as $value) {
-			$this->bindValues($sth, array(
-	        	$contentId
-	        	, $colName
-	        	, $value
-	        ));
-			$this->tryExecute($sth, '09876');
+        if (array_key_exists('content_id', $properties)) {
+        	$sth->bindValue(':content_id', $properties['content_id'], PDO::PARAM_INT);
         }
+        if (array_key_exists('name', $properties)) {
+        	$sth->bindValue(':name', $properties['name'], PDO::PARAM_STR);
+        }
+        if (array_key_exists('value', $properties)) {
+        	$sth->bindValue(':value', $properties['value'], PDO::PARAM_INT);
+        }
+		$this->tryExecute($sth, 'model_content_meta->delete');
         return $sth->rowCount();
 	}
 }

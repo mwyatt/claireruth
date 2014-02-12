@@ -103,7 +103,7 @@ class Model_Content extends Model
 		if (array_key_exists('ids', $properties)) {
 			foreach ($properties['ids'] as $id) {
 				$sth->bindValue(':id', $id, PDO::PARAM_STR);
-				$this->tryExecute($sth);
+				$this->tryExecute($sth, 'model_content->read');
 				while ($row = $sth->fetch(PDO::FETCH_CLASS, 'Mold_Content')) {
 					$data[] = $row;
 				}
