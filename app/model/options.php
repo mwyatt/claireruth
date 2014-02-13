@@ -53,7 +53,7 @@ class Model_Options extends Model
 	}
 
 
-	public function update($properties = array())
+	public function update($id, $mold)
 	{
 		# code...
 	}

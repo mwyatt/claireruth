@@ -1,3 +1,5 @@
+<?php if (! $this->comingSoon): ?>
+
 			<footer class="main clearfix">
 				<div class="inner">
 					<nav>
@@ -15,6 +17,9 @@
 				</div>
 			</footer>
         </div>
+
+<?php endif ?>
+
         <script src="<?php echo $this->url(); ?>js/public/main.js?v=2"></script>
     </body>
 </html>

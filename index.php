@@ -20,16 +20,6 @@ $config
 	->setOptions($options->getData())
 	->initiateUrl()
 	->setObject($error);
-$content = new model_content($database, $config);
-$content->read(array('type' => 'post'));
-$media = new model_media($database, $config);
-$media->readContentId($content->getDataIds());
-$content->combine(array('media' => $media));
-echo '<pre>';
-print_r($content);
-echo '</pre>';
-exit;
-
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
 $initialController = new controller();
@@ -37,3 +27,14 @@ $initialController->view = new View($database, $config);
 $controller = new controller($initialController, $database, $config);
 $controller->loadClass();
 exit;
+
+
+// $content = new model_content($database, $config);
+// $content->read(array('type' => 'post'));
+// $media = new model_media($database, $config);
+// $media->readContentId($content->getDataIds());
+// $content->combine(array('media' => $media));
+// echo '<pre>';
+// print_r($content);
+// echo '</pre>';
+// exit;

@@ -68,6 +68,14 @@ class Config
 
 
 	/**
+	 * marks the app as coming soon and covers with a splash screen
+	 * ?preview=true will set session to override this
+	 * @var boolean
+	 */
+	public $comingSoon = true;
+
+
+	/**
 	 * always initiates with the database and config objects
 	 * the identity is built mainly automatically
 	 * @param object $database 
@@ -555,5 +563,18 @@ class Config
 
 		// always returns a camelcase
 		return lcfirst($newValue);
+	}
+
+
+	public function isComingSoon()
+	{
+		$session = new session($this->database, $this->config);
+		// $session->setData('hi');
+		echo '<pre>';
+		print_r($session);
+		echo '</pre>';
+		exit;
+		
+
 	}
 }

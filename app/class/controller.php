@@ -223,6 +223,12 @@ class Controller extends Config
 
 
 	public function initialise() {
+		if ($this->isComingSoon()) {
+			if ($this->config->getUrl(0)) {
+				$this->route('base');
+			}
+			$this->view->loadTemplate('coming-soon');
+		}
 		// $menu = new model_menu($this->database, $this->config);
 		// $this->view->setObject($menu);
 		if (array_key_exists('search', $_GET)) {
