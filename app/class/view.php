@@ -248,4 +248,16 @@ class View extends Model
 			return $this->meta[$key];
 		return false;
 	}
+
+
+	/**
+	 * looks at an array and creates a string e.g. '3 Items'
+	 * @param  array  $items 
+	 * @param  string $label 
+	 * @return string        
+	 */
+	public function appendS($items = array(), $label = 'item')
+	{
+		return count($items) . ' ' . $label . (count($items) > 1 ? 's' : '');
+	}
 } 
