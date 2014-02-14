@@ -57,6 +57,15 @@ class Session extends Cron
 	}
 
 
+	public function getDataKey($key)
+	{
+		if (array_key_exists($key, $_SESSION[$this->getIdentity()])) {
+			$data = $_SESSION[$key];
+			return $data;
+		}
+	}
+
+
 	/**
 	 * sets all data assigned to session and the object
 	 * @param int|bool|array $value 

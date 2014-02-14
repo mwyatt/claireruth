@@ -22,6 +22,20 @@ $config
 	->setObject($error);
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
+$model = new model_content($database, $config);
+$mold = new mold_content();
+$mold->title = 'title';
+$mold->html = 'html';
+$mold->type = 'type';
+$mold->status = 'status';
+$mold->user_id = 'user_id';
+$model->create(array($mold));
+$model->read(array('where' => array('title' => 'title')));
+echo '<pre>';
+print_r($model->getData());
+echo '</pre>';
+exit;
+
 $initialController = new controller();
 $initialController->view = new View($database, $config);
 $controller = new controller($initialController, $database, $config);

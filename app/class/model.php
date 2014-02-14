@@ -181,10 +181,14 @@ class Model extends Config
 	 * @param  string $errorCode 
 	 * @return object           
 	 */
-	public function tryExecute($sth, $errorCode = '')
+	public function tryExecute($errorCode, $sth, $sthData = array())
 	{
 		try {
-			$sth->execute();
+			if ($sthData) {
+				$sth->execute($sthData);
+			} else {
+				$sth->execute();
+			}
 		} catch (Exception $e) {
 			$this->config->getObject('error')->handle('database', $errorCode, 'model.php', 'na');
 			return false;

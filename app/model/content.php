@@ -44,25 +44,25 @@ class Model_Content extends Model
 	public function create($molds = array())
 	{
         $sth = $this->database->dbh->prepare('
-            insert into content (' . $this->getSqlFields() . ')
-            values (
-                ?
-                , ?
-                , ?
-                , ?
-                , ?
-                , ?
-            )
+            insert into ' . $this->getIdentity() . ' (
+            	title
+            	, html
+            	, type
+            	, time_published
+            	, status
+            	, user_id
+        	)
+            values (?, ?, ?, ?, ?, ?)
         ');
         foreach ($molds as $mold) {
-	        $sth->execute(array(
+			$this->tryExecute('model_' . $this->getIdentity() . '->create', $sth, array(
 	            $mold->title
 	            , $mold->html
 	            , $mold->type
 	            , time()
 	            , $mold->status
 	            , $mold->user_id
-	        ));                
+	        ));
         }
         return $sth->rowCount();
 	}	
@@ -93,7 +93,7 @@ class Model_Content extends Model
 		// bind
 		if (array_key_exists('where', $properties)) {
 			foreach ($properties['where'] as $key => $value) {
-				$sth->bindValue(':' . $key, $value);
+				$this->bindValue($sth, $key, $value);
 			}
 		}
 		if (array_key_exists('limit', $properties)) {
@@ -103,7 +103,7 @@ class Model_Content extends Model
 		}
 
 		// execute
-		$this->tryExecute($sth, 'model_content->read');
+		$this->tryExecute('model_' . $this->getIdentity() . '->read', $sth);
 		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Content'));
 	}
 
@@ -114,23 +114,23 @@ class Model_Content extends Model
 	 */
 	public function update($id, $mold)
 	{
-		$sth = $this->database->dbh->prepare("
-			update content set
+		$sth = $this->database->dbh->prepare('
+			update ' . $this->getIdentity() . ' set
 				title = ?
 				, html = ?
 				, type = ?
 				, status = ?
 				, user_id = ?
 			where id = ?
-		");                                
-		$sth->execute(array(
+		'); 
+		$this->tryExecute('model_' . $this->getIdentity() . '->update', $sth, array(
 			$mold->title
 			, $mold->html
 			, $mold->type
 			, $mold->status
 			, $mold->user_id
 			, $id
-		));                
+		));
         return $sth->rowCount();
 	}
 
@@ -141,13 +141,13 @@ class Model_Content extends Model
 	 */
 	public function delete($ids = array())
 	{
-		$sth = $this->database->dbh->prepare("	
-			delete from content
-			where id = ?
-		");
+		$sth = $this->database->dbh->prepare('
+			delete from ' . $this->getIdentity() . ' 
+			where id = :id
+		');
 		foreach ($ids as $id) {
-			$this->bindValue($sth, 1, $id);
-			$this->tryExecute($sth, 'model_content->delete');
+			$sth->bindValue(':id', $id);
+			$this->tryExecute('model_' . $this->getIdentity() . '->delete', $sth);
 		}
 		return $sth->rowCount();
 	}
