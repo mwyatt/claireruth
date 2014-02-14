@@ -568,13 +568,19 @@ class Config
 
 	public function isComingSoon()
 	{
-		$session = new session($this->database, $this->config);
-		// $session->setData('hi');
-		echo '<pre>';
-		print_r($session);
-		echo '</pre>';
-		exit;
+		return true;
+		// $sessionSoon = new session_soon($this->database, $this->config);
+		// $sessionSoon->setData('hello');
+		// echo '<pre>';
+		// print_r($sessionSoon);
+		// echo '</pre>';
+		// exit;
 		
+		$session = new session($this->database, $this->config);
+echo '<pre>';
+print_r($session);
+echo '</pre>';
+exit;
 
 	}
 }

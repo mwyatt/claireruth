@@ -1448,40 +1448,73 @@ footer.main nav a {
   margin: 0 auto;
 }
 
-/* line 15, ../sass/screen.scss */
+/* line 1, ../sass/_coming-soon.scss */
+.coming-soon-container {
+  margin: 4em auto;
+  padding: 0 1em;
+  max-width: 16em;
+}
+
+/* line 6, ../sass/_coming-soon.scss */
+.content.coming-soon .logo {
+  display: block;
+  margin: 0 0 2em;
+}
+
+/* line 10, ../sass/_coming-soon.scss */
+.content.coming-soon .logo img {
+  max-width: 100%;
+}
+
+/* line 13, ../sass/_coming-soon.scss */
+.description {
+  font-size: 21px;
+  color: #d1b3d5;
+  border: 1px solid;
+  display: block;
+  padding: 1em;
+  max-width: 240px;
+}
+
+/* line 21, ../sass/_coming-soon.scss */
+html {
+  background-color: #fdecff;
+}
+
+/* line 16, ../sass/screen.scss */
 html {
   background: url('/media/45degreee_fabric.png?1361993638') repeat;
 }
 
-/* line 19, ../sass/screen.scss */
+/* line 20, ../sass/screen.scss */
 body {
   color: #646e77;
   font-family: Droid Serif, serif;
 }
 
-/* line 24, ../sass/screen.scss */
+/* line 25, ../sass/screen.scss */
 .wrap {
   padding: 1em;
 }
 @media screen and (min-width: 800px) {
-  /* line 24, ../sass/screen.scss */
+  /* line 25, ../sass/screen.scss */
   .wrap {
     width: 800px;
     margin: 0 auto;
   }
 }
 
-/* line 33, ../sass/screen.scss */
+/* line 34, ../sass/screen.scss */
 .wrap-full-width {
   width: 960px;
 }
 
-/* line 37, ../sass/screen.scss */
+/* line 38, ../sass/screen.scss */
 .content {
   margin: 0 0 2em;
 }
 
-/* line 41, ../sass/screen.scss */
+/* line 42, ../sass/screen.scss */
 .button {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
@@ -1506,7 +1539,7 @@ body {
   border-bottom-color: #79203d;
 }
 
-/* line 45, ../sass/screen.scss */
+/* line 46, ../sass/screen.scss */
 .button.primary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
@@ -1531,7 +1564,7 @@ body {
   border-bottom-color: #79203d;
 }
 
-/* line 49, ../sass/screen.scss */
+/* line 50, ../sass/screen.scss */
 .button.secondary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
@@ -1556,7 +1589,7 @@ body {
   border-bottom-color: #583258;
 }
 
-/* line 53, ../sass/screen.scss */
+/* line 54, ../sass/screen.scss */
 .button.tertiary {
   -webkit-border-radius: 99em;
   -moz-border-radius: 99em;
@@ -1581,11 +1614,11 @@ body {
   border-bottom-color: #334d19;
 }
 
-/* line 57, ../sass/screen.scss */
+/* line 58, ../sass/screen.scss */
 .to-top {
   display: none;
 }
-/* line 60, ../sass/screen.scss */
+/* line 61, ../sass/screen.scss */
 .to-top.is-active {
   position: absolute;
   bottom: 1em;

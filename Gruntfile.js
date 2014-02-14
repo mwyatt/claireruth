@@ -23,7 +23,7 @@ module.exports = function(grunt) {
           'js/admin/vendor/*.js',
           'js/admin/*.js'
         ],
-        dest: 'asset/main-admin.js'
+        dest: 'asset/admin/main.js'
       },
     },
     compass: {

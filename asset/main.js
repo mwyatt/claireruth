@@ -9490,7 +9490,7 @@ Button_To_Top.prototype.poll = function(event) {
 		}
 	};
 })(jQuery);
-;$(document).ready(function() { 
+;$(document).ready(function() {  
 	$('.js-lightbox-gallery').lightbox({
 		galleryClass: 'group-1',
 		title: $('h1.main').html()

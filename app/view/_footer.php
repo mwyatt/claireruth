@@ -20,6 +20,6 @@
 
 <?php endif ?>
 
-        <script src="<?php echo $this->url(); ?>js/public/main.js?v=2"></script>
+        <script src="<?php echo $this->url(); ?>asset/main.js?v=1"></script>
     </body>
 </html>

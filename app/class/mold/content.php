@@ -11,11 +11,28 @@ class Mold_Content extends Mold
 
 
 	public $title;
+
+	
 	public $html;
+
+	
 	public $type;
+
+	
 	public $time_published;
+
+	
 	public $status;
-	public $user_name;
+	
+
+	/**
+	 * @var object
+	 */
+	public $user;
+
+
 	public $tags = array();
+
+
 	public $media = array();
 }

@@ -11,12 +11,35 @@ class Model extends Config
 {
 
 
+	/**
+	 * comprehensive list of database fields for use when building queries
+	 * @var array
+	 */
+	public $fields = array(
+		'id'
+		, 'name'
+		, 'value'
+	);
+
+
 	public function create($molds = array())
 	{
 		# code...
 	}
 
 
+	/**
+	 * $model = new model_content($database, $config);
+* $model->read(array(
+* 	'where' => array(
+* 		'type' => 'post'
+* 		, 'status' => 'visible'
+* 	)
+* 	, 'limit' => array('limit_start' => 0, 'limit_end' => 5)
+* ));
+	 * @param  array  $properties [description]
+	 * @return [type]             [description]
+	 */
 	public function read($properties = array())
 	{
 		# code...
@@ -32,6 +55,67 @@ class Model extends Config
 	public function delete($ids = array())
 	{
 		# code...
+	}
+
+
+	/**
+	 * builds a generic select statement and returns
+	 * select (column, column) from (table_name)
+	 * @return string 
+	 */
+	public function getSqlSelect()
+	{
+		$statement = array();
+		$statement[] = 'select';
+		$statement[] = $this->getSqlFields();
+		$statement[] = 'from';
+		$statement[] = $this->getIdentity();
+		return implode(' ', $statement);
+	}
+
+
+	/**
+	 * implodes list of sql fields
+	 * column, column, column
+	 * @return string 
+	 */
+	public function getSqlFields()
+	{
+		return implode(', ', $this->fields);
+	}
+
+
+	/**
+	 * builds sql where string using and
+	 * @param  array  $where accepts ('column' => 'value') format
+	 * @return string        
+	 */
+	public function getSqlWhere($where = array())
+	{
+		$statement = array();
+		$statement[] = 'where 1 = 1';
+		foreach ($where as $key => $value) {
+			$statement[] = 'and ' . $key . ' = :' . $key;
+		}
+		return implode(' ', $statement);
+	}
+
+
+	/**
+	 * builds sql limit using array
+	 * @param  array  $limit accepts ('key' => 'value', 'key' => 'value')
+	 * @return string        
+	 */
+	public function getSqlLimit($limit = array())
+	{
+		$statement = array();
+		$limits = array();
+		$statement[] = 'limit';
+		foreach ($limit as $key => $value) {
+			$limits[] = ':' . $key;
+		}
+		$statement[] = implode(', ', $limits);
+		return implode(' ', $statement);
 	}
 
 

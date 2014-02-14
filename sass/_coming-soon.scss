@@ -1,0 +1,23 @@
+.coming-soon-container {
+    margin: 4em auto;
+    padding: 0 1em;
+    max-width: 16em;
+}
+.content.coming-soon .logo {
+    display: block;
+    margin: 0 0 2em;
+}
+.content.coming-soon .logo img {
+    max-width: 100%;
+}
+.description {
+    font-size: 21px;
+    color: rgb(209, 179, 213);
+    border: 1px solid;
+    display: block;
+    padding: 1em;
+    max-width: 240px;
+}
+html {
+    background-color: rgb(253, 236, 255);
+}

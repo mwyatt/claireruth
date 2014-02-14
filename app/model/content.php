@@ -14,11 +14,22 @@ class Model_Content extends Model
 {	
 
 
+	public $fields = array(
+		'id'
+		, 'title'
+		, 'html'
+		, 'type'
+		, 'time_published'
+		, 'status'
+		, 'user_id'
+	);
+
+
 	/**
 	 * possible status of a content item
 	 * @var array
 	 */
-	var $status = array(
+	public $status = array(
 		'visible'
 		, 'hidden'
 		, 'draft'
@@ -32,15 +43,8 @@ class Model_Content extends Model
 	 */
 	public function create($molds = array())
 	{
-        $sth = $this->database->dbh->prepare("
-            insert into content (
-                title
-                , html
-                , type
-                , time_published
-                , status
-                , user_id
-            )
+        $sth = $this->database->dbh->prepare('
+            insert into content (' . $this->getSqlFields() . ')
             values (
                 ?
                 , ?
@@ -49,7 +53,7 @@ class Model_Content extends Model
                 , ?
                 , ?
             )
-        ");
+        ');
         foreach ($molds as $mold) {
 	        $sth->execute(array(
 	            $mold->title
@@ -70,47 +74,36 @@ class Model_Content extends Model
 	 */
 	public function read($properties = array())
 	{
-		$sth = $this->database->dbh->prepare("	
-			select
-				content.id
-				, content.title
-				, content.html
-				, content.type
-				, content.time_published
-				, content.status
-				, content.user_id
-				, concat(user.first_name, ' ', user.last_name) as user_name
-				, content_meta.value as content_meta_love
-			from content
-			left join user on user.id = content.user_id
-			left join content_meta on content_meta.id = content.id and content_meta.name = 'love'
-            where content.id != ''
-			" . ($this->config->getUrl(0) == 'admin' ? ' ' : ' and content.status = \'visible\'') . "
-			" . (array_key_exists('type', $properties) ? ' and content.type = :type ' : '') . "
-			" . (array_key_exists('ids', $properties) ? ' and content.id = :id ' : '') . "
-			group by content.id
-			order by content.time_published desc
-			" . (array_key_exists('limit', $properties) ? ' limit :limit_start, :limit_end ' : '') . "
-		");
-		if (array_key_exists('type', $properties)) {
-			$sth->bindValue(':type', $properties['type'], PDO::PARAM_STR);
+
+		// build
+		$statement = array();
+		$statement[] = $this->getSqlSelect();
+		if (array_key_exists('where', $properties)) {
+			$statement[] = $this->getSqlWhere($properties['where']);
+		}
+		$statement[] = 'order by time_published desc';
+		if (array_key_exists('limit', $properties)) {
+			$statement[] = $this->getSqlLimit($properties['limit']);
+		}
+		$statement = implode(' ', $statement);
+
+		// prepare
+		$sth = $this->database->dbh->prepare($statement);
+
+		// bind
+		if (array_key_exists('where', $properties)) {
+			foreach ($properties['where'] as $key => $value) {
+				$sth->bindValue(':' . $key, $value);
+			}
 		}
 		if (array_key_exists('limit', $properties)) {
-			$sth->bindValue(':limit_start', (int) current($properties['limit']), PDO::PARAM_INT);
-			$sth->bindValue(':limit_end', (int) next($properties['limit']), PDO::PARAM_INT);
-		}
-		$data = array();
-		if (array_key_exists('ids', $properties)) {
-			foreach ($properties['ids'] as $id) {
-				$sth->bindValue(':id', $id, PDO::PARAM_STR);
-				$this->tryExecute($sth, 'model_content->read');
-				while ($row = $sth->fetch(PDO::FETCH_CLASS, 'Mold_Content')) {
-					$data[] = $row;
-				}
+			foreach ($properties['limit'] as $key => $value) {
+				$sth->bindValue(':' . $key, (int) $value, PDO::PARAM_INT);
 			}
-			return $this->setData($data);
 		}
-		$this->tryExecute($sth);
+
+		// execute
+		$this->tryExecute($sth, 'model_content->read');
 		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Content'));
 	}
 
