@@ -260,4 +260,22 @@ class View extends Model
 	{
 		return count($items) . ' ' . $label . (count($items) > 1 ? 's' : '');
 	}
+
+
+	/**
+	 * appends thumbnail information if it is an image
+	 * @todo port to view
+	 * @param array $result modified row
+	 */
+	public function getMediaThumb($result)
+	{
+		if ($result->type != 'application/pdf') {
+			$result->thumb = new stdClass();
+			$result->thumb->{'300'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=300&h=130'), false);
+			$result->thumb->{'150'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=150&h=120'), false);
+			$result->thumb->{'350'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=350&h=220'), false);
+			$result->thumb->{'760'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=760&h=540'), false);
+		}
+		return $result;
+	}
 } 

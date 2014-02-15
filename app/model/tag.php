@@ -10,15 +10,73 @@ class Model_Tag extends Model
 {	
 
 
-	public function parseRows($rows)
+	public $fields = array(
+		'id'
+		, 'description'
+		, 'title'
+	);
+
+
+	/**
+	 * @param  array $molds 
+	 * @return bool       
+	 */
+	public function create($molds = array())
 	{
-		$parsedRows = array();
-		foreach ($rows as $key => $row) {
-			$row['url'] = $this->buildUrl(array('tag', $row['title']));
-			$row['title_friendly'] = ucwords($row['title']);
-			$parsedRows[] = $row;
+        $sth = $this->database->dbh->prepare('
+            insert into ' . $this->getIdentity() . ' (
+            	title
+            	, description
+        	)
+            values (?, ?)
+        ');
+        foreach ($molds as $mold) {
+			$this->tryExecute(__METHOD__, $sth, array(
+				$mold->title
+				, $mold->description
+	        ));
+        }
+        return $sth->rowCount();
+	}	
+
+
+	/**
+	 * @param  array  $properties type, limit, ids
+	 * @return bool             
+	 */
+	public function read($properties = array())
+	{
+
+		// build
+		$statement = array();
+		$statement[] = $this->getSqlSelect();
+		if (array_key_exists('where', $properties)) {
+			$statement[] = $this->getSqlWhere($properties['where']);
 		}
-		return $parsedRows;
+		$statement[] = 'order by time_published desc';
+		if (array_key_exists('limit', $properties)) {
+			$statement[] = $this->getSqlLimit($properties['limit']);
+		}
+		$statement = implode(' ', $statement);
+
+		// prepare
+		$sth = $this->database->dbh->prepare($statement);
+
+		// bind
+		if (array_key_exists('where', $properties)) {
+			foreach ($properties['where'] as $key => $value) {
+				$this->bindValue($sth, $key, $value);
+			}
+		}
+		if (array_key_exists('limit', $properties)) {
+			foreach ($properties['limit'] as $key => $value) {
+				$sth->bindValue(':' . $key, (int) $value, PDO::PARAM_INT);
+			}
+		}
+
+		// execute
+		$this->tryExecute(__METHOD__, $sth);
+		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
 	}
 
 
@@ -108,27 +166,6 @@ class Model_Tag extends Model
 		$this->data = $rows;
 		return count($this->getData());
 	}
-
-
-	/**
-	 * creates a tag
-	 * @param  array $values 
-	 * @return int         
-	 */
-	public function create($values) {        
-        $sth = $this->database->dbh->prepare("
-            insert into tag (
-            	description
-            	, title
-            )
-            values (
-                ?
-                , ?
-            )
-        ");             
-        $sth->execute(array($values['description'], $values['title']));
-        return $sth->rowCount();
-	}	
 
 
 	/**

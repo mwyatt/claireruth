@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Mold_Media extends Mold
+class Mold_Tag extends Mold
 {
 
 
@@ -14,16 +14,4 @@ class Mold_Media extends Mold
 
 	
 	public $description;
-
-	
-	public $path;
-
-	
-	public $type;
-
-	
-	public $time_published;
-
-	
-	public $user_id;
 }

@@ -38,7 +38,7 @@ class Model_Content extends Model
 
 
 	/**
-	 * @param  object $mold 
+	 * @param  array $molds 
 	 * @return bool       
 	 */
 	public function create($molds = array())
@@ -55,7 +55,7 @@ class Model_Content extends Model
             values (?, ?, ?, ?, ?, ?)
         ');
         foreach ($molds as $mold) {
-			$this->tryExecute('model_' . $this->getIdentity() . '->create', $sth, array(
+			$this->tryExecute(__METHOD__, $sth, array(
 	            $mold->title
 	            , $mold->html
 	            , $mold->type
@@ -103,8 +103,8 @@ class Model_Content extends Model
 		}
 
 		// execute
-		$this->tryExecute('model_' . $this->getIdentity() . '->read', $sth);
-		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Content'));
+		$this->tryExecute(__METHOD__, $sth);
+		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
 	}
 
 
@@ -123,7 +123,7 @@ class Model_Content extends Model
 				, user_id = ?
 			where id = ?
 		'); 
-		$this->tryExecute('model_' . $this->getIdentity() . '->update', $sth, array(
+		$this->tryExecute(__METHOD__, $sth, array(
 			$mold->title
 			, $mold->html
 			, $mold->type
@@ -147,7 +147,7 @@ class Model_Content extends Model
 		');
 		foreach ($ids as $id) {
 			$sth->bindValue(':id', $id);
-			$this->tryExecute('model_' . $this->getIdentity() . '->delete', $sth);
+			$this->tryExecute(__METHOD__, $sth);
 		}
 		return $sth->rowCount();
 	}

@@ -52,9 +52,21 @@ class Model extends Config
 	}
 
 
+	/**
+	 * @param  array  $ids 
+	 * @return bool      
+	 */
 	public function delete($ids = array())
 	{
-		# code...
+		$sth = $this->database->dbh->prepare('
+			delete from ' . $this->getIdentity() . ' 
+			where id = :id
+		');
+		foreach ($ids as $id) {
+			$sth->bindValue(':id', $id);
+			$this->tryExecute(__METHOD__, $sth);
+		}
+		return $sth->rowCount();
 	}
 
 
@@ -226,5 +238,11 @@ class Model extends Config
 	{
 		// manipulate the row here and return
 		return $row;
+	}
+
+
+	public function getMoldName()
+	{
+		return 'mold_' . $this->getIdentity();
 	}
 }

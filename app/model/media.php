@@ -10,6 +10,17 @@ class Model_Media extends Model
 {
 	
 
+	public $fields = array(
+		'id'
+		, 'title'
+		, 'description'
+		, 'path'
+		, 'type'
+		, 'time_published'
+		, 'user_id'
+	);
+
+
 	/**
 	 * base location for all media
 	 * which is added after the website
@@ -19,58 +30,105 @@ class Model_Media extends Model
 	public $dir = 'media/upload/';
 
 
+	/**
+	 * @param  array $molds 
+	 * @return bool       
+	 */
+	public function create($molds = array())
+	{
+        $sth = $this->database->dbh->prepare('
+            insert into ' . $this->getIdentity() . ' (
+            	title
+            	, description
+            	, path
+            	, type
+            	, time_published
+            	, user_id
+        	)
+            values (?, ?, ?, ?, ?, ?)
+        ');
+        foreach ($molds as $mold) {
+			$this->tryExecute(__METHOD__, $sth, array(
+				$mold->title
+				, $mold->description
+				, $mold->path
+				, $mold->type
+	            , time()
+				, $mold->user_id
+	        ));
+        }
+        return $sth->rowCount();
+	}	
+
+
 	public function read($properties = array())
 	{
-		$baseurl = $this->config->getUrl('base'); 
-		$parsedData = array();
-		$sth = $this->database->dbh->prepare("	
-			select
-				media.id
-				, media.title
-				, media.description
-				, concat('$this->dir', media.path) as path
-				, media.type
-				, media.time_published
-				, concat(user.first_name, ' ', user.last_name) as user_full_name
-			from media
-				left join user on user.id = media.user_id
-		");
-		$this->tryExecute($sth, '12315514344124');
-		if ($sth->rowCount()) {
-			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$row = $this->buildThumb($row);
-				$parsedData[] = $row;
+
+		// build
+		$statement = array();
+		$statement[] = $this->getSqlSelect();
+		if (array_key_exists('where', $properties)) {
+			$statement[] = $this->getSqlWhere($properties['where']);
+		}
+		$statement = implode(' ', $statement);
+
+		// prepare
+		$sth = $this->database->dbh->prepare($statement);
+
+		// bind
+		if (array_key_exists('where', $properties)) {
+			foreach ($properties['where'] as $key => $value) {
+				$this->bindValue($sth, $key, $value);
 			}
 		}
-		return $this->setData($parsedData);
+
+		// execute
+		$this->tryExecute(__METHOD__, $sth);
+		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
 	}
 
 
-	public function readById($ids = array())
+	/**
+	 * @param  array  $properties (id => ?, array(key => value))
+	 * @return bool             
+	 */
+	public function update($id, $mold)
 	{
-		$baseurl = $this->config->getUrl('base'); 
-		$parsedData = array();
-		$sth = $this->database->dbh->prepare("	
-			select
-				media.id
-				, media.title
-				, media.description
-				, concat('$this->dir', media.path) as path
-				, media.type
-				, media.time_published
-				, concat(user.first_name, ' ', user.last_name) as user_full_name
-			from media
-				left join user on user.id = media.user_id
-			where media.id = ?
-		");
+		$sth = $this->database->dbh->prepare('
+			update ' . $this->getIdentity() . ' set
+				title = ?
+				, description = ?
+				, path = ?
+				, type = ?
+				, user_id = ?
+			where id = ?
+		'); 
+		$this->tryExecute(__METHOD__, $sth, array(
+			$mold->title
+			, $mold->description
+			, $mold->path
+			, $mold->type
+			, $mold->user_id
+			, $id
+		));
+        return $sth->rowCount();
+	}
+
+
+	/**
+	 * needs testing
+	 * @param  array  $ids 
+	 * @return int      
+	 */
+	public function delete($ids = array()) {
 		foreach ($ids as $id) {
-			$this->bindValue($sth, 1, $id);
-			$this->tryExecute($sth, '12315514344124');
-			if ($sth->rowCount()) {
-				$parsedData[] = $this->buildThumb($sth->fetch(PDO::FETCH_ASSOC));
+			$filePath = BASE_PATH . $this->getDataFirst('path');
+			if (! file_exists($filePath) || ! unlink($filePath)) {
+				return;
 			}
+			parent::delete($ids);
 		}
-		return $this->setData($parsedData);
+		return $sth->rowCount();
 	}
 
 
@@ -103,57 +161,12 @@ class Model_Media extends Model
 			$this->tryExecute($sth);
 			$results = $sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Media');
 			foreach ($results as $result) {
-				$result = $this->buildThumb($result);
 				$parsedResults[] = $result;
 			}
 		}
 		return $this->setData($parsedResults);
 	}	
 	
-
-	public function storeResult($sth)
-	{
-		$results = $sth->fetchAll(PDO::FETCH_CLASS, 'view_media');
-
-		// read all needed media and tags
-		// build url
-		foreach ($results as $result) {
-			$ids[] = $result->id;
-			$result->url = $this->buildUrl(array($result->type, $result->title . '-' . $result->id));
-		}
-		$media = new model_media($this->database, $this->config);
-		$medias = $media->readContentId($ids);
-		$tag = new model_tag($this->database, $this->config);
-		$tags = $tag->readContentId($ids);
-		foreach ($results as $key => $result) {
-			if ($tags && array_key_exists($result->id, $tags)) {
-				$results[$key]->tag = $tags[$result->id];
-			}
-			if ($medias && array_key_exists($result->id, $medias)) {
-				$results[$key]->media = $medias[$result->id];
-			}
-		}
-		return $this->setData($results);
-	}
-
-
-
-	/**
-	 * appends thumbnail information if it is an image
-	 * @param array $result modified row
-	 */
-	public function buildThumb($result)
-	{
-		if ($result->type != 'application/pdf') {
-			$result->thumb = new stdClass();
-			$result->thumb->{'300'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=300&h=130'), false);
-			$result->thumb->{'150'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=150&h=120'), false);
-			$result->thumb->{'350'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=350&h=220'), false);
-			$result->thumb->{'760'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=760&h=540'), false);
-		}
-		return $result;
-	}
-
 
 	/**
 	 * looking for $_FILES['media'], uploads and creates entries in db
@@ -167,26 +180,10 @@ class Model_Media extends Model
 		if (! $files) {
 			return;
 		}
+		$files = $this->tidyFiles($files['media']);
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 		$errorData = array();
 		$successData = array();
-		if (empty($files) || ! array_key_exists('media', $files)) {
-			return;
-		}
-		$files = $this->tidyFiles($files['media']);
-		$sthMedia = $this->database->dbh->prepare("
-			insert into media (
-				title
-				, description
-				, path
-				, type
-				, time_published
-				, user_id
-			)
-			values (
-				?, ?, ?, ?, ?, ?
-			)
-		");		
 		foreach ($files as $key => $file) {
 			$valid = true;
 			$fileInformation = pathinfo($file['name']);
@@ -251,17 +248,15 @@ class Model_Media extends Model
 
 			// store if all is ok
 			if ($valid) {
-				$inserData = array(
-					$fileInformation['basename']
-					, $fileInformation['basename']
-					, $filePathWithoutBase
-					, $file['type']
-					, time()
-					, $sessionAdminUser->getData('id')
-				);
-
-				// database
-				$sthMedia->execute($inserData);
+				$moldName = $model->getMoldName();
+				$mold = new $moldName();
+				$mold->title = $fileInformation['basename'];
+				$mold->description = $fileInformation['basename'];
+				$mold->path = $filePathWithoutBase;
+				$mold->type = $file['type'];
+				$mold->time_published = time();
+				$mold->user_id = $sessionAdminUser->getData('id');
+				$this->create(array($mold));
 
 				// for feedback
 				$successData[] = array(
@@ -277,34 +272,12 @@ class Model_Media extends Model
 	}
 
 
-	public function deleteById($ids = array()) {
-		$sth = $this->database->dbh->prepare("	
-			delete from media
-			where id = ? 
-		");
-		foreach ($ids as $id) {
-			$this->bindValue($sth, 1, $id);
-
-			// get file information before its deleted from db
-			$this->readById(array($id));
-			$filePath = BASE_PATH . $this->getDataFirst('path');
-
-			// execute sth delete, check file exists, remove file
-			// if anything goes wrong, return false
-			if (! $this->tryExecute($sth, '12315514344124') || ! is_file($filePath) || ! file_exists($filePath) || ! unlink($filePath)) {
-				return;
-			}
-		}
-		return $sth->rowCount();
-	}
-
-
 	/**
 	 * tidies up the files array to more readable format
 	 * @param  array $array $_FILES['media'] preferrably
 	 * @return array        the sorted array
 	 */
-	public function tidyFiles($array) {	
+	public function tidyFiles($array) {
 		foreach($array as $key => $files) {
 			foreach($files as $i => $val) {
 				$new[$i][$key] = $val;    
@@ -312,21 +285,4 @@ class Model_Media extends Model
 		}
 		return $new;
 	}
-
-
-	public function readByPath($path) {	
-		$sth = $this->database->dbh->prepare("	
-			select
-				id
-				, title
-				, path
-				, time_published
-				, user_id
-			from media
-			where media.path like ?
-		");
-		$sth->execute(array('%' . $path . '%'));
-		$this->data = $sth->fetchAll(PDO::FETCH_OBJ);
-		return $sth->rowCount();
-	}	
 }
