@@ -61,31 +61,7 @@ class Model_Media extends Model
 	}	
 
 
-	public function read($properties = array())
-	{
 
-		// build
-		$statement = array();
-		$statement[] = $this->getSqlSelect();
-		if (array_key_exists('where', $properties)) {
-			$statement[] = $this->getSqlWhere($properties['where']);
-		}
-		$statement = implode(' ', $statement);
-
-		// prepare
-		$sth = $this->database->dbh->prepare($statement);
-
-		// bind
-		if (array_key_exists('where', $properties)) {
-			foreach ($properties['where'] as $key => $value) {
-				$this->bindValue($sth, $key, $value);
-			}
-		}
-
-		// execute
-		$this->tryExecute(__METHOD__, $sth);
-		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
-	}
 
 
 	/**
@@ -120,7 +96,8 @@ class Model_Media extends Model
 	 * @param  array  $ids 
 	 * @return int      
 	 */
-	public function delete($ids = array()) {
+	public function delete($ids = array())
+	{
 		foreach ($ids as $id) {
 			$filePath = BASE_PATH . $this->getDataFirst('path');
 			if (! file_exists($filePath) || ! unlink($filePath)) {

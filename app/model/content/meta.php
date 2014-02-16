@@ -10,56 +10,86 @@ class Model_Content_Meta extends Model
 {	
 
 
+	public $fields = array(
+		'id'
+		, 'content_id'
+		, 'name'
+		, 'value'
+	);
+
+
+	/**
+	 * @param  array $molds 
+	 * @return bool       
+	 */
 	public function create($molds = array())
 	{
-        $sth = $this->database->dbh->prepare("
-            insert into content_meta (
-                content_id
-                , name
-                , value
-            )
-            values (
-                ?
-                , ?
-                , ?
-            )
-        ");
+        $sth = $this->database->dbh->prepare('
+            insert into ' . $this->getIdentity() . ' (
+            	content_id
+            	, name
+            	, value
+        	)
+            values (?, ?, ?)
+        ');
         foreach ($molds as $mold) {
-	        $sth->execute(array(
-	            $mold->content_id
-	            , $mold->name
-	            , $mold->value
-	        ));                
+			$this->tryExecute(__METHOD__, $sth, array(
+				$mold->content_id
+				, $mold->name
+				, $mold->value
+	        ));
         }
         return $sth->rowCount();
-	}
+	}	
 
 
+	/**
+	 * @param  array  $properties type, limit, ids
+	 * @return bool             
+	 */
 	public function read($properties = array())
 	{
-		$contentIds = array();
-		$sth = $this->database->dbh->prepare("	
-			select
-				content_id
-			from content_meta
-			where value = :value
-			" . (array_key_exists('name', $properties) ? ' and name = :name ' : '') . "
-		");
-		if (array_key_exists('name', $properties)) {
-			$sth->bindValue(':name', $properties['name'], PDO::PARAM_STR);
+
+		// build
+		$statement = array();
+		$statement[] = $this->getSqlSelect();
+		if (array_key_exists('where', $properties)) {
+			$statement[] = $this->getSqlWhere($properties['where']);
 		}
-		$sth->bindValue(':value', $properties['value'], PDO::PARAM_STR);
-		$this->tryExecute($sth, 'model_content_meta->read');
-		while ($mold = $sth->fetch(PDO::FETCH_CLASS, 'Mold_Content_Meta')) {
-			$contentIds[] = $mold->content_id;
+		$statement = implode(' ', $statement);
+
+		// prepare
+		$sth = $this->database->dbh->prepare($statement);
+
+		// bind
+		if (array_key_exists('where', $properties)) {
+			foreach ($properties['where'] as $key => $value) {
+				$this->bindValue($sth, $key, $value);
+			}
 		}
-		return $this->setData(array_unique($contentIds));
+
+		// execute
+		$this->tryExecute(__METHOD__, $sth);
+		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
 	}
 
 
 	public function update($id, $mold)
 	{
-		# code...
+		$sth = $this->database->dbh->prepare('
+			update ' . $this->getIdentity() . ' set
+				content_id = ?
+				, name = ?
+				, value = ?
+			where id = ?
+		'); 
+		$this->tryExecute(__METHOD__, $sth, array(
+			$mold->content_id
+			, $mold->name
+			, $mold->value
+			, $id
+		));
+        return $sth->rowCount();
 	}
 
 

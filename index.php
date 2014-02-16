@@ -25,13 +25,16 @@ $sessionHistory->add($config->getUrl('current'));
 
 
 
+$mold = new mold_content($database, $config);
+$mold->title = 'test1';
+$mold->html = 'html';
+$mold->type = 'type';
+$mold->time_published = time();
+$mold->status = 'status';
+$mold->user_id = 'user_id';
 $model = new model_content($database, $config);
-$moldName = ;
-$model2 = new $moldName($database, $config);
-$model->read(array('where' => array('title' => 'title')));
-
+$model->read();
 echo '<pre>';
-print_r($model2);
 print_r($model->getData());
 echo '</pre>';
 exit;

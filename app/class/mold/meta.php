@@ -11,5 +11,7 @@ class Mold_Meta extends Mold
 
 
 	public $name;
+
+	
 	public $value;
 }

@@ -21,28 +21,63 @@ class Model extends Config
 		, 'value'
 	);
 
-
-	public function create($molds = array())
-	{
-		# code...
-	}
+	public $fieldsNonWriteable = array(
+		'id'
+	);
 
 
 	/**
-	 * $model = new model_content($database, $config);
-* $model->read(array(
-* 	'where' => array(
-* 		'type' => 'post'
-* 		, 'status' => 'visible'
-* 	)
-* 	, 'limit' => array('limit_start' => 0, 'limit_end' => 5)
-* ));
-	 * @param  array  $properties [description]
-	 * @return [type]             [description]
+	 * @param  array $molds 
+	 * @return bool       
 	 */
+	public function create($molds = array())
+	{
+
+		// statement
+		$statement = array();
+		$statement[] = 'insert into';
+		$statement[] = $this->getIdentity();
+		$statement[] = '(' . $this->getSqlFieldsWriteable() . ')';
+		$statement[] = 'values';
+		$statement[] = '(' . $this->getSqlPositionalPlaceholders() . ')';
+
+		// prepare
+		$sth = $this->database->dbh->prepare(implode(' ', $statement));
+
+		// execute
+        foreach ($molds as $mold) {
+			$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteData($mold));
+        }
+
+		// return
+        return $sth->rowCount();
+	}	
+
+
 	public function read($properties = array())
 	{
-		# code...
+
+		// build
+		$statement = array();
+		$statement[] = $this->getSqlSelect();
+		if (array_key_exists('where', $properties)) {
+			$statement[] = $this->getSqlWhere($properties['where']);
+		}
+		$statement = implode(' ', $statement);
+
+		// prepare
+		$sth = $this->database->dbh->prepare($statement);
+
+		// bind
+		if (array_key_exists('where', $properties)) {
+			foreach ($properties['where'] as $key => $value) {
+				$this->bindValue($sth, $key, $value);
+			}
+		}
+
+		// execute
+		$this->tryExecute(__METHOD__, $sth);
+		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
 	}
 
 
@@ -94,6 +129,60 @@ class Model extends Config
 	public function getSqlFields()
 	{
 		return implode(', ', $this->fields);
+	}
+
+
+	/**
+	 * implodes list of sql fields excluding fields like 'id'
+	 * column, column, column
+	 * @return string 
+	 */ 
+	public function getSqlFieldsWriteable($append = '')
+	{
+		$writeable = array();
+		foreach ($this->fields as $field) {
+			if (in_array($field, $this->fieldsNonWriteable)) {
+				continue;
+			}
+			$writeable[] = $field . $append;
+		}
+		return implode(', ', $writeable);
+	}
+
+
+	/**
+	 * @return string ?, ?, ? of all writable fields
+	 */
+	public function getSqlPositionalPlaceholders()
+	{
+		$placeholders = array();
+		foreach ($this->fields as $field) {
+			if (in_array($field, $this->fieldsNonWriteable)) {
+				continue;
+			}
+			$placeholders[] = '?';
+		}
+		return implode(', ', $placeholders);
+	}
+
+
+	/**
+	 * uses a mold to build sth execute data
+	 * if 'time' involved assume that time needs to be inserted, could be
+	 * a bad idea
+	 * @param  object $mold instance of mold
+	 * @return array       
+	 */
+	public function getSthExecuteData($mold)
+	{
+		$excecuteData = array();
+		foreach ($this->fields as $field) {
+			if (in_array($field, $this->fieldsNonWriteable)) {
+				continue;
+			}
+			$excecuteData[] = $mold->$field;
+		}
+		return $excecuteData;
 	}
 
 

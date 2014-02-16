@@ -37,35 +37,6 @@ class Model_Content extends Model
 	);
 
 
-	/**
-	 * @param  array $molds 
-	 * @return bool       
-	 */
-	public function create($molds = array())
-	{
-        $sth = $this->database->dbh->prepare('
-            insert into ' . $this->getIdentity() . ' (
-            	title
-            	, html
-            	, type
-            	, time_published
-            	, status
-            	, user_id
-        	)
-            values (?, ?, ?, ?, ?, ?)
-        ');
-        foreach ($molds as $mold) {
-			$this->tryExecute(__METHOD__, $sth, array(
-	            $mold->title
-	            , $mold->html
-	            , $mold->type
-	            , time()
-	            , $mold->status
-	            , $mold->user_id
-	        ));
-        }
-        return $sth->rowCount();
-	}	
 
 
 	/**
@@ -85,10 +56,9 @@ class Model_Content extends Model
 		if (array_key_exists('limit', $properties)) {
 			$statement[] = $this->getSqlLimit($properties['limit']);
 		}
-		$statement = implode(' ', $statement);
 
 		// prepare
-		$sth = $this->database->dbh->prepare($statement);
+		$sth = $this->database->dbh->prepare(implode(' ', $statement));
 
 		// bind
 		if (array_key_exists('where', $properties)) {
@@ -114,6 +84,34 @@ class Model_Content extends Model
 	 */
 	public function update($id, $mold)
 	{
+
+		// statement
+		$statement = array();
+		$statement[] = 'update';
+		$statement[] = $this->getIdentity();
+		$statement[] = 'set';
+		foreach ($mold as $key => $value) {
+			
+		}
+
+		$statement[] = $this->getSqlFieldsWriteable(' = ?');
+		$statement[] = 'where id = ?';
+
+		// prepare
+		$sth = $this->database->dbh->prepare(implode(' ', $statement));
+
+		// execute
+        foreach ($molds as $mold) {
+			$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteData($mold));
+        }
+
+		// return
+        return $sth->rowCount();
+	
+
+
+
+
 		$sth = $this->database->dbh->prepare('
 			update ' . $this->getIdentity() . ' set
 				title = ?
@@ -132,24 +130,6 @@ class Model_Content extends Model
 			, $id
 		));
         return $sth->rowCount();
-	}
-
-
-	/**
-	 * @param  array  $ids 
-	 * @return bool      
-	 */
-	public function delete($ids = array())
-	{
-		$sth = $this->database->dbh->prepare('
-			delete from ' . $this->getIdentity() . ' 
-			where id = :id
-		');
-		foreach ($ids as $id) {
-			$sth->bindValue(':id', $id);
-			$this->tryExecute(__METHOD__, $sth);
-		}
-		return $sth->rowCount();
 	}
 
 

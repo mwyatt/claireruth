@@ -17,66 +17,20 @@ class Model_Tag extends Model
 	);
 
 
-	/**
-	 * @param  array $molds 
-	 * @return bool       
-	 */
-	public function create($molds = array())
+	public function update($id, $mold)
 	{
-        $sth = $this->database->dbh->prepare('
-            insert into ' . $this->getIdentity() . ' (
-            	title
-            	, description
-        	)
-            values (?, ?)
-        ');
-        foreach ($molds as $mold) {
-			$this->tryExecute(__METHOD__, $sth, array(
-				$mold->title
-				, $mold->description
-	        ));
-        }
+		$sth = $this->database->dbh->prepare('
+			update ' . $this->getIdentity() . ' set
+				title = ?
+				, description = ?
+			where id = ?
+		'); 
+		$this->tryExecute(__METHOD__, $sth, array(
+			$mold->title
+			, $mold->description
+			, $id
+		));
         return $sth->rowCount();
-	}	
-
-
-	/**
-	 * @param  array  $properties type, limit, ids
-	 * @return bool             
-	 */
-	public function read($properties = array())
-	{
-
-		// build
-		$statement = array();
-		$statement[] = $this->getSqlSelect();
-		if (array_key_exists('where', $properties)) {
-			$statement[] = $this->getSqlWhere($properties['where']);
-		}
-		$statement[] = 'order by time_published desc';
-		if (array_key_exists('limit', $properties)) {
-			$statement[] = $this->getSqlLimit($properties['limit']);
-		}
-		$statement = implode(' ', $statement);
-
-		// prepare
-		$sth = $this->database->dbh->prepare($statement);
-
-		// bind
-		if (array_key_exists('where', $properties)) {
-			foreach ($properties['where'] as $key => $value) {
-				$this->bindValue($sth, $key, $value);
-			}
-		}
-		if (array_key_exists('limit', $properties)) {
-			foreach ($properties['limit'] as $key => $value) {
-				$sth->bindValue(':' . $key, (int) $value, PDO::PARAM_INT);
-			}
-		}
-
-		// execute
-		$this->tryExecute(__METHOD__, $sth);
-		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
 	}
 
 
@@ -227,23 +181,5 @@ class Model_Tag extends Model
 		}
 		$this->tryExecute($sth, '90213203830');
 		return $this->setData($sth->fetchAll(PDO::FETCH_ASSOC));
-	}
-
-
-	/**
-	 * deletes tags based on id/ids
-	 * @param  array  $ids 
-	 * @return int      
-	 */
-	public function deleteById($ids = array()) {
-		$sth = $this->database->dbh->prepare("	
-			delete from tag
-			where id = ? 
-		");
-		foreach ($ids as $id) {
-			$this->bindValue($sth, 1, $id);
-			$this->tryExecute($sth, 'tag.deleteById');
-		}
-		return $sth->rowCount();
 	}
 }

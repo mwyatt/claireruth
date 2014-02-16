@@ -25,6 +25,9 @@ class Mold_Content extends Mold
 	public $status;
 	
 
+	public $user_id;
+
+
 	/**
 	 * @var object
 	 */

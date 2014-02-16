@@ -8,5 +8,7 @@
  */
 class Mold_Content_Meta extends Mold_Meta
 {
-	
+
+
+	public $content_id;	
 }
