@@ -53,7 +53,7 @@ class Model_Options extends Model
 	}
 
 
-	public function update($id, $mold)
+	public function update($mold)
 	{
 		# code...
 	}

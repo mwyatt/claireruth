@@ -79,10 +79,11 @@ class Model_Content extends Model
 
 
 	/**
-	 * @param  array  $properties (id => ?, array(key => value))
-	 * @return bool             
+	 * uses the passes properties to build named prepared statement
+	 * @param  object $mold 
+	 * @return int       
 	 */
-	public function update($id, $mold)
+	public function update($mold)
 	{
 
 		// statement
@@ -90,45 +91,23 @@ class Model_Content extends Model
 		$statement[] = 'update';
 		$statement[] = $this->getIdentity();
 		$statement[] = 'set';
+		$named = array();
 		foreach ($mold as $key => $value) {
-			
+			if (! $value || in_array($key, $this->fieldsNonWriteable)) {
+				continue;
+			}
+			$named[] = $key . ' = :' . $key;
 		}
-
-		$statement[] = $this->getSqlFieldsWriteable(' = ?');
-		$statement[] = 'where id = ?';
+		$statement[] = implode(', ', $named);
+		$statement[] = 'where id = :id';
 
 		// prepare
 		$sth = $this->database->dbh->prepare(implode(' ', $statement));
 
 		// execute
-        foreach ($molds as $mold) {
-			$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteData($mold));
-        }
+		$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteNamed($mold));
 
 		// return
-        return $sth->rowCount();
-	
-
-
-
-
-		$sth = $this->database->dbh->prepare('
-			update ' . $this->getIdentity() . ' set
-				title = ?
-				, html = ?
-				, type = ?
-				, status = ?
-				, user_id = ?
-			where id = ?
-		'); 
-		$this->tryExecute(__METHOD__, $sth, array(
-			$mold->title
-			, $mold->html
-			, $mold->type
-			, $mold->status
-			, $mold->user_id
-			, $id
-		));
         return $sth->rowCount();
 	}
 

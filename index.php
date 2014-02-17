@@ -26,13 +26,11 @@ $sessionHistory->add($config->getUrl('current'));
 
 
 $mold = new mold_content($database, $config);
-$mold->title = 'test1';
-$mold->html = 'html';
-$mold->type = 'type';
-$mold->time_published = time();
-$mold->status = 'status';
-$mold->user_id = 'user_id';
+$mold->id = 151;
+$mold->title = 'test5';
+$mold->html = 'html5';
 $model = new model_content($database, $config);
+$model->update($mold);
 $model->read();
 echo '<pre>';
 print_r($model->getData());

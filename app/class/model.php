@@ -46,7 +46,7 @@ class Model extends Config
 
 		// execute
         foreach ($molds as $mold) {
-			$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteData($mold));
+			$this->tryExecute(__METHOD__, $sth, $this->getSthExecutePositional($mold));
         }
 
 		// return
@@ -81,7 +81,7 @@ class Model extends Config
 	}
 
 
-	public function update($id, $mold)
+	public function update($mold)
 	{
 		# code...
 	}
@@ -173,7 +173,7 @@ class Model extends Config
 	 * @param  object $mold instance of mold
 	 * @return array       
 	 */
-	public function getSthExecuteData($mold)
+	public function getSthExecutePositional($mold)
 	{
 		$excecuteData = array();
 		foreach ($this->fields as $field) {
@@ -181,6 +181,19 @@ class Model extends Config
 				continue;
 			}
 			$excecuteData[] = $mold->$field;
+		}
+		return $excecuteData;
+	}
+
+
+	public function getSthExecuteNamed($mold)
+	{
+		$excecuteData = array();
+		foreach ($mold as $key => $value) {
+			if (! $value) {
+				continue;
+			}
+			$excecuteData[':' . $key] = $value;
 		}
 		return $excecuteData;
 	}
