@@ -77,7 +77,7 @@ class Model extends Config
 		// bind
 		if (array_key_exists('where', $properties)) {
 			foreach ($properties['where'] as $key => $value) {
-				$this->bindValue($sth, $key, $value);
+				$this->bindValue($sth, 'where_' . $key, $value);
 			}
 		}
 
@@ -89,10 +89,11 @@ class Model extends Config
 
 	/**
 	 * uses the passes properties to build named prepared statement
-	 * @param  object $mold 
-	 * @return int       
+	 * @param  array  $molds 
+	 * @param  string $by    defines the column to update by
+	 * @return int        
 	 */
-	public function update($mold)
+	public function update($mold, $properties = array())
 	{
 
 		// statement
@@ -100,6 +101,8 @@ class Model extends Config
 		$statement[] = 'update';
 		$statement[] = $this->getIdentity();
 		$statement[] = 'set';
+
+		// must be writable columns
 		$named = array();
 		foreach ($mold as $key => $value) {
 			if (! $value || in_array($key, $this->fieldsNonWriteable)) {
@@ -108,10 +111,25 @@ class Model extends Config
 			$named[] = $key . ' = :' . $key;
 		}
 		$statement[] = implode(', ', $named);
-		$statement[] = 'where id = :id';
+		if (array_key_exists('where', $properties)) {
+			$statement[] = $this->getSqlWhere($properties['where']);
+		}
 
 		// prepare
 		$sth = $this->database->dbh->prepare(implode(' ', $statement));
+
+		// bind
+		if (array_key_exists('where', $properties)) {
+			foreach ($properties['where'] as $key => $value) {
+				$this->bindValue($sth, 'where_' . $key, $value);
+			}
+		}
+
+echo '<pre>';
+print_r($sth);
+print_r($this->getSthExecuteNamed($mold));
+echo '</pre>';
+exit;
 
 		// execute
 		$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteNamed($mold));
@@ -133,22 +151,18 @@ class Model extends Config
 		$statement = array();
 		$statement[] = 'delete from';
 		$statement[] = $this->getIdentity();
-
-		// where
-		$statementWhere = array();
-		foreach ($properties['where'] as $key => $value) {
-			$statementWhere[] = ($statementWhere ? 'and' : 'where');
-			$statementWhere[] = $key . ' = :' . $key;
+		if (array_key_exists('where', $properties)) {
+			$statement[] = $this->getSqlWhere($properties['where']);
 		}
-		$statement[] = implode(' ', $statementWhere);
-		$statement = implode(' ', $statement);
 
 		// prepare
-		$sth = $this->database->dbh->prepare($statement);
+		$sth = $this->database->dbh->prepare(implode(' ', $statement));
 
 		// bind
-		foreach ($properties['where'] as $key => $value) {
-			$this->bindValue($sth, $key, $value);
+		if (array_key_exists('where', $properties)) {
+			foreach ($properties['where'] as $key => $value) {
+				$this->bindValue($sth, 'where_' . $key, $value);
+			}
 		}
 
 		// execute
@@ -259,9 +273,9 @@ class Model extends Config
 	public function getSqlWhere($where = array())
 	{
 		$statement = array();
-		$statement[] = 'where 1 = 1';
 		foreach ($where as $key => $value) {
-			$statement[] = 'and ' . $key . ' = :' . $key;
+			$statement[] = ($statement ? 'and' : 'where');
+			$statement[] = $key . ' = :where_' . $key;
 		}
 		return implode(' ', $statement);
 	}

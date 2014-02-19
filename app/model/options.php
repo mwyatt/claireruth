@@ -51,16 +51,4 @@ class Model_Options extends Model
 		}			
 		return $this->setData($rows);
 	}
-
-
-	public function update($mold)
-	{
-		# code...
-	}
-
-
-	public function delete($properties = array())
-	{
-		# code...
-	}
 }

@@ -16,13 +16,13 @@ class Test extends Config
 		// $model->read();
 		$model = new model_content_meta($this->database, $this->config);
 		$mold = new mold_content_meta();
-		$mold->content_id = 10;
+		$mold->content_id = 99;
 		$mold->name = 'test';
-		$mold->value = 20;
-		var_dump($model->update(array(
+		$mold->value = 99;
+		var_dump($model->update($mold, array(
 			'where' => array(
-				'content_id' => 10,
-				'name' => 'test'
+				'content_id' => 3,
+				'name' => 'tag'
 			)
 		)));
 
