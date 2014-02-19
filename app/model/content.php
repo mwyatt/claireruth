@@ -37,8 +37,6 @@ class Model_Content extends Model
 	);
 
 
-
-
 	/**
 	 * @param  array  $properties type, limit, ids
 	 * @return bool             
@@ -75,40 +73,6 @@ class Model_Content extends Model
 		// execute
 		$this->tryExecute(__METHOD__, $sth);
 		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
-	}
-
-
-	/**
-	 * uses the passes properties to build named prepared statement
-	 * @param  object $mold 
-	 * @return int       
-	 */
-	public function update($mold)
-	{
-
-		// statement
-		$statement = array();
-		$statement[] = 'update';
-		$statement[] = $this->getIdentity();
-		$statement[] = 'set';
-		$named = array();
-		foreach ($mold as $key => $value) {
-			if (! $value || in_array($key, $this->fieldsNonWriteable)) {
-				continue;
-			}
-			$named[] = $key . ' = :' . $key;
-		}
-		$statement[] = implode(', ', $named);
-		$statement[] = 'where id = :id';
-
-		// prepare
-		$sth = $this->database->dbh->prepare(implode(' ', $statement));
-
-		// execute
-		$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteNamed($mold));
-
-		// return
-        return $sth->rowCount();
 	}
 
 

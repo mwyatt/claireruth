@@ -21,6 +21,12 @@ class Model extends Config
 		, 'value'
 	);
 
+
+	/**
+	 * used to reduce fields to writable ones
+	 * for update, create
+	 * @var array
+	 */
 	public $fieldsNonWriteable = array(
 		'id'
 	);
@@ -81,26 +87,72 @@ class Model extends Config
 	}
 
 
+	/**
+	 * uses the passes properties to build named prepared statement
+	 * @param  object $mold 
+	 * @return int       
+	 */
 	public function update($mold)
 	{
-		# code...
+
+		// statement
+		$statement = array();
+		$statement[] = 'update';
+		$statement[] = $this->getIdentity();
+		$statement[] = 'set';
+		$named = array();
+		foreach ($mold as $key => $value) {
+			if (! $value || in_array($key, $this->fieldsNonWriteable)) {
+				continue;
+			}
+			$named[] = $key . ' = :' . $key;
+		}
+		$statement[] = implode(', ', $named);
+		$statement[] = 'where id = :id';
+
+		// prepare
+		$sth = $this->database->dbh->prepare(implode(' ', $statement));
+
+		// execute
+		$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteNamed($mold));
+
+		// return
+        return $sth->rowCount();
 	}
 
 
 	/**
-	 * @param  array  $ids 
-	 * @return bool      
+	 * uses where property to build delete statement
+	 * @param  array  $properties 
+	 * @return int             
 	 */
-	public function delete($ids = array())
+	public function delete($properties = array())
 	{
-		$sth = $this->database->dbh->prepare('
-			delete from ' . $this->getIdentity() . ' 
-			where id = :id
-		');
-		foreach ($ids as $id) {
-			$sth->bindValue(':id', $id);
-			$this->tryExecute(__METHOD__, $sth);
+
+		// build
+		$statement = array();
+		$statement[] = 'delete from';
+		$statement[] = $this->getIdentity();
+
+		// where
+		$statementWhere = array();
+		foreach ($properties['where'] as $key => $value) {
+			$statementWhere[] = ($statementWhere ? 'and' : 'where');
+			$statementWhere[] = $key . ' = :' . $key;
 		}
+		$statement[] = implode(' ', $statementWhere);
+		$statement = implode(' ', $statement);
+
+		// prepare
+		$sth = $this->database->dbh->prepare($statement);
+
+		// bind
+		foreach ($properties['where'] as $key => $value) {
+			$this->bindValue($sth, $key, $value);
+		}
+
+		// execute
+		$this->tryExecute(__METHOD__, $sth);
 		return $sth->rowCount();
 	}
 

@@ -22,21 +22,8 @@ $config
 	->setObject($error);
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
-
-
-
-$mold = new mold_content($database, $config);
-$mold->id = 151;
-$mold->title = 'test5';
-$mold->html = 'html5';
-$model = new model_content($database, $config);
-$model->update($mold);
-$model->read();
-echo '<pre>';
-print_r($model->getData());
-echo '</pre>';
-exit;
-
+$test = new test($database, $config);
+$test->run();
 $initialController = new controller();
 $initialController->view = new View($database, $config);
 $controller = new controller($initialController, $database, $config);
