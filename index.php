@@ -1,16 +1,26 @@
 <?php
 
 /**
- * @package	claireruth
+ * @package	~unknown~
  * @author 	Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
 session_start();
+
+
+/**
+ * config, autoloader
+ */
 define('BASE_PATH', (string) (__DIR__ . '/'));
 require_once(BASE_PATH . 'config.php');
 require_once(BASE_PATH . 'app/class/autoloader.php');
 spl_autoload_register(array('Autoloader', 'load'));
+
+
+/**
+ * core objects
+ */
 $error = new error($errorReporting);
 $database = new database($credentials);
 $options = new model_options($database);
@@ -22,21 +32,19 @@ $config
 	->setObject($error);
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
-$test = new test($database, $config);
-$test->run();
+
+/**
+ * unit tests
+ */
+// $test = new test($database, $config);
+// $test->run();
+
+/**
+ * controller
+ * @var controller
+ */
 $initialController = new controller();
 $initialController->view = new View($database, $config);
 $controller = new controller($initialController, $database, $config);
 $controller->loadClass();
 exit;
-
-
-// $content = new model_content($database, $config);
-// $content->read(array('type' => 'post'));
-// $media = new model_media($database, $config);
-// $media->readContentId($content->getDataIds());
-// $content->combine(array('media' => $media));
-// echo '<pre>';
-// print_r($content);
-// echo '</pre>';
-// exit;

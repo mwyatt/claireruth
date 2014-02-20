@@ -124,15 +124,12 @@ class Model extends Config
 				$this->bindValue($sth, 'where_' . $key, $value);
 			}
 		}
-
-echo '<pre>';
-print_r($sth);
-print_r($this->getSthExecuteNamed($mold));
-echo '</pre>';
-exit;
+		foreach ($this->getSthExecuteNamed($mold) as $key => $value) {
+			$this->bindValue($sth, $key, $value);
+		}
 
 		// execute
-		$this->tryExecute(__METHOD__, $sth, $this->getSthExecuteNamed($mold));
+		$this->tryExecute(__METHOD__, $sth);
 
 		// return
         return $sth->rowCount();

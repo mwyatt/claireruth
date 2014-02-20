@@ -31,72 +31,12 @@ class Model_Media extends Model
 
 
 	/**
-	 * @param  array $molds 
-	 * @return bool       
-	 */
-	public function create($molds = array())
-	{
-        $sth = $this->database->dbh->prepare('
-            insert into ' . $this->getIdentity() . ' (
-            	title
-            	, description
-            	, path
-            	, type
-            	, time_published
-            	, user_id
-        	)
-            values (?, ?, ?, ?, ?, ?)
-        ');
-        foreach ($molds as $mold) {
-			$this->tryExecute(__METHOD__, $sth, array(
-				$mold->title
-				, $mold->description
-				, $mold->path
-				, $mold->type
-	            , time()
-				, $mold->user_id
-	        ));
-        }
-        return $sth->rowCount();
-	}	
-
-
-
-
-
-	/**
-	 * @param  array  $properties (id => ?, array(key => value))
-	 * @return bool             
-	 */
-	public function update($id, $mold)
-	{
-		$sth = $this->database->dbh->prepare('
-			update ' . $this->getIdentity() . ' set
-				title = ?
-				, description = ?
-				, path = ?
-				, type = ?
-				, user_id = ?
-			where id = ?
-		'); 
-		$this->tryExecute(__METHOD__, $sth, array(
-			$mold->title
-			, $mold->description
-			, $mold->path
-			, $mold->type
-			, $mold->user_id
-			, $id
-		));
-        return $sth->rowCount();
-	}
-
-
-	/**
 	 * needs testing
+	 * @todo needs completing
 	 * @param  array  $ids 
 	 * @return int      
 	 */
-	public function delete($ids = array())
+	public function deleteFile($filePaths = array())
 	{
 		foreach ($ids as $id) {
 			$filePath = BASE_PATH . $this->getDataFirst('path');
@@ -114,35 +54,35 @@ class Model_Media extends Model
 	 * @param  array  $contentIds 
 	 * @return bool             
 	 */
-	public function readContentId($contentIds = array())
-	{	
-		$sth = $this->database->dbh->prepare("	
-			select
-				media.id
-				, media.title
-				, media.description
-				, concat('$this->dir', media.path) as path
-				, media.type
-				, media.time_published
-				, content_meta.content_id
-				, concat(user.first_name, ' ', user.last_name) as user_full_name
-			from content_meta
-                left join media on media.id = content_meta.value
-				left join user on user.id = media.user_id
-			where content_meta.content_id = :content_id
-                and content_meta.name = 'media'
-		");
-		$results = array();
-		foreach ($contentIds as $contentId) {
-			$this->bindValue($sth, ':content_id', $contentId);
-			$this->tryExecute($sth);
-			$results = $sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Media');
-			foreach ($results as $result) {
-				$parsedResults[] = $result;
-			}
-		}
-		return $this->setData($parsedResults);
-	}	
+	// public function readContentId($contentIds = array())
+	// {	
+	// 	$sth = $this->database->dbh->prepare("	
+	// 		select
+	// 			media.id
+	// 			, media.title
+	// 			, media.description
+	// 			, concat('$this->dir', media.path) as path
+	// 			, media.type
+	// 			, media.time_published
+	// 			, content_meta.content_id
+	// 			, concat(user.first_name, ' ', user.last_name) as user_full_name
+	// 		from content_meta
+ //                left join media on media.id = content_meta.value
+	// 			left join user on user.id = media.user_id
+	// 		where content_meta.content_id = :content_id
+ //                and content_meta.name = 'media'
+	// 	");
+	// 	$results = array();
+	// 	foreach ($contentIds as $contentId) {
+	// 		$this->bindValue($sth, ':content_id', $contentId);
+	// 		$this->tryExecute($sth);
+	// 		$results = $sth->fetchAll(PDO::FETCH_CLASS, 'Mold_Media');
+	// 		foreach ($results as $result) {
+	// 			$parsedResults[] = $result;
+	// 		}
+	// 	}
+	// 	return $this->setData($parsedResults);
+	// }	
 	
 
 	/**

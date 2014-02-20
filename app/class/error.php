@@ -6,7 +6,7 @@
  * PHP version 5
  *
  * @todo build a log file if required and add lines of errors
- * @package	claireruth
+ * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
