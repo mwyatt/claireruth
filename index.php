@@ -30,14 +30,15 @@ $config
 	->setOptions($options->getData())
 	->initiateUrl()
 	->setObject($error);
+$config->log = new model_log($database, $config);
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
 
 /**
  * unit tests
  */
-// $test = new test($database, $config);
-// $test->run();
+$test = new test($database, $config);
+$test->run();
 
 /**
  * controller

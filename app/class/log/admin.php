@@ -10,17 +10,13 @@ class Log extends Config
 {
 
 
-	public static function create($type, $message)
+	public static function create($message, $type)
 	{
+		// $username = $_SESSION['username'];
 		$mold = new mold_log();
 		$mold->message = $message;
-		$mold->type = $type;
+		$mold->type = 'admin';
 		$mold->time = time();
-		echo '<pre>';
-		print_r($this);
-		echo '</pre>';
-		exit;
-		
 		$model = new model_log($this->database, $this->config);
 		$model->create(array($mold));
 	}

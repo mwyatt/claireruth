@@ -13,40 +13,41 @@ class Test extends Config
 
 	public function run()
 	{
-		$this->options();
-		// $model->read();
-		$model = new model_content_meta($this->database, $this->config);
-		$mold = new mold_content_meta();
-		$mold->content_id = 10;
-		$mold->name = 'tester';
-		$mold->value = 600;
-		var_dump($model->delete(array(
-			'where' => array(
-				'content_id' => 10
-			)
-		)));
-		$model->read(array(
-			'where' => array(
-				'content_id' => 10
-			)
-		));
+		$this->logger();
+// 		$this->options();
+// 		// $model->read();
+// 		$model = new model_content_meta($this->database, $this->config);
+// 		$mold = new mold_content_meta();
+// 		$mold->content_id = 10;
+// 		$mold->name = 'tester';
+// 		$mold->value = 600;
+// 		var_dump($model->delete(array(
+// 			'where' => array(
+// 				'content_id' => 10
+// 			)
+// 		)));
+// 		$model->read(array(
+// 			'where' => array(
+// 				'content_id' => 10
+// 			)
+// 		));
 
-echo '<pre>';
-print_r($model->getData());
-echo '</pre>';
-exit;
+// echo '<pre>';
+// print_r($model->getData());
+// echo '</pre>';
+// exit;
 
 
-		var_dump($model->update($mold, array(
-			'where' => array(
-				'content_id' => 10,
-				'name' => 'test'
-			)
-		)));
+// 		var_dump($model->update($mold, array(
+// 			'where' => array(
+// 				'content_id' => 10,
+// 				'name' => 'test'
+// 			)
+// 		)));
 
-		var_dump($model->create(array($mold)));
+// 		var_dump($model->create(array($mold)));
 
-		exit;
+// 		exit;
 	}
 
 	public function options()
@@ -59,5 +60,15 @@ print_r($model->getData());
 echo '</pre>';
 exit;
 		
+	}
+
+
+	public function logger()
+	{
+		echo '<pre>';
+		print_r($this->log->log());
+		echo '</pre>';
+		exit;
+
 	}
 }

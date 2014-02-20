@@ -27,6 +27,13 @@ class Config
 
 
 	/**
+	 * logs messages globally
+	 * @var object
+	 */
+	public $log;
+
+
+	/**
 	 * identifies the the instance of some classes
 	 * for example
 	 * 		$_SESSION[$keyName]
