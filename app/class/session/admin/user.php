@@ -12,13 +12,14 @@ class Session_Admin_User extends Session
 
 
 	/**
-	 * builds the session data
-	 * @param  int $userId 
+	 * stores user id
+	 * @param  object $mold 
+	 * @return null       
 	 */
-	public function login($userId)
+	public function login($mold)
 	{
 		$this->setExpire();
-		$this->setDataKey('id', $userId);
+		$this->setDataKey('id', $mold->id);
 	}
 
 

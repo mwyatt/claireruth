@@ -37,8 +37,8 @@ $sessionHistory->add($config->getUrl('current'));
 /**
  * unit tests
  */
-$test = new test($database, $config);
-$test->run();
+// $test = new test($database, $config);
+// $test->run();
 
 /**
  * controller

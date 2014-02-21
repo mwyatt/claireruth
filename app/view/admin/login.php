@@ -1,10 +1,10 @@
-<?php require_once($this->pathView('admin/_header')); ?>
+<?php require_once($this->pathView('admin/_header')) ?>
 <?php require_once($this->pathView('_logo')) ?>
 
 	<form method="post" action="">
 
 <?php $feedback = $this->get('session_feedback') ?>
-<?php require_once($this->pathView('_feedback')); ?>
+<?php require_once($this->pathView('_feedback')) ?>
 
         <div class="row">
             <label class="mb05" for="login_email">Email Address</label>
@@ -22,4 +22,4 @@
     </form>
 </div>
 
-<?php require_once($this->pathView('admin/_footer')); ?>
+<?php require_once($this->pathView('admin/_footer')) ?>

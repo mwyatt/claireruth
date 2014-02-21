@@ -1,7 +1,7 @@
-<?php require_once($this->pathView('admin/_header')); ?>
+<?php require_once($this->pathView('admin/_header')) ?>
 <?php $media = $this->get('model_media') ?>
 
-<div class="content <?php echo $this->url(2); ?>">
+<div class="content <?php echo $this->url(2) ?>">
 	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
 	<h1>Update <?php echo $this->get('model_media', 'title') ?></h1>
 	<form method="post" enctype="multipart/form-data">
@@ -16,11 +16,11 @@
 
 		<div class="row">	
 			<label class="above" for="form_title">Title</label>
-			<input id="form_title" class="required" type="text" name="title" maxlength="75" value="<?php echo $this->get('model_media', 'title'); ?>" autofocus="autofocus">
+			<input id="form_title" class="required" type="text" name="title" maxlength="75" value="<?php echo $this->get('model_media', 'title') ?>" autofocus="autofocus">
 		</div>			
 		<div class="row">	
 			<label class="above" for="form_description">Description</label>
-			<input id="form_description" class="required" type="text" name="description" maxlength="75" value="<?php echo $this->get('model_media', 'description'); ?>">
+			<input id="form_description" class="required" type="text" name="description" maxlength="75" value="<?php echo $this->get('model_media', 'description') ?>">
 		</div>			
 
 
@@ -32,7 +32,7 @@
 			<div class="tags">
 	
 <?php if ($rowContent['tag'] = $this->get('model_media', 'tag')): ?>
-	<?php include($this->pathView('_content-tags')); ?>
+	<?php include($this->pathView('_content-tags')) ?>
 	<?php foreach ($this->get('model_media', 'tag') as $tag): ?>
 			
 			<input name="tag[]" type="hidden" value="<?php echo $tag['id'] ?>">
@@ -52,4 +52,4 @@
 	</form>
 </div>
 
-<?php require_once($this->pathView('admin/_footer')); ?>
+<?php require_once($this->pathView('admin/_footer')) ?>

@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
- 
+
 class Test extends Config
 {
 
@@ -16,11 +16,13 @@ class Test extends Config
 		$this->logger();
 // 		$this->options();
 // 		// $model->read();
-// 		$model = new model_content_meta($this->database, $this->config);
-// 		$mold = new mold_content_meta();
-// 		$mold->content_id = 10;
-// 		$mold->name = 'tester';
-// 		$mold->value = 600;
+		$model = new model_content_meta($this->database, $this->config);
+		$mold = new mold_content_meta();
+		$mold->content_id = 10;
+		$mold->name = 'tester';
+		$mold->value = 600;
+		$mold2 = $mold;
+		var_dump($model->create(array($mold, $mold2)));
 // 		var_dump($model->delete(array(
 // 			'where' => array(
 // 				'content_id' => 10
@@ -44,10 +46,6 @@ class Test extends Config
 // 				'name' => 'test'
 // 			)
 // 		)));
-
-// 		var_dump($model->create(array($mold)));
-
-// 		exit;
 	}
 
 	public function options()
@@ -65,10 +63,7 @@ exit;
 
 	public function logger()
 	{
-		echo '<pre>';
-		print_r($this->log->log());
-		echo '</pre>';
-		exit;
-
+		$model = new model_log($this->database, $this->config);
+		$model->log('admin', 'hello world');
 	}
 }

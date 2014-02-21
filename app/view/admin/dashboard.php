@@ -1,4 +1,4 @@
-<?php require_once('_header.php'); ?>
+<?php require_once('_header.php') ?>
 
 <!-- <div id="content" class="dashboard">
 
@@ -6,4 +6,4 @@
 
 </div>
  -->
-<?php require_once('_footer.php'); ?>
+<?php require_once('_footer.php') ?>

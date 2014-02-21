@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
 
-<?php require_once($this->pathView() . 'admin/header-resources.php'); ?>
+<?php require_once($this->pathView() . 'admin/header-resources.php') ?>
 
     </head>
     <body>
@@ -15,16 +15,16 @@
 
        	<div class="wrap">
     		<div class="content login clearfix">
-    			<a class="logo" href="<?php echo $this->url(); ?>" title="Open Homepage"><span>4</span></a>
+    			<a class="logo" href="<?php echo $this->url() ?>" title="Open Homepage"><span>4</span></a>
     			<form method="post" name="form_login">
                     <h1>Password recovery</h1>
     				<input type="hidden" name="form_login_recovery" value="true">
 
-<?php echo $this->getFeedback(); ?>
+<?php echo $this->getFeedback() ?>
 
                     <div class="row">
                         <label for="email_address">Email Address</label>
-                        <input id="email_address" type="text" name="email_address" autofocus="autofocus"<?php echo ($this->session->get('form_field', 'email') ? ' value="' . $this->session->getUnset('form_field', 'email') . '"' : ''); ?>>
+                        <input id="email_address" type="text" name="email_address" autofocus="autofocus"<?php echo ($this->session->get('form_field', 'email') ? ' value="' . $this->session->getUnset('form_field', 'email') . '"' : '') ?>>
                     </div>
                     <div class="row">
                         <input type="submit">
@@ -32,8 +32,8 @@
                     </div>
                 </form>
     		</div>
-            <script src="<?php echo $this->url(); ?>js/vendor/jquery-1.8.2.min.js"></script>
-            <script src="<?php echo $this->url(); ?>js/admin/main.js"></script>
+            <script src="<?php echo $this->url() ?>js/vendor/jquery-1.8.2.min.js"></script>
+            <script src="<?php echo $this->url() ?>js/admin/main.js"></script>
     	</div>
     </body>
 </html>

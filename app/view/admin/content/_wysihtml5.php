@@ -38,5 +38,5 @@
 			<a class="button" data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a class="button" data-wysihtml5-dialog-action="cancel">Cancel</a>
 		</div>
 	</div>
-	<textarea id="form_html" name="html"><?php echo $this->get('model_content', 'html'); ?></textarea>
+	<textarea id="form_html" name="html"><?php echo $this->get('model_content', 'html') ?></textarea>
 </div>

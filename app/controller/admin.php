@@ -36,7 +36,7 @@ class Controller_Admin extends Controller
 
 		// common objects
 		$menu = new model_admin_menu($this->database, $this->config);
-		$user = new model_user($this->database, $this->config);
+		$modelUser = new model_user($this->database, $this->config);
 
 		// menu and submenu full structure
 		$menu->read();
@@ -51,38 +51,42 @@ class Controller_Admin extends Controller
 			// remember form field
 			$sessionFormfield->add($_POST, array('login_email', 'login_password'));
 
-			// validate the username and password
-			if ($user->validatePassword($_POST['login_email'], $_POST['login_password'])) {
-				$sessionAdminUser->login($user->getDataFirst('id'));
-				$sessionFeedback->set('Successfully Logged in as ' . $_POST['login_email']);
+			// user exists
+			if (! $modelUser->read(array('where' => array('email' => $_POST['login_email'])))) {
+				$sessionFeedback->set('Email address does not exist');
+				$this->route('admin');
+			}
+
+			// validate password
+			if (! $modelUser->validatePassword($_POST['login_password'])) {
+				$sessionFeedback->set('Password incorrect');
+				$this->route('admin');
+			}
+
+			// the mold
+			$mold = $modelUser->getDataFirst();
+
+			// login
+			$sessionAdminUser->login($mold);
+			$sessionFeedback->set('Successfully Logged in as ' . $mold->email);
 				
-				// send off to captured url if an important one is detected
-				if ($sessionHistory->getCaptureUrl()) {
-					$this->route($sessionHistory->getCaptureUrl());
-				} else {
-					$this->route('admin');
-				}
+			// send off to captured url
+			if ($sessionHistory->getCaptureUrl()) {
+				$this->route($sessionHistory->getCaptureUrl());
 			} else {
-				$sessionFeedback->set('Email Address or password incorrect');
 				$this->route('admin');
 			}
 		}
 
 		// is logged in?
 		if ($sessionAdminUser->isLogged()) {
-			$user->lazyRead("
-				user.id
-				, user.email
-				, user.first_name
-				, user.last_name
-				, concat(user.first_name, ' ', user.last_name) as full_name
-				, user.password
-				, user.time_registered
-				, user.level
-			"
-			, array('id' => $sessionAdminUser->getData('id')));
-			$this->view->setObject('model_user', $user->getDataFirst());
+			echo '<pre>';
+			print_r($sessionAdminUser->getData());
+			echo '</pre>';
+			exit;
 			
+			// $modelUser->read(array('where' => array('id' => )));
+			$this->view->setObject('user', $modelUser->getDataFirst());
 		} else {
 			if ($this->config->getUrl(1)) {
 				$sessionHistory->setCaptureUrl($this->config->getUrl('current'));
@@ -120,7 +124,8 @@ class Controller_Admin extends Controller
 		$modelUser = new model_user($this->database, $this->config);
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 		if (array_key_exists('form_update', $_POST)) {
-			$modelUser->updateById($sessionAdminUser->getData('id'));
+			// $modelUser->updateById($sessionAdminUser->getData('id'));
+			// crypt($_POST['password'])
 			$sessionFeedback->set('Profile successfully updated');
 			$this->route('current');
 		}

@@ -1,7 +1,6 @@
-CREATE TABLE IF NOT EXISTS `log` (
+CREATE TABLE `log_admin_unseen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `message` varchar(8000) NOT NULL,
-  `time` int(12) NOT NULL,
-  `type` varchar(50) NOT NULL,
+  `log_id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

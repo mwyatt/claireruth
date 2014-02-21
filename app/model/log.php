@@ -6,6 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
+
 class Model_Log extends Model
 {	
 
@@ -16,6 +17,9 @@ class Model_Log extends Model
 		, 'time'
 		, 'type'
 	);
+
+
+	public $types = array('admin');
 
 
 	/**
@@ -30,6 +34,33 @@ class Model_Log extends Model
 		$mold->message = $message;
 		$mold->type = $type;
 		$mold->time = time();
-		return $this->create(array($mold));
+		if (! $ids = $this->create(array($mold))) {
+			return;
+		}
+		if ($type == 'admin') {
+			$this->adminUnseen($ids);
+		}
+	}
+
+
+	/**
+	 * generate unseen rows
+	 * @param  array $ids newly created log ids
+	 * @return null      
+	 */
+	public function adminUnseen($logIds)
+	{
+		$modelLogAdminUnseen = new model_log_admin_unseen($this->database, $this->config);
+		$modelUser = new model_user($this->database, $this->config);
+		$moldLogAdminUnseen = new mold_log_admin_unseen();
+		$molds = array();
+		foreach ($logIds as $logId) {
+			foreach ($modelUser->read() as $moldUser) {
+				$moldLogAdminUnseen->log_id = $logId;
+				$moldLogAdminUnseen->user_id = $moldUser->id;
+				$molds[] = $moldLogAdminUnseen;
+			}
+		}
+		$modelLogAdminUnseen->create($molds);
 	}
 }

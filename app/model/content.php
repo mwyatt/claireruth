@@ -17,6 +17,7 @@ class Model_Content extends Model
 	public $fields = array(
 		'id'
 		, 'title'
+		, 'slug'
 		, 'html'
 		, 'type'
 		, 'time_published'
@@ -41,39 +42,43 @@ class Model_Content extends Model
 	 * @param  array  $properties type, limit, ids
 	 * @return bool             
 	 */
-	public function read($properties = array())
-	{
+// 	public function read($properties = array())
+// 	{
 
-		// build
-		$statement = array();
-		$statement[] = $this->getSqlSelect();
-		if (array_key_exists('where', $properties)) {
-			$statement[] = $this->getSqlWhere($properties['where']);
-		}
-		$statement[] = 'order by time_published desc';
-		if (array_key_exists('limit', $properties)) {
-			$statement[] = $this->getSqlLimit($properties['limit']);
-		}
+// 		// build
+// 		$statement = array();
+// 		$statement[] = $this->getSqlSelect();
+// 		if (array_key_exists('where', $properties)) {
+// 			$statement[] = $this->getSqlWhere($properties['where']);
+// 		}
+// 		$statement[] = 'order by time_published desc';
+// 		if (array_key_exists('limit', $properties)) {
+// 			$statement[] = $this->getSqlLimit($properties['limit']);
+// 		}
 
-		// prepare
-		$sth = $this->database->dbh->prepare(implode(' ', $statement));
+// 		// prepare
+// 		$sth = $this->database->dbh->prepare(implode(' ', $statement));
 
-		// bind
-		if (array_key_exists('where', $properties)) {
-			foreach ($properties['where'] as $key => $value) {
-				$this->bindValue($sth, $key, $value);
-			}
-		}
-		if (array_key_exists('limit', $properties)) {
-			foreach ($properties['limit'] as $key => $value) {
-				$sth->bindValue(':' . $key, (int) $value, PDO::PARAM_INT);
-			}
-		}
+// 		// bind
+// 		if (array_key_exists('where', $properties)) {
+// 			foreach ($properties['where'] as $key => $value) {
+// 				$this->bindValue($sth, $key, $value);
+// 			}
+// 		}
+// 		if (array_key_exists('limit', $properties)) {
+// 			foreach ($properties['limit'] as $key => $value) {
+// 				$sth->bindValue(':' . $key, (int) $value, PDO::PARAM_INT);
+// 			}
+// 		}
+// echo '<pre>';
+// print_r($statement);
+// echo '</pre>';
+// exit;
 
-		// execute
-		$this->tryExecute(__METHOD__, $sth);
-		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
-	}
+// 		// execute
+// 		$this->tryExecute(__METHOD__, $sth);
+// 		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
+// 	}
 
 
 	/**

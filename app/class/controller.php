@@ -16,12 +16,6 @@ class Controller extends Config
 
 
 	/**
-	 * @var boolean
-	 */
-	public $debug = 0;
-
-
-	/**
 	 * view object which will allow the controller to move onto the view stage
 	 * @var object
 	 */
@@ -238,10 +232,15 @@ class Controller extends Config
 
 
 	public function index() {
-		$mainContent = new model_content($this->database, $this->config);
-		$mainContent->read('post', array(0, 3));
+		$modelContent = new model_content($this->database, $this->config);
+		$modelContent->read(array(
+			'where' => array(
+				'type' => 'post'
+			),
+			'limit' => array(0, 3)
+		));
 		$this->view
-			->setObject($mainContent)
+			->setObject('contents', $modelContent)
 			->loadTemplate('home');
 	}
 

@@ -34,13 +34,14 @@ class Model extends Config
 
 	/**
 	 * @param  array $molds 
-	 * @return bool       
+	 * @return array 	of insert ids
 	 */
 	public function create($molds = array())
 	{
 
 		// statement
 		$statement = array();
+		$lastInsertIds = array();
 		$statement[] = 'insert into';
 		$statement[] = $this->getIdentity();
 		$statement[] = '(' . $this->getSqlFieldsWriteable() . ')';
@@ -53,10 +54,13 @@ class Model extends Config
 		// execute
         foreach ($molds as $mold) {
 			$this->tryExecute(__METHOD__, $sth, $this->getSthExecutePositional($mold));
+			if ($sth->rowCount()) {
+				$lastInsertIds[] = intval($this->database->dbh->lastInsertId());
+			}
         }
 
 		// return
-        return $sth->rowCount();
+		return $lastInsertIds;
 	}	
 
 
@@ -69,8 +73,19 @@ class Model extends Config
 		if (array_key_exists('where', $properties)) {
 			$statement[] = $this->getSqlWhere($properties['where']);
 		}
+		if (array_key_exists('limit', $properties)) {
+			$statement[] = $this->getSqlLimit($properties['limit']);
+		}
 		$statement = implode(' ', $statement);
 
+		// if ($this->getIdentity() == 'content') {
+		// 	echo '<pre>';
+		// 	print_r($statement);
+		// 	echo '</pre>';
+		// 	exit;
+			
+		// }
+		
 		// prepare
 		$sth = $this->database->dbh->prepare($statement);
 
@@ -78,6 +93,11 @@ class Model extends Config
 		if (array_key_exists('where', $properties)) {
 			foreach ($properties['where'] as $key => $value) {
 				$this->bindValue($sth, 'where_' . $key, $value);
+			}
+		}
+		if (array_key_exists('limit', $properties)) {
+			foreach ($properties['limit'] as $key => $value) {
+				$sth->bindValue(':limit_' . $key, (int) $value, PDO::PARAM_INT);
 			}
 		}
 
@@ -289,7 +309,7 @@ class Model extends Config
 		$limits = array();
 		$statement[] = 'limit';
 		foreach ($limit as $key => $value) {
-			$limits[] = ':' . $key;
+			$limits[] = ':limit_' . $key;
 		}
 		$statement[] = implode(', ', $limits);
 		return implode(' ', $statement);

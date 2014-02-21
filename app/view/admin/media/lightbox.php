@@ -3,6 +3,6 @@
 </div>
 <div class="js-media-refresh layout-media-5-col">
 
-<?php include($this->pathView('admin/_medias')); ?>
+<?php include($this->pathView('admin/_medias')) ?>
 
 </div>

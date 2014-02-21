@@ -6,7 +6,7 @@
 			
 <?php endif ?>
 
-	        <script src="<?php echo $this->url(); ?>asset/admin/main.js?v=1"></script>
+	        <script src="<?php echo $this->url() ?>asset/admin/main.js?v=1"></script>
 		</div>
     </body>
 </html>

@@ -1,9 +1,9 @@
-<?php if ($rowContents): ?>
+<?php if ($contents): ?>
 	
 	<div class="contents clearfix">
 
-	<?php foreach ($rowContents as $rowContent): ?>
-		<?php require($this->pathView('_content')); ?>
+	<?php foreach ($contents as $content): ?>
+		<?php require($this->pathView('_content')) ?>
 	<?php endforeach ?>
 		
 	</div>

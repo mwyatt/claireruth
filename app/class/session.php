@@ -60,6 +60,23 @@ class Session extends Cron
 	}
 
 
+	/**
+	 * excends getdata from parent
+	 * @param  string $key 
+	 * @return any      
+	 */
+	public function getData($key = '')
+	{		
+		if (array_key_exists($key, parent::getData())) {
+			return $this->data[$key];
+		} else {
+			return;
+		}
+		return $this->data;
+	}	
+
+
+
 	public function getDataKey($key)
 	{
 		if (array_key_exists($key, $_SESSION[$this->getIdentity()])) {

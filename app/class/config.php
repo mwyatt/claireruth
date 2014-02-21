@@ -27,13 +27,6 @@ class Config
 
 
 	/**
-	 * logs messages globally
-	 * @var object
-	 */
-	public $log;
-
-
-	/**
 	 * identifies the the instance of some classes
 	 * for example
 	 * 		$_SESSION[$keyName]
@@ -79,7 +72,7 @@ class Config
 	 * ?preview=true will set session to override this
 	 * @var boolean
 	 */
-	public $comingSoon = true;
+	public $comingSoon = false;
 
 
 	/**
@@ -435,48 +428,23 @@ class Config
 	}
 
 
-	/**
-	 * Get data array or by key
-	 * @param  string $key 
-	 * @return value|bool       depending upon success
-	 */
-	public function getData($key = false)
+	public function getData()
 	{		
-		if ($key) {
-			if (array_key_exists($key, $this->data)) {
-				return $this->data[$key];
-			} else {
-				return false;
-			}
-		}
 		return $this->data;
 	}	
 
 
 	/**
-	 * attempts to return the data stored
-	 * returns false on failure
-	 * must be an array to use current
-	 * @todo duplicate array key finding, how to combine?
-	 * @return array|bool 
+	 * retrieves the first row of data, if there is any
+	 * @return object, array, bool       
 	 */
-	public function getDataFirst($key = false)
+	public function getDataFirst()
 	{
-		if ($data = $this->getData()) {
-			if (! is_array($data)) {
-				return false;
-			}
-			if ($key) {
-				$data = current($data);
-				if (array_key_exists($key, $data)) {
-					return $data[$key];
-				} else {
-					return false;
-				}
-			}
-			return current($data);
+		$data = $this->getData();
+		if (! $data) {
+			return;
 		}
-		return false;
+		return reset($data);
 	}
 
 

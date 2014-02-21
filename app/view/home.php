@@ -1,11 +1,10 @@
-<?php require_once('_header.php'); ?>
+<?php include($this->pathView('_header')) ?>
 
 <div class="content home clearfix">
 
-<?php $rowContents = $this->get('model_content') ?>
-<?php include($this->pathView('_contents')); ?>
+<?php include($this->pathView('_contents')) ?>
 
 	<a href="<?php echo $this->url() ?>post/" class="button primary home-all-posts">See All Posts</a>
 </div>
 
-<?php require_once('_footer.php'); ?>
+<?php include($this->pathView('_footer')) ?>

@@ -1,27 +1,19 @@
-<div class="content-<?php echo $rowContent['type']; ?> clearfix<?php echo (array_key_exists('media', $rowContent) ? ' has-thumb' : '') ?>" data-id="<?php echo $rowContent['id']; ?>">
+<div class="content-<?php echo $content->type ?> clearfix<?php echo ($content->media ? ' has-thumb' : '') ?>" data-id="<?php echo $content->id ?>">
 
-<?php if (array_key_exists('media', $rowContent)): ?>
-	<?php $media = current($rowContent['media']) ?>
-	<?php if (array_key_exists('thumb', $media)): ?>
-		<?php if (array_key_exists('300', $media['thumb'])): ?>
-		
-	<a href="<?php echo $rowContent['url'] ?>" class="content-thumb">
-		<img src="<?php echo $media['thumb']['300'] ?>" alt="<?php echo $media['title'] ?>">
-	</a>
+<?php if ($content->media): ?>
 
-		<?php endif ?>
-	<?php endif ?>
 <?php endif ?>
 
-	<h2 class="content-<?php echo $rowContent['type']; ?>-title h2 mt0"><a href="<?php echo $rowContent['url'] ?>" class="content-<?php echo $rowContent['type'] ?>-link"><?php echo $rowContent['title']; ?></a></h2>
-	<div class="content-<?php echo $rowContent['type']; ?>-html">
+	<h2 class="content-<?php echo $content->type ?>-title h2 mt0"><a href="<?php echo $this->buildUrl(array($content->type, $content->title)) ?>" class="content-<?php echo $content->type ?>-link"><?php echo $content->title ?></a></h2>
+	<div class="content-<?php echo $content->type ?>-html">
 
-<?php echo $rowContent['html']; ?>
+<?php echo $content->html ?>
 
 	</div>
-	<span class="content-<?php echo $rowContent['type']; ?>-date" title="<?php echo date('jS', $rowContent['time_published']) . ' of ' . date('F o', $rowContent['time_published']); ?>"><?php echo date('jS F', $rowContent['time_published']); ?></span>
+	<span class="content-<?php echo $content->type ?>-date" title="<?php echo date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?>"><?php echo date('jS F', $content->time_published) ?></span>
 
-<?php include($this->pathView('_content-tags')); ?>
+<?php $tags = $content->tags ?>
+<?php include($this->pathView('_tags')) ?>
 
-	<span class="content-<?php echo $rowContent['type']; ?>-author"><?php echo $rowContent['user_name']; ?></span>
+	<span class="content-<?php echo $content->type ?>-author"><?php // echo $content->user_name ?></span>
 </div>

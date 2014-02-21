@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
 
-<?php require_once($this->pathView() . 'admin/header-resources.php'); ?>
+<?php require_once($this->pathView() . 'admin/header-resources.php') ?>
 
     </head>
     <body>
@@ -18,7 +18,7 @@
     			<form method="post">
     				<input type="hidden" name="form_login_reset" value="true">
 
-<?php echo $this->getFeedback(); ?>
+<?php echo $this->getFeedback() ?>
 
                     <div class="row">
                         <label for="password">New password</label>
@@ -30,8 +30,8 @@
                     </div>
                 </form>
     		</div>
-            <script src="<?php echo $this->url(); ?>js/vendor/jquery-1.8.2.min.js"></script>
-            <script src="<?php echo $this->url(); ?>js/admin/main.js"></script>
+            <script src="<?php echo $this->url() ?>js/vendor/jquery-1.8.2.min.js"></script>
+            <script src="<?php echo $this->url() ?>js/admin/main.js"></script>
     	</div>
     </body>
 </html>
