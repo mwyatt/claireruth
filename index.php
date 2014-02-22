@@ -7,7 +7,12 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
 session_start();
-
+if (array_key_exists('session', $_GET)) {
+	if ($_GET['session'] == 'destroy') {
+		session_destroy();
+		exit;
+	}
+}
 
 /**
  * config, autoloader
@@ -31,6 +36,12 @@ $config
 	->initiateUrl()
 	->setObject($error);
 $config->log = new model_log($database, $config);
+$session = new session($database, $config);
+echo '<pre>';
+print_r($session);
+echo '</pre>';
+exit;
+
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
 

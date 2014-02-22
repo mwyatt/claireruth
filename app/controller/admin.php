@@ -80,10 +80,6 @@ class Controller_Admin extends Controller
 
 		// is logged in?
 		if ($sessionAdminUser->isLogged()) {
-			echo '<pre>';
-			print_r($sessionAdminUser->getData());
-			echo '</pre>';
-			exit;
 			
 			// $modelUser->read(array('where' => array('id' => )));
 			$this->view->setObject('user', $modelUser->getDataFirst());

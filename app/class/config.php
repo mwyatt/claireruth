@@ -402,19 +402,18 @@ class Config
 	{
 		if ($identity) {
 			$this->identity = $identity;
-		} else {
-			$className = get_class($this);
-			$className = explode('_', $className);
-			array_shift($className);
-
-			// hopefully catching classes like 'Session'
-			// and 'Model'
-			if (! $className) {
-				return $this->identity = '';
-			}
-			$className = implode('_', $className);
-			$this->identity = strtolower($className);
+			return $this;
 		}
+		$className = get_class($this);
+		$className = explode('_', $className);
+		array_shift($className);
+
+		// catching classes like 'Session' and 'Model'
+		if (! $className) {
+			return $this->identity = '';
+		}
+		$className = implode('_', $className);
+		$this->identity = strtolower($className);
 		return $this;
 	}
 

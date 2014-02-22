@@ -37,9 +37,13 @@ class Session extends Cron
 	 */
 	public function initialiseData()
 	{
+
+		// rules out 'Session' class
 		if (! $this->getIdentity()) {
 			return $this->setData($_SESSION);
 		}
+
+		// adds a empty session key array
 		if (! array_key_exists($this->getIdentity(), $_SESSION)) {
 			$_SESSION[$this->getIdentity()] = array();
 		}
@@ -74,7 +78,6 @@ class Session extends Cron
 		}
 		return $this->data;
 	}	
-
 
 
 	public function getDataKey($key)
