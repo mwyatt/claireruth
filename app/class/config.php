@@ -116,8 +116,10 @@ class Config
 	 * @return int|string|bool      
 	 */
 	public function getOption($key) {
-		if (array_key_exists($key, $this->options)) {
-			return $this->options[$key];
+		foreach ($this->options as $model) {
+			if ($key == $model->name) {
+				return $model->value;
+			}
 		}
 	}
 

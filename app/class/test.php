@@ -13,6 +13,13 @@ class Test extends Config
 
 	public function run()
 	{
+echo '<pre>';
+var_dump($this->config->getOption('site_title'));
+echo '</pre>';
+exit;
+
+
+
 		$this->logger();
 // 		$this->options();
 // 		// $model->read();

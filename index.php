@@ -14,6 +14,7 @@ if (array_key_exists('session', $_GET)) {
 	}
 }
 
+
 /**
  * config, autoloader
  */
@@ -35,21 +36,21 @@ $config
 	->setOptions($options->getData())
 	->initiateUrl()
 	->setObject($error);
-$config->log = new model_log($database, $config);
-$session = new session($database, $config);
-echo '<pre>';
-print_r($session);
-echo '</pre>';
-exit;
 
+
+/**
+ * store each unique url
+ */
 $sessionHistory = new session_history($database, $config);
 $sessionHistory->add($config->getUrl('current'));
+
 
 /**
  * unit tests
  */
-// $test = new test($database, $config);
-// $test->run();
+$test = new test($database, $config);
+$test->run();
+
 
 /**
  * controller

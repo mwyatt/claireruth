@@ -5,7 +5,7 @@
 
 <?php require_once($this->pathView('_logo')) ?>
 
-		<p class="description"><?php echo $options['site_title'] ?> is close to completion. Please check back soon!</p>
+		<p class="description"><?php echo $this->getOption('site_title') ?> is close to completion. Please check back soon!</p>
 	</div>
 </div>
 

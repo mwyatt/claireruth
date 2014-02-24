@@ -27,23 +27,20 @@ class Session extends Cron
 		// follow through to core constructor
 		parent::__construct($database, $config);
 
-		// initial setup of session data
-		$this->initialiseData();
+		// initial setup of session data only if it has a identity
+		// != 'session'
+		if ($this->getIdentity()) {
+			$this->initialiseData();
+		}
 	}
 
 
 	/**
 	 * initialises the session data into the class data property
+	 * adds a empty session key array
 	 */
 	public function initialiseData()
 	{
-
-		// rules out 'Session' class
-		if (! $this->getIdentity()) {
-			return $this->setData($_SESSION);
-		}
-
-		// adds a empty session key array
 		if (! array_key_exists($this->getIdentity(), $_SESSION)) {
 			$_SESSION[$this->getIdentity()] = array();
 		}
