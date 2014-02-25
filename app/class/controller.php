@@ -62,6 +62,7 @@ class Controller extends Config
 		parent::__construct($database, $config);
 
 		// copy passed controllers view to this new controller
+		// copy url key
 		if ($controller) {
 			$this->view = $controller->view;
 			$this->setUrlKey($controller->getUrlKey());
@@ -70,33 +71,18 @@ class Controller extends Config
 		// first controller needs a blank view
 		if (! $controller) {
 			$this->view = new View($this->database, $this->config);
-			$this->setUrlKey($this->getUrlKey());
-		}
-
-		// debugging
-		if ($this->isDebug($this)) {
-			echo 'constructing controller - ' . $this->getClassName() . '<br>';
-			echo '<hr>';
 		}
 	}
 
 
-	/**
-	 * looks at segments and makes a class name
-	 * e.g. controller_front
-	 * if it exists it creates it and loads the first method
-	 * e.g. post
-	 * it will refer to the current url position..
-	 * @param  object $controller the previous controller
-	 */
 	public function loadClass() {
 		$className = $this->getClassName();
 
 		// debugging
 		if ($this->isDebug($this)) {
-			echo 'url key is ' . $this->getUrlKey() . '<br>';
+			echo 'url key is ' . $this->getUrlKey();
 			echo '<hr>';
-			echo 'loading class - ' . $this->getClassName() . '<br>';
+			echo 'loading class - ' . $this->getClassName();
 			echo '<hr>';
 		}
 
@@ -104,65 +90,69 @@ class Controller extends Config
 		if (! class_exists($className)) {
 			return;
 		}
-
+		$this->initialise();
+		$this->incrementUrlKey();
+		
+		// try to load next class
+		if ($controller->loadClass()) {
+			return true;
+		} else {
+			return $controller->loadMethod();
+		}
 		// instantiate class
 		$controller = new $className($this, $this->database, $this->config);
 
-		// return launched method
-		return $controller->loadMethod();
+
+		// debugging
+		// if ($this->isDebug($this)) {
+		// 	echo 'initialising - ' . $this->getClassName();
+		// 	echo '<hr>';
+		// }
+
+
+		// load method because class failed to load
 	}
 
 
-	/**
-	 * loads up controller method
-	 * 		initialize
-	 * 		methodName || index
-	 */
 	public function loadMethod() {
+
+		// set method name
 		$methodName = $this->config->getUrl($this->getUrlKey());
-
-		// initialise the class if it has this method
-		if (method_exists($this, 'initialise')) {
-			if ($this->isDebug($this)) {
-				echo 'initialising - ' . $this->getClassName() . '<br>';
-				echo '<hr>';
-			}
-			$this->initialise();
-		}
-
+		
 		// check the method is legal
 		if (in_array($methodName, $this->illegalMethods)) {
 			return;
 		}
-
-		// move forwards
-		$this->incrementUrlKey();
 		
-		// 2. next class exists, so skip loading the method
-		if ($this->getUrlKey() && $this->loadClass()) {
-			return;
+		// debugging
+		if ($this->isDebug($this)) {
+			echo 'url key is now - ' . $this->getUrlKey();
+			echo '<hr>';
 		}
 
-		// get new method name
-		$methodName = $this->config->getUrl($this->getUrlKey());
+		// try to launch method
 		if (method_exists($this, $methodName)) {
 
 			// debugging
 			if ($this->isDebug($this)) {
-				echo 'loadingmethod - ' . $this->getClassName() . ' -> ' . $methodName . '<br>';
+				echo 'loadingmethod - ' . $this->getClassName() . ' -> ' . $methodName;
+				echo '<hr>';
 			}
 
 			// launch method
 			return $this->$methodName();
 		}
+
+		// try to launch index
 		if (method_exists($this, 'index')) {
 			
 			// debugging
 			if ($this->isDebug($this)) {
-				echo 'loadingindex - ' . $this->getClassName() . '<br>';
+				echo 'loading index - ' . $this->getClassName();
+				echo '<hr>';
 			}
 
-			// boot index
+			// launch index
 			return $this->index();
 		}
 	}
