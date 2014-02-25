@@ -199,6 +199,15 @@ class Config
 		}		
 		return $this->url;
 	}
+
+
+	public function getUrlCeil()
+	{
+		$url = $this->config->getUrl('path');
+		end($url);
+		$urlKey = key($url);
+		return ($urlKey ? $urlKey : 0);
+	}
 	
 	
 	/**
@@ -214,18 +223,12 @@ class Config
 	 */
 	public function initiateUrl() {
 
-		// server var must be avaliable
-		if (! $_SERVER) {
-			return;
-		}
-
 		// base vars
 		$urlParts = array();
 		$serverHost = $_SERVER['HTTP_HOST'];
 		$serverRequest = $_SERVER['REQUEST_URI'];
 		$serverScript = $_SERVER['SCRIPT_NAME'];
 		$scheme = 'http://';
-		// $schemes = str_replace('p', 's', $scheme);
 
 		// init url
 		$url = $scheme . $serverHost . str_replace('.', '', $serverRequest);
@@ -283,6 +286,10 @@ class Config
 			$url .= $segment . '/';
 		}
 		$urlParts['back'] = $url;
+echo '<pre>';
+print_r($urlParts);
+echo '</pre>';
+exit;
 
 		// set the url
 		$this->setUrl($urlParts);

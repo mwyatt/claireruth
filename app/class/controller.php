@@ -76,41 +76,30 @@ class Controller extends Config
 
 
 	public function loadClass() {
-		$className = $this->getClassName();
-
+		$this->initialise();
+		$nextClassName = $this->getClassName();
+		
 		// debugging
 		if ($this->isDebug($this)) {
 			echo 'url key is ' . $this->getUrlKey();
 			echo '<hr>';
-			echo 'loading class - ' . $this->getClassName();
+			echo 'loading class -> ' . $this->getClassName();
 			echo '<hr>';
 		}
+		if (class_exists($nextClassName)) {
+			$this->incrementUrlKey();
 
-		// validity of class
-		if (! class_exists($className)) {
-			return;
+			// instantiate class
+			$controller = new $nextClassName($this, $this->database, $this->config);
+
+			// try to load next segment
+			if ($this->getUrlCeil() && $controller->loadClass()) {
+				return;
+			}
 		}
-		$this->initialise();
-		$this->incrementUrlKey();
-		
-		// try to load next class
-		if ($controller->loadClass()) {
-			return true;
-		} else {
-			return $controller->loadMethod();
-		}
-		// instantiate class
-		$controller = new $className($this, $this->database, $this->config);
 
-
-		// debugging
-		// if ($this->isDebug($this)) {
-		// 	echo 'initialising - ' . $this->getClassName();
-		// 	echo '<hr>';
-		// }
-
-
-		// load method because class failed to load
+		// load method
+		$controller->loadMethod();
 	}
 
 
@@ -124,18 +113,12 @@ class Controller extends Config
 			return;
 		}
 		
-		// debugging
-		if ($this->isDebug($this)) {
-			echo 'url key is now - ' . $this->getUrlKey();
-			echo '<hr>';
-		}
-
 		// try to launch method
 		if (method_exists($this, $methodName)) {
 
 			// debugging
 			if ($this->isDebug($this)) {
-				echo 'loadingmethod - ' . $this->getClassName() . ' -> ' . $methodName;
+				echo 'loadingmethod -> ' . $this->getClassName() . ' -> ' . $methodName;
 				echo '<hr>';
 			}
 
@@ -148,7 +131,7 @@ class Controller extends Config
 			
 			// debugging
 			if ($this->isDebug($this)) {
-				echo 'loading index - ' . $this->getClassName();
+				echo 'loading index -> ' . $this->getClassName();
 				echo '<hr>';
 			}
 
