@@ -48,16 +48,20 @@ $sessionHistory->add($config->getUrl('current'));
 /**
  * unit tests
  */
-$test = new test($database, $config);
-$test->run();
+// $test = new test($database, $config);
+// $test->run();
 
 
 /**
  * controller
  * @var controller
  */
-$initialController = new controller();
-$initialController->view = new View($database, $config);
-$controller = new controller($initialController, $database, $config);
+$controller = new controller(false, $database, $config);
 $controller->loadClass();
+
+
+/**
+ * core system exit
+ * possibly no need to exit anywhere else?
+ */
 exit;

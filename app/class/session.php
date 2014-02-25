@@ -67,13 +67,13 @@ class Session extends Cron
 	 * @return any      
 	 */
 	public function getData($key = '')
-	{		
+	{	
+		if (! $key) {
+			return $this->data;
+		}
 		if (array_key_exists($key, parent::getData())) {
 			return $this->data[$key];
-		} else {
-			return;
 		}
-		return $this->data;
 	}	
 
 

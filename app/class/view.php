@@ -15,29 +15,10 @@ class View extends Model
 
 
 	/**
-	 * commonly shared keys
-	 * @var array|string|int
-	 */
-	public $id;
-	public $title;
-	public $description;
-	public $time_published;
-	public $user;
-	public $url;
-
-
-	/**
 	 * the name of the template loaded
 	 * @var string
 	 */
 	public $template;
-
-
-	/**
-	 * session information
-	 * @var object
-	 */
-	public $session;
 
 
 	/**
@@ -51,7 +32,6 @@ class View extends Model
 	 * prepare all core objects here and register
 	 */	
 	public function header() {
-		$this->session = new Session($this->database, $this->config);
 		$options = $this->config->getoptions();
 		$this->setMeta(array(
 			'title' => (array_key_exists('meta_title', $options) ? $options['meta_title'] : ''),
@@ -67,11 +47,8 @@ class View extends Model
 	 * @param  string $templateTitle 
 	 * @return bool                
 	 */
-	public function loadTemplate($templateTitle) {			
+	public function loadTemplate($templateTitle) {
 		$path = $this->pathView($templateTitle);
-
-		// debugging
-		$debugTitles = array();
 
 		// check path is valid
 		if (! file_exists($path)) {
@@ -82,11 +59,12 @@ class View extends Model
 		// prepare common models
 		$this->header();
 
-		// build objects into objects
+		// push variables into global scope
 		$this->buildObjects();
 
 		// build scoped objects
 		// these will be accessible directly in view templates
+		$debugTitles = array();
 		foreach ($this->objects as $title => $object) {
 			$dataStorage = false;
 			$camelTitle = $this->delimiterToCamel($title);
@@ -100,7 +78,7 @@ class View extends Model
 				$dataStorage = $object;
 			}
 
-			// set the data
+			// set the global variable
 			$$camelTitle = $dataStorage;
 
 			// set for debugging
@@ -108,6 +86,8 @@ class View extends Model
 				$debugTitles[$camelTitle] = $dataStorage;
 			}
 		}
+
+		// debugging
 		if ($this->isDebug($this)) {
 			echo '<pre>';
 			echo '<h3>$variables</h3>';
@@ -118,14 +98,21 @@ class View extends Model
 			exit;
 		}
 
-		// correct content type?
+		// content type
+		// @todo make this pull from db?
 		header('Content-type: text/html; charset=utf-8'); 
 		
-		// presentation
+		// start buffer
 		ob_start();	
+
+		// include template
 		require_once($path);
-		ob_end_flush();	
-		exit;
+
+		// store previous output + new output
+		$this->setData($this->getData() . ob_get_contents());
+
+		// flush buffer
+		ob_end_flush();
 	}
 
 
