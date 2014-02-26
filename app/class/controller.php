@@ -81,50 +81,47 @@ class Controller extends Config
 	 */
 	public function loadClass() {
 
-		// initialise each class
-		$this->initialise();
-		
-		// debugging
-		if ($this->isDebug($this)) {
-			echo 'initialised class -> ' . $this->getClassName();
-			echo '<hr>';
-			echo 'loading class -> ' . $this->getClassName();
-			echo '<hr>';
-		}
-
 		// does the next class exist?
-		if (! class_exists($nextClassName = $this->getClassName())) {
+		if (! class_exists($className = $this->getClassName())) {
 	
 			// debugging
 			if ($this->isDebug($this)) {
-				echo 'class -> ' . $this->getClassName() . ' does not exist';
+				echo 'controller -> ' . $this->getClassName() . ' does not exist';
 				echo '<hr>';
 			}
 			return;
 		}
 
+		// instantiate class
+		$controller = new $className($this, $this->database, $this->config);
+
+		// initialise each class
+		$controller->initialise();
+		
+		// debugging
+		if ($this->isDebug($this)) {
+			echo 'initialised -> ' . $controller->getClassName();
+			echo '<hr>';
+		}
 
 		// move pointer forwards
-		$this->incrementUrlKey();
+		$controller->incrementUrlKey();
 
-		// instantiate class
-		$controller = new $nextClassName($this, $this->database, $this->config);
+		// debugging
+		if ($this->isDebug($this)) {
+			echo 'attempting load -> ' . $controller->getClassName();
+			echo '<hr>';
+		}
 
 		// attempt to load next class
 		if ($controller->loadClass()) {
 			return;
 		}
 
-		// debugging
-		if ($this->isDebug($this)) {
-			echo 'next controller load failed -> launching method';
-			echo '<hr>';
-		}
-
 		// load method
 		$this->loadMethod();
 
-		// print view data
+		// print collected view data
 		echo '<pre>';
 		print_r($this->view);
 		echo '</pre>';
@@ -135,16 +132,10 @@ class Controller extends Config
 
 	public function loadMethod() {
 
-		// debugging
-		if ($this->isDebug($this)) {
-			echo 'class load failed, now loading method from -> ' . $this->getClassName();
-			echo '<hr>';
-		}
-
 		// set method name
 		$methodName = $this->config->getUrl($this->getUrlKey());
 
-		// check the method is legal, if not always route home
+		// check the method is legal, if not always route away
 		if (in_array($methodName, $this->illegalMethods)) {
 			$this->route('base');
 		}
@@ -154,7 +145,7 @@ class Controller extends Config
 
 			// debugging
 			if ($this->isDebug($this)) {
-				echo 'loading method -> ' . $this->getClassName() . ' -> ' . $methodName;
+				echo 'method -> ' . $methodName;
 				echo '<hr>';
 			}
 
@@ -167,7 +158,7 @@ class Controller extends Config
 			
 			// debugging
 			if ($this->isDebug($this)) {
-				echo 'loading index -> ' . $this->getClassName();
+				echo 'method -> index';
 				echo '<hr>';
 			}
 
@@ -197,22 +188,18 @@ class Controller extends Config
 	/**
 	 * gets the class_name_like_this from iterating over
 	 * the url segments
-	 * @return string 
+	 * @return bool|string
 	 */
 	public function getClassName()
 	{
-		$className = 'controller_';
+		$classWords = array('controller');
 		for ($index = 0; $index <= $this->getUrlKey(); $index++) { 
-			$urlSegment = $this->config->getUrl($index);
-
-			// if second class and segment does not exist,
-			// create false class name
-			if ($index && ! $urlSegment) {
-				$urlSegment = 'end';
+			if (! $urlSegment = $this->config->getUrl($index)) {
+				return;
 			}
-			$className .= $urlSegment . '_';
+			$classWords[] = $urlSegment;
 		}
-		return $className = rtrim($className, '_');
+		return implode('_', $classWords);
 	}
 
 

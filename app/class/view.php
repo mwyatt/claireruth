@@ -27,6 +27,13 @@ class View extends Model
 	 */
 	public $meta = array();
 	
+
+	/**
+	 * stores output html, can be combined when loading multiple templates
+	 * @var string
+	 */
+	public $data = '';
+
 	
 	/**
 	 * prepare all core objects here and register
@@ -60,45 +67,14 @@ class View extends Model
 		$this->header();
 
 		// push variables into data variable
-		$this->convertObjectsToData();
-
-
-exit;
-
-		// build scoped objects
-		// these will be accessible directly in view templates
-		$debugTitles = array();
-		foreach ($this->objects as $title => $object) {
-			$dataStorage = false;
-			$camelTitle = $this->delimiterToCamel($title);
-
-			// is a model with data property
-			if (is_object($object) && property_exists($object, 'data')) {
-				$dataStorage = $object->getData();
-
-			// is an array or variable
-			} else {
-				$dataStorage = $object;
-			}
-
-			// set the global variable
-			$$camelTitle = $dataStorage;
-
-			// set for debugging
-			if ($this->isDebug($this)) {
-				$debugTitles[$camelTitle] = $dataStorage;
-			}
-		}
+		extract($this->convertObjectsToData());
 
 		// debugging
 		if ($this->isDebug($this)) {
 			echo '<pre>';
-			echo '<h3>$variables</h3>';
-			print_r($debugTitles);
-			echo '<h3>this->data</h3>';
 			print_r($this->data);
 			echo '</pre>';
-			exit;
+			echo '<hr>';
 		}
 		
 		// start buffer
@@ -119,27 +95,30 @@ exit;
 	 * will create an array within data of all pushed data
 	 * will always be set, false if no data present
 	 * must be a model | array or variable
+	 * converts keys to camelcase
 	 */
 	public function convertObjectsToData()
 	{
-		$newObjects = array();
+		$convertedObjects = array();
 		foreach ($this->objects as $title => $object) {
+			$camelTitle = $this->delimiterToCamel($title);
 
 			// array / variable
 			if (! is_object($object)) {
-				$this->objects[$title] = $object;
+				$convertedObjects[$camelTitle] = $object;
 				continue;
 			}
 
 			// empty object
 			if (! $object->getData()) {
-				$this->objects[$title] = false;
+				$convertedObjects[$camelTitle] = false;
 				continue;
 			}
 
 			// object->data
-			$this->objects[$title] = $object->getData();
+			$convertedObjects[$camelTitle] = $object->getData();
 		}
+		return $convertedObjects;
 	}
 	
 	

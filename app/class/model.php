@@ -78,14 +78,6 @@ class Model extends Config
 		}
 		$statement = implode(' ', $statement);
 
-		// if ($this->getIdentity() == 'content') {
-		// 	echo '<pre>';
-		// 	print_r($statement);
-		// 	echo '</pre>';
-		// 	exit;
-			
-		// }
-		
 		// prepare
 		$sth = $this->database->dbh->prepare($statement);
 

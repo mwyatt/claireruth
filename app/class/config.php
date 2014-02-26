@@ -547,6 +547,9 @@ class Config
 
 	public function isComingSoon()
 	{
+		if (! $this->comingSoon) {
+			return;
+		}
 		$sessionPreview = new session_preview($this->database, $this->config);
 		if (array_key_exists('preview', $_GET)) {
 			$sessionPreview->setData(true);

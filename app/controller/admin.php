@@ -23,11 +23,6 @@ class Controller_Admin extends Controller
 	 */
 	public function initialise() {
 		$viewContent = new view_content($this->database, $this->config);
-		echo '<pre>';
-		print_r($viewContent);
-		echo '</pre>';
-		exit;
-		
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 		$sessionFeedback = new session_feedback($this->database, $this->config);
 		$sessionFormfield = new session_formfield($this->database, $this->config);
