@@ -286,10 +286,6 @@ class Config
 			$url .= $segment . '/';
 		}
 		$urlParts['back'] = $url;
-echo '<pre>';
-print_r($urlParts);
-echo '</pre>';
-exit;
 
 		// set the url
 		$this->setUrl($urlParts);

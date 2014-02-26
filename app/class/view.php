@@ -32,13 +32,18 @@ class View extends Model
 	 * prepare all core objects here and register
 	 */	
 	public function header() {
-		$options = $this->config->getoptions();
+
+		// content type
+		// @todo make this pull from db?
+		header('Content-type: text/html; charset=utf-8'); 
+
+		// fills meta gaps with defaults if left unset
 		$this->setMeta(array(
-			'title' => (array_key_exists('meta_title', $options) ? $options['meta_title'] : ''),
-			'keywords' => (array_key_exists('meta_keywords', $options) ? $options['meta_keywords'] : ''),
-			'description' => (array_key_exists('meta_description', $options) ? $options['meta_description'] : '')
+			'title' => $this->config->getoption('meta_title'),
+			'keywords' => $this->config->getoption('meta_keywords'),
+			'description' => $this->config->getoption('meta_description')
 		));
-		$this->setObject('options', $options);
+		$this->setObject('options', $this->config->getoptions());
 	}
 
 	
@@ -49,18 +54,16 @@ class View extends Model
 	 */
 	public function loadTemplate($templateTitle) {
 		$path = $this->pathView($templateTitle);
-
-		// check path is valid
 		if (! file_exists($path)) {
-			echo 'Template ' . $path . ' does not exist.';
-			exit;
+			return;
 		}
-
-		// prepare common models
 		$this->header();
 
-		// push variables into global scope
-		$this->buildObjects();
+		// push variables into data variable
+		$this->convertObjectsToData();
+
+
+exit;
 
 		// build scoped objects
 		// these will be accessible directly in view templates
@@ -97,10 +100,6 @@ class View extends Model
 			echo '</pre>';
 			exit;
 		}
-
-		// content type
-		// @todo make this pull from db?
-		header('Content-type: text/html; charset=utf-8'); 
 		
 		// start buffer
 		ob_start();	
@@ -119,25 +118,27 @@ class View extends Model
 	/**
 	 * will create an array within data of all pushed data
 	 * will always be set, false if no data present
+	 * must be a model | array or variable
 	 */
-	public function buildObjects()
+	public function convertObjectsToData()
 	{
-
-		// fly through all set objects and setup in $data array
+		$newObjects = array();
 		foreach ($this->objects as $title => $object) {
 
-			// is a model with data property
-			if (is_object($object) && property_exists($object, 'data')) {
-				if ($object->getData()) {
-					$this->data[$title] = $object->getData();
-				} else {
-					$this->data[$title] = false;
-				}
-
-			// is an array or variable
-			} else {
-				$this->data[$title] = $object;
+			// array / variable
+			if (! is_object($object)) {
+				$this->objects[$title] = $object;
+				continue;
 			}
+
+			// empty object
+			if (! $object->getData()) {
+				$this->objects[$title] = false;
+				continue;
+			}
+
+			// object->data
+			$this->objects[$title] = $object->getData();
 		}
 	}
 	

@@ -10,4 +10,8 @@ class View_Content extends View
 {
 
 
+	public function example()
+	{
+		echo "example";
+	}
 } 

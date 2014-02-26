@@ -75,50 +75,86 @@ class Controller extends Config
 	}
 
 
+	/**
+	 * initialises and attempts to load next class
+	 * @return bool 
+	 */
 	public function loadClass() {
+
+		// initialise each class
 		$this->initialise();
-		$nextClassName = $this->getClassName();
 		
 		// debugging
 		if ($this->isDebug($this)) {
-			echo 'url key is ' . $this->getUrlKey();
+			echo 'initialised class -> ' . $this->getClassName();
 			echo '<hr>';
 			echo 'loading class -> ' . $this->getClassName();
 			echo '<hr>';
 		}
-		if (class_exists($nextClassName)) {
-			$this->incrementUrlKey();
 
-			// instantiate class
-			$controller = new $nextClassName($this, $this->database, $this->config);
-
-			// try to load next segment
-			if ($this->getUrlCeil() && $controller->loadClass()) {
-				return;
+		// does the next class exist?
+		if (! class_exists($nextClassName = $this->getClassName())) {
+	
+			// debugging
+			if ($this->isDebug($this)) {
+				echo 'class -> ' . $this->getClassName() . ' does not exist';
+				echo '<hr>';
 			}
+			return;
+		}
+
+
+		// move pointer forwards
+		$this->incrementUrlKey();
+
+		// instantiate class
+		$controller = new $nextClassName($this, $this->database, $this->config);
+
+		// attempt to load next class
+		if ($controller->loadClass()) {
+			return;
+		}
+
+		// debugging
+		if ($this->isDebug($this)) {
+			echo 'next controller load failed -> launching method';
+			echo '<hr>';
 		}
 
 		// load method
-		$controller->loadMethod();
+		$this->loadMethod();
+
+		// print view data
+		echo '<pre>';
+		print_r($this->view);
+		echo '</pre>';
+		exit;
+		
 	}
 
 
 	public function loadMethod() {
 
+		// debugging
+		if ($this->isDebug($this)) {
+			echo 'class load failed, now loading method from -> ' . $this->getClassName();
+			echo '<hr>';
+		}
+
 		// set method name
 		$methodName = $this->config->getUrl($this->getUrlKey());
-		
-		// check the method is legal
+
+		// check the method is legal, if not always route home
 		if (in_array($methodName, $this->illegalMethods)) {
-			return;
+			$this->route('base');
 		}
 		
-		// try to launch method
+		// launch method
 		if (method_exists($this, $methodName)) {
 
 			// debugging
 			if ($this->isDebug($this)) {
-				echo 'loadingmethod -> ' . $this->getClassName() . ' -> ' . $methodName;
+				echo 'loading method -> ' . $this->getClassName() . ' -> ' . $methodName;
 				echo '<hr>';
 			}
 
