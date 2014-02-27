@@ -135,7 +135,7 @@ class Controller_Admin_Content extends Controller
 			}
 			$this->view
 				->setObject('model_content', $content->getDataFirst())
-				->loadTemplate('admin/content/create-update');
+				->getTemplate('admin/content/create-update');
 		}
 
 		// create draft entry and redirect to edit page
@@ -153,7 +153,7 @@ class Controller_Admin_Content extends Controller
 
 
 	public function index() {
-		$this->view->loadTemplate('admin/dashboard');
+		$this->view->getTemplate('admin/dashboard');
 	}
 
 
@@ -167,6 +167,6 @@ class Controller_Admin_Content extends Controller
 		$content->read(array('type' => $this->config->getUrl(2)));
 		$this->view
 			->setObject($content)
-			->loadTemplate('admin/content/list');
+			->getTemplate('admin/content/list');
 	}
 }

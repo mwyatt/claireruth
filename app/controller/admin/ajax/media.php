@@ -23,7 +23,7 @@ class Controller_Admin_Ajax_Media extends Controller
 		$modelMedia->read();
 		$this->view
 			->setObject('medias', $modelMedia)
-			->loadTemplate('admin/_medias');
+			->getTemplate('admin/_medias');
 	}
 
 
@@ -37,7 +37,7 @@ class Controller_Admin_Ajax_Media extends Controller
 		$this
 			->view
 			->setObject($modelMedia)
-			->loadTemplate('admin/media/return');
+			->getTemplate('admin/media/return');
 	}
 
 
@@ -49,7 +49,7 @@ class Controller_Admin_Ajax_Media extends Controller
 		$modelMedia->read();
 		$this->view
 			->setObject('medias', $modelMedia)
-			->loadTemplate('admin/media/lightbox');
+			->getTemplate('admin/media/lightbox');
 	}
 
 

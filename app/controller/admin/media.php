@@ -41,7 +41,7 @@ class Controller_Admin_Media extends Controller
 			if ($modelMedia->readById(array($_GET['edit']))) {
 				$this->view
 					->setObject('model_media', $modelMedia->getDataFirst())
-					->loadTemplate('admin/media/update');
+					->getTemplate('admin/media/update');
 			} else {
 				$this->route('current_noquery');
 			}
@@ -65,6 +65,6 @@ class Controller_Admin_Media extends Controller
 		$modelMedia->read();
 		$this->view
 			->setObject($modelMedia)
-			->loadTemplate('admin/media/list');
+			->getTemplate('admin/media/list');
 	}
 }

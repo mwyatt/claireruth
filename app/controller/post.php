@@ -24,7 +24,7 @@ class Controller_Post extends Controller
 					'slug' => $this->config->getUrl(1)
 				)
 			))) {
-				$this->route('404');
+				$this->route('base');
 			}
 			$molds = $modelContent->getData();
 			$mold = reset($molds);
@@ -33,7 +33,7 @@ class Controller_Post extends Controller
 					'title' => $mold->title
 				))
 				->setObject('contents', $modelContent)
-				->loadTemplate('content-single');
+				->getTemplate('content-single');
 		}
 
 		// all
@@ -52,7 +52,7 @@ class Controller_Post extends Controller
 			->setObject('first_content', current($firstContent))
 			->setObject($pagination)
 			->setObject('contents', $modelContent)
-			->loadTemplate('content');
+			->getTemplate('content');
 
 		// $tag = new model_tag($this->database, $this->config);
 		// $modelContent->readByMonth();

@@ -422,4 +422,17 @@ class Model extends Config
 	{
 		return 'mold_' . $this->getIdentity();
 	}
+	
+
+	/**
+	 * currently a copy of the config method, but needs to go
+	 * through the config?
+	 * @param  string $key 
+	 * @return any
+	 */
+	public function getOption($key) {
+		if (array_key_exists($key, $this->config->options)) {
+			return $this->config->options[$key];
+		}
+	}
 }

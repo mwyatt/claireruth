@@ -35,36 +35,38 @@ class View extends Model
 	public $data = '';
 
 	
-	/**
-	 * prepare all core objects here and register
-	 */	
-	public function header() {
+	public function setMetaDefaults()
+	{
+		$this->setMeta(array(
+			'title' => $this->config->getOption('meta_title'),
+			'keywords' => $this->config->getOption('meta_keywords'),
+			'description' => $this->config->getOption('meta_description')
+		));
+	}
 
-		// content type
-		// @todo make this pull from db?
+
+	public function render()
+	{
+
+		// default header
 		header('Content-type: text/html; charset=utf-8'); 
 
-		// fills meta gaps with defaults if left unset
-		$this->setMeta(array(
-			'title' => $this->config->getoption('meta_title'),
-			'keywords' => $this->config->getoption('meta_keywords'),
-			'description' => $this->config->getoption('meta_description')
-		));
-		$this->setObject('options', $this->config->getoptions());
+		// output
+		echo $this->getData();
 	}
 
 	
 	/**
 	 * load template file and prepare all objects for output
 	 * @param  string $templateTitle 
-	 * @return bool                
 	 */
-	public function loadTemplate($templateTitle) {
+	public function getTemplate($templateTitle) {
 		$path = $this->pathView($templateTitle);
 		if (! file_exists($path)) {
 			return;
 		}
-		$this->header();
+		$this->setMetaDefaults();
+		$this->setObject('options', $this->config->getoptions());
 
 		// push variables into data variable
 		extract($this->convertObjectsToData());
@@ -72,22 +74,27 @@ class View extends Model
 		// debugging
 		if ($this->isDebug($this)) {
 			echo '<pre>';
-			print_r($this->data);
+			print_r($this->convertObjectsToData());
 			echo '</pre>';
 			echo '<hr>';
+			exit;
 		}
 		
-		// start buffer
-		ob_start();	
+		// start output buffer
+		ob_start();
 
-		// include template
-		require_once($path);
+		// render template using extracted variables
+		include($path);
+		$content = ob_get_contents();
 
-		// store previous output + new output
-		$this->setData($this->getData() . ob_get_contents());
+		// destroy output buffer
+		ob_end_clean();
 
-		// flush buffer
-		ob_end_flush();
+		// add this data to existing
+		$this->setData($this->getData() . $content);
+
+		// return just loaded template result
+		return $content;
 	}
 
 
@@ -109,14 +116,22 @@ class View extends Model
 				continue;
 			}
 
-			// empty object
-			if (! $object->getData()) {
-				$convertedObjects[$camelTitle] = false;
+			// must be a model
+			if (method_exists($object, 'getData')) {
+
+				// empty model
+				if (! $object->getData()) {
+					$convertedObjects[$camelTitle] = false;
+					continue;
+				}
+
+				// filled model
+				$convertedObjects[$camelTitle] = $object->getData();
 				continue;
 			}
 
-			// object->data
-			$convertedObjects[$camelTitle] = $object->getData();
+			// mold
+			$convertedObjects[$camelTitle] = $object;
 		}
 		return $convertedObjects;
 	}

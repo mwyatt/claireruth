@@ -15,4 +15,14 @@ class Model_Options extends Model
 		, 'name'
 		, 'value'
 	);
+
+
+	public function arrangeByName()
+	{
+		$models = array();
+		foreach ($this->getData() as $model) {
+			$models[$model->name] = $model->value;
+		}
+		return $this->setData($models);
+	}
 }

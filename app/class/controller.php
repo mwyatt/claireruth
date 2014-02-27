@@ -119,14 +119,16 @@ class Controller extends Config
 		}
 
 		// load method
-		$this->loadMethod();
+		$controller->loadMethod();
 
-		// print collected view data
-		echo '<pre>';
-		print_r($this->view);
-		echo '</pre>';
-		exit;
-		
+		// render
+		if (! $controller->view->getData()) {
+			$controller->route('base');
+		}
+		$controller->view->render();
+
+		// successfull load of final controller
+		return true;
 	}
 
 
@@ -238,7 +240,7 @@ class Controller extends Config
 			if ($this->config->getUrl(0)) {
 				$this->route('base');
 			}
-			$this->view->loadTemplate('coming-soon');
+			$this->view->getTemplate('coming-soon');
 		}
 		if (array_key_exists('search', $_GET)) {
 			$this->search($_GET['search']);
@@ -256,7 +258,7 @@ class Controller extends Config
 		));
 		$this->view
 			->setObject('contents', $modelContent)
-			->loadTemplate('home');
+			->getTemplate('home');
 	}
 
 
@@ -270,7 +272,7 @@ class Controller extends Config
 		$this->view
 			->setObject('search_query', $query)
 			->setObject($search)
-			->loadTemplate('search');
+			->getTemplate('search');
 	}
 
 
@@ -278,14 +280,14 @@ class Controller extends Config
 		if ($this->config->getUrl(1)) {
 			$page = new model_content($this->database, $this->config);
 			if (! $page->readByTitle(array($this->config->getUrl(1)))) {
-				$this->view->loadTemplate('404');
+				$this->view->getTemplate('404');
 			}
 			$this->view
 				->setMeta(array(		
 					'title' => $page->getData('title')
 				))
 				->setObject($page)
-				->loadTemplate('content-single');
+				->getTemplate('content-single');
 		}
 		$this->route('base');
 	}

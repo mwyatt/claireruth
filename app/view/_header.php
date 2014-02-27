@@ -19,7 +19,7 @@
         <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
-<?php if (! $this->comingSoon): ?>
+<?php if (! $this->isComingSoon()): ?>
     
     <a href="#" class="to-top"><span class="icon"></span>Top</a>
     <div class="wrap">
@@ -29,7 +29,7 @@
                 <span class="propos-flower"><img src="<?php echo $this->url() ?>media/sprite/flower.png" alt="Flower"></span>
             </a>
 
-    <?php require_once($this->pathView('_logo')) ?>
+    <?php require($this->pathView('_logo')) ?>
 
             <form class="search" method="get">
                 <label for="search-text" class="label">Search</label>

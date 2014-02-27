@@ -87,7 +87,7 @@ class Controller_Ajax extends Controller
 		// view
 		$this->view
 			->setObject($contentMeta)
-			->loadTemplate('_love');
+			->getTemplate('_love');
 	}
 
 

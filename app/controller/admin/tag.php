@@ -41,7 +41,7 @@ class Controller_Admin_Tag extends Controller
 			if ($modelTag->readById(array($_GET['edit']))) {
 				$this->view
 					->setObject('tag', $modelTag->getDataFirst())
-					->loadTemplate('admin/tag/update');
+					->getTemplate('admin/tag/update');
 			} else {
 				$this->route('current_noquery');
 			}
@@ -65,6 +65,6 @@ class Controller_Admin_Tag extends Controller
 		$modelTag->read();
 		$this->view
 			->setObject($modelTag)
-			->loadTemplate('admin/tag/list');
+			->getTemplate('admin/tag/list');
 	}
 }

@@ -23,7 +23,7 @@ class Controller_Admin_Ajax_Tag extends Controller
 		$modelTag->readUniqueLike();
 		$this->view
 			->setObject('tags', $modelTag)
-			->loadTemplate('admin/_tags');
+			->getTemplate('admin/_tags');
 	}
 
 
@@ -35,7 +35,7 @@ class Controller_Admin_Ajax_Tag extends Controller
 		$modelTag->readUniqueLike($_GET['query']);
 		$this->view
 			->setObject('tags', $modelTag)
-			->loadTemplate('admin/_tags');
+			->getTemplate('admin/_tags');
 	}
 
 
@@ -53,6 +53,6 @@ class Controller_Admin_Ajax_Tag extends Controller
 		$modelTag->read($_GET['title']);
 		$this->view
 			->setObject('tags', $modelTag)
-			->loadTemplate('admin/_tags');
+			->getTemplate('admin/_tags');
 	}
 }

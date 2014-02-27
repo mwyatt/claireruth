@@ -88,7 +88,7 @@ class Controller_Admin extends Controller
 			if ($this->config->getUrl(1)) {
 				$sessionHistory->setCaptureUrl($this->config->getUrl('current'));
 			}
-			$this->view->loadTemplate('admin/login');
+			$this->view->getTemplate('admin/login');
 		}
 	}
 
@@ -127,6 +127,6 @@ class Controller_Admin extends Controller
 			$this->route('current');
 		}
 		$this->view
-			->loadTemplate('admin/profile');
+			->getTemplate('admin/profile');
 	}
 }

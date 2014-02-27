@@ -33,6 +33,6 @@ class Controller_Month extends Controller
 			))
 			->setObject('month_year', $monthYear)
 			->setObject($content)
-			->loadTemplate('content-month');
+			->getTemplate('content-month');
 	}
 }

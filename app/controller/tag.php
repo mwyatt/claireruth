@@ -21,19 +21,19 @@ class Controller_Tag extends Controller
 		$modelContentMeta = new model_content_meta($this->database, $this->config);
 		$modelTagName = str_replace('-', ' ', $this->config->getUrl(1));
 		if (! $modelTag->getDataFirst($modelTagName)) {
-			$this->view->loadTemplate('404');
+			$this->view->getTemplate('404');
 		}
 		$this->view->setObject('single_tag', $modelTag);
 
 		// gets content meta using the id of the tag found
 		if (! $modelContentMeta->readByValue('tag', $modelTag->getData('id'))) {
-			$this->view->loadTemplate('404');
+			$this->view->getTemplate('404');
 		}
 
 		// get content data
 		$content = new model_content($this->database, $this->config);
 		if (! $content->read('post', false, $modelContentMeta->getData())) {
-			$this->view->loadTemplate('404');
+			$this->view->getTemplate('404');
 		}
 
 		// build friendly tag name
@@ -49,6 +49,6 @@ class Controller_Tag extends Controller
 			->setObject('tag_name', $tagName)
 			->setObject($content)
 			->setObject('content_first', $content->getDataFirst())
-			->loadTemplate('content-tag');
+			->getTemplate('content-tag');
 	}
 }
