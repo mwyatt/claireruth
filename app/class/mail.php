@@ -1,10 +1,6 @@
 <?php
 
 /**
- * Send Out Mail
- *
- * PHP version 5
- * 
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -62,22 +58,19 @@ class Mail extends View
 	 */	
 	public function setHeaders()
 	{
-		// $headers = 'From: ' . $this->fromAddress;
-		// $headers .= 'Reply-To: ' . $this->fromAddress . "\n";
-		// $headers .= 'X-Mailer: PHP/' . phpversion() . "\n";
-		// $headers .= 'MIME-Version: 1.0' . "\n";
-		// $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\n";
+		$headers = array();
 		$headers = "From: " . $this->fromAddress;
 		$headers .= "Reply-To: ". $this->fromAddress . "\r\n";
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-		$this->headers = $headers;
-		// echo '<pre>';
-		// print_r($this->headers);
-		// echo '</pre>';
-		// exit;
-		
+		$headers .= "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1" . "\r\n";
+		$this->headers = implode("\r\n", $headers);
 		return $this;
+	}
+
+
+	public function getHeaders()
+	{
+		return $this->headers;
 	}
 
 	
@@ -86,13 +79,16 @@ class Mail extends View
 	}
 
 
-	/**
-	 * Sends Mail
-	 * @returns true on send mail success false on failure
-	 */	
-	public function send($toAddress, $subject, $templateTitle, $data = false)
+	public function send($properties = array())
 	{
-		$session = new session();
+		$properties = array(
+			'to' => '1@11.com'
+			, 'from' => '1@11.com'
+			, 'subject' => '1@11.com'
+			, 'content' => '1@11.com'
+		);
+
+		/*$toAddress, $subject, $templateTitle, $data = false*/
 		$this->toAddress = $toAddress;
 		$this->subject = $subject;
 		$path = BASE_PATH . 'app/view/mail/' . strtolower($templateTitle) . '.php';
@@ -125,6 +121,8 @@ class Mail extends View
 
 
 }
+
+
 /*
 <?php
 
@@ -148,3 +146,14 @@ if (mail(
 
 
  */
+
+
+		// $headers = 'From: ' . $this->fromAddress;
+		// $headers .= 'Reply-To: ' . $this->fromAddress . "\n";
+		// $headers .= 'X-Mailer: PHP/' . phpversion() . "\n";
+		// $headers .= 'MIME-Version: 1.0' . "\n";
+		// $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\n";
+		// echo '<pre>';
+		// print_r($this->headers);
+		// echo '</pre>';
+		// exit;
