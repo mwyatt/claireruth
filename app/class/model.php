@@ -334,7 +334,12 @@ class Model extends Config
 	}
 
 
-	public function orderByProperty($property)
+	/**
+	 * arranges this->data by a specified property
+	 * @param  string $property 
+	 * @return array           
+	 */
+	public function arrangeByProperty($property)
 	{
 		if (! $this->getData()) {
 			return;

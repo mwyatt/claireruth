@@ -430,8 +430,14 @@ class Config
 	}
 
 
-	public function getData()
+	public function getData($key = '')
 	{		
+		if ($key) {
+			if (array_key_exists($key, $this->data)) {
+				return $this->data[$key];
+			}
+			return;
+		}
 		return $this->data;
 	}	
 

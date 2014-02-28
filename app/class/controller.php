@@ -256,21 +256,7 @@ class Controller extends Config
 			),
 			'limit' => array(0, 3)
 		));
-		$modelContentMeta = new model_content_meta($this->database, $this->config);
-		$modelContentMeta->read(array(
-			'where' => array(
-				'name' => 'tag'
-			)
-		));
-		$modelTag = new model_tag($this->database, $this->config);
-		$modelTag->read(array(
-			'where' => array('id' => $modelContentMeta->getDataProperty('value'))
-		));	
-		$modelTag->orderByProperty('id');
-		echo '<pre>';
-		print_r();
-		echo '</pre>';
-		exit;
+		$modelContent->bindMeta('tag');
 		
 		$this->view
 			->setObject('contents', $modelContent)

@@ -38,74 +38,33 @@ class Model_Content extends Model
 	);
 
 
-	/**
-	 * @param  array  $properties type, limit, ids
-	 * @return bool             
-	 */
-// 	public function read($properties = array())
-// 	{
-
-// 		// build
-// 		$statement = array();
-// 		$statement[] = $this->getSqlSelect();
-// 		if (array_key_exists('where', $properties)) {
-// 			$statement[] = $this->getSqlWhere($properties['where']);
-// 		}
-// 		$statement[] = 'order by time_published desc';
-// 		if (array_key_exists('limit', $properties)) {
-// 			$statement[] = $this->getSqlLimit($properties['limit']);
-// 		}
-
-// 		// prepare
-// 		$sth = $this->database->dbh->prepare(implode(' ', $statement));
-
-// 		// bind
-// 		if (array_key_exists('where', $properties)) {
-// 			foreach ($properties['where'] as $key => $value) {
-// 				$this->bindValue($sth, $key, $value);
-// 			}
-// 		}
-// 		if (array_key_exists('limit', $properties)) {
-// 			foreach ($properties['limit'] as $key => $value) {
-// 				$sth->bindValue(':' . $key, (int) $value, PDO::PARAM_INT);
-// 			}
-// 		}
-// echo '<pre>';
-// print_r($statement);
-// echo '</pre>';
-// exit;
-
-// 		// execute
-// 		$this->tryExecute(__METHOD__, $sth);
-// 		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
-// 	}
-
-
-	/**
-	 * passed models to combine to the data within this model
-	 * @param  array $models label => model
-	 * @return bool         
-	 */
-	public function combine($models)
+	public function bindMeta($metaName)
 	{
-		$data = array();
+		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$modelContentMeta->read(array(
+			'where' => array(
+				'content_id' => $modelContent->getDataProperty('id'),
+				'name' => $metaName
+			)
+		));
+		$className = 'model_' . $metaName;
+		$model = new $className($this->database, $this->config);
+		$model->read(array(
+			'where' => array('id' => $modelContentMeta->getDataProperty('value'))
+		));	
+		$model->arrangeByProperty('id');
 
-		// get the data in this model
-		foreach ($this->getData() as $thisData) {
-			$data[$thisData->id] = $thisData;
+		// bind meta
+		foreach ($modelContentMeta->getData() as $modelContentMold) {
+			$results[$modelContentMold->content_id][] = $model->getData($modelContentMold->value)
+		}
 
-			// all models sent through and the desired label
-			foreach ($models as $label => $model) {
 
-				// all data within the model
-				foreach ($model->getData() as $modelRow) {
 
-					// find a matching contentid with this models row id
-					if ($modelRow->content_id == $thisData->id) {
-						$data[$thisData->id]->{$label}[] = $modelRow;
-					}
-				}
-			}
+		
+		$this->arrangeByProperty('id');
+		foreach ($this->getData() as $contentId => $value) {
+			# code...
 		}
 		return $this->setData($data);
 	}

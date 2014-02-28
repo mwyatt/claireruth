@@ -37,7 +37,7 @@ class Mold_Content extends Mold
 	public $user;
 
 
-	public $tags = array();
+	public $tag = array();
 
 
 	public $media = array();
