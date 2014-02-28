@@ -284,6 +284,14 @@ class Model extends Config
 		$statement = array();
 		foreach ($where as $key => $value) {
 			$statement[] = ($statement ? 'and' : 'where');
+
+			// array becomes in (1, 2, 3)
+			if (is_array($value)) {
+				$statement[] = $key . ' in (' . implode(', ', $value) . ')';
+				continue;
+			}
+
+			// normal key = val
 			$statement[] = $key . ' = :where_' . $key;
 		}
 		return implode(' ', $statement);
@@ -309,20 +317,33 @@ class Model extends Config
 
 
 	/**
-	 * builds an array of ids from the data property
-	 * @return array 
+	 * builds an array of {property} from the data property
+	 * @param  string $property 
+	 * @return array           
 	 */
-	public function getDataIds()
+	public function getDataProperty($property)
 	{
-		$datas = $this->getData();
-		if (! is_array($datas)) {
-			return array();
+		if (! $this->getData()) {
+			return;
 		}
-		$ids = array();
-		foreach ($datas as $data) {
-			$ids[] = $data->id;
+		$collection = array();
+		foreach ($this->getData() as $mold) {
+			$collection[] = $mold->$property;
 		}
-		return $ids;
+		return $collection;
+	}
+
+
+	public function orderByProperty($property)
+	{
+		if (! $this->getData()) {
+			return;
+		}
+		$newOrder = array();
+		foreach ($this->getData() as $mold) {
+			$newOrder[$mold->$property] = $mold;
+		}
+		return $this->setData($newOrder);
 	}
 	
 
