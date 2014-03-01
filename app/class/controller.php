@@ -254,7 +254,7 @@ class Controller extends Config
 			'where' => array(
 				'type' => 'post'
 			),
-			'limit' => array(0, 3)
+			'limit' => array(0, 10)
 		));
 		$modelContent->bindMeta('tag');
 		

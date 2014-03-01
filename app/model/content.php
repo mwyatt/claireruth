@@ -38,35 +38,55 @@ class Model_Content extends Model
 	);
 
 
+	/**
+	 * needs to get all 'tag' or 'media' and assign to relevant content rows
+	 * @param  string $metaName 
+	 * @return bool           
+	 * 
+	 */
 	public function bindMeta($metaName)
 	{
-		$modelContentMeta = new model_content_meta($this->database, $this->config);
-		$modelContentMeta->read(array(
+		$modelMeta = new model_content_meta($this->database, $this->config);
+
+		// get data based on ids found in data
+		$modelMeta->read(array(
 			'where' => array(
-				'content_id' => $modelContent->getDataProperty('id'),
+				'content_id' => $this->getDataProperty('id'),
 				'name' => $metaName
 			)
 		));
-		$className = 'model_' . $metaName;
+
+		// validate classname
+		if (! class_exists($className = 'model_' . $metaName) || ! class_exists($moldName = 'mold_' . $metaName)) {
+			return;
+		}
+
+		// instansiate and read based on meta values
 		$model = new $className($this->database, $this->config);
 		$model->read(array(
-			'where' => array('id' => $modelContentMeta->getDataProperty('value'))
+			'where' => array('id' => $modelMeta->getDataProperty('value'))
 		));	
 		$model->arrangeByProperty('id');
 
-		// bind meta
-		foreach ($modelContentMeta->getData() as $modelContentMold) {
-			$results[$modelContentMold->content_id][] = $model->getData($modelContentMold->value)
+		// bind meta to the new table using content id as main key
+		$boundMeta = array();
+		foreach ($modelMeta->getData() as $modelMetaMold) {
+			$boundMeta[$modelMetaMold->content_id][] = $model->getData($modelMetaMold->value);
 		}
 
-
-
+		// bind this->data to the new structure
+		$dataReference = $this->getData();
+		foreach ($dataReference as $key => &$modelData) {
+			if (array_key_exists($modelData->id, $boundMeta) && property_exists($this->getMoldName(), $metaName)) {
+				$dataReference[$key]->$metaName = $modelData;
+			}
+		}
+		echo '<pre>';
+		print_r($dataReference);
+		echo '</pre>';
+		exit;
 		
-		$this->arrangeByProperty('id');
-		foreach ($this->getData() as $contentId => $value) {
-			# code...
-		}
-		return $this->setData($data);
+		return $this->setData($dataReference);
 	}
 
 
