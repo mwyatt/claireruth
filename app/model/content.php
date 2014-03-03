@@ -78,14 +78,9 @@ class Model_Content extends Model
 		$dataReference = $this->getData();
 		foreach ($dataReference as $key => &$modelData) {
 			if (array_key_exists($modelData->id, $boundMeta) && property_exists($this->getMoldName(), $metaName)) {
-				$dataReference[$key]->$metaName = $modelData;
+				$dataReference[$key]->$metaName = $boundMeta[$modelData->id];
 			}
 		}
-		echo '<pre>';
-		print_r($dataReference);
-		echo '</pre>';
-		exit;
-		
 		return $this->setData($dataReference);
 	}
 

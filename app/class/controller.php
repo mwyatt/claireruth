@@ -257,6 +257,7 @@ class Controller extends Config
 			'limit' => array(0, 10)
 		));
 		$modelContent->bindMeta('tag');
+		$modelContent->bindMeta('media');
 		
 		$this->view
 			->setObject('contents', $modelContent)

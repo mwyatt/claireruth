@@ -12,7 +12,7 @@
 	</div>
 	<span class="content-<?php echo $content->type ?>-date" title="<?php echo date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?>"><?php echo date('jS F', $content->time_published) ?></span>
 
-<?php $tags = $content->tags ?>
+<?php $tags = $content->tag ?>
 <?php include($this->pathView('_tags')) ?>
 
 	<span class="content-<?php echo $content->type ?>-author"><?php // echo $content->user_name ?></span>
