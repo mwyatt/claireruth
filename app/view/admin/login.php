@@ -8,7 +8,7 @@
 
         <div class="row">
             <label class="mb05" for="login_email">Email Address</label>
-            <input id="login_email" type="text" name="login_email" autofocus="autofocus" value="<?php echo $this->get('session_formfield', 'login_email') ?>">
+            <input id="login_email" type="text" name="login_email" autofocus="autofocus" value="<?php echo array_key_exists('login_email', $sessionFormfield) ?>">
         </div>
         <div class="row">
             <label class="mb05" for="login_password">Password</label>

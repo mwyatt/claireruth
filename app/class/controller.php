@@ -258,7 +258,6 @@ class Controller extends Config
 		));
 		$modelContent->bindMeta('tag');
 		$modelContent->bindMeta('media');
-		
 		$this->view
 			->setObject('contents', $modelContent)
 			->getTemplate('home');

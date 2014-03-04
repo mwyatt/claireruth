@@ -1,7 +1,7 @@
 <?php if ($this->get('model_user')): ?>
 
 			<footer class="main clearfix">
-				<p class="footer-site-title"><?php echo $this->get('options', 'site_title') . ' ' . date('Y') ?></p>
+				<p class="footer-site-title"><?php echo $this->getOption('site_title') . ' ' . date('Y') ?></p>
 			</footer>
 			
 <?php endif ?>

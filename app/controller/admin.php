@@ -44,7 +44,7 @@ class Controller_Admin extends Controller
 		$this->view
 			->setObject($sessionFormfield)
 			->setObject($sessionFeedback)
-			->setObject($menu);
+			->setObject('menu', $menu);
 
 		// logging in
 		if (array_key_exists('login', $_POST)) {

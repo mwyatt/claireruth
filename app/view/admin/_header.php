@@ -20,21 +20,19 @@
 
 <div class="wrap wrap-full-width">
 
-<?php if ($this->get('model_user')): ?>
+<?php if ($user): ?>
 	
     <header class="main clearfix js-header-main">
     	<div class="wrap-full-width">
 	    	<div class="inner-title-nav-user clearfix">
-		        <a class="header-site-title" href="<?php echo $this->url() ?>" target="_blank" title="Open Homepage"><?php echo $this->get('options', 'site_title') ?></a>
+		        <a class="header-site-title" href="<?php echo $this->url() ?>" target="_blank" title="Open Homepage"><?php echo $this->getOption('site_title') ?></a>
 
-	<?php $user = $this->get('model_user') ?>
 	<?php require_once($this->pathView('admin/header/_user')) ?>
-	<?php $menu = $this->get('model_admin_menu') ?>
 	<?php require_once($this->pathView('admin/header/_nav')) ?>
 
 			</div>
 
-	<?php $feedback = $this->get('session_feedback') ?>
+	<?php $feedback = $sessionFeedback ?>
 	<?php require_once($this->pathView('_feedback')) ?>
 
 		</div>
