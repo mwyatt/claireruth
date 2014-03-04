@@ -66,3 +66,11 @@ $controller->loadClass();
  * possibly no need to exit anywhere else?
  */
 exit;
+
+
+/* Enable errors, which a custom error handler is set for later. */
+ini_set('display_errors',true);	
+/* Set time zone to UK. */
+ini_set('date.timezone', "Europe/London");
+/* Keep processing after user disconnect (for cron). */
+ignore_user_abort(true);

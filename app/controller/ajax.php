@@ -15,6 +15,7 @@ class Controller_Ajax extends Controller
 	public function index()
 	{
 		echo "front ajax";
+		// $this->validateRequiredKeys($_GET, array('first_name'));
 	}
 
 	public function mediaBrowser() {
