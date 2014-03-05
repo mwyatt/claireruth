@@ -83,11 +83,17 @@ class Controller_Admin extends Controller
 
 		// is logged in?
 		if ($sessionAdminUser->isLogged()) {
-			$modelUser->read(array('where' => array('id' => $sessionAdminUser->getDataKey('id'))));
+			echo '<pre>';
+			print_r('variable');
+			echo '</pre>';
+			exit;
+			
+			// $modelUser->read(array('where' => array('id' => )));
 			$this->view->setObject('user', $modelUser->getDataFirst());
 		} else {
 			if ($this->config->getUrl(1)) {
 				$sessionHistory->setCaptureUrl($this->config->getUrl('current'));
+				$this->route('admin');
 			}
 			$this->view->renderTemplate('admin/login');
 		}

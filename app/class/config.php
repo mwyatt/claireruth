@@ -302,36 +302,6 @@ class Config
 
 
 	/**
-	 * attempting to satisfy the quick and sussinct retrival of
-	 * array elements, more readable than arraykey checks!
-	 * @param  array|string $one an array can be passed
-	 * @param  string $two key name
-	 * @return array|value       could be array or data!
-	 */
-	public function get($one = false, $two = false) {	
-		if (is_array($one) && $two && array_key_exists($two, $one)) {
-			return $one[$two];
-		}
-		if (! array_key_exists($one, $this->data)) {
-			return;
-		}
-		if ($two) {
-			if (! is_array($this->data[$one])) {
-				return;
-			}
-			if (array_key_exists($two, $this->data[$one])) {
-				return $this->data[$one][$two];
-			} else {
-				return;
-			}
-		}
-		if ($one) {
-			return $this->data[$one];
-		}
-	}	
-
-
-	/**
 	 * full list of class methods without excluded keywords
 	 * @param  string $className 
 	 * @return array|bool            list of methods

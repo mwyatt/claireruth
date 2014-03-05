@@ -41,7 +41,10 @@ class View extends Model
 	 */
 	public $data = '';
 
-	
+
+	/**
+	 * if any meta has been missed, merge with the defaults
+	 */
 	public function setMetaDefaults()
 	{
 		$this->setMeta(array(
@@ -64,6 +67,9 @@ class View extends Model
 	}
 
 
+	/**
+	 * sets header and outputs the data
+	 */
 	public function render()
 	{
 
@@ -291,4 +297,18 @@ class View extends Model
 		}
 		return $result;
 	}
+
+
+	/**
+	 * returns nothing or the array key
+	 * @param  string $needle   
+	 * @param  array $haystack 
+	 * @return string|bool|int|null           
+	 */
+	public function get($needle, $haystack) {	
+		if (! array_key_exists($needle, $haystack)) {
+			return;
+		}
+		return $haystack[$needle];
+	}	
 } 
