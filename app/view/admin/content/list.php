@@ -4,10 +4,8 @@
 	<a class="button right" href="<?php echo $this->url('current_noquery') ?>new/" title="Create a new <?php echo ucfirst($this->url(2)) ?>">New</a>
 	<h1 class="h3 mb1"><?php echo ucfirst($this->url(2)) ?></h1>
 
-<?php if ($this->get('model_content')) : ?>
-	<?php foreach ($this->get('model_content') as $rowContent) : ?>
-		<?php include($this->pathView('admin/_content')) ?>
-	<?php endforeach ?>
+<?php if ($contents): ?>
+	<?php include($this->pathView('_contents')) ?>
 <?php else: ?>
 	
 	<div class="nothing-yet">

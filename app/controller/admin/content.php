@@ -26,7 +26,7 @@ class Controller_Admin_Content extends Controller
 		$sessionAdminUser = new session_admin_user($this->database, $this->config);
 
 		// get content status always
-		$this->view->setObject('contentStatus', $content->getStatus());
+		$this->view->setObject('content_status', $content->getStatus());
 
 		// create
 		if (array_key_exists('create', $_POST)) {
@@ -134,7 +134,7 @@ class Controller_Admin_Content extends Controller
 				$this->route('current_noquery');
 			}
 			$this->view
-				->setObject('model_content', $content->getDataFirst())
+				->setObject('content', $content->getDataFirst())
 				->getTemplate('admin/content/create-update');
 		}
 
@@ -166,7 +166,7 @@ class Controller_Admin_Content extends Controller
 		$content = new model_content($this->database, $this->config);
 		$content->read(array('type' => $this->config->getUrl(2)));
 		$this->view
-			->setObject($content)
+			->setObject('contents', $content)
 			->getTemplate('admin/content/list');
 	}
 }

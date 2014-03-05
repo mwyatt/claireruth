@@ -97,7 +97,7 @@ class Controller extends Config
 
 		// initialise each class
 		$controller->initialise();
-		
+				
 		// debugging
 		if ($this->isDebug($this)) {
 			echo 'initialised -> ' . $controller->getClassName();
@@ -114,12 +114,14 @@ class Controller extends Config
 		}
 
 		// attempt to load next class
-		if ($controller->loadClass()) {
+		if (! $controller->view->getRender() && $controller->loadClass()) {
 			return;
 		}
 
-		// load method
-		$controller->loadMethod();
+		// load method if not already rendered
+		if (! $controller->view->getRender()) {
+			$controller->loadMethod();
+		}
 
 		// render
 		if (! $controller->view->getData()) {

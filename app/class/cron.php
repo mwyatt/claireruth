@@ -45,24 +45,21 @@ class Cron extends Model
 	 * polls options entries to see if a cron job is required
 	 * @param  array  $keys each key to check
 	 */
-	public function poll($keys = array())
+	public function refresh($keys = array())
 	{
-		$modelOptions = new model($this->database, $this->config, 'options');
+		$modelOptions = new model_options($this->database, $this->config, 'options');
 		foreach ($keys as $key) {
-			$dbName = 'cron' . ucfirst($key);
-			if ($recordedTime = $this->config->getOption($dbName)) {
+			$name = 'cron' . ucfirst($key);
+			if ($recordedTime = $this->config->getOption($name)) {
 				if (method_exists($this, $methodName = 'job' . ucfirst($key))) {
 
 					// perform method
 					$this->$key($recordedTime);
 
 					// remove option
-					$modelOptions->lazyDelete(array(
-						'name' => $key
-						, 'value' => time()
+					$modelOptions->delete(array(
+						'where' => array('name' => $key)
 					));
-				} else {
-					trigger_error('cron method \'' . $key . '\' does not exist.', E_USER_ERROR);
 				}
 			} else {
 

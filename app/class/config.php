@@ -560,4 +560,20 @@ class Config
 		}
 		return ! $sessionPreview->getData();
 	}
+
+
+	public function phpSettings()
+	{
+
+		// enable errors, which a custom error handler is set for later
+		ini_set('display_errors',true);	
+
+		// set time zone to uk 
+		ini_set('date.timezone', "Europe/London");
+
+		// keep processing after user disconnect (for cron)
+		ignore_user_abort(true);
+
+		return $this;
+	}
 }

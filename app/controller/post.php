@@ -26,13 +26,12 @@ class Controller_Post extends Controller
 			))) {
 				$this->route('base');
 			}
-			$molds = $modelContent->getData();
-			$mold = reset($molds);
+			$mold = $modelContent->getDataFirst();
 			$this->view
 				->setMeta(array(		
 					'title' => $mold->title
 				))
-				->setObject('contents', $modelContent)
+				->setObject('content', $mold)
 				->getTemplate('content-single');
 		}
 

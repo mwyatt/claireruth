@@ -3,7 +3,7 @@
 
 	<form method="post" action="">
 
-<?php $feedback = $this->get('session_feedback') ?>
+<?php $feedback = $sessionFeedback ?>
 <?php require_once($this->pathView('_feedback')) ?>
 
         <div class="row">

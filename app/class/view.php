@@ -22,6 +22,13 @@ class View extends Model
 
 
 	/**
+	 * flag to detect if this is the last template load
+	 * @var boolean
+	 */
+	public $render = false;
+
+
+	/**
 	 * page meta information
 	 * @var array
 	 */
@@ -42,6 +49,18 @@ class View extends Model
 			'keywords' => $this->config->getOption('meta_keywords'),
 			'description' => $this->config->getOption('meta_description')
 		));
+	}
+
+
+	public function setRender($value)
+	{
+		return $this->render = $value;
+	}
+
+
+	public function getRender()
+	{
+		return $this->render;
 	}
 
 
@@ -95,6 +114,18 @@ class View extends Model
 
 		// return just loaded template result
 		return $content;
+	}
+
+
+	/**
+	 * loads template and sets render status to true
+	 * @param  string $templateTitle 
+	 * @return bool                
+	 */
+	public function renderTemplate($templateTitle)
+	{
+		$this->getTemplate($templateTitle);
+		return $this->setRender(true);
 	}
 
 

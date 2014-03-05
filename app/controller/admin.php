@@ -27,6 +27,8 @@ class Controller_Admin extends Controller
 		$sessionFeedback = new session_feedback($this->database, $this->config);
 		$sessionFormfield = new session_formfield($this->database, $this->config);
 		$sessionHistory = new session_history($this->database, $this->config);
+		$this->view->setObject('user', false);
+
 		// logout
 		if (array_key_exists('logout', $_GET) && $sessionAdminUser->getData()) {
 			$sessionAdminUser->delete();
@@ -81,14 +83,13 @@ class Controller_Admin extends Controller
 
 		// is logged in?
 		if ($sessionAdminUser->isLogged()) {
-			
-			// $modelUser->read(array('where' => array('id' => )));
+			$modelUser->read(array('where' => array('id' => $sessionAdminUser->getDataKey('id'))));
 			$this->view->setObject('user', $modelUser->getDataFirst());
 		} else {
 			if ($this->config->getUrl(1)) {
 				$sessionHistory->setCaptureUrl($this->config->getUrl('current'));
 			}
-			$this->view->getTemplate('admin/login');
+			$this->view->renderTemplate('admin/login');
 		}
 	}
 

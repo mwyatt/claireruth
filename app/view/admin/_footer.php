@@ -1,4 +1,4 @@
-<?php if ($this->get('model_user')): ?>
+<?php if ($user): ?>
 
 			<footer class="main clearfix">
 				<p class="footer-site-title"><?php echo $this->getOption('site_title') . ' ' . date('Y') ?></p>
