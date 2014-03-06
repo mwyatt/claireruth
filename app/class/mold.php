@@ -11,10 +11,4 @@ class Mold
 
 
 	public $id;
-
-
-	public function getUrl()
-	{
-		// $this->buildUrl()
-	}
 }

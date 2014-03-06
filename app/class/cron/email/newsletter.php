@@ -9,20 +9,21 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
  
-class Cron_Email_Newslsetter extends Cron
+class Cron_Email_Newsletter extends Cron
 {
 
-	public $period = 259200;
+
+	public $timeDelay = 10;
 
 
 	/**
 	 * emails an error report to the admin every n days
 	 */
-	public function jobEmailErrorReport($recordedTime)
+	public function initialise()
 	{
-		$lapsedTime = time() - $recordedTime;
-		if ($lapsedTime > ???????) {
-			// delete option
-		}
+echo '<pre>';
+print_r('Cron_Email_Newslsetter->initialise');
+echo '</pre>';
+
 	}
 }

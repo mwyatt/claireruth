@@ -28,6 +28,14 @@ class Cron extends Model
 
 
 	/**
+	 * how long the job will wait until it performs the
+	 * action again
+	 * @var integer
+	 */
+	public $timeDelay = 0;
+
+
+	/**
 	 * gets the time period required
 	 * @param  string $key 
 	 * @return int      
@@ -45,30 +53,60 @@ class Cron extends Model
 	 * polls options entries to see if a cron job is required
 	 * @param  array  $keys each key to check
 	 */
-	public function refresh($keys = array())
+	public function refresh($classNames = array())
 	{
-		$modelOptions = new model_options($this->database, $this->config, 'options');
-		foreach ($keys as $key) {
-			$name = 'cron' . ucfirst($key);
-			if ($recordedTime = $this->config->getOption($name)) {
-				if (method_exists($this, $methodName = 'job' . ucfirst($key))) {
+		$modelOptions = new model_options($this->database, $this->config);
+		$moldOptions = new mold_options();
+		foreach ($classNames as $className) {
 
-					// perform method
-					$this->$key($recordedTime);
-
-					// remove option
-					$modelOptions->delete(array(
-						'where' => array('name' => $key)
-					));
-				}
-			} else {
-
-				// add option
-				$modelOptions->lazyCreate(array(
-					'name' => $key
-					, 'value' => time()
-				));
+			// skip name if non existent
+			if (! class_exists($className)) {
+				continue;
 			}
+
+			// not yet stored, store, skip
+			if (! $timeRecorded = $this->config->getOption($className)) {
+				$moldOptions->name = $className;
+				$moldOptions->value = time();
+				$modelOptions->create(array($moldOptions));
+				continue;
+			}
+
+			// initiate model
+			$modelJob = new $className($this->database, $this->config);
+			
+			// skip if not ready
+			if (! $modelJob->isJobReady($timeRecorded)) {
+				continue;
+			}
+
+			// run job
+			$modelJob->initialise();
+
+			// remove
+			$modelOptions->delete(array(
+				'where' => array('name' => $className)
+			));
+		}
+	}
+
+
+	public function getTimeDelay()
+	{
+		return $this->timeDelay;
+	}
+
+
+	/**
+	 * if the job has passed its time delay setting then return true
+	 * @param  int  $timeRecorded 
+	 * @return boolean               
+	 */
+	public function isJobReady($timeRecorded)
+	{
+		$lapsedTime = time() - $timeRecorded;
+		if ($lapsedTime > $this->getTimeDelay()) {
+			return true;
 		}
 	}
 }

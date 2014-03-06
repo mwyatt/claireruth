@@ -67,7 +67,7 @@ $controller->loadClass();
  */
 $cron = new cron($database, $config);
 $cron->refresh(array(
-	'cron_something'
+	'cron_email_newsletter'
 ));
 
 
