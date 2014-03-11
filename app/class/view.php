@@ -310,5 +310,18 @@ class View extends Model
 			return;
 		}
 		return $haystack[$needle];
-	}	
+	}
+
+
+	/**
+	 * provides a bool response to whether the user is using a admin url
+	 * @return boolean 
+	 */
+	public function isAdmin()
+	{
+		return $this->url(0) == 'admin';
+	}
+
+
+	
 } 

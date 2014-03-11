@@ -16,4 +16,15 @@
 <?php include($this->pathView('_tags')) ?>
 
 	<span class="content-<?php echo $content->type ?>-author"><?php // echo $content->user_name ?></span>
+
+<?php if ($this->isAdmin()): ?>
+	
+	<div class="content-action">
+		<a class="content-action-link" href="<?php // echo $content->url ?>" title="View <?php echo $content->title ?> online" target="blank">View</a>
+		<a class="content-action-link" href="<?php echo $this->url('current_noquery') ?>?edit=<?php echo $content->id ?>" title="Edit <?php echo $content->title ?>" class="edit">Edit</a>
+		<a class="content-action-link" href="<?php echo $this->url('current_noquery') ?>?<?php echo ($content->status == 'archive' ? 'delete' : 'archive') ?>=<?php echo $content->id ?>" title="<?php echo ($content->status == 'archive' ? 'Delete' : 'Archive') ?> <?php echo $content->title ?>" class="archive"><?php echo ($content->status == 'archive' ? 'Delete' : 'Archive') ?></a>
+	</div>
+
+<?php endif ?>
+
 </div>
