@@ -39,6 +39,11 @@ $config
 	->phpSettings()
 	->setObject($error);
 
+// site switching
+if (array_key_exists('site', $_GET)) {
+	$site = new Site();
+}
+
 
 /**
  * store each unique url
@@ -50,8 +55,8 @@ $sessionHistory->add($config->getUrl('current'));
 /**
  * unit tests
  */
-// $test = new test($database, $config);
-// $test->run();
+$test = new test($database, $config);
+$test->mail();
 
 
 /**

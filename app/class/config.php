@@ -546,4 +546,14 @@ class Config
 
 		return $this;
 	}
+
+
+	public function convertArrayToObject($array)
+	{
+		$object = new StdClass();
+		foreach ($array as $key => $value) {
+			$object->$key = $value;
+		}
+		return $object;
+	}
 }

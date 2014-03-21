@@ -13,6 +13,9 @@ class Test extends Config
 
 	public function run()
 	{
+
+
+
 echo '<pre>';
 var_dump($this->config->getOption('site_title'));
 echo '</pre>';
@@ -72,5 +75,46 @@ exit;
 	{
 		$model = new model_log($this->database, $this->config);
 		$model->log('admin', 'hello world');
+	}
+
+
+	public function cache()
+	{
+		$cache = new Cache();
+		if ($cache->read('example-cache-more')) {
+			// set parser with $cache->getData()
+		} else {
+			$model = new model_options($this->database, $this->config);
+			$model->read();
+			$cache->create('example-cache-more', $model->getData());
+		}
+		// echo '<pre>';
+		// print_r($cache);
+		// echo '</pre>';
+		// exit;
+
+		// used in admin
+		$cache->delete('example-cache-more');
+	}
+
+
+	public function media()
+	{
+	    
+		echo '<form action="#" method="post" enctype="multipart/form-data"><input type="file" name="form_media[]" multiple="multiple"><input type="submit"></form>';
+		$file = new File($this->database, $this->config);
+		$file->setTypesAcceptable(array('image/gif', 'image/png', 'image/jpeg', 'image/pjpeg', 'image/jpeg', 'image/pjpeg', 'application/pdf'));
+echo '<pre>';
+		var_dump($file->upload('form_media', $_FILES));
+print_r($file);
+echo '</pre>';
+exit;
+	}
+
+
+	public function mail()
+	{
+		$mail = new Mail($this->database, $this->config);
+		$mail->send()
 	}
 }
