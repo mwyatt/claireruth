@@ -115,6 +115,11 @@ exit;
 	public function mail()
 	{
 		$mail = new Mail($this->database, $this->config);
-		$mail->send()
+		var_dump($mail->send(array(
+			'to' => 'martin.wyatt@gmail.com',
+			'subject' => 'subject line',
+			'content' => 'content'
+		)));
+		exit;
 	}
 }

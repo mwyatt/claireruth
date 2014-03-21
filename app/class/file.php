@@ -241,8 +241,8 @@ class File extends Config
 		// $sessionAdminUser = new Session_Admin_User($this->database, $this->config);
 		// $mold->user_id = $sessionAdminUser->getData('id');
 		$mold->user_id = 0;
-		$modelMedia = new Model_Media($this->database, $this->config);
-		$modelMedia->create(array($mold));
+		$model = new Model_Media($this->database, $this->config);
+		$model->create(array($mold));
 
 		// success
 		$this->setFeedback($fileId, 'success', $friendlyFileNameWithExtension . ' was successfully uploaded');

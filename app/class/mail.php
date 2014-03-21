@@ -10,215 +10,145 @@ class Mail extends Config
 {
 
 
+	/**
+	 * mail headers stored here, processed at setHeaders
+	 * @var string
+	 */
 	public $headers;
 
 
-	public $toAddress;
+	/**
+	 * full address of the sender, should this come from the database?
+	 * @var string
+	 */
+	public $addressFrom = 'localhost@localhost.com';
 
 
-	public $fromAddress = 'localhost@localhost.com';
-
-
-	public $subject;
-
-
-	public $template;
+	/**
+	 * validates the incoming properties array when sending mail
+	 * not really needed?
+	 * @var array
+	 */
+	public $requiredSendProperties = array(
+		'to' => '',
+		'subject' => '',
+		'content' => ''
+	);
 
 	
-	public function getStyles() {
-		$style['container'] = ''
-			. 'padding: 10px;'
-			. 'width: 100%;'
-			. 'height: 100%;';
-		$style['body'] = ''
-			. 'margin: 0;'
-			. 'padding: 0;'
-			. 'background: #fff;'
-			. 'color: #000;'
-			. 'border: none;'
-			. 'font-family: arial, sans-serif;';
-		$style['a'] = ''
-			. 'color: #ff5512;'
-			. 'text-decoration: underline;';
-		$style['h1'] = ''
-			. 'font-size: 16px;'
-			. 'margin: 0 0 16px;'
-			. 'color: #333;';
-		$style['p'] = ''
-			. 'font-size: 16px;'
-			. 'margin: 0 0 16px;'
-			. 'color: #666;';
-		return $style;
+	/**
+	 * builds header string for mail function
+	 * @param object $properties 
+	 */
+	public function setHeaders($properties)
+	{
+		$headerSections = array(
+			'From: ' . $this->addressFrom,
+			'Reply-To: '. $this->addressFrom,
+			'MIME-Version: 1.0',
+			'Content-Type: text/html; charset=ISO-8859-1'
+		);
+		$this->headers = implode("\r\n", $headerSections);
 	}
 
 
 	/**
-	 * Sets Headers
-	 * @returns true on send mail success false on failure
-	 */	
-	public function setHeaders()
-	{
-		$headers = array();
-		$headers = "From: " . $this->fromAddress;
-		$headers .= "Reply-To: ". $this->fromAddress . "\r\n";
-		$headers .= "MIME-Version: 1.0" . "\r\n";
-		$headers .= "Content-Type: text/html; charset=ISO-8859-1" . "\r\n";
-		$this->headers = implode("\r\n", $headers);
-		return $this;
-	}
-
-
-	public function getHeaders()
-	{
-		return $this->headers;
-	}
-
-	
-	public function getBasePath() {
-		return BASE_PATH . 'app/view/mail/';
-	}
-
-
+	 * configures headers and sends mail out
+	 * @param  array  $properties see requiredSendProperties for rules
+	 * @return bool
+	 */
 	public function send($properties = array())
 	{
-		$properties = array(
-			'to' => '1@11.com'
-			, 'from' => '1@11.com'
-			, 'subject' => '1@11.com'
-			, 'content' => '1@11.com'
-		);
 
-		/*$toAddress, $subject, $templateTitle, $data = false*/
-		$this->toAddress = $toAddress;
-		$this->subject = $subject;
-		$path = BASE_PATH . 'app/view/mail/' . strtolower($templateTitle) . '.php';
-		if (file_exists($path)) {
-			$data['style'] = $this->getStyles();
-			// parse template html
-			ob_start();	
-			require_once($path);
-			$this->template = ob_get_contents();
-			ob_end_clean();
+		// will be filled array if any missing keys
+		if (array_diff_key($this->requiredSendProperties, $properties)) {
+			return;
 		}
-		$this->setHeaders();
-		if ($this->toAddress && $this->fromAddress && $this->subject && $this->template) {
-			// test output as plaintext
-			// header("Content-Type: text/plain");
-			// echo $this->template;
-			// exit;
-			return mail(
-				$this->toAddress
-				, $this->subject
-				, $this->template
-				, $this->headers
-			);
-			// echo 'Mail Successfully Sent to '.$this->toAddress;
-		} else {
-			// echo 'Failed to Send Mail';
-			return false;
+
+		// make more usable as object
+		$properties = $this->convertArrayToObject($properties);
+
+		// core headers for mail
+		$this->setHeaders($properties);
+
+		// send it!
+		if (mail($properties->to, $properties->subject, $properties->content, $this->headers)) {
+
+			// create database entry
+			$mold = new Mold_Mail();
+			$mold->to = $properties->to;
+			$mold->from = $this->addressFrom;
+			$mold->subject = $properties->subject;
+			$mold->content = $properties->content;
+			$mold->time = time();
+			$model = new Model_Mail($this->database, $this->config);
+			$model->create(array($mold));
+			return true;
 		}
 	}
-
-
 }
 
 
-/*
-<?php
-
-worked in dreamhost
-
-$headers = "From: " . 'me@martin-wyatt.com';
-$headers .= "Reply-To: ". 'me@martin-wyatt.com' . "\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=iso-8859-1\r\n";
-
-if (mail(
-		'martin.wyatt@gmail.com'
-		, 'example subject'
-		, '<div>example html</div>'
-		, $headers
-	)) {
-	exit('passed');
-} else {
-	exit('failed');
-}
-
-
- */
-
-
-		// $headers = 'From: ' . $this->fromAddress;
-		// $headers .= 'Reply-To: ' . $this->fromAddress . "\n";
-		// $headers .= 'X-Mailer: PHP/' . phpversion() . "\n";
-		// $headers .= 'MIME-Version: 1.0' . "\n";
-		// $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\n";
-		// echo '<pre>';
-		// print_r($this->headers);
-		// echo '</pre>';
-		// exit;
 
 
 
 
+// 	class Palette
+// 	{
 
 
-	class Palette
-	{
-
-
-		/**
-		 * storage of scss palette data
-		 * @var string
-		 */
-		public $scss;
+// 		/**
+// 		 * storage of scss palette data
+// 		 * @var string
+// 		 */
+// 		public $scss;
 		
 
-		/**
-		 * grabs sass info and stores
-		 * @param string $scssPath path to scss file
-		 */
-		public function __construct($scssPath)
-		{
-			$this->scss = file_get_contents(BASE_PATH . $scssPath);
-		}
+// 		/**
+// 		 * grabs sass info and stores
+// 		 * @param string $scssPath path to scss file
+// 		 */
+// 		public function __construct($scssPath)
+// 		{
+// 			$this->scss = file_get_contents(BASE_PATH . $scssPath);
+// 		}
 
 
-		/**
-		 * extracts hex value of a color in the palette.scss file
-		 * @param  string $colorTag 
-		 * @return string           
-		 */
-		public function getHex($colorTag)
-		{
-			if (! $this->scss) {
-				return false;
-			}
-			$colorTag = str_replace('_', '-', $colorTag);
-			$colorVariableName = '$' . $colorTag . ': ';
-			$color = substr(
-				$this->scss
-				, strpos($this->scss, $colorVariableName)
-				, strlen($colorTag) + 10
-			);
-			$color = str_replace($colorVariableName, '', $color);
-			return $color;
-		}
-	}
-}
-// the palette
-$palette = new palette('/sass/_palette.scss');
+// 		/**
+// 		 * extracts hex value of a color in the palette.scss file
+// 		 * @param  string $colorTag 
+// 		 * @return string           
+// 		 */
+// 		public function getHex($colorTag)
+// 		{
+// 			if (! $this->scss) {
+// 				return false;
+// 			}
+// 			$colorTag = str_replace('_', '-', $colorTag);
+// 			$colorVariableName = '$' . $colorTag . ': ';
+// 			$color = substr(
+// 				$this->scss
+// 				, strpos($this->scss, $colorVariableName)
+// 				, strlen($colorTag) + 10
+// 			);
+// 			$color = str_replace($colorVariableName, '', $color);
+// 			return $color;
+// 		}
+// 	}
+// }
+// // the palette
+// $palette = new palette('/sass/_palette.scss');
 
-// colors
-$variables = array(
-	'color_primary'
-	, 'color_secondary'
-	, 'color_tertiary'
-	, 'color_text'
-	, 'color_background'
-);
+// // colors
+// $variables = array(
+// 	'color_primary'
+// 	, 'color_secondary'
+// 	, 'color_tertiary'
+// 	, 'color_text'
+// 	, 'color_background'
+// );
 
-// assign vars
-foreach ($variables as $variable) {
-	$sassVariable[$variable] = $palette->getHex($variable);
-}
+// // assign vars
+// foreach ($variables as $variable) {
+// 	$sassVariable[$variable] = $palette->getHex($variable);
+// }
