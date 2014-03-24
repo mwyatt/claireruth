@@ -10,10 +10,10 @@ class Mold_Mail extends Mold
 {
 
 
-	public $to;
+	public $addressed_to;
 
 
-	public $from;
+	public $addressed_from;
 
 
 	public $subject;

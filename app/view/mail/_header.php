@@ -8,5 +8,5 @@
 	<meta http-equiv=language content=english>
 	<meta content="mshtml 6.00.6000.16481" name=generator></head>
 </head>
-<body style="<?php echo $data['style']['body'] ?>">
-	<div style="<?php echo $data['style']['container'] ?>">
+<body style="<?php //echo $data['style']['body'] ?>">
+	<div style="<?php //echo $data['style']['container'] ?>">

@@ -1,10 +1,6 @@
 <?php
 
 /**
- * Teleporting Data since 07.10.12
- *
- * PHP version 5
- * 
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -130,7 +126,14 @@ class View extends Model
 	 */
 	public function renderTemplate($templateTitle)
 	{
+
+		// reset data, do you always want this?
+		$this->setData(array());
+
+		// parse template as usual
 		$this->getTemplate($templateTitle);
+
+		// set final template flag
 		return $this->setRender(true);
 	}
 
@@ -321,7 +324,4 @@ class View extends Model
 	{
 		return $this->url(0) == 'admin';
 	}
-
-
-	
 } 

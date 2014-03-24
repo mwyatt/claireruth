@@ -114,12 +114,12 @@ exit;
 
 	public function mail()
 	{
-		$mail = new Mail($this->database, $this->config);
-		var_dump($mail->send(array(
+		$mail = new Mail($this->database, $this->config, $this->view);
+		$mail->send(array(
 			'to' => 'martin.wyatt@gmail.com',
 			'subject' => 'subject line',
-			'content' => 'content'
-		)));
+			'template' => 'mail/test'
+		));
 		exit;
 	}
 }

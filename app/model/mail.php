@@ -12,8 +12,8 @@ class Model_Mail extends Model
 
 	public $fields = array(
 		'id'
-		, 'to'
-		, 'from'
+		, 'addressed_to'
+		, 'addressed_from'
 		, 'subject'
 		, 'content'
 		, 'time'

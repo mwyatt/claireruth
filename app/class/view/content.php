@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * functions here can be repeated for ease of use in various areas, ajax
+ * normal control etc
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -10,8 +12,8 @@ class View_Content extends View
 {
 
 
-	public function example()
+	public function getLatest()
 	{
-		echo "example";
+		
 	}
 } 

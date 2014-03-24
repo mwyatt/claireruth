@@ -12,14 +12,26 @@
 class Controller_Ajax extends Controller
 {
 
-	public function index()
-	{
-		echo "front ajax";
-		// $this->validateRequiredKeys($_GET, array('first_name'));
-	}
 
-	public function mediaBrowser() {
-		$this->load(array('ajax', 'mediabrowser'), $this->config->getUrl(2), $this->view, $this->database, $this->config);
+	/**
+	 * ensure passed keys are set
+	 * e.g. $this->validateRequiredKeys($_GET, array('first_name'));
+	 * @param  array $globalVariable $_GET, $_POST
+	 * @param  array $requiredKeys   
+	 * @return bool                 
+	 */
+	public function validateKeys($globalVariable, $requiredKeys)
+	{
+
+		// any not found, return
+		foreach ($requiredKeys as $requiredKey) {
+			if (! array_key_exists($requiredKey, $globalVariable)) {
+				return;
+			}
+		}
+
+		// all keys must be present
+		return true;
 	}
 
 

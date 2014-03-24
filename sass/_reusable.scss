@@ -1,3 +1,7 @@
+.block {
+    display: block;
+}
+
 .ir {
     background-color: transparent;
     border: 0;
@@ -21,8 +25,8 @@
     display: none;
 }
 
-.block {
-    display: block;
+.invisible {
+    visibility: hidden;
 }
 
 .visuallyhidden {
@@ -34,6 +38,16 @@
     padding: 0;
     position: absolute;
     width: 1px;
+}
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
 }
 
 .text-left {
@@ -48,18 +62,12 @@
     text-align: right;
 }
 
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
-    clip: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    position: static;
-    width: auto;
+.text-size-larger {
+    font-size: 1.2em;
 }
 
-.invisible {
-    visibility: hidden;
+.text-size-smaller {
+    font-size: .8em;
 }
 
 .left {
@@ -70,140 +78,43 @@
     float: right;
 }
 
-.clearfix:before,
-.clearfix:after {
-    content: " "; 
-    display: table;
+.uppercase {
+    text-transform: uppercase;
 }
 
-.clearfix:after {
-    clear: both;
-}
+// @import "vendor/spinner";
+.spinner {
+    background: image-url('ajax.gif') 50% 50% no-repeat;
+    
+    &.is-tall {
+        height: 80px;
+    }
 
-.clearfix {
-    *zoom: 1;
-}
-
-.floatfix {
-    position: relative;
-    clear: both;
-    margin-right: -20px;
-}
-
-.row {
-    margin: 1em 0;
-}
-
-.icon {
-    display: block;
-}
-
-.drop {
-    @include box-shadow(0 1px 3px $color-gray-40);
-    @include border-radius(3px);
-    border: 1px solid $color-gray-30;
-    background: $color-white;
-    position: absolute;
-    padding: 1em;
-    top: 0;
-    left: 0;
-}
-
-.area {
-    position: relative;
-}
-
-
-/**
- * js must be active for main submit buttons to hide away
- * @type {String}
- */
-html.js input[type="submit"] {
-    position: absolute;
-    left: -999em;
-    width: 1px;
-    height: 1px;
-}
-
-.wrap-full-width {
-    position: relative;
-    margin: 0 auto;
-}
-
-.ellipsis {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.is-fixed-top {
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    position: fixed;
-}
-
-.ajax {
-    background-image: image-url('ajax.gif');
-    background-repeat: no-repeat;
-    background-position: center center;
-
-    .is-tall {
-        height: 50px;
+    &.position-bottom-right { 
+        background-position: 99% 91%;
     }
 }
 
-// .spinner {
-//     background: image-url('ajax.gif') 50% 50% no-repeat;
-    
-//     &.is-tall {
-//         height: 80px;
-//     }
-
-//     &.position-bottom-right { 
-//         background-position: 99% 91%;
-//     }
-// }
-
-.mt0 {
-    margin-top: 0;
+.current:hover {
+    text-decoration: none;
 }
 
-.mt1 {
-    margin-top: 1em;
+label.top {
+    display: block;
+    margin: 0 0 0.8em;
+    font-weight: bold;
 }
 
-.mt05 {
-    margin-top: .5em;
+// arggg dont like this
+.inner {
+    position: relative;
+    margin: 0 auto;    
 }
 
-.mb0 {
-    margin-bottom: 0;
-}
-
-.mb05 {
-    margin-bottom: .5em;
-}
-
-.mb1 {
-    margin-bottom: 1em;
-}
-
-.mr05 {
-    margin-right: .5em;
-}
-
-.ml05 {
-    margin-left: .5em;
-}
-
-.mr1 {
-    margin-right: 1em;
-}
-
-.ml1 {
-    margin-left: 1em;
+// noooo
+.icon {
+    display: block;
+    position: absolute;
 }
 
 .is-highlighted {
@@ -215,51 +126,12 @@ html.js input[type="submit"] {
 }
 
 
-.arrow-up {
-    width: 0; 
-    height: 0; 
-    border-left: 5px solid transparent;  /* left arrow slant */
-    border-right: 5px solid transparent; /* right arrow slant */
-    border-bottom: 5px solid $color-black; /* bottom, add background color here */
-    font-size: 0;
-    line-height: 0;
-}
-
-/* create an arrow that points down */
-.arrow-down {
-    width: 0; 
-    height: 0; 
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid $color-black;
-    font-size: 0;
-    line-height: 0;
-}
-
-/* create an arrow that points left */
-.arrow-left {
-    width: 0; 
-    height: 0; 
-    border-bottom: 5px solid transparent;  /* left arrow slant */
-    border-top: 5px solid transparent; /* right arrow slant */
-    border-right: 5px solid $color-black; /* bottom, add background color here */
-    font-size: 0;
-    line-height: 0;
-}
-
-/* create an arrow that points right */
-.arrow-right {
-    width: 0; 
-    height: 0; 
-    border-bottom: 5px solid transparent;  /* left arrow slant */
-    border-top: 5px solid transparent; /* right arrow slant */
-    border-left: 5px solid $color-black; /* bottom, add background color here */
-    font-size: 0;
-    line-height: 0;
-}
-
 table.basic {
     margin: 1em 0;
+
+    th {
+        font-weight: bold;
+    }
 
     th,
     td {
@@ -273,3 +145,13 @@ table.basic {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+
+.has-smooth-scroll {
+    background-color: $color-white;
+}
+
+.b0 {
+    border: 0;
+}
+

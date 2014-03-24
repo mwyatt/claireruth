@@ -32,8 +32,35 @@ class Mail extends Config
 	public $requiredSendProperties = array(
 		'to' => '',
 		'subject' => '',
-		'content' => ''
+		'template' => ''
 	);
+
+
+	/**
+	 * @var object
+	 */
+	public $view;
+
+
+	/**
+	 * used to allow setting of the mail pallete to the parser
+	 * @param object $database 
+	 * @param object $config   
+	 * @param object $view     
+	 */
+	public function __construct($database, $config, $view) {
+
+		// system objects
+		parent::__construct($database, $config);
+		$this->view = $view;
+
+		// pallete
+		$mailPallete = new Mail_Pallete($this->database, $this->config);
+		$mailPallete->setSassStyles();
+		$mailPallete->setStyles();
+		$this->view->setObject('styles', $mailPallete);
+	}
+
 
 	
 	/**
@@ -60,26 +87,32 @@ class Mail extends Config
 	public function send($properties = array())
 	{
 
-		// will be filled array if any missing keys
-		if (array_diff_key($this->requiredSendProperties, $properties)) {
-			return;
-		}
-
 		// make more usable as object
 		$properties = $this->convertArrayToObject($properties);
 
 		// core headers for mail
 		$this->setHeaders($properties);
 
+		// build html
+		$templateHtml = $this->view->getTemplate($properties->template);
+
+		// debug
+		if ($this->isDebug($this)) {
+			echo '<pre>';
+			print_r($templateHtml);
+			echo '</pre>';
+			exit;
+		}
+
 		// send it!
-		if (mail($properties->to, $properties->subject, $properties->content, $this->headers)) {
+		if (mail($properties->to, $properties->subject, $templateHtml, $this->headers)) {
 
 			// create database entry
 			$mold = new Mold_Mail();
-			$mold->to = $properties->to;
-			$mold->from = $this->addressFrom;
+			$mold->addressed_to = $properties->to;
+			$mold->addressed_from = $this->addressFrom;
 			$mold->subject = $properties->subject;
-			$mold->content = $properties->content;
+			$mold->content = $templateHtml;
 			$mold->time = time();
 			$model = new Model_Mail($this->database, $this->config);
 			$model->create(array($mold));
@@ -87,68 +120,3 @@ class Mail extends Config
 		}
 	}
 }
-
-
-
-
-
-
-// 	class Palette
-// 	{
-
-
-// 		/**
-// 		 * storage of scss palette data
-// 		 * @var string
-// 		 */
-// 		public $scss;
-		
-
-// 		/**
-// 		 * grabs sass info and stores
-// 		 * @param string $scssPath path to scss file
-// 		 */
-// 		public function __construct($scssPath)
-// 		{
-// 			$this->scss = file_get_contents(BASE_PATH . $scssPath);
-// 		}
-
-
-// 		/**
-// 		 * extracts hex value of a color in the palette.scss file
-// 		 * @param  string $colorTag 
-// 		 * @return string           
-// 		 */
-// 		public function getHex($colorTag)
-// 		{
-// 			if (! $this->scss) {
-// 				return false;
-// 			}
-// 			$colorTag = str_replace('_', '-', $colorTag);
-// 			$colorVariableName = '$' . $colorTag . ': ';
-// 			$color = substr(
-// 				$this->scss
-// 				, strpos($this->scss, $colorVariableName)
-// 				, strlen($colorTag) + 10
-// 			);
-// 			$color = str_replace($colorVariableName, '', $color);
-// 			return $color;
-// 		}
-// 	}
-// }
-// // the palette
-// $palette = new palette('/sass/_palette.scss');
-
-// // colors
-// $variables = array(
-// 	'color_primary'
-// 	, 'color_secondary'
-// 	, 'color_tertiary'
-// 	, 'color_text'
-// 	, 'color_background'
-// );
-
-// // assign vars
-// foreach ($variables as $variable) {
-// 	$sassVariable[$variable] = $palette->getHex($variable);
-// }

@@ -1,4 +1,4 @@
-// global
+// all apps
 $color-white: #ffffff;
 $color-gray-10: darken($color-white, 10%);
 $color-gray-20: darken($color-white, 20%);
@@ -20,14 +20,3 @@ $color-secondary-compliment: #cf90a2;
 $color-tertiary: #669933;
 $color-tertiary-compliment: #b9d9c1;
 $color-quantenary: #edddc7;
-
-// typographic
-$font-family: 'Droid Serif', 'serif';
-$heading-font-family: $font-family;
-$heading-font-weight: 400;
-$color-text-primary: #646e77;
-$color-text-tertiary: #669933;
-
-// /admin/
-$color-admin-primary: #ff5512;
-$color-admin-secondary: #474747;

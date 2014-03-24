@@ -6,7 +6,6 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-
 class Model extends Config
 {
 
@@ -241,6 +240,12 @@ class Model extends Config
 	}
 
 
+	public function isFieldNonWritable($field)
+	{
+		return in_array($field, $this->fieldsNonWriteable);
+	}
+
+
 	/**
 	 * uses a mold to build sth execute data
 	 * if 'time' involved assume that time needs to be inserted, could be
@@ -252,7 +257,7 @@ class Model extends Config
 	{
 		$excecuteData = array();
 		foreach ($this->fields as $field) {
-			if (in_array($field, $this->fieldsNonWriteable)) {
+			if ($this->isFieldNonWritable($field)) {
 				continue;
 			}
 			$excecuteData[] = $mold->$field;
@@ -265,7 +270,7 @@ class Model extends Config
 	{
 		$excecuteData = array();
 		foreach ($mold as $key => $value) {
-			if (! $value) {
+			if ($this->isFieldNonWritable($key) || ! $value) {
 				continue;
 			}
 			$excecuteData[':' . $key] = $value;
