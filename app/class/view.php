@@ -100,7 +100,13 @@ class View extends Model
 			echo '<hr>';
 			exit;
 		}
-		
+
+		// reset existing data to '' if needed
+		$existingData = $this->getData();
+		if (is_array($existingData)) {
+			$existingData = '';
+		}
+
 		// start output buffer
 		ob_start();
 
@@ -112,7 +118,7 @@ class View extends Model
 		ob_end_clean();
 
 		// add this data to existing
-		$this->setData($this->getData() . $content);
+		$this->setData($existingData . $content);
 
 		// return just loaded template result
 		return $content;

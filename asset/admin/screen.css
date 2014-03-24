@@ -1233,14 +1233,25 @@ header.main.is-fixed-top + .content {
 }
 
 /* line 1, ../../sass/admin/_form.scss */
+input[type="submit"] {
+  position: absolute;
+  left: -999em;
+  width: 1px;
+  height: 1px;
+}
+
+/* line 8, ../../sass/admin/_form.scss */
 textarea {
   height: 20em;
 }
 
-/* line 7, ../../sass/admin/_form.scss */
+/* line 14, ../../sass/admin/_form.scss */
 input[type="text"],
 input[type="password"],
 textarea {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1250,7 +1261,7 @@ textarea {
   font-weight: bold;
   color: #666666;
 }
-/* line 15, ../../sass/admin/_form.scss */
+/* line 23, ../../sass/admin/_form.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 textarea:focus {
@@ -1261,12 +1272,12 @@ textarea:focus {
   color: #4d4d4d;
 }
 
-/* line 22, ../../sass/admin/_form.scss */
+/* line 30, ../../sass/admin/_form.scss */
 input.error {
   border-color: red;
 }
 
-/* line 30, ../../sass/admin/_form.scss */
+/* line 38, ../../sass/admin/_form.scss */
 label {
   color: #999999;
 }
@@ -1477,13 +1488,9 @@ footer.main {
 }
 /* line 22, ../../sass/admin/_login.scss */
 .content.login input {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   width: 100%;
-  margin-top: 0.4em;
 }
-/* line 28, ../../sass/admin/_login.scss */
+/* line 26, ../../sass/admin/_login.scss */
 .content.login label {
   display: block;
 }
@@ -1570,14 +1577,15 @@ body {
 /* line 20, ../../sass/admin/screen.scss */
 .wrap-full-width {
   width: 860px;
+  margin: 0 auto;
 }
 
-/* line 24, ../../sass/admin/screen.scss */
+/* line 25, ../../sass/admin/screen.scss */
 .button.back {
   float: right;
 }
 
-/* line 31, ../../sass/admin/screen.scss */
+/* line 32, ../../sass/admin/screen.scss */
 .button.primary,
 .button.secondary,
 .button.tertiary,
@@ -1627,7 +1635,7 @@ body {
   box-shadow: inset 0 1px 3px #e6e6e6;
 }
 
-/* line 35, ../../sass/admin/screen.scss */
+/* line 36, ../../sass/admin/screen.scss */
 .nothing-yet {
   text-shadow: 0 1px 0 white;
   background: #fafafa;
@@ -1636,7 +1644,7 @@ body {
   border-bottom: 1px solid #d9d9d9;
   padding: 2em;
 }
-/* line 44, ../../sass/admin/screen.scss */
+/* line 45, ../../sass/admin/screen.scss */
 .nothing-yet p {
   color: #999999;
   cursor: default;
@@ -1644,12 +1652,12 @@ body {
   margin: 0;
 }
 
-/* line 52, ../../sass/admin/screen.scss */
+/* line 53, ../../sass/admin/screen.scss */
 .toolbar {
   margin: 0 0 1em;
 }
 
-/* line 56, ../../sass/admin/screen.scss */
+/* line 57, ../../sass/admin/screen.scss */
 .toolbar .button {
   float: left;
   margin: 0 .5em .5em 0;
@@ -1657,7 +1665,7 @@ body {
   padding: .5em 1em;
 }
 
-/* line 65, ../../sass/admin/screen.scss */
+/* line 66, ../../sass/admin/screen.scss */
 .content.page textarea,
 .content.post textarea {
   width: 100%;

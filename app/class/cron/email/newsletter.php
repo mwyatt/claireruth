@@ -21,8 +21,8 @@ class Cron_Email_Newsletter extends Cron
 	 */
 	public function initialise()
 	{
-		echo '<pre>';
-		print_r('Cron_Email_Newslsetter->initialise');
-		echo '</pre>';
+		// echo '<pre>';
+		// print_r('Cron_Email_Newslsetter->initialise');
+		// echo '</pre>';
 	}
 }
