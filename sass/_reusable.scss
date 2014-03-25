@@ -70,11 +70,11 @@
     font-size: .8em;
 }
 
-.left {
+.float-left {
     float: left;
 }
 
-.right {
+.float-right {
     float: right;
 }
 
@@ -84,7 +84,7 @@
 
 // @import "vendor/spinner";
 .spinner {
-    background: image-url('ajax.gif') 50% 50% no-repeat;
+    // background: image-url('ajax.gif') 50% 50% no-repeat;
     
     &.is-tall {
         height: 80px;
@@ -148,10 +148,35 @@ table.basic {
 
 
 .has-smooth-scroll {
-    background-color: $color-white;
+    color: $color-white;
+    background-color: $color-primary;
 }
 
 .b0 {
     border: 0;
 }
 
+/**
+ * depreciated
+ */
+.row {
+    position: relative;
+    margin-bottom: 1em;
+}
+
+.full-width-center {
+    width: $site-width;
+    margin: 0 auto;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.order-1 {
+    z-index: 10;
+}
+
+.order-2 {
+    z-index: 20;
+}
