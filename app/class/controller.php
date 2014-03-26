@@ -113,20 +113,22 @@ class Controller extends Config
 			echo '<hr>';
 		}
 
-		// attempt to load next class
+		// initialise next class only if not renedering
 		if (! $controller->view->getRender() && $controller->loadClass()) {
-			return;
+			return true;
 		}
 
-		// load method if not already rendered
+		// load method if not rendering
 		if (! $controller->view->getRender()) {
 			$controller->loadMethod();
 		}
 
-		// render
+		// route away if no data set
 		if (! $controller->view->getData()) {
 			$controller->route('base');
 		}
+
+		// render the data
 		$controller->view->render();
 
 		// successfull load of final controller
@@ -169,23 +171,6 @@ class Controller extends Config
 			// launch index
 			return $this->index();
 		}
-	}
-
-
-	/**
-	 * moves the script to another url, could be full or
-	 * looking for a scheme in the url array
-	 * @param  string  $scheme see class 'Config'
-	 * @param  string $path   extension of the base action
-	 */
-	public function route($schemeOrFullPath = '', $extension = false) {		
-		if ($this->config->getUrl($schemeOrFullPath)) {
-			$url = $this->config->getUrl($schemeOrFullPath);
-		} else {
-			$url = $schemeOrFullPath;
-		}
-		header("Location: " . $url . $extension);
-		exit;
 	}
 
 
@@ -247,22 +232,36 @@ class Controller extends Config
 		if (array_key_exists('search', $_GET)) {
 			$this->search($_GET['search']);
 		}
+
+		// main navigation
+		$viewHeader = new view_header($this->database, $this->config);
+		$this->view->setObject('mainMenu', $viewHeader->getMainMenu());
 	}
 
 
 	public function index() {
-		$modelContent = new model_content($this->database, $this->config);
-		$modelContent->read(array(
-			'where' => array(
-				'type' => 'post'
-			),
-			'limit' => array(0, 10)
-		));
-		$modelContent->bindMeta('tag');
-		$modelContent->bindMeta('media');
-		$this->view
-			->setObject('contents', $modelContent)
-			->getTemplate('home');
+		$cache = new cache($this->database, $this->config);
+
+		// latest 3 posts
+		if ($cache->read('home-latest-posts')) {
+			$this->view->setObject('contents', $cache->getData());
+		} else {
+			$modelContent = new model_content($this->database, $this->config);
+			$modelContent->read(array(
+				'where' => array(
+					'type' => 'post'
+				),
+				'limit' => array(0, 3)
+			));
+			$modelContent->bindMeta('tag');
+			$modelContent->bindMeta('media');
+			$this->view->setObject('contents', $modelContent->getData());
+			$cache->create($modelContent->getData());
+		}
+
+
+
+		$this->view->getTemplate('home');
 	}
 
 

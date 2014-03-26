@@ -34,7 +34,9 @@ module.exports = function(grunt) {
           cssDir: 'asset',
           sassDir: 'sass',
           javascriptsDir: 'js',
-          imagesDir: 'media'
+          imagesDir: 'media',
+          relativeAssets: true
+
 // # output_style = :expanded or :nested or :compact or :compressed
 
         },

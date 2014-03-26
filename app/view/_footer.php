@@ -1,6 +1,6 @@
 <?php if (! $this->comingSoon): ?>
 
-			<footer class="main clearfix">
+			<footer class="container-footer clearfix">
 				<div class="inner">
 					<nav>
 						<a href="<?php echo $this->url() ?>page/about-me/">About me</a>
@@ -20,6 +20,7 @@
 
 <?php endif ?>
 
+		</div> <!-- .container -->
         <script src="<?php echo $this->url() ?>asset/main.js?v=1"></script>
     </body>
 </html>

@@ -19,6 +19,9 @@ class Cache extends Config
 	public $path = 'app/cache/';
 
 
+	public $keyCurrent = '';
+
+
 	/**
 	 * typical extension used
 	 * @var string
@@ -56,15 +59,11 @@ class Cache extends Config
 	 * @param  array $data 
 	 * @return bool       
 	 */
-	public function create($key, $data)
+	public function create($data)
 	{
 
-		// normalise
-		$key = $this->urlFriendly($key);
-
-
 		// file must not already exist
-		if ($this->fileExists($key)) {
+		if ($this->fileExists($this->getKey())) {
 			return;
 		}
 
@@ -72,9 +71,15 @@ class Cache extends Config
 		$data = serialize($data);
 
 		// write to file
-		if (file_put_contents($this->getPath($key), $data)) {
+		if (file_put_contents($this->getPath($this->getKey()), $data)) {
 			return true;
 		}
+	}
+
+
+	public function getKey()
+	{
+		return $this->keyCurrent;
 	}
 
 
@@ -86,6 +91,9 @@ class Cache extends Config
 	 */
 	public function read($key)
 	{
+
+		// store attempted key for create function
+		$this->keyCurrent = $key;
 
 		// quickly check if a file exists
 		if (! $this->fileExists($key)) {

@@ -71,7 +71,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
  */
 /* line 55, sprite/*.png */
 .sprite-sprite {
-  background-image: url('/media/sprite-s6495869aa8.png');
+  background-image: url('../../media/sprite-s6495869aa8.png');
   background-repeat: no-repeat;
 }
 
@@ -80,6 +80,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
  */
 /**
  * functions
+ */
+/**
+ * accepts a point key and uses the correct breakpoint
  */
 /**
  * accepts a path and sets 
@@ -445,6 +448,179 @@ a:link {
 }
 
 /**
+ * mobile first grid (testing)
+ */
+/*! smart-grid.css 5.1.0 | MIT License | http://dryan.com/css-smart-grid */
+/* line 7, ../../sass/vendor/smart-grid.scss */
+.container {
+  max-width: 940px;
+  padding: 0 1.06383%;
+  margin: 0 auto;
+}
+
+/* line 12, ../../sass/vendor/smart-grid.scss */
+.container,
+.row {
+  zoom: 1;
+}
+/* line 31, ../../sass/vendor/smart-grid-containers.scss */
+.container:before, .container:after,
+.row:before,
+.row:after {
+  content: "";
+  display: table;
+}
+/* line 35, ../../sass/vendor/smart-grid-containers.scss */
+.container:after,
+.row:after {
+  clear: both;
+}
+
+@media (min-width: 481px) {
+  /* line 27, ../../sass/vendor/smart-grid-columns.scss */
+  .columns {
+    float: left;
+    margin: 0 0 0 2.12766%;
+    width: 6.38298%;
+  }
+  /* line 7, ../../sass/vendor/smart-grid-columns.scss */
+  .columns:first-child {
+    margin-left: 0;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.two {
+    width: 14.89362%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.three, .columns.one-fourth {
+    width: 23.40426%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.four, .columns.one-third {
+    width: 31.91489%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.five {
+    width: 40.42553%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.six, .columns.one-half {
+    width: 48.93617%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.seven {
+    width: 57.44681%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.eight, .columns.two-thirds {
+    width: 65.95745%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.nine, .columns.three-fourths {
+    width: 74.46808%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.ten {
+    width: 82.97872%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.eleven {
+    width: 91.48936%;
+  }
+  /* line 34, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.twelve, .columns.full {
+    width: 100.0%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-one {
+    margin-left: 10.6383%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-one:first-child {
+    margin-left: 8.51064%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-two {
+    margin-left: 19.14894%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-two:first-child {
+    margin-left: 17.02128%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-three {
+    margin-left: 27.65957%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-three:first-child {
+    margin-left: 25.53191%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-four {
+    margin-left: 36.17021%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-four:first-child {
+    margin-left: 34.04255%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-five {
+    margin-left: 44.68085%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-five:first-child {
+    margin-left: 42.55319%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-six {
+    margin-left: 53.19149%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-six:first-child {
+    margin-left: 51.06383%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-seven {
+    margin-left: 61.70213%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-seven:first-child {
+    margin-left: 59.57447%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-eight {
+    margin-left: 70.21277%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-eight:first-child {
+    margin-left: 68.08511%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-nine {
+    margin-left: 78.7234%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-nine:first-child {
+    margin-left: 76.59574%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-ten {
+    margin-left: 87.23404%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-ten:first-child {
+    margin-left: 85.10638%;
+  }
+  /* line 43, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-eleven {
+    margin-left: 95.74468%;
+  }
+  /* line 21, ../../sass/vendor/smart-grid-columns.scss */
+  .columns.offset-eleven:first-child {
+    margin-left: 93.61702%;
+  }
+}
+/**
  * handy classes
  */
 /* line 1, ../../sass/_reusable.scss */
@@ -533,12 +709,12 @@ a:link {
 }
 
 /* line 73, ../../sass/_reusable.scss */
-.left {
+.float-left {
   float: left;
 }
 
 /* line 77, ../../sass/_reusable.scss */
-.right {
+.float-right {
   float: right;
 }
 
@@ -547,10 +723,6 @@ a:link {
   text-transform: uppercase;
 }
 
-/* line 86, ../../sass/_reusable.scss */
-.spinner {
-  background: url('/media/ajax.gif?1368257192') 50% 50% no-repeat;
-}
 /* line 89, ../../sass/_reusable.scss */
 .spinner.is-tall {
   height: 80px;
@@ -618,12 +790,49 @@ table.basic td {
 
 /* line 150, ../../sass/_reusable.scss */
 .has-smooth-scroll {
-  background-color: white;
+  color: white;
+  background-color: #ca3566;
 }
 
-/* line 154, ../../sass/_reusable.scss */
+/* line 155, ../../sass/_reusable.scss */
 .b0 {
   border: 0;
+}
+
+/**
+ * depreciated
+ */
+/* line 162, ../../sass/_reusable.scss */
+.row {
+  position: relative;
+  margin-bottom: 1em;
+}
+
+/* line 167, ../../sass/_reusable.scss */
+.full-width-center {
+  width: 800px;
+  margin: 0 auto;
+}
+
+/* line 172, ../../sass/_reusable.scss */
+.position-relative {
+  position: relative;
+}
+
+/* line 176, ../../sass/_reusable.scss */
+.order-1 {
+  z-index: 10;
+}
+
+/* line 180, ../../sass/_reusable.scss */
+.order-2 {
+  z-index: 20;
+}
+
+/* line 184, ../../sass/_reusable.scss */
+.image-fill-bounds {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 /**
@@ -1136,7 +1345,7 @@ table.basic td {
 /**
  * where to put this?
  */
-/* line 60, ../../sass/_global.scss */
+/* line 66, ../../sass/_global.scss */
 body {
   line-height: 1.5;
 }
@@ -1333,8 +1542,10 @@ label {
   margin-right: 1em;
   float: right;
 }
-/* line 41, ../../sass/admin/_list.scss */
+/* line 42, ../../sass/admin/_list.scss */
+.admin-tag .tag .content-post-html,
 .admin-tag .tag .content-post-author,
+.admin-content-post .content-post .content-post-html,
 .admin-content-post .content-post .content-post-author {
   display: none;
 }
@@ -1605,7 +1816,7 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
-/* line 62, ../../sass/_mixin.scss */
+/* line 116, ../../sass/_mixin.scss */
 .button.primary:hover,
 .button.secondary:hover,
 .button.tertiary:hover,
@@ -1621,7 +1832,7 @@ body {
   color: #4d4d4d;
   text-decoration: none;
 }
-/* line 70, ../../sass/_mixin.scss */
+/* line 124, ../../sass/_mixin.scss */
 .button.primary:active,
 .button.secondary:active,
 .button.tertiary:active,

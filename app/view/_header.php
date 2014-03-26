@@ -19,26 +19,39 @@
         <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
+    <div class="container container-site">
+
 <?php if (! $this->isComingSoon()): ?>
+
+<a href="#" class="to-top"><span class="icon"></span>Top</a>
+    <header class="container-header row js-container-header">
+        <div class="columns four">
     
-    <a href="#" class="to-top"><span class="icon"></span>Top</a>
-    <div class="wrap">
-        <header class="main clearfix">
+    <?php require($this->pathView('_logo')) ?>
+
+        </div>
+        <div class="columns four">
             <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
                 <span class="propos-lettering">á propos de moi</span>
                 <span class="propos-flower"><img src="<?php echo $this->url() ?>media/sprite/flower.png" alt="Flower"></span>
             </a>
-
-    <?php require($this->pathView('_logo')) ?>
-
-            <form class="search" method="get">
+        </div>
+        <div class="columns four">
+            <form class="header-search" method="get">
                 <label for="search-text" class="label">Search</label>
                 <input id="search-text" type="text" name="search" type="text" maxlength="75">
                 <a href="#" class="submit button primary">Search</a>
                 <input type="submit">
                 <span class="icon close"></span>
             </form> 
-            <a href="#" class="button tertiary">l'histoire complète</a>
-        </header>
-        
+            <a href="#" class="button tertiary header-button-history">l'histoire complète</a>
+        </div>
+        <span class="header-button-mobile-menu js-header-button-mobile-menu"></span>
+        <div class="clearfix"></div>
+
+    <?php $menu = $mainMenu; ?>
+    <?php require($this->pathView('_menu')) ?>
+
+    </header>
+    
 <?php endif ?>

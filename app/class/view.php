@@ -65,6 +65,7 @@ class View extends Model
 
 	/**
 	 * sets header and outputs the data
+	 * only used by the controller class
 	 */
 	public function render()
 	{

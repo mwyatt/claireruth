@@ -18,7 +18,7 @@ footer.main {
 
     /* 
 @include sprite-sprite('bookstack');
-@include block-width-height('sprite/bookstack.png');
+@include image-size('sprite/bookstack.png');
 display: block;
 margin: 0 auto;
 float: left;
