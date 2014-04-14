@@ -280,19 +280,23 @@ class Controller extends Config
 
 
 	public function page() {
-		if ($this->config->getUrl(1)) {
-			$page = new model_content($this->database, $this->config);
-			if (! $page->readByTitle(array($this->config->getUrl(1)))) {
-				$this->view->getTemplate('404');
-			}
-			$this->view
-				->setMeta(array(		
-					'title' => $page->getData('title')
-				))
-				->setObject($page)
-				->getTemplate('content-single');
+		if (! $this->config->getUrl(1)) {
+			$this->route('base');
 		}
-		$this->route('base');
+		$modelContent = new model_content($this->database, $this->config);
+		if (! $modelContent->read(array(
+			'where' => array(
+				'slug' => $this->config->getUrl(1)
+			)
+		))) {
+			$this->route('base');
+		}
+		$this->view
+			->setMeta(array(		
+				'title' => $modelContent->getData('title')
+			))
+			->setObject('contents', $modelContent)
+			->renderTemplate('content-single');
 	}
 
 

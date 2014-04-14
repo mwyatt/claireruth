@@ -1,5 +1,7 @@
 <?php require_once($this->pathView('_header')) ?>
-	
+<?php if ($contents): ?>
+	<?php foreach ($contents as $content): ?>
+		
 <div class="content content-single <?php echo $content->type ?>-single clearfix" data-id="<?php echo $content->id ?>">
 	<h1 class="h1 content-single-title"><?php echo $content->title ?></h1>
 
@@ -20,5 +22,6 @@
 		<?php endif ?>
  -->
 </div>
-
+	<?php endforeach ?>
+<?php endif ?>
 <?php require_once($this->pathView('_footer')) ?>
