@@ -81,7 +81,10 @@ class Controller_Admin_Content extends Controller
 
 	public function post() {
 		$content = new model_content($this->database, $this->config);
-		$content->read(array('where' => array('type' => $this->config->getUrl(2))));
+		$content->read(array(
+			'where' => array('type' => $this->config->getUrl(2)),
+			'order_by' => 'time_published desc'
+		));
 		$this->view
 			->setObject('contents', $content)
 			->renderTemplate('admin/content/list');

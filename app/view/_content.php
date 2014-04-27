@@ -1,3 +1,5 @@
+<?php $theDate = date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?>
+
 <div class="content-<?php echo $content->type ?> clearfix<?php echo ($content->media ? ' has-thumb' : '') ?>" data-id="<?php echo $content->id ?>">
 
 <?php if ($content->media): ?>
@@ -10,7 +12,7 @@
 <?php echo $content->html ?>
 
 	</div>
-	<span class="content-<?php echo $content->type ?>-date" title="<?php echo date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?>"><?php echo date('jS F', $content->time_published) ?></span>
+	<span class="content-<?php echo $content->type ?>-date" title="<?php echo $theDate ?>"><?php echo $theDate ?></span>
 
 <?php $tags = $content->tag ?>
 <?php include($this->pathView('_tags')) ?>

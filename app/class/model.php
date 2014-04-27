@@ -72,6 +72,9 @@ class Model extends Config
 		if (array_key_exists('where', $properties)) {
 			$statement[] = $this->getSqlWhere($properties['where']);
 		}
+		if (array_key_exists('order_by', $properties)) {
+			$statement[] = 'order by ' . $properties['order_by'];
+		}
 		if (array_key_exists('limit', $properties)) {
 			$statement[] = $this->getSqlLimit($properties['limit']);
 		}

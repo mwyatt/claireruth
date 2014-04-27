@@ -15,28 +15,12 @@
 			<input id="form_title" class="required" type="text" name="title" maxlength="75" value="<?php echo $content->title ?>" autofocus="autofocus">
 		</div>			
 
-<?php if ($this->url(2) != 'minutes' && $this->url(2) != 'cup'): ?>
-	<?php include($this->pathView('admin/content/_wysihtml5')) ?>
-<?php endif ?>
+<?php include($this->pathView('admin/content/_wysihtml5')) ?>
 
 		<div class="row media layout-media-5-col clearfix">
-			<a href="<?php echo $this->url() ?>admin/ajax/media/lightbox/" class="button primary js-lightbox-media-browser right">Attach files</a>
-			<label class="h5 block mb05">Media</label>
+			<h2 class="h2">Media</h2>
 
-<?php if ($medias = $content->media): ?>
-			
-			<div class="attached layout-media-5-col">
-
-	<?php include($this->pathView('admin/_medias')) ?>
-	<?php foreach ($content->media as $media): ?>
-
-			<input type="hidden" name="media[]" value="<?php echo $media['id'] ?>">
-		
-	<?php endforeach ?>
-
-			</div>
-	
-<?php endif ?>
+<?php include($this->pathView('admin/media/_browser')) ?>
 
 		</div>
 		<div class="row tag-manage-container clearfix">

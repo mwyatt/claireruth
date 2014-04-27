@@ -1,12 +1,7 @@
 .content-post {
-    background: $color-white;
     position: relative;
-    margin-bottom: 1em;
-    @include border-radius(5px);
-    border: 1px solid $color-secondary;
-    padding: 0.7em;
-    min-height: 4em;
-
+    padding: 1em;
+    
     .content-post-title {
         margin: 0 0 0.5em;
         font-size: 1.3em;

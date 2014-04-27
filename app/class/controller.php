@@ -124,9 +124,9 @@ class Controller extends Config
 		}
 
 		// route away if no data set
-		if (! $controller->view->getData()) {
-			$controller->route('base');
-		}
+		// if (! $controller->view->getData()) {
+		// 	$controller->route('base');
+		// }
 
 		// render the data
 		$controller->view->render();

@@ -22,8 +22,8 @@ class Controller_Admin_Ajax_Media extends Controller
 		$modelMedia = new model_media($this->database, $this->config);
 		$modelMedia->read();
 		$this->view
-			->setObject('medias', $modelMedia)
-			->getTemplate('admin/_medias');
+			->setObject('media', $modelMedia)
+			->renderTemplate('_media');
 	}
 
 
@@ -32,12 +32,14 @@ class Controller_Admin_Ajax_Media extends Controller
 	 * @return string the forms and error messages required to update
 	 */
 	public function upload() {
-		$modelMedia = new model_media($this->database, $this->config);
-		$modelMedia->upload($_FILES);
-		$this
-			->view
-			->setObject($modelMedia)
-			->getTemplate('admin/media/return');
+		$file = new File($this->database, $this->config);
+		$file->setTypesAcceptable(array('image/gif', 'image/png', 'image/jpeg', 'image/pjpeg', 'image/jpeg', 'image/pjpeg', 'application/pdf'));
+
+		// success
+		if ($file->upload('form_media', $_FILES)) {
+			echo 'ok';
+		}
+		exit;
 	}
 
 
