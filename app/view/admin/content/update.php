@@ -20,6 +20,7 @@
 		<div class="row media layout-media-5-col clearfix">
 			<h2 class="h2">Media</h2>
 
+<?php $media = $content->media ?>
 <?php include($this->pathView('admin/media/_browser')) ?>
 
 		</div>
