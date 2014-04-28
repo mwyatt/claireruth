@@ -56,7 +56,7 @@ $sessionHistory->add($config->getUrl('current'));
  * unit tests
  */
 // $test = new test($database, $config);
-// $test->mail();
+// $test->media();
 
 
 /**

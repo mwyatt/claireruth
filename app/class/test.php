@@ -15,7 +15,6 @@ class Test extends Config
 	{
 
 
-
 echo '<pre>';
 var_dump($this->config->getOption('site_title'));
 echo '</pre>';

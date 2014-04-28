@@ -35,9 +35,10 @@ function moduleContentCreateUpdate () {
 
 	// tie in content meta
 	var modelContentMeta = new Model_Content_Meta();
+	var modelMediaBrowser = new Model_Media_Browser();
 
 	// tag
 	var modelTag = new Model_Tag({
 		template: 'create-update'
 	});
-}
+};

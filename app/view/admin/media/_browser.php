@@ -13,16 +13,12 @@
 
 	</div>
 	<div class="row">
-    	<div class="media-search columns four">
+    	<div class="media-search columns six">
     		<input type="text" placeholder="Search" class="js-media-search-input">
     	</div>
-    	<div class="columns four js-is-hidden-while-searching hidden">
-			<input class="mr1 form-new-directory-input js-form-new-directory-input" type="text" placeholder="Folder Name">
-			<a class="button submit form-new-directory-button js-form-new-directory-button">Create</a>
-    	</div>
-    	<div class="upload columns four js-form-upload js-is-hidden-while-searching">
+    	<div class="upload columns six js-form-upload js-is-hidden-while-searching">
     	    <label for="form_images">Upload Media</label>
-    	    <input id="form_images" class="upload-input right" type="file" name="images" multiple />
+    	    <input id="form_images" class="js-media-input-upload right" type="file" name="form_media" multiple />
     	    <progress class="upload-progress hidden clearfix" value="0" max="100"></progress>
     	</div>
 	</div>
