@@ -17,29 +17,25 @@
 
 <?php include($this->pathView('admin/content/_wysihtml5')) ?>
 
-		<div class="row media layout-media-5-col clearfix">
+		<div class="clearfix">
 			<h2 class="h2">Media</h2>
 
 <?php $media = $content->media ?>
 <?php include($this->pathView('admin/media/_browser')) ?>
 
 		</div>
-		<div class="row tag-manage-container clearfix">
-			<input id="form-tag-search" class="search js-tag-input-search right" type="text" name="tag_search" maxlength="100" value="" placeholder="Tag Name">
-			<div class="form-tag-drop js-form-tag-drop hidden"></div>
-			<label class="h5 block mb05" for="form-tag-search">Tag</label>
-			<div class="tags js-tag-attached">
+		<div class="clearfix">
+			<h2 class="h2">Tags</h2>
 	
-<?php if ($tags = $content->tag): ?>
-	<?php include($this->pathView('admin/_tags')) ?>
-<?php endif ?>
+<?php $tags = $content->tag ?>
+<?php include($this->pathView('admin/tag/_browser')) ?>
 
 			</div>
 		</div>
 
 <?php if ($contentStatus): ?>
 	
-		<div class="row clearfix">
+		<div class="clearfix">
 			<label for="status">Status</label>
 			<select name="status" id="status">
 

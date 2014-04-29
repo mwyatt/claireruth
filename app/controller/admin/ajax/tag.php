@@ -19,40 +19,56 @@ class Controller_Admin_Ajax_Tag extends Controller
 	 * default display for the tag browser
 	 */
 	public function read() {
-		$modelTag = new model_tag($this->database, $this->config);
-		$modelTag->readUniqueLike();
+		$model = new model_tag($this->database, $this->config);
+		$model->readUniqueLike();
 		$this->view
-			->setObject('tags', $modelTag)
+			->setObject('tags', $model)
 			->getTemplate('admin/_tags');
 	}
 
 
-	public function search($compatibility = false) {
+	public function search() {
 		if (! array_key_exists('query', $_GET)) {
 			return;
 		}
-		$modelTag = new model_tag($this->database, $this->config);
-		$modelTag->readUniqueLike($_GET['query']);
+		$words = ;
+		$where = array();
+		foreach (explode(' ', $_GET['query']) as $word) {
+			$where
+		}
+		$model = new model_tag($this->database, $this->config);
+		$model->read(array(
+			'where' => array(
+				'title' => '%something%'
+			)
+		));
 		$this->view
-			->setObject('tags', $modelTag)
+			->setObject('tags', $model)
 			->getTemplate('admin/_tags');
 	}
 
 
+	/**
+	 * outputs the id of the found tag, or newly created one
+	 */
 	public function create() {
 		if (! array_key_exists('title', $_GET)) {
 			exit;
 		}
-		$modelTag = new model_tag($this->database, $this->config);
-		if (! $modelTag->create(array(
-			'title' => $_GET['title']
-			, 'description' => ''
-		))) {
-			exit;
+		$tagNewTitle = $_GET['title'];
+		$model = new model_tag($this->database, $this->config);
+		$model->read(array(
+			'where' => array(
+				'title' => $tagNewTitle
+			)
+		));
+		if ($mold = $model->getDataFirst()) {
+			exit($mold->id);
 		}
-		$modelTag->read($_GET['title']);
-		$this->view
-			->setObject('tags', $modelTag)
-			->getTemplate('admin/_tags');
+		$mold = new mold_tag();
+		$mold->title = $tagNewTitle;
+		$mold->description = '';
+		$insertIds = $model->create(array($mold));
+		echo current($insertIds);
 	}
 }

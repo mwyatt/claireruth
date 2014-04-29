@@ -7,6 +7,7 @@ var Model_Media_Browser = function (options) {
 	}
 	this.options = $.extend(defaults, options);
 	this.cache = {
+		medium: '.js-medium',
 		progressBar: '.js-media-progress',
 		mediaBrowser: '.js-media-browser',
 		mediaAttached: '.js-media-attached',
@@ -17,6 +18,7 @@ var Model_Media_Browser = function (options) {
 	};
 	this.formData = {};
 	this.resetFormData(this);
+	this.refreshHidden(this);
 	this.refreshBrowser(this);
 };
 
@@ -58,6 +60,22 @@ Model_Media_Browser.prototype.appendFiles = function(data, files) {
 
 
 /**
+ * builds the hidden field structure in the media browser to represent
+ * attached files
+ */
+Model_Media_Browser.prototype.refreshHidden = function(data) {
+	var attachedZone = $(data.cache.mediaAttached);
+	var attachedMedia = attachedZone.find(data.cache.medium);
+	var attachedMediaSingle;
+	$('input[name="media_attached[]"]').remove();
+	for (var i = attachedMedia.length - 1; i >= 0; i--) {
+		attachedMediaSingle = $(attachedMedia[i]);
+		attachedZone.append('<input name="media_attached[]" type="hidden" value="' + attachedMediaSingle.data('id') + '">');
+	};
+};
+
+
+/**
  * refresh events
  */
 Model_Media_Browser.prototype.events = function(data) {
@@ -67,6 +85,20 @@ Model_Media_Browser.prototype.events = function(data) {
 			data.resetFormData(data);
 			data.appendFiles(data, this.files);
 			data.upload(data);
+		});
+	$(data.cache.mediaBrowserDirectory).find(data.cache.medium)
+		.off('click')
+		.on('click', function() {
+			$(this).clone().appendTo(data.cache.mediaAttached);
+			data.refreshHidden(data);
+			data.events(data);
+		});
+	$(data.cache.mediaAttached).find(data.cache.medium)
+		.off('click')
+		.on('click', function() {
+			$(this).remove();
+			data.refreshHidden(data);
+			data.events(data);
 		});
 };
 

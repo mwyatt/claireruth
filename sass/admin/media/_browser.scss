@@ -1,0 +1,13 @@
+.media-browser-attached .medium,
+.media-browser-directory .medium {
+    float: left;
+    width: 14%;
+    padding: 1%;
+    margin: 1%;
+    border: 1px solid;
+    cursor: pointer;
+}
+.medium-thumb-image {
+    max-width: 100%;
+    max-height: 100%;
+}

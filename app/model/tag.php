@@ -18,43 +18,11 @@ class Model_Tag extends Model
 
 
 	/**
-	 * gets all tags or by specific content id
-	 * @param  array $contentIds 
-	 * @return array content_id => array of tags   
-	 */
-	// public function readContentId($contentIds = array()) {	
-	// 	$parsedData = array();
-	// 	$sth = $this->database->dbh->prepare("	
-	// 		select
-	// 			tag.id
-	// 			, tag.title
-	// 			, tag.description
-	// 		from content_meta
- //                left join tag on tag.id = content_meta.value
-	// 		where content_meta.content_id = :content_id
- //                and content_meta.name = 'tag'
-	// 	");
-	// 	foreach ($contentIds as $contentId) {
-	// 		$this->bindValue($sth, ':content_id', $contentId);
-	// 		$this->tryExecute($sth, '88667845');
-	// 		if ($sth->rowCount()) {
-	// 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-	// 				$row['url'] = $this->buildUrl(array('tag', $row['title']));
-	// 				$row['title_friendly'] = ucwords($row['title']);
-	// 				$parsedData[$contentId][] = $row;
-	// 			}
-	// 		}
-	// 	}
-	// 	return $this->setData($parsedData);
-	// }
-
-
-	/**
 	 * gets unique tags based on a search query
 	 * @param  string $query 
 	 * @return int        total results
 	 */
-	public function readUniqueLike($query = '') {	
+	public function readSearch($query = '') {	
 		if (! $query) {
 			return;
 		}

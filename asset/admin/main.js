@@ -19470,7 +19470,7 @@ var wysihtml5ParserRules = {
             "rename_tag": "div"
         }
     }
-};;;/**
+};;/**
  */
 var Content_Meta = function (options) {
 	var defaults = {
@@ -19780,6 +19780,7 @@ var Model_Media_Browser = function (options) {
 	}
 	this.options = $.extend(defaults, options);
 	this.cache = {
+		medium: '.js-medium',
 		progressBar: '.js-media-progress',
 		mediaBrowser: '.js-media-browser',
 		mediaAttached: '.js-media-attached',
@@ -19790,6 +19791,7 @@ var Model_Media_Browser = function (options) {
 	};
 	this.formData = {};
 	this.resetFormData(this);
+	this.refreshHidden(this);
 	this.refreshBrowser(this);
 };
 
@@ -19831,6 +19833,22 @@ Model_Media_Browser.prototype.appendFiles = function(data, files) {
 
 
 /**
+ * builds the hidden field structure in the media browser to represent
+ * attached files
+ */
+Model_Media_Browser.prototype.refreshHidden = function(data) {
+	var attachedZone = $(data.cache.mediaAttached);
+	var attachedMedia = attachedZone.find(data.cache.medium);
+	var attachedMediaSingle;
+	$('input[name="media_attached[]"]').remove();
+	for (var i = attachedMedia.length - 1; i >= 0; i--) {
+		attachedMediaSingle = $(attachedMedia[i]);
+		attachedZone.append('<input name="media_attached[]" type="hidden" value="' + attachedMediaSingle.data('id') + '">');
+	};
+};
+
+
+/**
  * refresh events
  */
 Model_Media_Browser.prototype.events = function(data) {
@@ -19840,6 +19858,20 @@ Model_Media_Browser.prototype.events = function(data) {
 			data.resetFormData(data);
 			data.appendFiles(data, this.files);
 			data.upload(data);
+		});
+	$(data.cache.mediaBrowserDirectory).find(data.cache.medium)
+		.off('click')
+		.on('click', function() {
+			$(this).clone().appendTo(data.cache.mediaAttached);
+			data.refreshHidden(data);
+			data.events(data);
+		});
+	$(data.cache.mediaAttached).find(data.cache.medium)
+		.off('click')
+		.on('click', function() {
+			$(this).remove();
+			data.refreshHidden(data);
+			data.events(data);
 		});
 };
 
@@ -20113,53 +20145,43 @@ Model_Media = (function () {
  * interfaces with the tag table for the admin area
  * dependancy $
  */
-var Model_Tag = function (options) {
-	var defaults = {
-		template: 'default'
-	}
+var Model_Tag_Browser = function (options) {
+	var defaults = {}
 	this.options = $.extend(defaults, options);
-	this.dropDown = $('.js-form-tag-drop');
-	this.attachedTagContainer = $('.js-tag-attached');
-	this.searchField = $('.js-tag-input-search');
-	this.timer = 0;
-	this.data = this;
-	if (options.template == 'create-update') {
-		
-		// typing generally in tag field
-		// passing this through as event data
-		this.searchField
-			.off('keyup.modelTag')
-			.on('keyup.modelTag', this, function (event) {
-				event.data.keyupSearchField(event, $(this));
-			});
-
-		// setup already attached tags to be removed
-		this.refreshEventAttachedTags(this);
+	this.cache = {
+		tagBrowser: '.js-browser-tag',
+		tagInputSearch: '.js-browser-tag-input-search',
+		tag: '.js-tag',
+		// dropPosition: '.js-drop-position',
+		drop: '.js-drop',
+		// dropInner: '.js-drop-inner',
+		tagAttached: '.js-browser-tag-attached'
 	};
-	if (options.template == 'default') {
-
-	};
+	this.events(this);
 };
 
 
-/**
- * replenish the attached tags event
- */
-Model_Tag.prototype.refreshEventAttachedTags = function(event) {
-	event.data.attachedTagContainer.find('.js-tag')
-		.off('click.modelTag')
-		.on('click.modelTag', function (currentEvent) {
-			currentEvent.preventDefault();
-			event.data.aRemove(event, $(this));
+Model_Tag_Browser.prototype.events = function(data) {
+	$(data.cache.tagAttached).find(data.cache.tag)
+		.off('click')
+		.on('click', function(event) {
+			event.preventDefault();
+			data.aRemove(event, $(this));
+		});
+	$(data.cache.tagInputSearch)
+		.off('keyup')
+		.on('keyup', this, function() {
+			data.keyupSearchField(data, $(this));
 		});
 };
 
 
 /**
- * attaches a tag when clicked in the dropdown
+ * calls to see if tag exists, if not create and attach
+ * otherwise attach
  * @param {object} button 
  */
-Model_Tag.prototype.create = function(data) {
+Model_Tag_Browser.prototype.createPossibly = function(data) {
 	$.ajax({
 		url: config.url.adminAjax + 'tag/create'
 		, data: {
@@ -20171,7 +20193,7 @@ Model_Tag.prototype.create = function(data) {
 			if (! result) {
 				return;
 			};
-			result.appendTo(event.data.attachedTagContainer);
+			result.appendTo(data.attachedTagContainer);
 		}
 		, error: function (jqXHR, textStatus, errorThrown) {
 			alert(textStatus);
@@ -20184,24 +20206,28 @@ Model_Tag.prototype.create = function(data) {
  * perform ajax search and return result
  * @param  {string} query
  */
-Model_Tag.prototype.search = function(event, query) {
-	$.get(
-		config.url.adminAjax + 'tag/search',
-		{
+Model_Tag_Browser.prototype.search = function(data, query) {
+	$.ajax({
+		url: config.url.adminAjax + 'tag/search'
+		, data: {
 			query: query
-		},
-		function(result) { 
+		}
+		, type: 'get'
+		, success: function (result) {
 			if (result) {
-				event.data.dropDown
+				data.dropDown
 					.removeClass('hidden')
 					.html(result);
-				$(event.data.dropDown.selector).find('.js-tag').on('click.modelTag', function (thisEvent) {
+				$(data.dropDown.selector).find('.js-tag').on('click', function (thisEvent) {
 					thisEvent.preventDefault();
-					event.data.aAdd(event, $(this));
+					data.aAdd(event, $(this));
 				});
 			}
 		}
-	);
+		, error: function (jqXHR, textStatus, errorThrown) {
+			alert(textStatus);
+		}
+	});
 };
 
 
@@ -20209,7 +20235,7 @@ Model_Tag.prototype.search = function(event, query) {
  * removes a tag when clicked in the admin area
  * @param {object} button 
  */
-Model_Tag.prototype.aRemove = function(event, tag) {
+Model_Tag_Browser.prototype.aRemove = function(data, tag) {
 	var contentMeta = new Content_Meta({
 		name: 'tag'
 	});
@@ -20223,7 +20249,7 @@ Model_Tag.prototype.aRemove = function(event, tag) {
  * clicking a dropdown tag to attach
  * depentant on meta
  */
-Model_Tag.prototype.aAdd = function(event, tag) {
+Model_Tag_Browser.prototype.aAdd = function(event, tag) {
 	var tags = [tag.data('id')];
 
 	// create content association
@@ -20238,8 +20264,8 @@ Model_Tag.prototype.aAdd = function(event, tag) {
 		, success: function (result) {
 			
 			// move the button to the attached area
-			tag.appendTo(event.data.attachedTagContainer);
-			event.data.refreshEventAttachedTags(event);
+			tag.appendTo(data.attachedTagContainer);
+			data.refreshEventAttachedTags(data);
 		}
 		, error: function (jqXHR, textStatus, errorThrown) {
 			alert(textStatus);
@@ -20247,27 +20273,24 @@ Model_Tag.prototype.aAdd = function(event, tag) {
 	});
 
 	// no more tags in the dropdown
-	if (! event.data.dropTags) {
-		event.data.dropDown.html('');
+	if (! data.dropTags) {
+		data.dropDown.html('');
 	};
 
 	// empty the searchfield
-	event.data.searchField.val('');
+	data.searchField.val('');
 };
 
 
 /**
  * hitting keys when in the search field
  */
-Model_Tag.prototype.keyupSearchField = function(event, field) {
-
-	// clear timer always
-    clearTimeout(event.data.timer);
-	event.data.dropDown.html('');
+Model_Tag_Browser.prototype.keyupSearchField = function(event, field) {
+	data.dropDown.html('');
 
 	// enter key
 	if (event.which == 13) {
-		event.data.create({
+		data.create({
 			title: field.val()
 			, description: ''
 		});
@@ -20280,8 +20303,8 @@ Model_Tag.prototype.keyupSearchField = function(event, field) {
     }
 
     // timeout for search
-	event.data.timer = setTimeout(function() {
-		event.data.search(event, field.val());
+	data.timer = setTimeout(function() {
+		data.search(event, field.val());
 	}, 300);
 };
 ;var Prompt = function (options) {
@@ -20366,7 +20389,13 @@ $(document).ready(function() {
 
 	// try adding all logic for manipulating objects here...
 	if (config.content.hasClass('content-create-update')) {
-		moduleContentCreateUpdate();
+		var editor = new wysihtml5.Editor('form_html', {
+			toolbar: 'toolbar'
+			, parserRules: wysihtml5ParserRules
+			, useLineBreaks: false
+		});
+		var modelMediaBrowser = new Model_Media_Browser();
+		var modelTagBrowser = new Model_Tag_Browser();
 	};
 
 	// header always following on scroll
@@ -20375,26 +20404,3 @@ $(document).ready(function() {
 	// watch for dismissers
 	var dismiss = new Dismiss();
 });
-
-
-/**
- * content create update functionality
- */
-function moduleContentCreateUpdate () {
-	
-	// html5wysi
-	var editor = new wysihtml5.Editor('form_html', {
-		toolbar: 'toolbar'
-		, parserRules: wysihtml5ParserRules
-		, useLineBreaks: false
-	});
-
-	// tie in content meta
-	var modelContentMeta = new Model_Content_Meta();
-	var modelMediaBrowser = new Model_Media_Browser();
-
-	// tag
-	var modelTag = new Model_Tag({
-		template: 'create-update'
-	});
-};

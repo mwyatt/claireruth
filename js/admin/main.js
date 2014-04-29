@@ -10,7 +10,13 @@ $(document).ready(function() {
 
 	// try adding all logic for manipulating objects here...
 	if (config.content.hasClass('content-create-update')) {
-		moduleContentCreateUpdate();
+		var editor = new wysihtml5.Editor('form_html', {
+			toolbar: 'toolbar'
+			, parserRules: wysihtml5ParserRules
+			, useLineBreaks: false
+		});
+		var modelMediaBrowser = new Model_Media_Browser();
+		var modelTagBrowser = new Model_Tag_Browser();
 	};
 
 	// header always following on scroll
@@ -19,26 +25,3 @@ $(document).ready(function() {
 	// watch for dismissers
 	var dismiss = new Dismiss();
 });
-
-
-/**
- * content create update functionality
- */
-function moduleContentCreateUpdate () {
-	
-	// html5wysi
-	var editor = new wysihtml5.Editor('form_html', {
-		toolbar: 'toolbar'
-		, parserRules: wysihtml5ParserRules
-		, useLineBreaks: false
-	});
-
-	// tie in content meta
-	var modelContentMeta = new Model_Content_Meta();
-	var modelMediaBrowser = new Model_Media_Browser();
-
-	// tag
-	var modelTag = new Model_Tag({
-		template: 'create-update'
-	});
-};

@@ -331,4 +331,14 @@ class View extends Model
 	{
 		return $this->url(0) == 'admin';
 	}
+
+
+	/**
+	 * prepends the base and key folder for the media upload dir
+	 * @param  string $path 
+	 * @return string       
+	 */
+	public function getPathMediaUpload($path) { 
+		return $this->config->getUrl('base') . 'media/upload/' . $path;
+	}
 } 
