@@ -6,7 +6,7 @@
 	<?php if ($media): ?>
 		<?php foreach ($media as $medium): ?>
 
-		<input type="hidden" name="media[]" value="<?php echo $medium->id ?>">
+		<!-- <input type="hidden" name="media[]" value="<?php echo $medium->id ?>"> -->
 		
 		<?php endforeach ?>
 	<?php endif ?>
@@ -18,7 +18,7 @@
     	</div>
     	<div class="upload columns six js-form-upload js-is-hidden-while-searching">
     	    <label for="form_images">Upload Media</label>
-    	    <input id="form_images" class="js-media-input-upload right" type="file" name="form_media" multiple />
+    	    <input id="form_images" class="js-media-input-upload right" type="file" name="media[]" multiple />
     	    <progress class="upload-progress hidden clearfix" value="0" max="100"></progress>
     	</div>
 	</div>

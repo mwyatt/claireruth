@@ -36,8 +36,14 @@ class Controller_Admin_Ajax_Media extends Controller
 		$file->setTypesAcceptable(array('image/gif', 'image/png', 'image/jpeg', 'image/pjpeg', 'image/jpeg', 'image/pjpeg', 'application/pdf'));
 
 		// success
-		if ($file->upload('form_media', $_FILES)) {
+		if ($file->upload('media', $_FILES)) {
 			echo 'ok';
 		}
+
+		echo '<pre>';
+		print_r($file);
+		echo '</pre>';
+		exit;
+		
 	}
 }

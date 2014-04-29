@@ -19790,7 +19790,7 @@ var Model_Media_Browser = function (options) {
 	};
 	this.formData = {};
 	this.resetFormData(this);
-	this.events(this);
+	this.refreshBrowser(this);
 };
 
 
@@ -19834,21 +19834,18 @@ Model_Media_Browser.prototype.appendFiles = function(data, files) {
  * refresh events
  */
 Model_Media_Browser.prototype.events = function(data) {
-	$(data.cache.mediaInputUpload).on('change', function() {
-		data.upload(data, this.files);
-		console.log('value');
-	});
+	$(data.cache.mediaInputUpload)
+		.off('change')
+		.on('change', function() {
+			data.resetFormData(data);
+			data.appendFiles(data, this.files);
+			data.upload(data);
+		});
 };
 
 
-Model_Media_Browser.prototype.upload = function(data, files) {
+Model_Media_Browser.prototype.upload = function(data) {
 	var progressBar = $(data.cache.progressBar);
-
-	// formData
-	data.resetFormData(data);
-	data.appendFiles(data, files);
-
-	// perform ajax
 	$.ajax({
 		url: config.url.adminAjax + 'media/upload/'
 		, type: 'post'
@@ -19887,20 +19884,21 @@ Model_Media_Browser.prototype.upload = function(data, files) {
 
 
 Model_Media_Browser.prototype.refreshBrowser = function(data) {
-	// $(data.cache.mediaBrowserDirectory).html(config.spinner);
-	// $.ajax({
-	// 	url: config.url.ajax + 'media/read/'
-	// 	data: {},
-	// 	dataType: 'html',
-	// 	success: function(result) {
-	// 		if (result) {
-	// 			$(data.cache.mediaBrowserDirectory).html(result);
-	// 		} else {
-	// 			$(data.cache.mediaBrowserDirectory).html('<p class="p1">Nothing in this folder yet.</p>');
-	// 		}
-	// 		mediaBrowser.getTree();
-	// 	}
-	// });
+	var mediaBrowserDirectory = $(data.cache.mediaBrowserDirectory);
+	mediaBrowserDirectory.html(config.spinner);
+	$.ajax({
+		url: config.url.adminAjax + 'media/read/',
+		data: {},
+		dataType: 'html',
+		success: function(result) {
+			if (result) {
+				mediaBrowserDirectory.html(result);
+			} else {
+				mediaBrowserDirectory.html('<p class="p1">Nothing Uploaded Yet.</p>');
+			}
+			data.events(data);
+		}
+	});
 };
 ;/**
  * module for all actions involved with media things
