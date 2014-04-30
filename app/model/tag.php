@@ -17,41 +17,27 @@ class Model_Tag extends Model
 	);
 
 
-	/**
-	 * gets unique tags based on a search query
-	 * @param  string $query 
-	 * @return int        total results
-	 */
 	public function readSearch($query = '') {	
-		if (! $query) {
-			return;
+
+		// build
+		$statement = array();
+		$statement[] = $this->getSqlSelect();
+		$statement[] = 'where';
+		foreach (explode(' ', $query) as $word) {
+			$word = trim($word);
+			$statement[] = 'title like \'%' . $word . '%\'';
+			$statement[] = 'or';
 		}
-		$rows = array();
-		$matches = array();
-		$words = explode(' ', $query);
-		$sth = $this->database->dbh->prepare("	
-			select
-				id
-				, description
-				, title
-			from tag
-			where
-				tag.title like ?
-			group by tag.title
-			order by tag.title desc
-		");
-		foreach ($words as $word) {
-			$sth->execute(array(
-				'%' . $word . '%'
-			));
-			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$row['url'] = $this->buildUrl(array('tag', $row['title']));
-				$row['title_friendly'] = ucwords($row['title']);
-				$rows[$row['id']] = $row;
-			}
-		}
-		$this->data = $rows;
-		return count($this->getData());
+		array_pop($statement);
+		$statement[] = 'order by title desc';
+		$statement = implode(' ', $statement);
+
+		// prepare
+		$sth = $this->database->dbh->prepare($statement);
+
+		// execute
+		$this->tryExecute(__METHOD__, $sth);
+		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
 	}
 
 

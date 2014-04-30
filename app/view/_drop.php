@@ -2,7 +2,7 @@
 	<div class="drop js-drop">
 		<div class="drop-inner js-drop-inner">
 			
-<?php include($this->skin_dir . $template); ?>
+<?php include($this->pathView($dropTemplate)) ?>
 
 		</div>
 	</div>

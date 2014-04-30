@@ -64,14 +64,16 @@ Model_Tag_Browser.prototype.createPossibly = function(data) {
  * @param  {string} query
  */
 Model_Tag_Browser.prototype.search = function(data, query) {
+	$(data.cache.drop).addClass('hidden');
 	$.ajax({
-		url: config.url.adminAjax + 'tag/search'
+		url: config.url.adminAjax + 'tag/searching'
 		, data: {
 			query: query
 		}
 		, type: 'get'
 		, success: function (result) {
 			if (result) {
+
 				data.dropDown
 					.removeClass('hidden')
 					.html(result);

@@ -27,24 +27,16 @@ class Controller_Admin_Ajax_Tag extends Controller
 	}
 
 
-	public function search() {
+	public function searching() {
 		if (! array_key_exists('query', $_GET)) {
 			return;
 		}
-		$words = ;
-		$where = array();
-		foreach (explode(' ', $_GET['query']) as $word) {
-			$where
-		}
 		$model = new model_tag($this->database, $this->config);
-		$model->read(array(
-			'where' => array(
-				'title' => '%something%'
-			)
-		));
+		$model->readSearch($_GET['query']);
 		$this->view
+			->setObject('dropTemplate', '_tags')
 			->setObject('tags', $model)
-			->getTemplate('admin/_tags');
+			->getTemplate('_drop');
 	}
 
 
