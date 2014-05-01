@@ -55,12 +55,20 @@ class Controller_Admin_Ajax_Tag extends Controller
 			)
 		));
 		if ($mold = $model->getDataFirst()) {
-			exit($mold->id);
+			$this->view->setObject('tag', $mold);
+		} else {
+			$mold = new mold_tag();
+			$mold->title = $tagNewTitle;
+			$mold->description = '';
+			$insertIds = $model->create(array($mold));
+			$model->read(array(
+				'where' => array(
+					'id' => $insertIds
+				)
+			));
+			$mold = $model->getDataFirst();
+			$this->view->setObject('tag', $mold);
 		}
-		$mold = new mold_tag();
-		$mold->title = $tagNewTitle;
-		$mold->description = '';
-		$insertIds = $model->create(array($mold));
-		echo current($insertIds);
+		$this->view->getTemplate('_tag');
 	}
 }

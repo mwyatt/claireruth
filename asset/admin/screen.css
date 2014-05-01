@@ -1377,7 +1377,7 @@ label {
   cursor: pointer;
 }
 
-/* line 11, ../../sass/admin/media/_browser.scss */
+/* line 10, ../../sass/admin/media/_browser.scss */
 .medium-thumb-image {
   max-width: 100%;
   max-height: 100%;
@@ -1421,53 +1421,12 @@ footer.main {
   display: block;
 }
 
-/* line 1, ../../sass/admin/_tag.scss */
-.tag-manage-container .tag {
-  background-color: #e6e6e6;
-  border: 1px solid #cccccc;
-  float: left;
-  border-radius: 3px;
-  padding: 0.5em 0.7em 0.6em;
-  font-size: 0.8em;
-  margin: 0 0.5em 0.5em 0;
-  cursor: pointer;
-}
-/* line 11, ../../sass/admin/_tag.scss */
-.tag-manage-container .tag:hover {
-  border-color: #e6e6e6;
-  background-color: white;
-}
-/* line 16, ../../sass/admin/_tag.scss */
-.tag-manage-container .tag:active {
-  border-color: #b3b3b3;
-  background-color: #cccccc;
-}
-/* line 21, ../../sass/admin/_tag.scss */
-.tag-manage-container .tag .tag-action {
-  display: none;
-}
-
-/* line 26, ../../sass/admin/_tag.scss */
-.form-tag-drop {
-  -webkit-animation: bubble-in 300ms 0 ease both;
-  -moz-animation: bubble-in 300ms 0 ease both;
-  -ms-animation: bubble-in 300ms 0 ease both;
-  -webkit-box-shadow: 0 0 3px;
-  -moz-box-shadow: 0 0 3px;
-  box-shadow: 0 0 3px;
-  position: absolute;
-  top: 3em;
-  right: 0;
-  border: 1px solid;
+/* line 41, ../../sass/admin/_tag.scss */
+.browser-tag {
+  min-height: 7em;
   padding: 1em;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-
-/* line 37, ../../sass/admin/_tag.scss */
-.tag-manage-container {
-  position: relative;
+  background-color: #eee;
+  margin: 1em 0;
 }
 
 /* line 1, ../../sass/admin/_feedback.scss */

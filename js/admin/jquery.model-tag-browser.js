@@ -9,7 +9,7 @@ var Model_Tag_Browser = function (options) {
 		tagBrowser: '.js-browser-tag',
 		tagInputSearch: '.js-browser-tag-input-search',
 		tag: '.js-tag',
-		// dropPosition: '.js-drop-position',
+		dropPosition: '.js-drop-position',
 		drop: '.js-drop',
 		// dropInner: '.js-drop-inner',
 		tagAttached: '.js-browser-tag-attached'
@@ -23,12 +23,37 @@ Model_Tag_Browser.prototype.events = function(data) {
 		.off('click')
 		.on('click', function(event) {
 			event.preventDefault();
-			data.aRemove(event, $(this));
+			$(this).remove();			
+			data.refreshHidden(data);
+		});
+	$(data.cache.drop).find(data.cache.tag)
+		.off('click')
+		.on('click', function (event) {
+			event.preventDefault();
+			$(this).clone().appendTo(data.cache.tagAttached);
+			$(data.cache.dropPosition).remove();
+			data.refreshHidden(data);
+			data.events(data);
 		});
 	$(data.cache.tagInputSearch)
-		.off('keyup')
-		.on('keyup', this, function() {
-			data.keyupSearchField(data, $(this));
+		.off('keypress')
+		.on('keypress', function(event) {
+			$(data.cache.dropPosition).remove();
+			var code = event.keyCode || event.which; 
+			var field = $(this);
+
+			// enter key
+			if (code == 13) {
+				data.createPossibly(data, field);
+				event.preventDefault();
+				return false;
+		    }
+
+		    // handle search terms if long enough
+		    if (field.val().length < 2) {
+		    	return;
+		    }
+		    data.search(data, field.val());
 		});
 };
 
@@ -38,19 +63,16 @@ Model_Tag_Browser.prototype.events = function(data) {
  * otherwise attach
  * @param {object} button 
  */
-Model_Tag_Browser.prototype.createPossibly = function(data) {
+Model_Tag_Browser.prototype.createPossibly = function(data, field) {
 	$.ajax({
 		url: config.url.adminAjax + 'tag/create'
 		, data: {
-			title: data.title
-			, description: data.description
+			title: field.val()
+			, description: ''
 		}
 		, type: 'get'
 		, success: function (result) {
-			if (! result) {
-				return;
-			};
-			result.appendTo(data.attachedTagContainer);
+			$(data.cache.tagAttached).append(result);
 		}
 		, error: function (jqXHR, textStatus, errorThrown) {
 			alert(textStatus);
@@ -64,7 +86,6 @@ Model_Tag_Browser.prototype.createPossibly = function(data) {
  * @param  {string} query
  */
 Model_Tag_Browser.prototype.search = function(data, query) {
-	$(data.cache.drop).addClass('hidden');
 	$.ajax({
 		url: config.url.adminAjax + 'tag/searching'
 		, data: {
@@ -73,15 +94,9 @@ Model_Tag_Browser.prototype.search = function(data, query) {
 		, type: 'get'
 		, success: function (result) {
 			if (result) {
-
-				data.dropDown
-					.removeClass('hidden')
-					.html(result);
-				$(data.dropDown.selector).find('.js-tag').on('click', function (thisEvent) {
-					thisEvent.preventDefault();
-					data.aAdd(event, $(this));
-				});
+				$(data.cache.tagBrowser).append(result);
 			}
+			data.events(data);
 		}
 		, error: function (jqXHR, textStatus, errorThrown) {
 			alert(textStatus);
@@ -91,78 +106,16 @@ Model_Tag_Browser.prototype.search = function(data, query) {
 
 
 /**
- * removes a tag when clicked in the admin area
- * @param {object} button 
+ * builds the hidden field structure in the media browser to represent
+ * attached files
  */
-Model_Tag_Browser.prototype.aRemove = function(data, tag) {
-	var contentMeta = new Content_Meta({
-		name: 'tag'
-	});
-	contentMeta.modify(event, 'delete', [tag.data('id')], function() {
-		tag.remove();
-	});
-};
-
-
-/**
- * clicking a dropdown tag to attach
- * depentant on meta
- */
-Model_Tag_Browser.prototype.aAdd = function(event, tag) {
-	var tags = [tag.data('id')];
-
-	// create content association
-	$.ajax({
-		url: config.url.adminAjax + 'content/meta/create'
-		, type: 'get'
-		, data: {
-			content_id: config.content.data('id')
-			, name: 'tag'
-			, values: tags
-		}
-		, success: function (result) {
-			
-			// move the button to the attached area
-			tag.appendTo(data.attachedTagContainer);
-			data.refreshEventAttachedTags(data);
-		}
-		, error: function (jqXHR, textStatus, errorThrown) {
-			alert(textStatus);
-		}
-	});
-
-	// no more tags in the dropdown
-	if (! data.dropTags) {
-		data.dropDown.html('');
+Model_Tag_Browser.prototype.refreshHidden = function(data) {
+	var attachedZone = $(data.cache.tagAttached);
+	var attachedItem = attachedZone.find(data.cache.tag);
+	var attachedItemSingle;
+	$('input[name="tag_attached[]"]').remove();
+	for (var i = attachedItem.length - 1; i >= 0; i--) {
+		attachedItemSingle = $(attachedItem[i]);
+		attachedZone.append('<input name="tag_attached[]" type="hidden" value="' + attachedItemSingle.data('id') + '">');
 	};
-
-	// empty the searchfield
-	data.searchField.val('');
-};
-
-
-/**
- * hitting keys when in the search field
- */
-Model_Tag_Browser.prototype.keyupSearchField = function(event, field) {
-	data.dropDown.html('');
-
-	// enter key
-	if (event.which == 13) {
-		data.create({
-			title: field.val()
-			, description: ''
-		});
-		event.preventDefault();
-    }
-
-    // handle search terms if long enough
-    if (field.val().length < 2) {
-    	return;
-    }
-
-    // timeout for search
-	data.timer = setTimeout(function() {
-		data.search(event, field.val());
-	}, 300);
 };

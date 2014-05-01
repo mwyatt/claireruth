@@ -19,6 +19,11 @@ class Controller_Admin_Content extends Controller
 	 * handles crud for all content
 	 */
 	public function initialise() {
+		echo '<pre>';
+		print_r($_POST);
+		echo '</pre>';
+		exit;
+		
 		$viewAdminContent = new view_admin_content($this->database, $this->config);
 		$modelLog = new model_log($this->database, $this->config);
 		$modelContent = new model_content($this->database, $this->config);

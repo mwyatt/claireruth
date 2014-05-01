@@ -1,39 +1,46 @@
-.tag-manage-container .tag {
-	background-color: $color-gray-10;
-	border: 1px solid $color-gray-20;
-	float: left;
-	border-radius: 3px;
-	padding: 0.5em 0.7em 0.6em;
-	font-size: 0.8em;
-	margin: 0 0.5em 0.5em 0;
-	cursor: pointer;
+// .tag-manage-container .tag {
+// 	background-color: $color-gray-10;
+// 	border: 1px solid $color-gray-20;
+// 	float: left;
+// 	border-radius: 3px;
+// 	padding: 0.5em 0.7em 0.6em;
+// 	font-size: 0.8em;
+// 	margin: 0 0.5em 0.5em 0;
+// 	cursor: pointer;
 
-	&:hover {
-		border-color: $color-gray-10;
-		background-color: $color-white;
-	}
+// 	&:hover {
+// 		border-color: $color-gray-10;
+// 		background-color: $color-white;
+// 	}
 
-	&:active {
-		border-color: $color-gray-30;
-		background-color: $color-gray-20;
-	}
+// 	&:active {
+// 		border-color: $color-gray-30;
+// 		background-color: $color-gray-20;
+// 	}
 
-	.tag-action {
-		display: none;
-	}
-}
+// 	.tag-action {
+// 		display: none;
+// 	}
+// }
 
-.form-tag-drop {
-    @include animation(bubble-in 300ms 0 ease both); 
-    @include box-shadow(0 0 3px);
-    position: absolute;
-    top: 3em;
-    right: 0;
-    border: 1px solid;
+// .form-tag-drop {
+//     @include animation(bubble-in 300ms 0 ease both); 
+//     @include box-shadow(0 0 3px);
+//     position: absolute;
+//     top: 3em;
+//     right: 0;
+//     border: 1px solid;
+//     padding: 1em;
+//     @include border-radius(3px);
+// }
+
+// .tag-manage-container {
+//     position: relative;
+// }
+
+.browser-tag {
+    min-height: 7em;
     padding: 1em;
-    @include border-radius(3px);
-}
-
-.tag-manage-container {
-    position: relative;
+    background-color: #eee;
+    margin: 1em 0;
 }

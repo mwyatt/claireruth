@@ -1,1 +1,10 @@
-<a href="<?php echo $this->buildUrl(array('tag', $tag->title)) ?>" class="tag"><?php echo $tag->title ?></a>
+<a href="<?php echo $this->buildUrl(array('tag', $tag->title)) ?>" class="tag js-tag" data-id="<?php echo $tag->id ?>">
+	<span class="tag-title js-tag-title"><?php echo $tag->title ?></span>
+
+<?php if ($tag->description): ?>
+	
+	<span class="tag-description js-tag-description"><?php echo $tag->description ?></span>
+
+<?php endif ?>
+
+</a>
