@@ -3,10 +3,10 @@
 @import "header";
     @import "header/menu";
 @import "home";
-    @import "content/post";
-    @import "content/single";
-    @import "content/tag";
-    @import "content/media";
+@import "content";
+@import "content/single";
+@import "content/tag";
+@import "medium";
 @import "month"; 
 @import "pagination";
 @import "footer";
@@ -18,17 +18,15 @@ html {
 }
 
 body {
-    color: $color-text-primary;
+    color: $color-text;
     font-family: Droid Serif, serif;
 }
 
 .container-site {
-    padding-top: 1em;
-    padding-bottom: 1em;
+    margin-top: 4.1em;
 }
 
 .wrap-full-width {
-    width: 960px;
 }
 
 .button {
@@ -48,13 +46,35 @@ body {
 }
 
 .to-top {
-    display: none;
+    @include transition(all 200ms ease);
+    position: fixed;
+    bottom: 1em;
+    right: -2em;
+    width: 1.5em;
+    height: 1.5em;
+    z-index: 1;
+    fill: $color-primary;
 
     &.is-active {
-        position: absolute;
-        bottom: 1em;
-        right: 1em;
         display: block;
-        background: red;
+        right: 1em;
     }
+}
+
+.core-h1 {
+    @include text-shadow(1px 1px $color-text);
+    text-align: center;
+    padding: 0.3em;
+    background-color: $color-primary;
+    color: $color-white;
+    border-bottom: 1px solid $color-secondary;
+    font-size: 1.4em;
+    margin-bottom: 1em;
+}
+
+.content-single {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1.5em;
+    padding-bottom: 1em;
 }

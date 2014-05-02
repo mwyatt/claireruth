@@ -35,6 +35,7 @@ function setSubmit() {
 		.find('.submit')
 		.off('click')
 		.on('click',  function(event) {
+			console.log('value');
 			event.preventDefault();
 			var button = $(this);
 

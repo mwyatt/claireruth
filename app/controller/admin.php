@@ -99,38 +99,38 @@ class Controller_Admin extends Controller
 
 	public function index()
 	{
-		$this->route('current_noquery', 'content/post/');
+		$this->view->renderTemplate('admin/dashboard');
 	}
 
 
 	public function content() {
-		$this->route('current_noquery', 'content/post/');
+		$this->view->renderTemplate('admin/dashboard');
 	}
 
 
-	public function media()
-	{
-		// for nav menu
-	}
+	// public function media()
+	// {
+	// 	// for nav menu
+	// }
 
 
-	public function tag()
-	{
-		// for nav menu
-	}
+	// public function tag()
+	// {
+	// 	// for nav menu
+	// }
 
 
-	public function profile() {
-		$sessionFeedback = new session_feedback($this->database, $this->config);
-		$modelUser = new model_user($this->database, $this->config);
-		$sessionAdminUser = new session_admin_user($this->database, $this->config);
-		if (array_key_exists('form_update', $_POST)) {
-			// $modelUser->updateById($sessionAdminUser->getData('id'));
-			// crypt($_POST['password'])
-			$sessionFeedback->set('Profile successfully updated');
-			$this->route('current');
-		}
-		$this->view
-			->getTemplate('admin/profile');
-	}
+	// public function profile() {
+	// 	$sessionFeedback = new session_feedback($this->database, $this->config);
+	// 	$modelUser = new model_user($this->database, $this->config);
+	// 	$sessionAdminUser = new session_admin_user($this->database, $this->config);
+	// 	if (array_key_exists('form_update', $_POST)) {
+	// 		// $modelUser->updateById($sessionAdminUser->getData('id'));
+	// 		// crypt($_POST['password'])
+	// 		$sessionFeedback->set('Profile successfully updated');
+	// 		$this->route('current');
+	// 	}
+	// 	$this->view
+	// 		->getTemplate('admin/profile');
+	// }
 }

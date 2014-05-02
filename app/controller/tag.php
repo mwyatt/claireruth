@@ -15,40 +15,53 @@ class Controller_Tag extends Controller
 
 
 	public function index() {
-
-		// get tag data
 		$modelTag = new model_tag($this->database, $this->config);
 		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$modelContent = new model_content($this->database, $this->config);
+
+		// get tag data
 		$modelTagName = str_replace('-', ' ', $this->config->getUrl(1));
-		if (! $modelTag->getDataFirst($modelTagName)) {
-			$this->view->getTemplate('404');
+		$molds = $modelTag->read(array(
+			'where' => array('title' => $modelTagName)
+		));
+		if (! $molds) {
+			$this->route('base');
 		}
-		$this->view->setObject('single_tag', $modelTag);
+		$mold = $modelTag->getDataFirst();
+		$this->view->setObject('tagCurrent', $mold);
 
 		// gets content meta using the id of the tag found
-		if (! $modelContentMeta->readByValue('tag', $modelTag->getData('id'))) {
-			$this->view->getTemplate('404');
-		}
-
 		// get content data
-		$content = new model_content($this->database, $this->config);
-		if (! $content->read('post', false, $modelContentMeta->getData())) {
-			$this->view->getTemplate('404');
+		$molds = $modelContentMeta->read(array(
+			'where' => array(
+				'name' => 'tag',
+				'value' => $mold->id
+			)
+		));
+		if (! $molds) {
+			$this->route('base');
 		}
+		$contentIds = $modelContentMeta->getDataProperty('content_id');
 
-		// build friendly tag name
-		$tagName = explode('-', $this->config->getUrl(1));
-		$tagName = implode(' ', $tagName);
-		$tagName = ucwords($tagName);
+		// get content
+		$molds = $modelContent->read(array(
+			'where' => array(
+				'id' => $contentIds,
+
+				// @todo integrate other types
+				'type' => 'post'
+			)
+		));
+		$modelContent->bindMeta('media');
+		$modelContent->bindMeta('tag');
 
 		// view
 		$this->view
 			->setMeta(array(		
 				'title' => 'All posts by tag name ' . $this->config->getUrl(1)
 			))
-			->setObject('tag_name', $tagName)
-			->setObject($content)
-			->setObject('content_first', $content->getDataFirst())
+			->setObject('contents', $modelContent)
+			->setObject('firstContent', $modelContent->getDataFirst())
 			->getTemplate('content-tag');
 	}
 }

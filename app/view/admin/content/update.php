@@ -2,6 +2,7 @@
 
 <div class="content <?php echo $this->url(2) ?> <?php echo ($content ? 'update' : 'create') ?> content-create-update" data-id="<?php echo $content->id ?>">
 
+
 <?php if ($content->status == 'visible'): ?>
 	
 	<a href="<?php echo $this->buildUrl(array($content->type, $content->title)) ?>" class="button right" target="_blank">View</a>
@@ -10,10 +11,20 @@
 
 	<h1 class="h3 mb1"><?php echo ($content ? 'Update ' . ucfirst($this->url(2)) . ' ' . $content->title : 'Create new ' . ucfirst($this->url(2))) ?></h1>
 	<form class="main" method="post" enctype="multipart/form-data">
-		<div class="row">	
-			<label class="h5 block mb05" for="form_title">Title</label>
-			<input id="form_title" class="required" type="text" name="title" maxlength="75" value="<?php echo $content->title ?>" autofocus="autofocus">
-		</div>			
+		<div class="frame">
+		    <div class="bit-2">
+		        <div class="box">
+		        	<label class="h5 block mb05" for="form_title">Title</label>
+		        	<input id="form_title" class="w100 required js-input-title" type="text" name="title" maxlength="75" value="<?php echo $content->title ?>" autofocus="autofocus">
+		        </div>
+		    </div>
+		    <div class="bit-2">
+		        <div class="box">
+		        	<label class="h5 block mb05" for="form_slug">Slug</label>
+		        	<input id="form_slug" class="w100 required js-input-slug" type="text" name="slug" maxlength="75" value="<?php echo $content->slug ?>" autofocus="autofocus">
+		        </div>
+		    </div>
+		</div>
 
 <?php include($this->pathView('admin/content/_wysihtml5')) ?>
 
@@ -30,7 +41,6 @@
 <?php $tags = $content->tag ?>
 <?php include($this->pathView('admin/tag/_browser')) ?>
 
-			</div>
 		</div>
 
 <?php if ($contentStatus): ?>
@@ -50,10 +60,13 @@
 
 <?php endif ?>
 
-		<input name="<?php echo ($content ? 'update' : 'create') ?>" type="hidden" value="true">
-		<input name="type" type="hidden" value="<?php echo $this->url(2) ?>">
-		<a href="#" class="submit button">Save</a>
-		<input type="submit">
+		<div class="clearfix">
+			<input name="time_published" type="hidden" value="<?php echo $content->time_published ?>">
+			<input name="type" type="hidden" value="<?php echo $this->url(2) ?>">
+			<input name="<?php echo ($content ? 'update' : 'create') ?>" type="hidden" value="true">
+			<span class="submit button right">Save</span>
+			<input type="submit">
+		</div>
 	</form>
 </div>
 

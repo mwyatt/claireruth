@@ -175,7 +175,7 @@
 	height: 1em;
 	cursor: pointer;
 	z-index: 2;
-	border: 1px solid $color-secondary-compliment;
+	border: 1px solid $color-secondary;
 	background-color: $color-white;
 
 	&:hover,
@@ -185,7 +185,7 @@
 	}
 
 	&:hover {
-		background-color: $color-secondary-compliment;
+		background-color: $color-secondary;
 	}
 
 	&:active {

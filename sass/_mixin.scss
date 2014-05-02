@@ -77,7 +77,6 @@
  * allows generation of buttons, this can then be used to set
  */
 @mixin button($color-background: $color-primary, $color-text: $color-white) {
-    @include border-radius(99em);
     @include text-shadow(0 -1px 0 darken($color-background, 5%));
     background-color: $color-background;
     color: $color-text;

@@ -103,6 +103,7 @@ class Model extends Config
 
 	/**
 	 * uses the passes properties to build named prepared statement
+	 * @todo how to return a value which can mark success?
 	 * @param  array  $molds 
 	 * @param  string $by    defines the column to update by
 	 * @return int        

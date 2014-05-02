@@ -6,7 +6,7 @@ $(document).ready(function() {
 	config.setup();
 
 	// form submission
-	$('form').find('a.submit').on('mouseup', setSubmit);
+	setSubmit();
 
 	// try adding all logic for manipulating objects here...
 	if (config.content.hasClass('content-create-update')) {
@@ -17,6 +17,7 @@ $(document).ready(function() {
 		});
 		var modelMediaBrowser = new Model_Media_Browser();
 		var modelTagBrowser = new Model_Tag_Browser();
+		var modelContentSlug = new Model_Content_Slug();
 	};
 
 	// header always following on scroll

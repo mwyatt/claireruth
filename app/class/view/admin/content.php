@@ -30,20 +30,57 @@ class View_Admin_Content extends Config
 	// }
 
 
+	/**
+	 * removes all meta assigned to the current content item and reassigns
+	 * the new meta bindings
+	 * @param  string $metaName identifies the type of meta
+	 */
+	public function updateMeta($metaName)
+	{
+		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$success = false;
+		if (array_key_exists($metaName . '_attached', $_POST)) {
+			$molds = array();
+			foreach ($_POST[$metaName . '_attached'] as $value) {
+				$mold = new mold_content_meta();
+				$mold->content_id = $_GET['edit'];
+				$mold->name = $metaName;
+				$mold->value = $value;
+				$molds[] = $mold;
+			}
+			$success = $modelContentMeta->create($molds);
+		}
+		return $success;
+	}
+
+
 	public function update()
 	{
 		$modelLog = new model_log($this->database, $this->config);
 		$modelContent = new model_content($this->database, $this->config);
 		$sessionFeedback = new session_feedback($this->database, $this->config);
-		if ($modelContent->update($_GET['edit'], $_POST)) {
-			$createOrUpdateId = $_GET['edit'];
-
-			// feedback
+		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$modelContentMeta->delete(array(
+			'where' => array(
+				'content_id' => $_GET['edit']
+			)
+		));
+		$mold = new mold_content();
+		$mold->title = $_POST['title'];
+		$mold->slug = $this->urlFriendly($_POST['slug']);
+		$mold->html = $_POST['html'];
+		$mold->type = $_POST['type'];
+		$mold->time_published = $_POST['time_published'];
+		$mold->status = $_POST['status'];
+		$modelContent->update($mold, array(
+			'where' => array(
+				'id' => $_GET['edit']
+			)
+		));
+		$this->updateMeta('media');
+		$this->updateMeta('tag');
 			$modelLog->log('admin', 'post updated');
 			$sessionFeedback->set('Content updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
-		} else {
-			$sessionFeedback->set('Problem updating ' . $_POST['type'] . ', ' . $_POST['title']);
-		}
 		$this->route('current');
 	}
 
@@ -86,13 +123,15 @@ class View_Admin_Content extends Config
 	public function edit()
 	{
 		$modelContent = new model_content($this->database, $this->config);
-		$result = $modelContent->read(array(
+		$modelContent->read(array(
 			'where' => array(
 				'type' => $this->config->getUrl(2),
 				'id' => $_GET['edit']
 			)
 		));
-		if (! $result) {
+		$modelContent->bindMeta('media');
+		$modelContent->bindMeta('tag');
+		if (! $modelContent->getData()) {
 			$this->route('current_noquery');
 		}
 		return $modelContent->getDataFirst();

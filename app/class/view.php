@@ -199,6 +199,17 @@ class View extends Model
 
 
 	/**
+	 * grabs base path for the view folder, used for headers, footers
+	 * and all includes within the view templates
+	 * @return string 
+	 */
+	public function getPath($append) { 
+		$path = BASE_PATH;
+		return $path . $append;
+	}
+
+
+	/**
 	 * appends admin to the path
 	 * @param  string $template 
 	 * @return string           

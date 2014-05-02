@@ -215,4 +215,30 @@ class Model_Content extends Model
 			, 'value' => $sth->rowCount()
 		));
 	}
+
+
+	public function readSearch($query = '') {	
+
+		// build
+		$statement = array();
+		$statement[] = $this->getSqlSelect();
+		$statement[] = 'where';
+		foreach (explode(' ', $query) as $word) {
+			$word = trim($word);
+			$statement[] = 'title like \'%' . $word . '%\'';
+			$statement[] = 'or';
+			$statement[] = 'html like \'%' . $word . '%\'';
+			$statement[] = 'or';
+		}
+		array_pop($statement);
+		$statement[] = 'order by title desc';
+		$statement = implode(' ', $statement);
+
+		// prepare
+		$sth = $this->database->dbh->prepare($statement);
+
+		// execute
+		$this->tryExecute(__METHOD__, $sth);
+		return $this->setData($sth->fetchAll(PDO::FETCH_CLASS, $this->getMoldName()));
+	}
 }

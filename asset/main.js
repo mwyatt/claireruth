@@ -9374,6 +9374,7 @@ function setSubmit() {
 		.find('.submit')
 		.off('click')
 		.on('click',  function(event) {
+			console.log('value');
 			event.preventDefault();
 			var button = $(this);
 
@@ -9406,30 +9407,30 @@ Array.prototype.contains = function ( needle ) {
  */
 var Button_To_Top = function (options) {
 	var defaults = {
-		threshold: 300,
+		threshold: 100,
 		button: '.null',
 		classLabel: 'is-active',
 		delay: 200
 	};
 	this.options = $.extend(defaults, options);
-	var timer = 0;
-	var thisPlugin = event.data = this;
-	$(window).scroll(function(event) {
-		clearTimeout(timer);
-		timer = setTimeout(function(event) {
-			thisPlugin.poll(event);
-		}, thisPlugin.options.delay);
-	});
+	this.timer;
+	this.events(this);
 };
 
 
-Button_To_Top.prototype.poll = function(event) {
-	documentPosition = $(document).scrollTop();
-	if (documentPosition > event.data.options.threshold) {
-		$(event.data.options.button).fadeIn().addClass('.' + event.data.options.classLabel);
-	} else {
-		$(event.data.options.button).fadeOut().removeClass('.' + event.data.options.classLabel);
-	}
+Button_To_Top.prototype.events = function(data) {
+	var button = $(data.options.button);
+	$(window).on('scroll.button-to-top', function(event) {
+		clearTimeout(data.timer);
+		data.timer = setTimeout(function(event) {
+			documentPosition = $(document).scrollTop();
+			if (documentPosition > data.options.threshold) {
+				button.addClass(data.options.classLabel);
+			} else {
+				button.removeClass(data.options.classLabel);
+			}
+		}, data.options.delay);
+	});
 };
 ;/**
  * takes control of a list of items and makes them scrollable fun
@@ -9490,11 +9491,89 @@ Button_To_Top.prototype.poll = function(event) {
 		}
 	};
 })(jQuery);
+;var Model_Fixed_Bar = function (options) {
+	var defaults = {
+		target: '.js-fixed-bar'
+	}
+	this.options = $.extend(defaults, options);
+	this.cache = {
+		// fieldSlug: '.js-input-slug',
+		// fieldTitle: '.js-input-title'
+	};
+	this.timer;
+	this.events(this);
+};
+
+
+Model_Fixed_Bar.prototype.events = function(data) {
+	$(window).on('scroll.fixed-bar', function(event) {
+		clearTimeout(data.timer);
+		if (! $(window).scrollTop()) {
+			return $(data.options.target).removeClass('is-scrolling');
+		};
+	    data.timer = setTimeout(function() {
+	    	$(data.options.target).addClass('is-scrolling');
+	    }, 0);
+	});
+};
+;var Smooth_Scroll = function (options) {
+	var defaults = {
+		target: '.js-smooth-scroll',
+
+		// offsets the scroll down if there is a
+		// fixed header for example
+		topOffset: 50,
+		scrollSpeed: 500,
+		activeClass: 'has-smooth-scroll',
+		direct: ''
+	};
+	this.options = $.extend(defaults, options);
+	this.cache = {
+		target: $(this.options.target)
+	};
+	var firstEvent = {};
+	firstEvent.data = this;
+
+	// clicking a targeted item
+	firstEvent.data.cache.target.off('click.smoothScroll').on('click.smoothScroll', firstEvent.data, function(event) {
+		event.preventDefault();
+		firstEvent.data.scrollTo(firstEvent, this.hash);
+	});
+
+	// immediatly scroll to
+	if (firstEvent.data.options.direct) {
+		firstEvent.data.scrollTo(firstEvent, firstEvent.data.options.direct);
+	};
+};
+
+
+/**
+ * takes a clicked button and smooth scrolls to its hash
+ * target is the jquery selector string
+ * @param  {object} event
+ * @param  {string} target
+ */
+Smooth_Scroll.prototype.scrollTo = function(event, target) {
+	var timer = 0;
+	var destination = 0;
+	if ($(target).offset().top > $(document).height() - $(window).height()) {
+		destination = $(document).height() - $(window).height();
+	} else {
+		destination = $(target).offset().top;
+		destination = destination - event.data.options.topOffset;
+	}
+	$('html, body').animate({scrollTop:destination}, event.data.options.scrollSpeed, 'swing');
+
+	// add class to target, remove it after timeout
+	$('.' + event.data.options.activeClass).removeClass(event.data.options.activeClass);
+	clearTimeout(timer);
+	target = $(target);
+	target.addClass(event.data.options.activeClass);
+	timer = setTimeout(function() {
+		target.removeClass(event.data.options.activeClass);
+	}, 1000);
+};
 ;$(document).ready(function() {  
-	// $('.js-lightbox-gallery').lightbox({
-	// 	galleryClass: 'group-1',
-	// 	title: $('h1.main').html()
-	// });	
 	var topButton = new Button_To_Top({
 		button: '.to-top'
 	});
@@ -9503,4 +9582,12 @@ Button_To_Top.prototype.poll = function(event) {
 		event.preventDefault();
 		$(this).closest('.js-container-header').toggleClass('is-menu-open');
 	});
+
+	// smooth scrolling when clicked
+	var smoothScroll = new Smooth_Scroll({
+		target: '.js-smooth-scroll',
+		topOffset: 75,
+		scrollSpeed: 500
+	});
+	var modelFixedBar = new Model_Fixed_Bar();
 });

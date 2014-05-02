@@ -229,9 +229,6 @@ class Controller extends Config
 			}
 			$this->view->getTemplate('coming-soon');
 		}
-		if (array_key_exists('search', $_GET)) {
-			$this->search($_GET['search']);
-		}
 
 		// main navigation
 		$viewHeader = new view_header($this->database, $this->config);
@@ -251,30 +248,32 @@ class Controller extends Config
 				'where' => array(
 					'type' => 'post'
 				),
-				'limit' => array(0, 3)
+				'limit' => array(0, 3),
+				'order_by' => 'time_published desc'
 			));
-			$modelContent->bindMeta('tag');
 			$modelContent->bindMeta('media');
+			$modelContent->bindMeta('tag');
 			$this->view->setObject('contents', $modelContent->getData());
 			$cache->create($modelContent->getData());
 		}
-
-
-
 		$this->view->getTemplate('home');
 	}
 
 
-	public function search($query) {
+	public function search() {
+		if (! array_key_exists('query', $_GET)) {
+			$this->route('base');
+		}
+		$query = $_GET['query'];
 		$query = htmlspecialchars($query);
 		if (! $query) {
 			$this->route('base');
 		}
-		$search = new model_search($this->database, $this->config);
-		$search->read($query);
+		$modelContent = new model_content($this->database, $this->config);
+		$modelContent->readSearch($query);
 		$this->view
-			->setObject('search_query', $query)
-			->setObject($search)
+			->setObject('query', $query)
+			->setObject('contents', $modelContent)
 			->getTemplate('search');
 	}
 
@@ -286,9 +285,15 @@ class Controller extends Config
 		$modelContent = new model_content($this->database, $this->config);
 		if (! $modelContent->read(array(
 			'where' => array(
-				'slug' => $this->config->getUrl(1)
+				'slug' => $this->config->getUrl(1),
+				'type' => 'page'
 			)
 		))) {
+			echo '<pre>';
+			print_r('variable');
+			echo '</pre>';
+			exit;
+			
 			$this->route('base');
 		}
 		$this->view

@@ -27,31 +27,38 @@ class Controller_Post extends Controller
 				$this->route('base');
 			}
 			$mold = $modelContent->getDataFirst();
+			$modelContent->bindMeta('media');
+			$modelContent->bindMeta('tag');
 			$this->view
 				->setMeta(array(		
 					'title' => $mold->title
 				))
-				->setObject('content', $mold)
-				->getTemplate('content-single');
-		}
+				->setObject('contents', $modelContent)
+				->renderTemplate('content-single');
+		} else {
 
-		// all
-		$pagination = new pagination($this->database, $this->config, 'content');
-		$modelContent->read(array(
-			'where' => array(
-				'type' => $this->config->getUrl(0)
-			),
-			'limit' => $pagination->getLimit()
-		));
-		$firstContent = $modelContent->getData();
-		$this->view
-			->setMeta(array(		
-				'title' => 'All posts'
-			))
-			->setObject('first_content', current($firstContent))
-			->setObject($pagination)
-			->setObject('contents', $modelContent)
-			->getTemplate('content');
+			// all
+			$pagination = new pagination($this->database, $this->config, 'content');
+			$modelContent->read(array(
+				'where' => array(
+					'type' => $this->config->getUrl(0)
+				),
+				'limit' => $pagination->getLimit(),
+				'order_by' => 'time_published desc'
+			));
+			$modelContent->bindMeta('media');
+			$modelContent->bindMeta('tag');
+			$firstContent = $modelContent->getData();
+			$this->view
+				->setMeta(array(		
+					'title' => 'All posts'
+				))
+				->setObject('pageCurrent', $pagination->getCurrentPage())
+				->setObject('first_content', current($firstContent))
+				->setObject($pagination)
+				->setObject('contents', $modelContent)
+				->renderTemplate('content');
+		}
 
 		// $tag = new model_tag($this->database, $this->config);
 		// $modelContent->readByMonth();

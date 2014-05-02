@@ -21,7 +21,7 @@ class View_Header extends View
 			),
 			1 => array(
 				'name' => 'About Me',
-				'url' => 'page/about/'
+				'url' => 'page/about-me/'
 			),
 			2 => array(
 				'name' => 'Posts',

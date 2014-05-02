@@ -1,7 +1,7 @@
 <?php if ($pagination): ?>
 
 <div class="pagination clearfix">
-	<h3 class="pagination-title">Pages:</h3>
+	<h3 class="pagination-break-down">Page <?php echo $pageCurrent ?> of <?php echo count($pagination) ?></h3>
 
 	<?php foreach ($pagination as $pageNumber => $page): ?>
 

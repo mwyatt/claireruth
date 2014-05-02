@@ -9374,6 +9374,7 @@ function setSubmit() {
 		.find('.submit')
 		.off('click')
 		.on('click',  function(event) {
+			console.log('value');
 			event.preventDefault();
 			var button = $(this);
 
@@ -19734,6 +19735,49 @@ Model_Content_Meta = (function () {
 	return module;
 })();
 ;/**
+ * update content slug
+ */
+var Model_Content_Slug = function (options) {
+	var defaults = {}
+	this.options = $.extend(defaults, options);
+	this.cache = {
+		fieldSlug: '.js-input-slug',
+		fieldTitle: '.js-input-title'
+	};
+	this.timer;
+	this.events(this);
+};
+
+
+Model_Content_Slug.prototype.getSlug = function(data, field) {
+	$.ajax({
+		url: config.url.adminAjax + 'content/slug',
+		data: {
+			title: field.val()
+		},
+		dataType: 'html',
+		success: function(result) {
+			$(data.cache.fieldSlug).val(result)
+		}
+	});
+};
+
+
+Model_Content_Slug.prototype.events = function(data) {
+	$(data.cache.fieldTitle)
+		.off()
+		.on('keyup', function(event) {
+			clearTimeout(data.timer);
+			var field = $(this);
+		    if (! field.val().length) {
+		    	return;
+		    }
+		    data.timer = setTimeout(function() {
+		    	data.getSlug(data, field);
+		    }, 500);
+		});
+};
+;/**
  * testing the modular approach to js
  */
 var Model_Example = function (options) {
@@ -20157,6 +20201,8 @@ var Model_Tag_Browser = function (options) {
 		// dropInner: '.js-drop-inner',
 		tagAttached: '.js-browser-tag-attached'
 	};
+	this.timer;
+	this.refreshHidden(this);
 	this.events(this);
 };
 
@@ -20181,6 +20227,7 @@ Model_Tag_Browser.prototype.events = function(data) {
 	$(data.cache.tagInputSearch)
 		.off('keypress')
 		.on('keypress', function(event) {
+			clearTimeout(data.timer);
 			$(data.cache.dropPosition).remove();
 			var code = event.keyCode || event.which; 
 			var field = $(this);
@@ -20196,7 +20243,9 @@ Model_Tag_Browser.prototype.events = function(data) {
 		    if (field.val().length < 2) {
 		    	return;
 		    }
-		    data.search(data, field.val());
+		    data.timer = setTimeout(function() {
+		    	data.search(data, field.val());
+		    }, 500);
 		});
 };
 
@@ -20340,7 +20389,7 @@ $(document).ready(function() {
 	config.setup();
 
 	// form submission
-	$('form').find('a.submit').on('mouseup', setSubmit);
+	setSubmit();
 
 	// try adding all logic for manipulating objects here...
 	if (config.content.hasClass('content-create-update')) {
@@ -20351,6 +20400,7 @@ $(document).ready(function() {
 		});
 		var modelMediaBrowser = new Model_Media_Browser();
 		var modelTagBrowser = new Model_Tag_Browser();
+		var modelContentSlug = new Model_Content_Slug();
 	};
 
 	// header always following on scroll

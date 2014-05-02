@@ -1,8 +1,4 @@
 $(document).ready(function() {  
-	// $('.js-lightbox-gallery').lightbox({
-	// 	galleryClass: 'group-1',
-	// 	title: $('h1.main').html()
-	// });	
 	var topButton = new Button_To_Top({
 		button: '.to-top'
 	});
@@ -11,4 +7,12 @@ $(document).ready(function() {
 		event.preventDefault();
 		$(this).closest('.js-container-header').toggleClass('is-menu-open');
 	});
+
+	// smooth scrolling when clicked
+	var smoothScroll = new Smooth_Scroll({
+		target: '.js-smooth-scroll',
+		topOffset: 75,
+		scrollSpeed: 500
+	});
+	var modelFixedBar = new Model_Fixed_Bar();
 });

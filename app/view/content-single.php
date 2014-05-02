@@ -2,26 +2,21 @@
 <?php if ($contents): ?>
 	<?php foreach ($contents as $content): ?>
 		
-<div class="content content-single <?php echo $content->type ?>-single clearfix" data-id="<?php echo $content->id ?>">
+<div class="content content-single is-type-<?php echo $content->type ?> clearfix" data-id="<?php echo $content->id ?>">
+	<div class="content-date"><?php echo date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?></div>
 	<h1 class="h1 content-single-title"><?php echo $content->title ?></h1>
 
-		<?php //if ($rowContent = $contents): ?>
-			<?php //include($this->pathView('_content-medias')) ?>
-		<?php //endif ?>
+		<?php $medium = reset($content->media) ?>
+		<?php include($this->pathView('_medium')) ?>
 
-	<div class="content-<?php echo $content->type ?>-html typography"><?php echo $content->html ?></div>
-	<span class="content-<?php echo $content->type ?>-date"><?php echo date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?></span>
+	<div class="content-html typography"><?php echo $content->html ?></div>
 
-		<?php //if ($rowContent = $contents): ?>
-			<?php //include($this->pathView('_content-tags')) ?>
-		<?php //endif ?>
-<!-- 		<?php if ($content->user_name): ?>
-	
-	<span class="content-<?php echo $content->type ?>-author"><span class="content-<?php echo $content->type ?>-author-prefix">By</span> <span class="content-<?php echo $content->type ?>-author-name bold"><?php echo $content->user_name ?></span></span>
-	
-		<?php endif ?>
- -->
+		<?php $tags = $content->tag ?>
+		<?php include($this->pathView('_tags')) ?>
+
+	<div class="content-date"><?php echo date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?></div>
 </div>
+
 	<?php endforeach ?>
 <?php endif ?>
 <?php require_once($this->pathView('_footer')) ?>

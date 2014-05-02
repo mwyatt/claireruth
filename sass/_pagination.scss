@@ -1,43 +1,42 @@
 .pagination {
-    margin: 0 0 1em;
 
     a.page {
-        @include border-radius(3px);
-        border: 1px solid #D6D6D6;
+        display: none;
+        border: 1px solid $color-primary;
+        margin-right: 0.6em;
+        margin-bottom: 0.6em;
         font-family: Arial, sans-serif;
-        font-size: 0.7em;
+        font-size: 1em;
         float: left;
-        background: #eee;
-        padding: 0.2em;
-        margin: 0 0.2em 0.2em 0;
-        line-height: 1.2em;
-        width: 1.5em;
         text-align: center;
+        width: 13%;
+        line-height: 1.6; 
     }
 
-    a.page.is-current {
+    a.is-current {
         cursor: default;
-        color: #A2A2A2;
+        color: $color-secondary;
+        border-color: $color-secondary;
         background: transparent;
     }
 
+    .next,
     .previous {
-        display: none;
+        width: 40%;
+        padding: 1em;
+        background: #ccc;
+    }
+    
+    .previous {
+        float: left;
     }
 
     .next {
-        display: none;
-    }
-
-    @media screen and (min-width: 500px) {
-
-        a.page {
-            font-size: 0.9em;
-            font-weight: bold;
-        }
+        float: right;
     }
 }
 
 .pagination-title {
     display: none;
 }
+

@@ -40,6 +40,9 @@ class Model_Admin_Menu extends Model
             if (class_exists($subClassName = 'controller_admin_' . $classMethod)) {
                 $subClassMethods = array_diff(get_class_methods($subClassName), $controllerMethods, $this->methodExclusions);
             }
+
+            // rarrrrrrw
+            $subClassMethods[] = 'page';
             foreach ($subClassMethods as $subClassMethod) {
                 $refinedSubClassMethods[] = array(
                     'title' => ucfirst($subClassMethod)

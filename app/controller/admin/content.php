@@ -19,11 +19,6 @@ class Controller_Admin_Content extends Controller
 	 * handles crud for all content
 	 */
 	public function initialise() {
-		echo '<pre>';
-		print_r($_POST);
-		echo '</pre>';
-		exit;
-		
 		$viewAdminContent = new view_admin_content($this->database, $this->config);
 		$modelLog = new model_log($this->database, $this->config);
 		$modelContent = new model_content($this->database, $this->config);
@@ -32,6 +27,26 @@ class Controller_Admin_Content extends Controller
 
 		// get content status always
 		$this->view->setObject('content_status', $modelContent->getStatus());
+
+		// any post or get event
+		if (
+			array_key_exists('create', $_POST)
+			|| array_key_exists('update', $_POST)
+			|| array_key_exists('delete', $_GET)
+			|| array_key_exists('archive', $_GET)
+		) {
+			$cache->delete('home-latest-posts');
+			$cacheKey = 'ceil-content-' . $this->config->getUrl(2);
+			$cache->read($cacheKey);
+			$cache->delete($cacheKey);
+			$modelContent->read(array(
+				'where' => array(
+					'type' => $this->config->getUrl(2),
+					'status' => 'visible'
+				)
+			));
+			$cache->create(count($modelContent->getData()));
+		}
 
 		// create draft entry and redirect to edit page
 		if ($this->config->getUrl(3) == 'new') {
@@ -51,18 +66,6 @@ class Controller_Admin_Content extends Controller
 		// delete
 		if (array_key_exists('delete', $_GET)) {
 			$viewAdminContent->delete();
-		}
-
-		// any post or get event
-		if (
-			array_key_exists('create', $_POST)
-			|| array_key_exists('update', $_POST)
-			|| array_key_exists('delete', $_GET)
-			|| array_key_exists('archive', $_GET)
-		) {
-			$cacheKey = 'ceil-content-' . $this->config->getUrl(2);
-			$cache->delete($cacheKey);
-			$cache->create($cacheKey);
 		}
 
 		// edit

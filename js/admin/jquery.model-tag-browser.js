@@ -14,6 +14,8 @@ var Model_Tag_Browser = function (options) {
 		// dropInner: '.js-drop-inner',
 		tagAttached: '.js-browser-tag-attached'
 	};
+	this.timer;
+	this.refreshHidden(this);
 	this.events(this);
 };
 
@@ -38,6 +40,7 @@ Model_Tag_Browser.prototype.events = function(data) {
 	$(data.cache.tagInputSearch)
 		.off('keypress')
 		.on('keypress', function(event) {
+			clearTimeout(data.timer);
 			$(data.cache.dropPosition).remove();
 			var code = event.keyCode || event.which; 
 			var field = $(this);
@@ -53,7 +56,9 @@ Model_Tag_Browser.prototype.events = function(data) {
 		    if (field.val().length < 2) {
 		    	return;
 		    }
-		    data.search(data, field.val());
+		    data.timer = setTimeout(function() {
+		    	data.search(data, field.val());
+		    }, 500);
 		});
 };
 

@@ -115,7 +115,13 @@ class Pagination extends Model
 	{
 		return $this->pageCurrent++;
 	}
-	
+
+
+	public function getCurrentPage()
+	{
+		return $this->pageCurrent;
+	}
+
 	
 	/**
 	 * Check Page GET Variable

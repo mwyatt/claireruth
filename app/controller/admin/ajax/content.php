@@ -12,4 +12,29 @@
  */
 
 class Controller_Admin_Ajax_Content extends Controller
-{}
+{
+
+
+	/**
+	 * takes a normal title and returns a unique slug by looking at all other
+	 * content 
+	 * @return string 
+	 */
+	public function slug() {
+		if (! array_key_exists('title', $_GET)) {
+			exit;
+		}
+		$friendlyTitle = $this->urlFriendly($_GET['title']);
+		$modelcontent = new model_content($this->database, $this->config);
+		$success = $modelcontent->read(array(
+			'where' => array(
+				'slug' => $friendlyTitle
+			)
+		));
+		if ($success) {
+			echo $friendlyTitle . '-2';
+		} else {
+			echo $friendlyTitle;
+		}
+	}
+}

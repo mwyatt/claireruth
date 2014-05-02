@@ -19,38 +19,31 @@
         <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container container-site">
+<div id="top"></div>
+<div class="container container-site">
+    <a href="#top" class="to-top js-smooth-scroll"><?php include($this->getPath('media/arrow-up.svg')) ?></a>
 
 <?php if (! $this->isComingSoon()): ?>
 
-<a href="#" class="to-top"><span class="icon"></span>Top</a>
-    <header class="container-header row js-container-header">
-        <div class="columns four">
+    <header class="container-header row js-container-header clearfix js-fixed-bar">
     
-    <?php require($this->pathView('_logo')) ?>
+    <?php include($this->pathView('_logo')) ?>
 
-        </div>
-        <div class="columns four">
-            <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
+<!--             <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
                 <span class="propos-lettering">á propos de moi</span>
                 <span class="propos-flower"><img src="<?php echo $this->url() ?>media/sprite/flower.png" alt="Flower"></span>
-            </a>
-        </div>
-        <div class="columns four">
-            <form class="header-search" method="get">
-                <label for="search-text" class="label">Search</label>
-                <input id="search-text" type="text" name="search" type="text" maxlength="75">
-                <a href="#" class="submit button primary">Search</a>
-                <input type="submit">
-                <span class="icon close"></span>
-            </form> 
+            </a> 
+
             <a href="#" class="button tertiary header-button-history">l'histoire complète</a>
-        </div>
-        <span class="header-button-mobile-menu js-header-button-mobile-menu"></span>
-        <div class="clearfix"></div>
+        -->
+
+    <?php include($this->pathView('_search')) ?>
+
+        <a href="#menu" class="js-smooth-scroll header-button-mobile header-button-mobile-menu js-header-button-mobile-menu"><?php include($this->getPath('media/menu.svg')) ?></a>
+        <a href="#search" class="js-smooth-scroll header-button-mobile header-button-mobile-search js-header-button-mobile-search"><?php include($this->getPath('media/search.svg')) ?></a>
 
     <?php $menu = $mainMenu; ?>
-    <?php require($this->pathView('_menu')) ?>
+    <?php include($this->pathView('_menu')) ?>
 
     </header>
     
