@@ -14,7 +14,7 @@
 @import "coming-soon";
 
 html {
-    background: image-url("xv.png") repeat; 
+    // background: image-url("xv.png") repeat; 
 }
 
 body {
@@ -24,6 +24,7 @@ body {
 
 .container-site {
     margin-top: 4.1em;
+    padding: 1em;
 }
 
 .wrap-full-width {
@@ -70,11 +71,4 @@ body {
     border-bottom: 1px solid $color-secondary;
     font-size: 1.4em;
     margin-bottom: 1em;
-}
-
-.content-single {
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-top: 1.5em;
-    padding-bottom: 1em;
 }

@@ -1,10 +1,10 @@
-.content-single .content-single-title {
+.content-single-title {
     font-size: 2.2em;
     margin-bottom: 0.6em;
 }
 
 .content-single .content-post-html {
-    margin: 2em 0;
+    margin: 1em 0;
 }
 
 .content-single .content-post-author {
@@ -13,4 +13,11 @@
 
 .content-single .content-post-date {
     float: right;
+}
+
+.content-single {
+    // padding-left: 1em;
+    // padding-right: 1em;
+    // padding-top: 1.5em;
+    // padding-bottom: 1em;
 }

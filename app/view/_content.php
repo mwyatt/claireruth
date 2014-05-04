@@ -3,6 +3,11 @@
 <div class="content is-type-<?php echo $content->type ?> clearfix<?php echo ($content->media ? ' has-thumb' : '') ?>" data-id="<?php echo $content->id ?>">
 
 <?php $medium = reset($content->media) ?>
+<?php if ($medium): ?>
+	
+	<div class="content-thumb-background" style="background-image: url(<?php echo $this->getPathMediaUpload($medium->path) ?>); background-repeat: no-repeat; background-position: center center;"></div>
+
+<?php endif ?>
 <?php include($this->pathView('_medium')) ?>
 
 	<div class="content-date" title="<?php echo $theDate ?>"><?php echo $theDate ?></div>
