@@ -332,11 +332,12 @@ a:link {
 .typography h3,
 .h4,
 .typography h4,
+.search-result-description,
 .h5,
 .typography h5,
 .h6,
 .typography h6 {
-  font-family: "Droid Serif", "serif";
+  font-family: "Open Sans", "sans-serif";
   font-weight: 400;
 }
 
@@ -348,7 +349,7 @@ a:link {
 }
 
 /* line 80, ../sass/_typography.scss */
-.h3, .typography h3, .h4, .typography h4 {
+.h3, .typography h3, .h4, .typography h4, .search-result-description {
   line-height: 1.3;
 }
 
@@ -368,7 +369,7 @@ a:link {
 }
 
 /* line 96, ../sass/_typography.scss */
-.h4, .typography h4 {
+.h4, .typography h4, .search-result-description {
   font-size: 180%;
 }
 
@@ -1524,21 +1525,14 @@ a.tag {
   font-size: 0.7em;
   display: none;
 }
-/* line 61, ../sass/_content.scss */
-.content.search .content.is-type-post .tags,
-.content.tag .content.is-type-post .tags,
-.content.post .content.is-type-post .tags,
-.content.home .content.is-type-post .tags {
-  margin: 1em 0;
-}
-/* line 65, ../sass/_content.scss */
+/* line 63, ../sass/_content.scss */
 .content.search .content.is-type-post .medium,
 .content.tag .content.is-type-post .medium,
 .content.post .content.is-type-post .medium,
 .content.home .content.is-type-post .medium {
   display: none;
 }
-/* line 73, ../sass/_content.scss */
+/* line 71, ../sass/_content.scss */
 .content.search .content.is-type-post .content-thumb-background,
 .content.tag .content.is-type-post .content-thumb-background,
 .content.post .content.is-type-post .content-thumb-background,
@@ -1549,6 +1543,11 @@ a.tag {
   background-size: cover;
   height: 13em;
   margin-bottom: 1em;
+}
+
+/* line 78, ../sass/_content.scss */
+.tags {
+  margin: 1em 0;
 }
 
 /* line 1, ../sass/content/_single.scss */
@@ -1679,7 +1678,18 @@ a.content-tag {
   }
 }
 
-/* line 3, ../sass/_pagination.scss */
+/* line 1, ../sass/_pagination.scss */
+.pagination-break-down {
+  text-align: center;
+  font-size: 1em;
+  margin-bottom: 1em;
+}
+
+/* line 7, ../sass/_pagination.scss */
+.pagination {
+  margin: 1em 0;
+}
+/* line 10, ../sass/_pagination.scss */
 .pagination a.page {
   display: none;
   border: 1px solid #ca3566;
@@ -1692,36 +1702,41 @@ a.content-tag {
   width: 13%;
   line-height: 1.6;
 }
-/* line 16, ../sass/_pagination.scss */
+/* line 23, ../sass/_pagination.scss */
 .pagination a.is-current {
   cursor: default;
   color: #e5673c;
   border-color: #e5673c;
   background: transparent;
 }
-/* line 24, ../sass/_pagination.scss */
+/* line 31, ../sass/_pagination.scss */
 .pagination .next,
 .pagination .previous {
   width: 40%;
-  padding: 1em;
-  background: #ccc;
+  padding: 0.2em 0.4em;
+  background: #e5673c;
+  color: white;
 }
-/* line 30, ../sass/_pagination.scss */
+/* line 38, ../sass/_pagination.scss */
 .pagination .previous {
   float: left;
 }
-/* line 34, ../sass/_pagination.scss */
+/* line 42, ../sass/_pagination.scss */
 .pagination .next {
   float: right;
+  text-align: right;
 }
 
-/* line 39, ../sass/_pagination.scss */
+/* line 48, ../sass/_pagination.scss */
 .pagination-title {
   display: none;
 }
 
 /* line 1, ../sass/_footer.scss */
 .container-footer {
+  margin-top: 2em;
+  padding-top: 2em;
+  border-top: 1px dotted #2a9f67;
     /* 
 @include sprite-sprite('bookstack');
 @include image-size('sprite/bookstack.png');
@@ -1730,85 +1745,91 @@ margin: 0 auto;
 float: left;
      */
 }
-/* line 3, ../sass/_footer.scss */
+/* line 6, ../sass/_footer.scss */
 .container-footer .book-stack {
   display: none;
 }
-/* line 7, ../sass/_footer.scss */
+/* line 10, ../sass/_footer.scss */
 .container-footer .propos-portrait {
   width: 30%;
 }
-/* line 11, ../sass/_footer.scss */
+/* line 14, ../sass/_footer.scss */
 .container-footer img {
   width: 100%;
 }
 
-/* line 24, ../sass/_footer.scss */
+/* line 27, ../sass/_footer.scss */
 .container-footer .propos {
   margin: 0 0 1em;
   padding: 0 0 0 36%;
   position: relative;
 }
-/* line 31, ../sass/_footer.scss */
+/* line 34, ../sass/_footer.scss */
 .container-footer .propos .propos-description {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* line 55, ../sass/_footer.scss */
+/* line 58, ../sass/_footer.scss */
 .container-footer .menu {
   margin: 1em 0;
-  border: 1px solid #ca3566;
 }
-/* line 60, ../sass/_footer.scss */
+/* line 63, ../sass/_footer.scss */
+.container-footer .menu-item:first-child {
+  border: 0;
+}
+/* line 67, ../sass/_footer.scss */
 .container-footer .menu-item {
   display: block;
   text-align: center;
   padding: 0.5em;
-  border-top: 1px solid #ca3566;
+  background-color: #ca3566;
+  color: white;
+  border-top: 1px solid white;
 }
-/* line 67, ../sass/_footer.scss */
+/* line 76, ../sass/_footer.scss */
 .container-footer .menu-item:first-child {
   border: 0;
 }
 
-/* line 74, ../sass/_footer.scss */
+/* line 83, ../sass/_footer.scss */
 .container-footer .calling-card {
   margin: 1em 0;
 }
-/* line 78, ../sass/_footer.scss */
+/* line 87, ../sass/_footer.scss */
 .container-footer .calling-card-portrait {
   float: left;
   margin-right: 1em;
   margin-bottom: 1em;
+  width: 40%;
 }
-/* line 84, ../sass/_footer.scss */
+/* line 94, ../sass/_footer.scss */
 .container-footer .calling-card-content-title {
   font-size: 1.3em;
 }
-/* line 88, ../sass/_footer.scss */
+/* line 98, ../sass/_footer.scss */
 .container-footer .calling-card-content-button.button.primary {
   float: left;
 }
-/* line 92, ../sass/_footer.scss */
+/* line 102, ../sass/_footer.scss */
 .container-footer .calling-card-content-description {
   margin-bottom: 1em;
 }
 
-/* line 99, ../sass/_footer.scss */
+/* line 109, ../sass/_footer.scss */
 .container-footer .form-search {
   margin: 1em 0;
 }
-/* line 103, ../sass/_footer.scss */
+/* line 113, ../sass/_footer.scss */
 .container-footer .form-search-label {
   display: none;
 }
-/* line 107, ../sass/_footer.scss */
+/* line 117, ../sass/_footer.scss */
 .container-footer .form-search-query {
   width: 70%;
 }
-/* line 111, ../sass/_footer.scss */
+/* line 121, ../sass/_footer.scss */
 .container-footer .submit.button {
   float: right;
   width: 27%;
@@ -1874,7 +1895,7 @@ float: left;
 /* line 20, ../sass/screen.scss */
 body {
   color: #745e56;
-  font-family: Droid Serif, serif;
+  font-family: "Open Sans", "sans-serif";
 }
 
 /* line 25, ../sass/screen.scss */
@@ -2000,5 +2021,10 @@ body {
   color: white;
   border-bottom: 1px solid #e5673c;
   font-size: 1.4em;
+  margin-bottom: 1em;
+}
+
+/* line 76, ../sass/screen.scss */
+.search-result-description {
   margin-bottom: 1em;
 }

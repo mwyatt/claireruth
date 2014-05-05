@@ -1,4 +1,7 @@
 .container-footer {
+    margin-top: 2em;
+    padding-top: 2em;
+    border-top: 1px dotted $color-tertiary;
 
     .book-stack {
         display: none;
@@ -54,14 +57,20 @@ float: left;
 
     .menu {
         margin: 1em 0;
-        border: 1px solid $color-primary;
+        // border: 1px solid $color-primary;
+    }
+
+    .menu-item:first-child {
+        border: 0;
     }
 
     .menu-item {
         display: block;
         text-align: center;
         padding: 0.5em;
-        border-top: 1px solid $color-primary;
+        background-color: $color-primary;
+        color: $color-white;
+        border-top: 1px solid $color-white;
     }
     
     .menu-item:first-child {
@@ -79,6 +88,7 @@ float: left;
         float: left;
         margin-right: 1em;
         margin-bottom: 1em;
+        width: 40%;
     }
 
     .calling-card-content-title {

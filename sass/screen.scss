@@ -19,7 +19,7 @@ html {
 
 body {
     color: $color-text;
-    font-family: Droid Serif, serif;
+    font-family: $font-family;
 }
 
 .container-site {
@@ -70,5 +70,10 @@ body {
     color: $color-white;
     border-bottom: 1px solid $color-secondary;
     font-size: 1.4em;
+    margin-bottom: 1em;
+}
+
+.search-result-description {
+    @extend .h4;
     margin-bottom: 1em;
 }

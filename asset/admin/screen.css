@@ -336,7 +336,7 @@ a:link {
 .typography h5,
 .h6,
 .typography h6 {
-  font-family: "Droid Serif", "serif";
+  font-family: "Open Sans", "sans-serif";
   font-weight: 400;
 }
 
@@ -1617,7 +1617,7 @@ footer.main {
 body {
   background: white;
   color: gray;
-  font-family: "Droid Serif", "serif";
+  font-family: "Open Sans", "sans-serif";
   line-height: 1.5;
 }
 

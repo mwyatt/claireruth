@@ -12,9 +12,11 @@
     <?php include($this->pathView('_menu')) ?>
 
 					</div>
-
+					<div class="calling-card">
+						
     <?php include($this->pathView('_calling-card')) ?>
 
+					</div>
 				</div>
 			</footer>
         </div>
