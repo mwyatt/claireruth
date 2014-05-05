@@ -518,6 +518,11 @@ class Config
 	}
 
 
+	/**
+	 * detrmines if app is set in coming soon mode, allows pass through with
+	 * a preview get var set
+	 * @return boolean 
+	 */
 	public function isComingSoon()
 	{
 		if (! $this->comingSoon) {
@@ -531,11 +536,15 @@ class Config
 	}
 
 
+	/**
+	 * common settings for a php app
+	 * @return object chain
+	 */
 	public function phpSettings()
 	{
 
 		// enable errors, which a custom error handler is set for later
-		ini_set('display_errors',true);	
+		ini_set('display_errors', true);	
 
 		// set time zone to uk 
 		ini_set('date.timezone', "Europe/London");
@@ -547,6 +556,11 @@ class Config
 	}
 
 
+	/**
+	 * takes 1 dimensional array and converts to an object
+	 * @param  array $array 
+	 * @return object        
+	 */
 	public function convertArrayToObject($array)
 	{
 		$object = new StdClass();
