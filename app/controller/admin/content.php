@@ -19,11 +19,11 @@ class Controller_Admin_Content extends Controller
 	 * handles crud for all content
 	 */
 	public function initialise() {
-		$viewAdminContent = new view_admin_content($this->database, $this->config);
-		$modelLog = new model_log($this->database, $this->config);
-		$modelContent = new model_content($this->database, $this->config);
-		$sessionFeedback = new session_feedback($this->database, $this->config);
-		$cache = new cache($this->database, $this->config);
+		$viewAdminContent = new view_admin_content($this);
+		$modelLog = new model_log($this);
+		$modelContent = new model_content($this);
+		$sessionFeedback = new session_feedback($this);
+		$cache = new cache($this);
 
 		// get content status always
 		$this->view->setObject('content_status', $modelContent->getStatus());
@@ -88,7 +88,7 @@ class Controller_Admin_Content extends Controller
 
 
 	public function post() {
-		$content = new model_content($this->database, $this->config);
+		$content = new model_content($this);
 		$content->read(array(
 			'where' => array('type' => $this->config->getUrl(2)),
 			'order_by' => 'time_published desc'

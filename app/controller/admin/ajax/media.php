@@ -19,7 +19,7 @@ class Controller_Admin_Ajax_Media extends Controller
 	 * default display for the media browser
 	 */
 	public function read() {
-		$modelMedia = new model_media($this->database, $this->config);
+		$modelMedia = new model_media($this);
 		$modelMedia->read();
 		$this->view
 			->setObject('media', $modelMedia)
@@ -32,7 +32,7 @@ class Controller_Admin_Ajax_Media extends Controller
 	 * @return string the forms and error messages required to update
 	 */
 	public function upload() {
-		$file = new File($this->database, $this->config);
+		$file = new File($this);
 		$file->setTypesAcceptable(array('image/gif', 'image/png', 'image/jpeg', 'image/pjpeg', 'image/jpeg', 'image/pjpeg', 'application/pdf'));
 
 		// success

@@ -25,7 +25,7 @@ class Controller_Admin_Ajax_Content extends Controller
 			exit;
 		}
 		$friendlyTitle = $this->urlFriendly($_GET['title']);
-		$modelcontent = new model_content($this->database, $this->config);
+		$modelcontent = new model_content($this);
 		$success = $modelcontent->read(array(
 			'where' => array(
 				'slug' => $friendlyTitle

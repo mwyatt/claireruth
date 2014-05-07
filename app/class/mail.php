@@ -55,7 +55,7 @@ class Mail extends Config
 		$this->view = $view;
 
 		// pallete
-		$mailPallete = new Mail_Pallete($this->database, $this->config);
+		$mailPallete = new Mail_Pallete($this);
 		$mailPallete->setSassStyles();
 		$mailPallete->setStyles();
 		$this->view->setObject('styles', $mailPallete);
@@ -114,7 +114,7 @@ class Mail extends Config
 			$mold->subject = $properties->subject;
 			$mold->content = $templateHtml;
 			$mold->time = time();
-			$model = new Model_Mail($this->database, $this->config);
+			$model = new Model_Mail($this);
 			$model->create(array($mold));
 			return true;
 		}

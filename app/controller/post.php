@@ -15,7 +15,7 @@ class Controller_Post extends Controller
 
 
 	public function index() {
-		$modelContent = new model_content($this->database, $this->config);
+		$modelContent = new model_content($this);
 
 		// single
 		if ($this->config->getUrl(1)) {
@@ -60,7 +60,7 @@ class Controller_Post extends Controller
 				->renderTemplate('content');
 		}
 
-		// $tag = new model_tag($this->database, $this->config);
+		// $tag = new model_tag($this);
 		// $modelContent->readByMonth();
 		// $tag->read('title, description');
 		// $this->view

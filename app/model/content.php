@@ -46,7 +46,7 @@ class Model_Content extends Model
 	 */
 	public function bindMeta($metaName)
 	{
-		$modelMeta = new model_content_meta($this->database, $this->config);
+		$modelMeta = new model_content_meta($this);
 
 		// get data based on ids found in data
 		$modelMeta->read(array(
@@ -62,7 +62,7 @@ class Model_Content extends Model
 		}
 
 		// instansiate and read based on meta values
-		$model = new $className($this->database, $this->config);
+		$model = new $className($this);
 		$model->read(array(
 			'where' => array('id' => $modelMeta->getDataProperty('value'))
 		));	
@@ -206,7 +206,7 @@ class Model_Content extends Model
 		$sth->bindValue(':type', $type, PDO::PARAM_STR);
 		$this->tryExecute($sth);
 		;
-		$modelOptions = new model_options($this->database, $this->config);
+		$modelOptions = new model_options($this);
 		$modelOptions->lazyDelete(array(
 			'name' => $key
 		));

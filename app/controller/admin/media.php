@@ -17,8 +17,8 @@ class Controller_Admin_Media extends Controller
 
 	public function initialise()
 	{
-		$modelMedia = new model_media($this->database, $this->config);
-		$sessionFeedback = new session_feedback($this->database, $this->config);
+		$modelMedia = new model_media($this);
+		$sessionFeedback = new session_feedback($this);
 
 		// update
 		if (array_key_exists('update', $_POST)) {
@@ -50,7 +50,7 @@ class Controller_Admin_Media extends Controller
 		// delete
 		if (array_key_exists('delete', $_GET)) {
 			if ($modelMedia->deleteById(array($_GET['delete']))) {
-				$modelContentMeta = new model_content_meta($this->database, $this->config);
+				$modelContentMeta = new model_content_meta($this);
 				$modelContentMeta->deleteByValue($this->config->getUrl(1), $_GET['delete']);
 				$sessionFeedback->set(ucfirst($this->config->getUrl(1)) . ' deleted successfully');
 			} else {
@@ -61,7 +61,7 @@ class Controller_Admin_Media extends Controller
 	}
 
 	public function index() {
-		$modelMedia = new model_media($this->database, $this->config);
+		$modelMedia = new model_media($this);
 		$modelMedia->read();
 		$this->view
 			->setObject($modelMedia)

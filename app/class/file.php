@@ -238,10 +238,10 @@ class File extends Config
 		$mold->path = $friendlyFileNameWithExtension;
 		$mold->type = $file->type;
 		$mold->time_published = time();
-		// $sessionAdminUser = new Session_Admin_User($this->database, $this->config);
+		// $sessionAdminUser = new Session_Admin_User($this);
 		// $mold->user_id = $sessionAdminUser->getData('id');
 		$mold->user_id = 0;
-		$model = new Model_Media($this->database, $this->config);
+		$model = new Model_Media($this);
 		$model->create(array($mold));
 
 		// success

@@ -36,7 +36,7 @@ class Pagination extends Model
 		$this->database = $database;
 		$this->config = $config;
 		$this->tableName = $tableName;
-		$cache = new cache($this->database, $this->config);
+		$cache = new cache($this);
 		$this->totalRows = $cache->read('ceil-content-' . $this->config->getUrl(0));
 
 		// check validity

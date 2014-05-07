@@ -81,12 +81,12 @@ class Config
 	 * @param object $config   
 	 * @param string $identity   sets the identity dynamically or manually   
 	 */
-	public function __construct($database = false, $config = false, $identity = '') {
-		$this->database = $database;
-		$this->config = $config;
+	public function __construct($system) {
+		$this->database = $system->database;
+		$this->config = $system->config;
 
 		// sets the table name for use with generic methods
-		$this->setIdentity($identity);
+		$this->setIdentity();
 	}
 
 	
@@ -370,12 +370,8 @@ class Config
 	 * sets the identity property manually
 	 * or get the class name and turn_into_this format
 	 */
-	public function setIdentity($identity)
+	public function setIdentity()
 	{
-		if ($identity) {
-			$this->identity = $identity;
-			return $this;
-		}
 		$className = get_class($this);
 		$className = explode('_', $className);
 		array_shift($className);
@@ -528,7 +524,7 @@ class Config
 		if (! $this->comingSoon) {
 			return;
 		}
-		$sessionPreview = new session_preview($this->database, $this->config);
+		$sessionPreview = new session_preview($this);
 		if (array_key_exists('preview', $_GET)) {
 			$sessionPreview->setData(true);
 		}

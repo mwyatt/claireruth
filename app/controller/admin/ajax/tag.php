@@ -19,7 +19,7 @@ class Controller_Admin_Ajax_Tag extends Controller
 	 * default display for the tag browser
 	 */
 	public function read() {
-		$model = new model_tag($this->database, $this->config);
+		$model = new model_tag($this);
 		$model->readUniqueLike();
 		$this->view
 			->setObject('tags', $model)
@@ -31,7 +31,7 @@ class Controller_Admin_Ajax_Tag extends Controller
 		if (! array_key_exists('query', $_GET)) {
 			return;
 		}
-		$model = new model_tag($this->database, $this->config);
+		$model = new model_tag($this);
 		$model->readSearch($_GET['query']);
 		$this->view
 			->setObject('dropTemplate', '_tags')
@@ -48,7 +48,7 @@ class Controller_Admin_Ajax_Tag extends Controller
 			exit;
 		}
 		$tagNewTitle = $_GET['title'];
-		$model = new model_tag($this->database, $this->config);
+		$model = new model_tag($this);
 		$model->read(array(
 			'where' => array(
 				'title' => $tagNewTitle

@@ -17,7 +17,7 @@ class Controller_Ajax_Content extends Controller
 	 */
 	public function generateSlug()
 	{
-		$modelContent = new model_content($this->database, $this->config);
+		$modelContent = new model_content($this);
 		$modelContent->read();
 		foreach ($modelContent->getData() as $mold) {
 			if ($mold->slug) {

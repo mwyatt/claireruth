@@ -14,9 +14,9 @@ class View_Admin_Content extends Config
 
 	// public function create()
 	// {
-	// 	$modelLog = new model_log($this->database, $this->config);
-	// 	$modelContent = new model_content($this->database, $this->config);
-	// 	$sessionFeedback = new session_feedback($this->database, $this->config);
+	// 	$modelLog = new model_log($this);
+	// 	$modelContent = new model_content($this);
+	// 	$sessionFeedback = new session_feedback($this);
 	// 	if ($modelContent->create($_POST)) {
 	// 		$createOrUpdateId = $this->database->dbh->lastInsertId();
 	// 		$modelLog->log('admin', 'post created');
@@ -37,7 +37,7 @@ class View_Admin_Content extends Config
 	 */
 	public function updateMeta($metaName)
 	{
-		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$modelContentMeta = new model_content_meta($this);
 		$success = false;
 		if (array_key_exists($metaName . '_attached', $_POST)) {
 			$molds = array();
@@ -56,10 +56,10 @@ class View_Admin_Content extends Config
 
 	public function update()
 	{
-		$modelLog = new model_log($this->database, $this->config);
-		$modelContent = new model_content($this->database, $this->config);
-		$sessionFeedback = new session_feedback($this->database, $this->config);
-		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$modelLog = new model_log($this);
+		$modelContent = new model_content($this);
+		$sessionFeedback = new session_feedback($this);
+		$modelContentMeta = new model_content_meta($this);
 		$modelContentMeta->delete(array(
 			'where' => array(
 				'content_id' => $_GET['edit']
@@ -87,9 +87,9 @@ class View_Admin_Content extends Config
 
 	public function archive()
 	{
-		$modelLog = new model_log($this->database, $this->config);
-		$modelContent = new model_content($this->database, $this->config);
-		$sessionFeedback = new session_feedback($this->database, $this->config);
+		$modelLog = new model_log($this);
+		$modelContent = new model_content($this);
+		$sessionFeedback = new session_feedback($this);
 		if ($modelContent->update(
 			array('status' => 'archive')
 			, array('id' => $_GET['archive'])
@@ -105,9 +105,9 @@ class View_Admin_Content extends Config
 
 	public function delete()
 	{
-		$modelLog = new model_log($this->database, $this->config);
-		$modelContent = new model_content($this->database, $this->config);
-		$sessionFeedback = new session_feedback($this->database, $this->config);
+		$modelLog = new model_log($this);
+		$modelContent = new model_content($this);
+		$sessionFeedback = new session_feedback($this);
 		if ($modelContent->delete(array(
 			'id' => $_GET['delete']
 		))) {
@@ -122,7 +122,7 @@ class View_Admin_Content extends Config
 
 	public function edit()
 	{
-		$modelContent = new model_content($this->database, $this->config);
+		$modelContent = new model_content($this);
 		$modelContent->read(array(
 			'where' => array(
 				'type' => $this->config->getUrl(2),
@@ -140,10 +140,10 @@ class View_Admin_Content extends Config
 
 	public function create()
 	{
-		$modelLog = new model_log($this->database, $this->config);
-		$modelContent = new model_content($this->database, $this->config);
-		$sessionFeedback = new session_feedback($this->database, $this->config);
-		$sessionHistory = new session_history($this->database, $this->config);
+		$modelLog = new model_log($this);
+		$modelContent = new model_content($this);
+		$sessionFeedback = new session_feedback($this);
+		$sessionHistory = new session_history($this);
 		$mold = new mold_content();
 		$mold->title = 'Untitled';
 		$mold->slug = '';

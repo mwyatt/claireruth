@@ -75,7 +75,7 @@ class Model_Admin_Menu extends Model
 	 * @return html the menu
 	 */
 	public function adminSub() {
-		$user = new model_user($this->database, $this->config);
+		$user = new model_user($this);
 		$className = 'Controller_' . ucfirst($this->config->getUrl(0)) . '_' . ucfirst($this->config->getUrl(1));
 		if (class_exists($className)) {
 			foreach ($this->getClassMethods($className) as $key => $method) {

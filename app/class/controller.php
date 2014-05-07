@@ -56,21 +56,18 @@ class Controller extends Config
 	 * @param object $database   
 	 * @param object $config     
 	 */
-	public function __construct($controller = false, $database = false, $config = false) {
+	public function __construct($system) {
 
 		// construct in default fashion
-		parent::__construct($database, $config);
+		parent::__construct($system);
 
 		// copy passed controllers view to this new controller
 		// copy url key
-		if ($controller) {
-			$this->view = $controller->view;
-			$this->setUrlKey($controller->getUrlKey());
-		}
-
-		// first controller needs a blank view
-		if (! $controller) {
-			$this->view = new View($this->database, $this->config);
+		if (property_exists($system, 'view')) {
+			$this->view = $system->view;
+			$this->setUrlKey($system->getUrlKey());
+		} else {
+			$this->view = new View($this);
 		}
 	}
 
@@ -93,7 +90,7 @@ class Controller extends Config
 		}
 
 		// instantiate class
-		$controller = new $className($this, $this->database, $this->config);
+		$controller = new $className($this);
 
 		// initialise each class
 		$controller->initialise();
@@ -122,11 +119,6 @@ class Controller extends Config
 		if (! $controller->view->getRender()) {
 			$controller->loadMethod();
 		}
-
-		// route away if no data set
-		// if (! $controller->view->getData()) {
-		// 	$controller->route('base');
-		// }
 
 		// render the data
 		$controller->view->render();
@@ -231,19 +223,19 @@ class Controller extends Config
 		}
 
 		// main navigation
-		$viewHeader = new view_header($this->database, $this->config);
+		$viewHeader = new view_header($this);
 		$this->view->setObject('mainMenu', $viewHeader->getMainMenu());
 	}
 
 
 	public function index() {
-		$cache = new cache($this->database, $this->config);
+		$cache = new cache($this);
 
 		// latest 3 posts
 		if ($cache->read('home-latest-posts')) {
 			$this->view->setObject('contents', $cache->getData());
 		} else {
-			$modelContent = new model_content($this->database, $this->config);
+			$modelContent = new model_content($this);
 			$modelContent->read(array(
 				'where' => array(
 					'type' => 'post'
@@ -269,7 +261,7 @@ class Controller extends Config
 		if (! $query) {
 			$this->route('base');
 		}
-		$modelContent = new model_content($this->database, $this->config);
+		$modelContent = new model_content($this);
 		$modelContent->readSearch($query);
 		$this->view
 			->setObject('query', $query)
@@ -282,7 +274,7 @@ class Controller extends Config
 		if (! $this->config->getUrl(1)) {
 			$this->route('base');
 		}
-		$modelContent = new model_content($this->database, $this->config);
+		$modelContent = new model_content($this);
 		if (! $modelContent->read(array(
 			'where' => array(
 				'slug' => $this->config->getUrl(1),
@@ -307,11 +299,11 @@ class Controller extends Config
 
 	public function sitemapxml() {
 		header('Content-Type: application/xml');
-		$content = new model_content($this->database, $this->config);
-		$player = new model_ttplayer($this->database, $this->config);
-		$team = new model_ttteam($this->database, $this->config);
-		$fixture = new model_ttfixture($this->database, $this->config);
-		$division = new model_ttdivision($this->database, $this->config);
+		$content = new model_content($this);
+		$player = new model_ttplayer($this);
+		$team = new model_ttteam($this);
+		$fixture = new model_ttfixture($this);
+		$division = new model_ttdivision($this);
 		$this->view
 			->setObject('model_ttfixture', $fixture->readFilled()->getData())
 			->setObject('model_ttdivision', $division->read()->getData())

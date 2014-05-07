@@ -22,11 +22,11 @@ class Controller_Admin extends Controller
 	 *       url you intend to after logging in
 	 */
 	public function initialise() {
-		$viewContent = new view_content($this->database, $this->config);
-		$sessionAdminUser = new session_admin_user($this->database, $this->config);
-		$sessionFeedback = new session_feedback($this->database, $this->config);
-		$sessionFormfield = new session_formfield($this->database, $this->config);
-		$sessionHistory = new session_history($this->database, $this->config);
+		$viewContent = new view_content($this);
+		$sessionAdminUser = new session_admin_user($this);
+		$sessionFeedback = new session_feedback($this);
+		$sessionFormfield = new session_formfield($this);
+		$sessionHistory = new session_history($this);
 		$this->view->setObject('user', false);
 
 		// logout
@@ -38,8 +38,8 @@ class Controller_Admin extends Controller
 		}
 
 		// common objects
-		$menu = new model_admin_menu($this->database, $this->config);
-		$modelUser = new model_user($this->database, $this->config);
+		$menu = new model_admin_menu($this);
+		$modelUser = new model_user($this);
 
 		// menu and submenu full structure
 		$menu->read();
@@ -121,9 +121,9 @@ class Controller_Admin extends Controller
 
 
 	// public function profile() {
-	// 	$sessionFeedback = new session_feedback($this->database, $this->config);
-	// 	$modelUser = new model_user($this->database, $this->config);
-	// 	$sessionAdminUser = new session_admin_user($this->database, $this->config);
+	// 	$sessionFeedback = new session_feedback($this);
+	// 	$modelUser = new model_user($this);
+	// 	$sessionAdminUser = new session_admin_user($this);
 	// 	if (array_key_exists('form_update', $_POST)) {
 	// 		// $modelUser->updateById($sessionAdminUser->getData('id'));
 	// 		// crypt($_POST['password'])

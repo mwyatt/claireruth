@@ -25,7 +25,7 @@ exit;
 		$this->logger();
 // 		$this->options();
 // 		// $model->read();
-		$model = new model_content_meta($this->database, $this->config);
+		$model = new model_content_meta($this);
 		$mold = new mold_content_meta();
 		$mold->content_id = 10;
 		$mold->name = 'tester';
@@ -59,7 +59,7 @@ exit;
 
 	public function options()
 	{
-		$model = new model_options($this->database, $this->config);
+		$model = new model_options($this);
 		$model->read();
 
 echo '<pre>';
@@ -72,7 +72,7 @@ exit;
 
 	public function logger()
 	{
-		$model = new model_log($this->database, $this->config);
+		$model = new model_log($this);
 		$model->log('admin', 'hello world');
 	}
 
@@ -83,7 +83,7 @@ exit;
 		if ($cache->read('example-cache-more')) {
 			// set parser with $cache->getData()
 		} else {
-			$model = new model_options($this->database, $this->config);
+			$model = new model_options($this);
 			$model->read();
 			$cache->create('example-cache-more', $model->getData());
 		}
@@ -101,7 +101,7 @@ exit;
 	{
 	    
 		echo '<form action="#" method="post" enctype="multipart/form-data"><input type="file" name="form_media[]" multiple="multiple"><input type="submit"></form>';
-		$file = new File($this->database, $this->config);
+		$file = new File($this);
 		$file->setTypesAcceptable(array('image/gif', 'image/png', 'image/jpeg', 'image/pjpeg', 'image/jpeg', 'image/pjpeg', 'application/pdf'));
 echo '<pre>';
 		var_dump($file->upload('form_media', $_FILES));
@@ -120,5 +120,19 @@ exit;
 			'template' => 'mail/test'
 		));
 		exit;
+	}
+
+
+	public function destroySession()
+	{
+		
+		// session
+		session_start();
+		if (array_key_exists('session', $_GET)) {
+			if ($_GET['session'] == 'destroy') {
+				session_destroy();
+				exit;
+			}
+		}
 	}
 }

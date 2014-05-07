@@ -39,7 +39,7 @@ class Session_Admin_User extends Session
 
 		// provide feedback as to what has happened
 		if (! $this->refreshExpire()) {
-			$sessionFeedback = new session_feedback($this->database, $this->config);
+			$sessionFeedback = new session_feedback($this);
 			$sessionFeedback->set('You have been logged out due to inactivity');
 			return;
 		}

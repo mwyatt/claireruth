@@ -15,9 +15,9 @@ class Controller_Tag extends Controller
 
 
 	public function index() {
-		$modelTag = new model_tag($this->database, $this->config);
-		$modelContentMeta = new model_content_meta($this->database, $this->config);
-		$modelContent = new model_content($this->database, $this->config);
+		$modelTag = new model_tag($this);
+		$modelContentMeta = new model_content_meta($this);
+		$modelContent = new model_content($this);
 
 		// get tag data
 		$modelTagName = str_replace('-', ' ', $this->config->getUrl(1));

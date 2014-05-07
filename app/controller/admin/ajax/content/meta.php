@@ -31,7 +31,7 @@ class Controller_Admin_Ajax_Content_Meta extends Controller
 	 * @return null|string 
 	 */
 	public function create() {
-		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$modelContentMeta = new model_content_meta($this);
 		if (! $modelContentMeta->create(
 			$_GET['content_id']
 			, $_GET['name']
@@ -44,7 +44,7 @@ class Controller_Admin_Ajax_Content_Meta extends Controller
 
 
 	public function delete() {
-		$modelContentMeta = new model_content_meta($this->database, $this->config);
+		$modelContentMeta = new model_content_meta($this);
 		if (! $modelContentMeta->delete(
 			$_GET['content_id']
 			, $_GET['name']

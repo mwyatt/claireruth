@@ -50,8 +50,8 @@ class Model_Log extends Model
 	 */
 	public function adminUnseen($logIds)
 	{
-		$modelLogAdminUnseen = new model_log_admin_unseen($this->database, $this->config);
-		$modelUser = new model_user($this->database, $this->config);
+		$modelLogAdminUnseen = new model_log_admin_unseen($this);
+		$modelUser = new model_user($this);
 		$moldLogAdminUnseen = new mold_log_admin_unseen();
 		$molds = array();
 		foreach ($logIds as $logId) {

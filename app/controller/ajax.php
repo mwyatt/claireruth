@@ -51,7 +51,7 @@ class Controller_Ajax extends Controller
 
 		// session validation
 		if (array_key_exists('plus_one', $_GET)) {
-			$sessionLove = new session_love($this->database, $this->config);
+			$sessionLove = new session_love($this);
 
 			// return if session has a record of this being loved
 			if (! $sessionLove->add($contentId)) {
@@ -61,7 +61,7 @@ class Controller_Ajax extends Controller
 		}
 
 		// setup object
-		$contentMeta = new model_content_meta($this->database, $this->config);
+		$contentMeta = new model_content_meta($this);
 		$contentMetaSelect = "
 			content_meta.id
 			, content_meta.content_id
@@ -109,7 +109,7 @@ class Controller_Ajax extends Controller
 	 */
 	public function dismiss()
 	{
-		$sessionFeedback = new session_feedback($this->database, $this->config);
+		$sessionFeedback = new session_feedback($this);
 		exit($sessionFeedback->delete());
 	}
 }

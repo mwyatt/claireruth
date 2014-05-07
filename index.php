@@ -1,22 +1,51 @@
 <?php
 
+
 /**
  * @package	~unknown~
  * @author 	Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-session_start();
-if (array_key_exists('session', $_GET)) {
-	if ($_GET['session'] == 'destroy') {
-		session_destroy();
-		exit;
-	}
-}
 
 
 /**
- * config, autoloader
+ * the directory seperator
+ */
+define('DS', DIRECTORY_SEPARATOR);
+
+
+/**
+ * app environment from php.ini
+ */
+define('ENV', getenv('APP_ENV'));
+
+
+/**
+ * app version
+ */
+define('VERSION', '0.0.1');
+
+
+/**
+ * 
+ */
+define('PATH', dirname(__FILE__) . DS);
+define('APP', PATH . 'anchor' . DS);
+define('SYS', PATH . 'system' . DS);
+define('EXT', '.php');
+
+require SYS . 'start' . EXT;
+
+/**
+ * initial system object
+ * @var stdClass
+ */
+$system = new stdClass();
+
+
+/**
+ * autoloader
  */
 define('BASE_PATH', (string) (__DIR__ . '/'));
 require_once(BASE_PATH . 'config.php');
@@ -28,12 +57,13 @@ spl_autoload_register(array('Autoloader', 'load'));
  * core objects
  */
 $error = new error($errorReporting);
-$database = new database($credentials);
-$options = new model_options($database);
+$system->database = new database($credentials);
+$system->config = false;
+$system->config = new config($system);
+$options = new model_options($system);
 $options->read();
 $options->arrangeByName();
-$config = new config($database);
-$config
+$system->config
 	->setOptions($options->getData())
 	->initiateUrl()
 	->phpSettings()
@@ -48,14 +78,14 @@ if (array_key_exists('site', $_GET)) {
 /**
  * store each unique url
  */
-$sessionHistory = new session_history($database, $config);
-$sessionHistory->add($config->getUrl('current'));
+$sessionHistory = new session_history($system);
+$sessionHistory->add($system->config->getUrl('current'));
 
 
 /**
  * unit tests
  */
-// $test = new test($database, $config);
+// $test = new test($system);
 // $test->media();
 
 
@@ -63,14 +93,14 @@ $sessionHistory->add($config->getUrl('current'));
  * controller
  * @var controller
  */
-$controller = new controller(false, $database, $config);
+$controller = new controller($system);
 $controller->loadClass();
 
 
 /**
  * cron
  */
-$cron = new cron($database, $config);
+$cron = new cron($system);
 $cron->refresh(array(
 	'cron_email_newsletter'
 ));

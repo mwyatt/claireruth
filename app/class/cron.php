@@ -55,7 +55,7 @@ class Cron extends Model
 	 */
 	public function refresh($classNames = array())
 	{
-		$modelOptions = new model_options($this->database, $this->config);
+		$modelOptions = new model_options($this);
 		$moldOptions = new mold_options();
 		foreach ($classNames as $className) {
 
@@ -73,7 +73,7 @@ class Cron extends Model
 			}
 
 			// initiate model
-			$modelJob = new $className($this->database, $this->config);
+			$modelJob = new $className($this);
 			
 			// skip if not ready
 			if (! $modelJob->isJobReady($timeRecorded)) {

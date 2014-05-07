@@ -17,7 +17,7 @@ class Log extends Config
 		$mold->message = $message;
 		$mold->type = 'admin';
 		$mold->time = time();
-		$model = new model_log($this->database, $this->config);
+		$model = new model_log($this);
 		$model->create(array($mold));
 	}
 }

@@ -15,7 +15,7 @@ class Controller_Month extends Controller
 
 
 	public function index() {
-		$content = new model_content($this->database, $this->config);
+		$content = new model_content($this);
 		
 		// is the date acceptable
 		if (! $content->readByMonth(array($this->config->getUrl(1)))) {
