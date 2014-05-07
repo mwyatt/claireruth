@@ -10,32 +10,16 @@
 
 
 /**
- * the directory seperator
+ * definitions
  */
 define('DS', DIRECTORY_SEPARATOR);
-
-
-/**
- * app environment from php.ini
- */
 define('ENV', getenv('APP_ENV'));
-
-
-/**
- * app version
- */
 define('VERSION', '0.0.1');
-
-
-/**
- * 
- */
-define('PATH', dirname(__FILE__) . DS);
-define('APP', PATH . 'anchor' . DS);
-define('SYS', PATH . 'system' . DS);
+define('BASE_PATH', (string) (__DIR__ . '/'));
+define('PATH_APP', BASE_PATH . 'app' . DS);
+define('PATH_CLASS', PATH_APP . 'class' . DS);
 define('EXT', '.php');
 
-require SYS . 'start' . EXT;
 
 /**
  * initial system object
@@ -45,11 +29,9 @@ $system = new stdClass();
 
 
 /**
- * autoloader
+ * autoloader include and register
  */
-define('BASE_PATH', (string) (__DIR__ . '/'));
-require_once(BASE_PATH . 'config.php');
-require_once(BASE_PATH . 'app/class/autoloader.php');
+require PATH_CLASS . 'autoloader' . EXT;
 spl_autoload_register(array('Autoloader', 'load'));
 
 
@@ -69,7 +51,7 @@ $system->config
 	->phpSettings()
 	->setObject($error);
 
-// site switching
+
 if (array_key_exists('site', $_GET)) {
 	$site = new Site();
 }
