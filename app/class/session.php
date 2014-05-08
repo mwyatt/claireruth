@@ -22,10 +22,10 @@ class Session extends Cron
 	/**
 	 * extends the normal constructor to set the session data
 	 */
-	public function __construct($config) {
+	public function __construct($system) {
 
 		// follow through to core constructor
-		parent::__construct($config);
+		parent::__construct($system);
 
 		// initial setup of session data only if it has a identity
 		// != 'session'

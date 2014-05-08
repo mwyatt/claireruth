@@ -38,7 +38,8 @@ class Controller_Post extends Controller
 		} else {
 
 			// all
-			$pagination = new pagination($this->database, $this->config, 'content');
+			$pagination = new pagination($this);
+			$pagination->initialise('content');
 			$modelContent->read(array(
 				'where' => array(
 					'type' => $this->config->getUrl(0)
@@ -59,13 +60,5 @@ class Controller_Post extends Controller
 				->setObject('contents', $modelContent)
 				->renderTemplate('content');
 		}
-
-		// $tag = new model_tag($this);
-		// $modelContent->readByMonth();
-		// $tag->read('title, description');
-		// $this->view
-		// 	->setObject($tag)
-		// 	->setObject('content_month', $modelContent);
-
 	}
 }

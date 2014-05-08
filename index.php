@@ -22,74 +22,7 @@ define('EXT', '.php');
 
 
 /**
- * initial system object
- * @var stdClass
+ * initialise app
  */
-$system = new stdClass();
-
-
-/**
- * autoloader include and register
- */
-require PATH_CLASS . 'autoloader' . EXT;
-spl_autoload_register(array('Autoloader', 'load'));
-
-
-/**
- * core objects
- */
-$error = new error($errorReporting);
-$system->database = new database($credentials);
-$system->config = false;
-$system->config = new config($system);
-$options = new model_options($system);
-$options->read();
-$options->arrangeByName();
-$system->config
-	->setOptions($options->getData())
-	->initiateUrl()
-	->phpSettings()
-	->setObject($error);
-
-
-if (array_key_exists('site', $_GET)) {
-	$site = new Site();
-}
-
-
-/**
- * store each unique url
- */
-$sessionHistory = new session_history($system);
-$sessionHistory->add($system->config->getUrl('current'));
-
-
-/**
- * unit tests
- */
-// $test = new test($system);
-// $test->media();
-
-
-/**
- * controller
- * @var controller
- */
-$controller = new controller($system);
-$controller->loadClass();
-
-
-/**
- * cron
- */
-$cron = new cron($system);
-$cron->refresh(array(
-	'cron_email_newsletter'
-));
-
-
-/**
- * core system exit
- * possibly no need to exit anywhere else?
- */
-exit;
+require BASE_PATH . 'config' . EXT;
+require PATH_APP . 'initialise' . EXT;

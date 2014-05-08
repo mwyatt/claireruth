@@ -26,15 +26,8 @@ class Pagination extends Model
 	public $possiblePages;
 	
 
-	/**
-	 * always initiates with the session, database and config
-	 * @param object $database 
-	 * @param object $config   
-	 */
-	public function __construct($database, $config, $tableName) {
-		$this->session = new Session();
-		$this->database = $database;
-		$this->config = $config;
+	public function initialise($tableName)
+	{
 		$this->tableName = $tableName;
 		$cache = new cache($this);
 		$this->totalRows = $cache->read('ceil-content-' . $this->config->getUrl(0));
@@ -48,7 +41,6 @@ class Pagination extends Model
         $this->setPossiblePages();
 		$this->setPagination();
 	}
-
 
 
 	public function setPossiblePages()

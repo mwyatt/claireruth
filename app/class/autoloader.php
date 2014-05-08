@@ -27,11 +27,10 @@ class Autoloader {
 	 */
 	public static function load($title) {
 		$lowerTitle = strtolower($title);
-		$classExtension = '.php';
 
 		// check for app/class/foo_bar.php
 		$basePath = BASE_PATH . 'app/';
-		$testPath = $basePath . 'class/' . $lowerTitle . $classExtension;
+		$testPath = $basePath . 'class/' . $lowerTitle . EXT;
 		if (is_file($testPath)) {
 			require_once($testPath);
 			return;
@@ -43,14 +42,14 @@ class Autoloader {
 			$titlePath .= strtolower($sliceOfPathPie) . '/';
 		}
 		$titlePath = rtrim($titlePath, '/');
-		$testPath = $basePath . 'class/' . $titlePath . $classExtension;
+		$testPath = PATH_CLASS . $titlePath . EXT;
 		if (is_file($testPath)) {
 			require_once($testPath);
 			return;
 		}
 
 		// appl/foo/bar.php
-		$testPath = $basePath . $titlePath . $classExtension;
+		$testPath = $basePath . $titlePath . EXT;
 		if (is_file($testPath)) {
 			require_once($testPath);
 			return;

@@ -1,1 +1,5 @@
 [Type 8] Undefined variable: sesion | C:\UniServer\www\claireruth\index.php [Line 17] [Date 04/10/2013]
+[Type 8] Undefined variable: credentials | C:\UniServer\www\claireruth\app\initialise.php [Line 24] [Date 08/05/2014]
+[Type 8] Undefined variable: credentials | C:\UniServer\www\claireruth\app\initialise.php [Line 24] [Date 08/05/2014]
+[Type 8] Undefined variable: credentials | C:\UniServer\www\claireruth\app\initialise.php [Line 24] [Date 08/05/2014]
+[Type 8] Undefined variable: credentials | C:\UniServer\www\claireruth\app\initialise.php [Line 24] [Date 08/05/2014]
