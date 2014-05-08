@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Cache extends Config
+class Json extends Config
 {
 
 
@@ -14,17 +14,14 @@ class Cache extends Config
 	 * folder house for cache
 	 * @var string
 	 */
-	public $path = 'app/cache/';
-
-
-	public $keyCurrent = '';
+	public $path = 'app/json/';
 
 
 	/**
 	 * typical extension used
 	 * @var string
 	 */
-	public $extension = '.txt';
+	public $extension = '.json';
 
 
 	/**
@@ -33,7 +30,7 @@ class Cache extends Config
 	 * @return string      
 	 */
 	public function getPath($key) {
-		return BASE_PATH . $this->path . $key/* . $this->extension*/;
+		return BASE_PATH . $this->path . $key . $this->extension;
 	}
 
 
@@ -60,24 +57,18 @@ class Cache extends Config
 	public function create($data)
 	{
 
-		// file must not already exist
-		if ($this->fileExists($this->getKey())) {
-			return;
-		}
+		// // file must not already exist
+		// if ($this->fileExists($this->getKey())) {
+		// 	return;
+		// }
 
-		// stringify
-		$data = serialize($data);
+		// // encode
+		// $data = json_encode($data);
 
-		// write to file
-		if (file_put_contents($this->getPath($this->getKey()), $data)) {
-			return true;
-		}
-	}
-
-
-	public function getKey()
-	{
-		return $this->keyCurrent;
+		// // write to file
+		// if (file_put_contents($this->getPath($this->getKey()), $data)) {
+		// 	return true;
+		// }
 	}
 
 
@@ -90,9 +81,6 @@ class Cache extends Config
 	public function read($key)
 	{
 
-		// store attempted key for create function
-		$this->keyCurrent = $key;
-
 		// quickly check if a file exists
 		if (! $this->fileExists($key)) {
 			return;
@@ -100,17 +88,7 @@ class Cache extends Config
 
 		// load in
 		$data = file_get_contents($this->getPath($key));
-		return $this->setData(unserialize($data));
-	}
-
-
-	/**
-	 * may not be needed
-	 * @return null 
-	 */
-	public function update()
-	{
-		# code...
+		return $this->setData(json_decode($data));
 	}
 
 

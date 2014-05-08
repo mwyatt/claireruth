@@ -13,7 +13,8 @@ class Test extends Config
 
 	public function run()
 	{
-
+		$this->json();
+		exit;
 
 echo '<pre>';
 var_dump($this->config->getOption('site_title'));
@@ -134,5 +135,16 @@ exit;
 				exit;
 			}
 		}
+	}
+
+
+	public function json()
+	{
+		$json = new Json($this);
+		$json->read('main-menu');
+		echo '<pre>';
+		print_r($json);
+		echo '</pre>';
+		exit;
 	}
 }

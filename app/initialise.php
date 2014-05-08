@@ -25,7 +25,7 @@ spl_autoload_register(array('Autoloader', 'load'));
 /**
  * core objects
  */
-$system = new stdClass();
+$system = new system();
 $error = new error($errorReporting);
 $system->database = new database($credentials);
 $system->config = false;
@@ -55,9 +55,8 @@ $sessionHistory->add($system->config->getUrl('current'));
 /**
  * unit tests
  */
-// $test = new test($system);
-// $test->media();
-
+$test = new test($system);
+$test->json();
 
 /**
  * controller
