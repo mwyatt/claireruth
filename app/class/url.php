@@ -42,20 +42,68 @@ class Url
 {
 
 
-	public $base;
+	/**
+	 * http
+	 * @var string
+	 */
+	public $scheme;
 
 
-	public $parts;
+	/**
+	 * foo.co.uk/
+	 * @var string
+	 */
+	public $host;
 
 
-	public $secure;
+	/**
+	 * foo, bar
+	 * @var array
+	 */
+	public $path;
 
 
-	public $extAdmin = 'admin';
+	/**
+	 * ?foo=bar
+	 * @var string
+	 */
+	public $query;
 
 
-	public $extMedia = 'media';
+	/**
+	 * #foo
+	 * @var string
+	 */
+	public $hash;
 
+
+	public function getHost()
+	{
+		return $this->host;
+	}
+
+
+	/**
+	 * determine the base url by parsing the current url and taking only whats
+	 * needed
+	 * @todo i get the feeling this could be simplified
+	 */
+	public function setHost()
+	{
+
+		// get request and script
+		$host = strtolower($_SERVER['HTTP_HOST']);
+		$request = strtolower($_SERVER['REQUEST_URI']);
+		$script = strtolower($_SERVER['SCRIPT_NAME']);
+		$script = str_replace('index.php', '', $script);
+
+		// remove any empty
+		$script = array_filter($script); 
+		$script = array_values($script);
+
+		// hostname/script/ <- install directory
+		return $this->host = $host . US . implode(US, $script) . US;
+	}
 
 
 	/**
@@ -64,7 +112,7 @@ class Url
 	 */
 	public function getScheme()
 	{
-		return 'http' . ($this->isSecure() ? 's' : '') . ':' . DS . DS;
+		return 'http' . ($this->isSecure() ? 's' : '') . ':' . US . US;
 	}
 
 
@@ -78,10 +126,7 @@ class Url
 	}
 
 
-	public function getHost()
-	{
-		return $_SERVER['HTTP_HOST'] . DS;
-	}
+
 
 
 	public function getParsed()
@@ -90,28 +135,9 @@ class Url
 	}
 
 
-	/**
-	 * determine the base url by parsing the current url and taking only whats
-	 * needed
-	 * @todo i get the feeling this could be simplified
-	 */
-	public function setBase()
-	{
-		$request = str_replace('.', '', $_SERVER['REQUEST_URI']);
-		$script = $_SERVER['SCRIPT_NAME'];
-		$baseHost = $this->getScheme() . $this->getHost();
-		$base = $baseHost . $request;
-		$base = strtolower($base);
-		$parts = parse_url($base);
-		$script = explode('/', strtolower($script));
-		array_pop($script);
-		$script = array_filter($script); 
-		$script = array_values($script);
-		foreach ($script as $section) {
-			$baseHost .= $section . DS;
-		}
-		return $this->base = $baseHost;
-	}
+
+
+
 
 
 	public function getBase($extension = '')
@@ -120,27 +146,47 @@ class Url
 	}
 
 
+	public function validateServer()
+	{
+		return (array_key_exists('HTTP_HOST', $_SERVER) && array_key_exists('REQUEST_URI', $_SERVER) && array_key_exists('SCRIPT_NAME', $_SERVER));
+	}
+
+
+	public function setPath()
+	{
+		echo '<pre>';
+		print_r($this);
+		print_r($_SERVER);
+		echo '</pre>';
+		exit;
+		
+		$scriptName = explode(US, strtolower($serverScript));
+		array_pop($scriptName); 
+		$scriptName = array_filter($scriptName); 
+		$scriptName = array_values($scriptName);			
+		$urlParts['path'] = explode(US, $urlParts['path']);
+		$urlParts['path'] = array_filter($urlParts['path']);
+		$urlParts['path'] = array_values($urlParts['path']);
+		foreach (array_intersect($scriptName, $urlParts['path']) as $key => $value) {
+			unset($urlParts['path'][$key]);
+		}
+		$urlParts['path'] = array_values($urlParts['path']);		
+	}
+
+
 	/**
 	 * remember, you dont need all the url constructs, right away
 	 * just build the base url, without https / http
 	 */
 	public function __construct() {
-		$this->setBase();
+		if (! $this->validateServer()) {
+			exit('a required server key is missing to build the url');
+		}
+		$this->setHost();
+		$this->setPath();
+				
 
-		// find out and build path array, 0, 1, 2
-		if (array_key_exists('path', $urlParts)) {
-			$scriptName = explode('/', strtolower($serverScript));
-			array_pop($scriptName); 
-			$scriptName = array_filter($scriptName); 
-			$scriptName = array_values($scriptName);			
-			$urlParts['path'] = explode('/', $urlParts['path']);
-			$urlParts['path'] = array_filter($urlParts['path']);
-			$urlParts['path'] = array_values($urlParts['path']);
-			foreach (array_intersect($scriptName, $urlParts['path']) as $key => $value) {
-				unset($urlParts['path'][$key]);
-			}
-			$urlParts['path'] = array_values($urlParts['path']);		
-		}		
+	
 
 
 
@@ -153,7 +199,7 @@ class Url
 		// current_noquery
 		$url = $urlParts['base'];
 		foreach ($urlParts['path'] as $segment) {
-			$url .= $segment . '/';
+			$url .= $segment . US;
 		}
 		$urlParts['current_noquery'] =  $url;
 
@@ -166,7 +212,7 @@ class Url
 		$segments = $urlParts['path'];
 		array_pop($segments);
 		foreach ($segments as $segment) {
-			$url .= $segment . '/';
+			$url .= $segment . US;
 		}
 		$urlParts['back'] = $url;
 
@@ -181,7 +227,7 @@ class Url
 	}
 
 	/**
-	 * builds various url structures
+	 * builUS various url structures
 	 * base
 	 * admin
 	 * path

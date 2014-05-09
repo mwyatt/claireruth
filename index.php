@@ -13,6 +13,7 @@
  * definitions
  */
 define('DS', DIRECTORY_SEPARATOR);
+define('US', '/');
 define('ENV', getenv('APP_ENV'));
 define('VERSION', '0.0.1');
 define('BASE_PATH', (string) (__DIR__ . '/'));
