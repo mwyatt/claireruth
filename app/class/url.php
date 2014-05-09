@@ -12,7 +12,25 @@
     [current_noquery] => http://localhost/claireruth/
     [current] => http://localhost/claireruth/
     [back] => http://localhost/claireruth/
+
+
+http
+	scheme
+example.com
+	host
+foo/bar/
+	path
+?foo=bar
+	query
+#foo
+	hash
+
+    
  */
+
+
+
+
 /**
  * 
  * @package	~unknown~
