@@ -26,6 +26,7 @@ spl_autoload_register(array('Autoloader', 'load'));
  * core objects
  */
 $system = new system();
+$url = new Url();
 $error = new error($errorReporting);
 $system->database = new database($credentials);
 $system->config = false;

@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * boilerplate for all objects in the app. responsible for how each object
+ * should be implemented
  * @package	~unknown~
  * @author Martin Wyatt <martin.wyatt@gmail.com> 
  * @version	0.1
@@ -11,61 +13,108 @@ class System
 
 
 	/**
-	 * see class database
 	 * @var object
 	 */
 	public $database;
 
+
+	/**
+	 * @var object
+	 */
+	public $view;
+
 	
 	/**
-	 * see class config
-	 * set as false when constructing itself
 	 * @var object
 	 */
 	public $config;
 
 
 	/**
-	 * a variety of url structures are stored here
-	 * @var array
+	 * @var object
 	 */
-	public $url = array();
+	public $url;
 
 	
 	/**
-	 * stores data relating to the class
-	 * needs to be set when getting objects
+	 * common storage property, used for many things
 	 * @var array
 	 */
 	public $data = array();
 
 
 	/**
-	 * stores objects like nuts!
+	 * used to attach objects to the class instance
 	 * @var array
 	 */
 	public $objects = array();
 
 
-
-
 	/**
-	 * marks the app as coming soon and covers with a splash screen
-	 * ?preview=true will set session to override this
-	 * @var boolean
+	 * get database
+	 * @return object 
 	 */
-	public $comingSoon = false;
-
-
-	/**
-	 * Set data array
-	 */
-	public function setData($value = false)
+	public function getDatabase()
 	{		
-		return $this->data = $value;
+		return $this->Database;
 	}
 
 
+	/**
+	 * set database
+	 * @param object $value 
+	 */
+	public function setDatabase($value)
+	{		
+		return $this->database = $value;
+	}
+
+
+	/**
+	 * get view
+	 * @return object 
+	 */
+	public function getView()
+	{		
+		return $this->view;
+	}
+
+
+	/**
+	 * set view
+	 * @param object $value 
+	 */
+	public function setView($value)
+	{		
+		return $this->view = $value;
+	}
+
+
+	/**
+	 * get url
+	 * @return object 
+	 */
+	public function getUrl()
+	{		
+		return $this->url;
+	}
+
+
+	/**
+	 * set url
+	 * @param object $value 
+	 */
+	public function setUrl($value)
+	{		
+		return $this->url = $value;
+	}
+
+
+	/**
+	 * get data
+	 * @param  string $key 
+	 * @return array      
+	 */
 	public function getData($key = '')
 	{		
 		if ($key) {
@@ -89,6 +138,15 @@ class System
 			return;
 		}
 		return reset($data);
+	}
+
+
+	/**
+	 * set data
+	 */
+	public function setData($value = false)
+	{		
+		return $this->data = $value;
 	}
 
 
