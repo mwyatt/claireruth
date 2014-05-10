@@ -8,7 +8,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-class Url
+class Url extends System
 {
 
 
@@ -100,21 +100,11 @@ class Url
 
 	public function setParsed()
 	{
-		$expectedKeys = array('scheme', 'host', 'path', 'query');
 		$host = strtolower($_SERVER['HTTP_HOST']);
 		$request = strtolower($_SERVER['REQUEST_URI']);
 		$urlParsed = parse_url($this->getScheme() . $host . $request);
-		foreach ($expectedKeys as $key) {
-			if (array_key_exists($key, $urlParsed)) {
-				continue;
-			}
-			exit('\'' . $key . '\' is missing from the parse_url array');
-		}
 		$this->parsed = $urlParsed;
 	}
-
-
-
 
 
 	public function setPath()
@@ -140,26 +130,50 @@ class Url
 	}
 
 
+	public function setQuery()
+	{
+		$parsed = $this->getParsed();
+		if (! array_key_exists('query', $parsed)) {
+			return;
+		}
+		$this->query = '?' . $parsed['query'];
+	}
+
+
 	/**
 	 * remember, you dont need all the url constructs, right away
 	 * just build the base url, without https / http
 	 */
 	public function __construct() {
-		if (! $this->validateServer()) {
+
+		// server validation
+		$keys = array('HTTP_HOST', 'SCRIPT_NAME', 'HTTP_HOST', 'REQUEST_URI', 'SERVER_PORT');
+		if (! $this->arrayKeyExists($keys, $_SERVER)) {
 			exit('a required server key is missing to build the url');
 		}
 		$this->setParsed();
+		$keys = array('scheme', 'host', 'path');
+		if (! $this->arrayKeyExists($keys, $this->getParsed())) {
+			exit('a key is missing from the parse_url array');
+		}
 		$this->setHost();
 		$this->setPath();
+		$this->setQuery();
 
-scheme
-host
-path
-base
-admin
-media
-current_noquery
-current
+echo '<pre>';
+print_r($this);
+echo '</pre>';
+exit;
+
+
+		// scheme
+		// host
+		// path
+		// base
+		// admin
+		// media
+		// current_noquery
+		// current
 
 	}
 
@@ -193,27 +207,4 @@ current
 	public function isSecure() {
 		return (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
 	}
-
-
-	/**
-	 * checks the $_SERVER array for required keys
-	 * @return [type] [description]
-	 */
-	public function validateServer()
-	{
-
-		$expectedKeys = array(
-			'HTTP_HOST',
-			'SCRIPT_NAME',
-			'HTTP_HOST',
-			'REQUEST_URI',
-			'HTTPS',
-			'HTTPS',
-			'SERVER_PORT'
-		);
-
-		return (array_key_exists('HTTP_HOST', $_SERVER) && array_key_exists('REQUEST_URI', $_SERVER) && array_key_exists('SCRIPT_NAME', $_SERVER));
-	}
-
-
 }
