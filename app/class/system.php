@@ -168,4 +168,22 @@ class System
 
 		return $this;
 	}
+
+
+	/**
+	 * check multiple array keys exist in an array
+	 * @param  array $keys  
+	 * @param  array $array 
+	 * @return bool        
+	 */
+	public function arrayKeyExists($keys, $array)
+	{
+		foreach ($keys as $key) {
+			if (array_key_exists($key, $array)) {
+				continue;
+			}
+			return;
+		}
+		return true;
+	}
 }
