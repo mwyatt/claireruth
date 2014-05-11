@@ -5,7 +5,7 @@
 
 <?php if ($content->status == 'visible'): ?>
 	
-	<a href="<?php echo $this->buildUrl(array($content->type, $content->title)) ?>" class="button right" target="_blank">View</a>
+	<a href="<?php echo $this->url->build(array($content->type, $content->title)) ?>" class="button right" target="_blank">View</a>
 
 <?php endif ?>
 

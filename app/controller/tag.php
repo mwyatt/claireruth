@@ -20,7 +20,7 @@ class Controller_Tag extends Controller
 		$modelContent = new model_content($this);
 
 		// get tag data
-		$modelTagName = str_replace('-', ' ', $this->config->getUrl(1));
+		$modelTagName = str_replace('-', ' ', $this->url->getPathPart(1));
 		$molds = $modelTag->read(array(
 			'where' => array('title' => $modelTagName)
 		));
@@ -58,7 +58,7 @@ class Controller_Tag extends Controller
 		// view
 		$this->view
 			->setMeta(array(		
-				'title' => 'All posts by tag name ' . $this->config->getUrl(1)
+				'title' => 'All posts by tag name ' . $this->url->getPathPart(1)
 			))
 			->setObject('contents', $modelContent)
 			->setObject('firstContent', $modelContent->getDataFirst())

@@ -29,9 +29,9 @@ class Controller_Admin_Tag extends Controller
 				)
 				, array('id' => $_GET['edit'])
 			)) {
-				$sessionFeedback->set(ucfirst($this->config->getUrl(1)) . ' updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
+				$sessionFeedback->set(ucfirst($this->url->getPathPart(1)) . ' updated. <a href="' . $this->url->getCache('current_sans_query') . '">Back to list</a>');
 			} else {
-				$sessionFeedback->set('Problem updating ' . $this->config->getUrl(1) . ' ' . $_POST['title']);
+				$sessionFeedback->set('Problem updating ' . $this->url->getPathPart(1) . ' ' . $_POST['title']);
 			}
 			$this->route('current');
 		}
@@ -51,10 +51,10 @@ class Controller_Admin_Tag extends Controller
 		if (array_key_exists('delete', $_GET)) {
 			if ($modelTag->deleteById(array($_GET['delete']))) {
 				$modelContentMeta = new model_content_meta($this);
-				$modelContentMeta->deleteByValue($this->config->getUrl(1), $_GET['delete']);
-				$sessionFeedback->set(ucfirst($this->config->getUrl(1)) . ' deleted successfully');
+				$modelContentMeta->deleteByValue($this->url->getPathPart(1), $_GET['delete']);
+				$sessionFeedback->set(ucfirst($this->url->getPathPart(1)) . ' deleted successfully');
 			} else {
-				$sessionFeedback->set('Problem deleting ' . $this->config->getUrl(1));
+				$sessionFeedback->set('Problem deleting ' . $this->url->getPathPart(1));
 			}
 			$this->route('current_noquery');
 		}

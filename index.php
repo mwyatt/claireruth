@@ -27,3 +27,4 @@ define('EXT', '.php');
  */
 require BASE_PATH . 'config' . EXT;
 require PATH_APP . 'initialise' . EXT;
+$error = new error($errorReporting);

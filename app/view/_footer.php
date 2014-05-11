@@ -1,4 +1,3 @@
-<?php if (! $this->comingSoon): ?>
 
 			<footer class="container-footer clearfix">
 				<div class="inner">
@@ -21,7 +20,6 @@
 			</footer>
         </div>
 
-<?php endif ?>
 
 		</div> <!-- .container -->
         <script src="<?php echo $this->url() ?>asset/main.js?v=1"></script>

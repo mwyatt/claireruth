@@ -8,105 +8,97 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-class System
+class System extends Helper
 {
 
 
 	/**
+	 * spine of system, builds itself initially then can be used throughout
+	 * using handy functions
 	 * @var object
 	 */
-	public $database;
+	public $url;
 
 
 	/**
-	 * @var object
-	 */
-	public $view;
-
-	
-	/**
+	 * holds easily accessible rows from the database table 'options'
 	 * @var object
 	 */
 	public $config;
 
 
 	/**
+	 * the database instance
 	 * @var object
 	 */
-	public $url;
-
-	
-	/**
-	 * common storage property, used for many things
-	 * @var array
-	 */
-	public $data = array();
+	public $database;
 
 
 	/**
-	 * used to attach objects to the class instance
-	 * @var array
+	 * ability to share this system object
+	 * @param object $system 
 	 */
-	public $objects = array();
-
-
-	/**
-	 * get database
-	 * @return object 
-	 */
-	public function getDatabase()
-	{		
-		return $this->Database;
+	public function __construct($system = false) {
+		if (! $system) {
+			return;
+		}
+		$this->setUrl($system->getUrl());
+		$this->setConfig($system->getConfig());
+		$this->setDatabase($system->getDatabase());
 	}
 
 
 	/**
-	 * set database
 	 * @param object $value 
 	 */
-	public function setDatabase($value)
-	{		
-		return $this->database = $value;
+	public function setUrl($value)
+	{
+		$this->url = $value;
 	}
 
 
 	/**
-	 * get view
-	 * @return object 
-	 */
-	public function getView()
-	{		
-		return $this->view;
-	}
-
-
-	/**
-	 * set view
 	 * @param object $value 
-	 */
-	public function setView($value)
-	{		
-		return $this->view = $value;
-	}
-
-
-	/**
-	 * get url
-	 * @return object 
 	 */
 	public function getUrl()
-	{		
+	{
 		return $this->url;
 	}
 
 
 	/**
-	 * set url
 	 * @param object $value 
 	 */
-	public function setUrl($value)
-	{		
-		return $this->url = $value;
+	public function setConfig($value)
+	{
+		$this->config = $value;
+	}
+
+
+	/**
+	 * @param object $value 
+	 */
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
+
+	/**
+	 * @param object $value 
+	 */
+	public function setDatabase($value)
+	{
+		$this->database = $value;
+	}
+
+
+	/**
+	 * @param object $value 
+	 */
+	public function getDatabase()
+	{
+		return $this->database;
 	}
 
 
@@ -171,19 +163,30 @@ class System
 
 
 	/**
-	 * check multiple array keys exist in an array
-	 * @param  array $keys  
-	 * @param  array $array 
-	 * @return bool        
+	 * moves the script to another url, could be full or
+	 * looking for a scheme in the url array
+	 * @param  string  $scheme see class 'Config'
+	 * @param  string $path   extension of the base action
 	 */
-	public function arrayKeyExists($keys, $array)
-	{
-		foreach ($keys as $key) {
-			if (array_key_exists($key, $array)) {
-				continue;
-			}
-			return;
+	public function route($schemeOrFullPath = '', $extension = false) {		
+		if ($this->url->getCache($schemeOrFullPath)) {
+			$url = $this->url->getCache($schemeOrFullPath);
+		} else {
+			$url = $schemeOrFullPath;
 		}
-		return true;
+		header("Location: " . $url . $extension);
+		exit;
+	}
+
+
+	/**
+	 * debug mode is set
+	 * @return boolean true if debug equals this class name
+	 */
+	public function isDebug($theObject)
+	{
+		if (array_key_exists('debug', $_GET) && strtolower($_GET['debug']) == strtolower(get_class($theObject))) {
+			return true;
+		}
 	}
 }

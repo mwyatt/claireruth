@@ -11,7 +11,7 @@
 <?php include($this->pathView('_medium')) ?>
 
 	<div class="content-date" title="<?php echo $theDate ?>"><?php echo $theDate ?></div>
-	<h2 class="content-title"><a href="<?php echo $this->buildUrl(array($content->type, $content->title)) ?>" class="content-link"><?php echo $content->title ?></a></h2>
+	<h2 class="content-title"><a href="<?php echo $this->url->build(array($content->type, $content->title)) ?>" class="content-link"><?php echo $content->title ?></a></h2>
 	<div class="content-html">
 
 <?php echo $content->html ?>

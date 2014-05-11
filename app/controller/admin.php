@@ -88,8 +88,8 @@ class Controller_Admin extends Controller
 			}
 			$this->view->setObject('user', $modelUser->getDataFirst());
 		} else {
-			if ($this->config->getUrl(1)) {
-				$sessionHistory->setCaptureUrl($this->config->getUrl('current'));
+			if ($this->url->getPathPart(1)) {
+				$sessionHistory->setCaptureUrl($this->url->getCache('current'));
 				$this->route('admin');
 			}
 			$this->view->renderTemplate('admin/login');

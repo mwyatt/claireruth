@@ -22,9 +22,6 @@
 <div id="top"></div>
 <div class="container container-site">
     <a href="#top" class="to-top js-smooth-scroll"><?php include($this->getPath('media/arrow-up.svg')) ?></a>
-
-<?php if (! $this->isComingSoon()): ?>
-
     <header class="container-header row js-container-header clearfix js-fixed-bar">
     
     <?php include($this->pathView('_logo')) ?>
@@ -46,5 +43,3 @@
     <?php include($this->pathView('_menu')) ?>
 
     </header>
-    
-<?php endif ?>

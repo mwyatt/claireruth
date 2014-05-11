@@ -36,12 +36,12 @@ class Controller_Admin_Content extends Controller
 			|| array_key_exists('archive', $_GET)
 		) {
 			$cache->delete('home-latest-posts');
-			$cacheKey = 'ceil-content-' . $this->config->getUrl(2);
+			$cacheKey = 'ceil-content-' . $this->url->getPathPart(2);
 			$cache->read($cacheKey);
 			$cache->delete($cacheKey);
 			$modelContent->read(array(
 				'where' => array(
-					'type' => $this->config->getUrl(2),
+					'type' => $this->url->getPathPart(2),
 					'status' => 'visible'
 				)
 			));
@@ -49,7 +49,7 @@ class Controller_Admin_Content extends Controller
 		}
 
 		// create draft entry and redirect to edit page
-		if ($this->config->getUrl(3) == 'new') {
+		if ($this->url->getPathPart(3) == 'new') {
 			$viewAdminContent->create();
 		}
 
@@ -90,7 +90,7 @@ class Controller_Admin_Content extends Controller
 	public function post() {
 		$content = new model_content($this);
 		$content->read(array(
-			'where' => array('type' => $this->config->getUrl(2)),
+			'where' => array('type' => $this->url->getPathPart(2)),
 			'order_by' => 'time_published desc'
 		));
 		$this->view

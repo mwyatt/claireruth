@@ -30,7 +30,7 @@ class Pagination extends Model
 	{
 		$this->tableName = $tableName;
 		$cache = new cache($this);
-		$this->totalRows = $cache->read('ceil-content-' . $this->config->getUrl(0));
+		$this->totalRows = $cache->read('ceil-content-' . $this->url->getPathPart(0));
 
 		// check validity
 		if (($this->sanitizePage())) {
@@ -94,7 +94,7 @@ class Pagination extends Model
      */
     public function getUrl($type = false, $name = false, $id = false)
     {
-        return $this->config->getUrl('current_noquery') . ($type ? '?page=' . $type : '');
+        return $this->url->getCache('current_sans_query') . ($type ? '?page=' . $type : '');
     }
 
 	

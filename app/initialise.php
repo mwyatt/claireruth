@@ -23,22 +23,28 @@ spl_autoload_register(array('Autoloader', 'load'));
 
 
 /**
- * core objects
+ * core object
  */
 $system = new system();
-$url = new Url();
-$error = new error($errorReporting);
-$system->database = new database($credentials);
-$system->config = false;
-$system->config = new config($system);
+$system->setPhpSettings();
+
+
+/**
+ * set other objects
+ */
+$system->setUrl(new url());
+$system->setConfig(new config());
+$system->setDatabase(new database($credentials));
+
+
+/**
+ * build options and set into config
+ * @var model_options
+ */
 $options = new model_options($system);
 $options->read();
 $options->arrangeByName();
-$system->config
-	->setOptions($options->getData())
-	->initiateUrl()
-	->phpSettings()
-	->setObject($error);
+$system->config->setOptions($options->getData());
 
 
 if (array_key_exists('site', $_GET)) {
@@ -50,14 +56,16 @@ if (array_key_exists('site', $_GET)) {
  * store each unique url
  */
 $sessionHistory = new session_history($system);
-$sessionHistory->add($system->config->getUrl('current'));
+$sessionHistory->add($system->url->getCache('current'));
+
 
 
 /**
  * unit tests
  */
 $test = new test($system);
-$test->json();
+// $test->json();
+
 
 /**
  * controller

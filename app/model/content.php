@@ -178,7 +178,7 @@ class Model_Content extends Model
 			$rows[$monthYear] = array(
 				'total' => count($row)
 				, 'title' => date('F Y', $currentRow['time_published'])
-				, 'url' => $this->buildUrl(array('month', $monthYear))
+				, 'url' => $this->url->build(array('month', $monthYear))
 			);
 		}
 

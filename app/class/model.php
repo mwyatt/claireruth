@@ -6,8 +6,27 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-class Model extends Config
+class Model extends System
 {
+
+
+	/**
+	 * identifies the the instance of some classes
+	 * for example
+	 * 		$_SESSION[$keyName]
+	 * 		or table name
+	 * 	usually parsed from the class title
+	 * @var string
+	 */
+	public $identity = '';
+
+
+
+	/**
+	 * universal storage property, used for many things
+	 * @var array
+	 */
+	public $data;
 
 
 	/**
@@ -29,6 +48,16 @@ class Model extends Config
 	public $fieldsNonWriteable = array(
 		'id'
 	);
+
+
+	public function __construct($system = false) {
+
+		// construct in default fashion
+		parent::__construct($system);
+
+		// set the identity for use on crud
+		$this->setIdentity();
+	}
 
 
 	/**
@@ -414,7 +443,11 @@ class Model extends Config
 				$sth->execute();
 			}
 		} catch (Exception $e) {
-			$this->config->getObject('error')->handle('database', $errorCode, 'model.php', 'na');
+			echo '<pre>';
+			print_r($sthData);
+			echo '</pre>';
+			exit('error trying to execute statement');
+			// $this->config->getObject('error')->handle('database', $errorCode, 'model.php', 'na');
 			return false;
 		}
 		return $sth;
@@ -469,5 +502,75 @@ class Model extends Config
 		if (array_key_exists($key, $this->config->options)) {
 			return $this->config->options[$key];
 		}
+	}
+
+
+	/**
+	 * simple return of identity
+	 * @return string 
+	 */
+	public function getIdentity()
+	{
+		return $this->identity;
+	}
+
+
+	/**
+	 * sets the identity property manually
+	 * or get the class name and turn_into_this format
+	 */
+	public function setIdentity()
+	{
+		$className = get_class($this);
+		$className = explode('_', $className);
+		array_shift($className);
+
+		// catching classes like 'Session' and 'Model'
+		if (! $className) {
+			return $this->identity = '';
+		}
+		$className = implode('_', $className);
+		$this->identity = strtolower($className);
+		return $this;
+	}
+
+
+	/**
+	 * @param mixed $value 
+	 */
+	public function setData($value)
+	{		
+		return $this->data = $value;
+	}
+
+
+	/**
+	 * get
+	 * @param  string $key [description]
+	 * @return [type]      [description]
+	 */
+	public function getData($key = '')
+	{		
+		if ($key) {
+			if (array_key_exists($key, $this->data)) {
+				return $this->data[$key];
+			}
+			return;
+		}
+		return $this->data;
+	}	
+
+
+	/**
+	 * retrieves the first row of data, if there is any
+	 * @return object, array, bool       
+	 */
+	public function getDataFirst()
+	{
+		$data = $this->getData();
+		if (! $data) {
+			return;
+		}
+		return reset($data);
 	}
 }

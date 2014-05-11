@@ -20,12 +20,12 @@ class View_Admin_Content extends Config
 	// 	if ($modelContent->create($_POST)) {
 	// 		$createOrUpdateId = $this->database->dbh->lastInsertId();
 	// 		$modelLog->log('admin', 'post created');
-	// 		$sessionFeedback->set(ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->config->getUrl('back') . '">Back to list</a>');
+	// 		$sessionFeedback->set(ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->url->getCache('back') . '">Back to list</a>');
 
-	// 		$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/?edit=' . $lastInsertId);
+	// 		$this->route('base', 'admin/content/' . $this->url->getPathPart(2) . '/?edit=' . $lastInsertId);
 	// 	} else {
 	// 		$sessionFeedback->set('Problem while creating ' . ucfirst($_POST['type']));
-	// 		$this->route('base', 'admin/content/' . $this->config->getUrl(2) . '/');
+	// 		$this->route('base', 'admin/content/' . $this->url->getPathPart(2) . '/');
 	// 	}
 	// }
 
@@ -80,7 +80,7 @@ class View_Admin_Content extends Config
 		$this->updateMeta('media');
 		$this->updateMeta('tag');
 			$modelLog->log('admin', 'post updated');
-			$sessionFeedback->set('Content updated. <a href="' . $this->config->getUrl('current_noquery') . '">Back to list</a>');
+			$sessionFeedback->set('Content updated. <a href="' . $this->url->getCache('current_sans_query') . '">Back to list</a>');
 		$this->route('current');
 	}
 
@@ -125,7 +125,7 @@ class View_Admin_Content extends Config
 		$modelContent = new model_content($this);
 		$modelContent->read(array(
 			'where' => array(
-				'type' => $this->config->getUrl(2),
+				'type' => $this->url->getPathPart(2),
 				'id' => $_GET['edit']
 			)
 		));

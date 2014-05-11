@@ -8,7 +8,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-class Url extends System
+class Url extends Helper
 {
 
 
@@ -47,12 +47,93 @@ class Url extends System
 	public $hash;
 
 
+	/**
+	 * filled with handy urls which are required in many places
+	 * @var array
+	 */
+	public $cache;
+
+
+	/**
+	 * segmented path for controller use
+	 * @var array
+	 */
 	public $parsed;
 
 
+	/**
+	 * remember, you dont need all the url constructs, right away
+	 * just build the base url, without https / http
+	 */
+	public function __construct() {
+
+		// server validation
+		$keys = array('HTTP_HOST', 'SCRIPT_NAME', 'HTTP_HOST', 'REQUEST_URI', 'SERVER_PORT');
+		if (! $this->arrayKeyExists($keys, $_SERVER)) {
+			exit('a required server key is missing to build the url');
+		}
+		$this->setParsed();
+		$keys = array('scheme', 'host', 'path');
+		if (! $this->arrayKeyExists($keys, $this->getParsed())) {
+			exit('a key is missing from the parse_url array');
+		}
+		$this->setHost();
+		$this->setPath();
+		$this->setQuery();
+		$this->setScheme();
+		$this->setCache();
+	}
+
+
+	/**
+	 * @return string 
+	 */
 	public function getHost()
 	{
 		return $this->host;
+	}
+
+
+	/**
+	 * @return string 
+	 */
+	public function getQuery()
+	{
+		return $this->query;
+	}
+
+
+	/**
+	 * builds a handy cached array for quick access to the common url patterns
+	 * this could possibly be done more dynamically..
+	 * @todo solve http(s) issue, how to define when and how you want it?
+	 */
+	public function setCache()
+	{
+		$scheme = $this->getScheme();
+		$host = $this->getHost();
+		$query = $this->getQuery();
+		$path = implode(US, $this->getPath()) . US;
+		$this->cache = array(
+			'base' => $scheme . $host,
+			'admin' => $scheme . $host . 'admin' . US,
+			'media' => $scheme . $host . 'media' . US,
+			'current' => $scheme . $host . $path . $query,
+			'current_sans_query' => $scheme . $host . $path
+		);
+	}
+
+
+	/**
+	 * @param  string $key 
+	 * @return string       
+	 */
+	public function getCache($key = false)
+	{
+		if (! array_key_exists($key, $this->cache)) {
+			return;
+		}
+		return $this->cache[$key];
 	}
 
 
@@ -83,21 +164,28 @@ class Url extends System
 	 * http(s)://
 	 * @return string 
 	 */
-	public function getScheme()
+	public function getScheme($secure = false)
 	{
-		return 'http' . ($this->isSecure() ? 's' : '') . ':' . US . US;
+		$scheme = 'http';
+		if ($secure || $this->isSecure()) {
+			$scheme .= 's';
+		}
+		return  $scheme . ':' . US . US;
 	}
 
 
-
-
-
+	/**
+	 * @return array 
+	 */
 	public function getParsed()
 	{
 		return $this->parsed;
 	}
 
 
+	/**
+	 * builds array based upon parse_url
+	 */
 	public function setParsed()
 	{
 		$host = strtolower($_SERVER['HTTP_HOST']);
@@ -107,6 +195,9 @@ class Url extends System
 	}
 
 
+	/**
+	 * builds array of current path for use in controllers
+	 */
 	public function setPath()
 	{
 
@@ -130,6 +221,9 @@ class Url extends System
 	}
 
 
+	/**
+	 * set the query based on parsed finds
+	 */
 	public function setQuery()
 	{
 		$parsed = $this->getParsed();
@@ -141,61 +235,45 @@ class Url extends System
 
 
 	/**
-	 * remember, you dont need all the url constructs, right away
-	 * just build the base url, without https / http
+	 * sets the scheme
+	 * @todo make more dynamic?
 	 */
-	public function __construct() {
-
-		// server validation
-		$keys = array('HTTP_HOST', 'SCRIPT_NAME', 'HTTP_HOST', 'REQUEST_URI', 'SERVER_PORT');
-		if (! $this->arrayKeyExists($keys, $_SERVER)) {
-			exit('a required server key is missing to build the url');
-		}
-		$this->setParsed();
-		$keys = array('scheme', 'host', 'path');
-		if (! $this->arrayKeyExists($keys, $this->getParsed())) {
-			exit('a key is missing from the parse_url array');
-		}
-		$this->setHost();
-		$this->setPath();
-		$this->setQuery();
-
-echo '<pre>';
-print_r($this);
-echo '</pre>';
-exit;
-
-
-		// scheme
-		// host
-		// path
-		// base
-		// admin
-		// media
-		// current_noquery
-		// current
-
+	public function setScheme()
+	{
+		$parsed = $this->getParsed();
+		$this->scheme = $parsed['scheme'] . ':' . US . US;
 	}
 
 
 	/**
-	 * returns url key or path scheme
-	 */		
-	public function getUrl($key = false) {	
-		if (gettype($key) == 'integer') {
-			if (array_key_exists('path', $this->url)) {
-				if (array_key_exists($key, $this->url['path'])) {
-					return $this->url['path'][$key];
-				}
-			}
-			return false;
+	 * @return array 
+	 */
+	public function getPath() {
+		return $this->path;
+	}
+
+
+	/**
+	 * returns path single segment
+	 * @param  int $key 0/1/2/3/
+	 * @return string
+	 */
+	public function getPathPart($key = false)
+	{
+
+		// invalid
+		if (gettype($key) != 'integer') {
+			return;
 		}
-		if (gettype($key) == 'string') {
-			if (array_key_exists($key, $this->url))
-				return $this->url[$key];
-			return false;				
-		}		
-		return $this->url;
+		
+		// cache
+		$path = $this->path;
+
+		// need specific key, key references the position
+		if (! array_key_exists($key, $path)) {
+			return;
+		}
+		return $path[$key];
 	}
 
 
@@ -206,5 +284,23 @@ exit;
 	 */
 	public function isSecure() {
 		return (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+	}
+
+
+	/**
+	 * upgraded get url method, allows unlimited segments
+	 * friendly helps out with slashes and making things safe
+	 * @param  array   $segments      each/segment/
+	 * @return string                 the url
+	 */
+	public function build($segments = array(), $friendly = true) {
+		$finalUrl = $this->getCache('base');
+		foreach ($segments as $segment) {
+			if ($friendly) {
+				$segment = $this->urlFriendly($segment);
+			}
+			$finalUrl .= $segment . ($friendly ? '/' : '');
+		}
+		return $finalUrl;
 	}
 }

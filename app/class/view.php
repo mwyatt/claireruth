@@ -25,6 +25,14 @@ class View extends Model
 
 
 	/**
+	 * used to attach objects to the class instance
+	 * see method 'setobject'
+	 * @var array
+	 */
+	public $objects;
+
+
+	/**
 	 * page meta information
 	 * @var array
 	 */
@@ -33,6 +41,7 @@ class View extends Model
 
 	/**
 	 * stores output html, can be combined when loading multiple templates
+	 * starts as a empty string so that it can be built upon '.='
 	 * @var string
 	 */
 	public $data = '';
@@ -225,7 +234,7 @@ class View extends Model
 	 * @return string      
 	 */
 	public function url($key = 'base') {
-		return $this->config->getUrl($key);
+		return $this->url->getCache($key);
 	}
 	
 
@@ -246,7 +255,7 @@ class View extends Model
 	 */
 	public function getBodyClass() { 
 		$bodyClass = '';
-		foreach ($this->config->getUrl('path') as $path) {
+		foreach ($this->url->getPath() as $path) {
 			$bodyClass .= $path . '-';
 		}
 		return $bodyClass = rtrim($bodyClass, -1);
@@ -311,10 +320,10 @@ class View extends Model
 	{
 		if ($result->type != 'application/pdf') {
 			$result->thumb = new stdClass();
-			$result->thumb->{'300'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=300&h=130'), false);
-			$result->thumb->{'150'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=150&h=120'), false);
-			$result->thumb->{'350'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=350&h=220'), false);
-			$result->thumb->{'760'} = $this->buildUrl(array('thumb/?src=' . $this->config->getUrl('base') . $result->path . '&w=760&h=540'), false);
+			$result->thumb->{'300'} = $this->url->build(array('thumb/?src=' . $this->url->getCache('base') . $result->path . '&w=300&h=130'), false);
+			$result->thumb->{'150'} = $this->url->build(array('thumb/?src=' . $this->url->getCache('base') . $result->path . '&w=150&h=120'), false);
+			$result->thumb->{'350'} = $this->url->build(array('thumb/?src=' . $this->url->getCache('base') . $result->path . '&w=350&h=220'), false);
+			$result->thumb->{'760'} = $this->url->build(array('thumb/?src=' . $this->url->getCache('base') . $result->path . '&w=760&h=540'), false);
 		}
 		return $result;
 	}
@@ -350,6 +359,62 @@ class View extends Model
 	 * @return string       
 	 */
 	public function getPathMediaUpload($path) { 
-		return $this->config->getUrl('base') . 'media/upload/' . $path;
+		return $this->url->getCache('base') . 'media/upload/' . $path;
+	}
+
+
+	/**
+	 * returns an object if it has been registered
+	 * @param  string $objectTitle 
+	 * @return object|bool              
+	 */
+	public function getObject($objectTitle) {
+		$objectTitle = strtolower($objectTitle);
+		if (array_key_exists($objectTitle, $this->objects)) {
+			return $this->objects[$objectTitle];
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * possible to submit:
+	 * 'key' => object
+	 * 'key' => array
+	 * object
+	 * @param string|object|array  $keyName       can represent a few data type
+	 * @param object|array $objectOrArray often the object to set
+	 */
+	public function setObject($keyName, $objectOrArray = false) {
+
+		// looking for 'string' => object/array
+		if ((gettype($keyName) == 'string')) {
+
+			// array
+			if (is_array($objectOrArray)) {
+				$this->objects[$keyName] = $objectOrArray;
+				return $this;
+			}
+
+			// object
+			if (method_exists($objectOrArray, 'getData')) {
+				$objectOrArray = $objectOrArray->getData();
+			}
+			$this->objects[$keyName] = $objectOrArray;
+			return $this;
+		}
+
+		// simple object
+		if (is_object($keyName)) {
+			$classTitle = get_class($keyName);
+			if (method_exists($keyName, 'getData')) {
+				$keyName = $keyName->getData();
+			}
+			$this->objects[strtolower($classTitle)] = $keyName;
+			return $this;
+		}
+
+		// chain
+		return $this;
 	}
 } 

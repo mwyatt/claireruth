@@ -30,9 +30,9 @@ class Model_Admin_Menu extends Model
 		$baseClassMethods = array_diff(get_class_methods('controller_admin'), $controllerMethods, $this->methodExclusions);
 		$finalList[] = array(
 			'title' => 'Dashboard'
-            , 'current' => ($this->config->getUrl(1) == '' ? true : false)
+            , 'current' => ($this->url->getPathPart(1) == '' ? true : false)
             , 'children' => array()
-            , 'url' => $this->config->getUrl('admin')
+            , 'url' => $this->url->getCache('admin')
         );
         foreach ($baseClassMethods as $classMethod) {
             $subClassMethods = array();
@@ -46,15 +46,15 @@ class Model_Admin_Menu extends Model
             foreach ($subClassMethods as $subClassMethod) {
                 $refinedSubClassMethods[] = array(
                     'title' => ucfirst($subClassMethod)
-                    , 'url' => $this->buildUrl(array('admin', $classMethod, $subClassMethod))
-                    , 'current' => ($this->config->getUrl(2) == strtolower($subClassMethod) ? true : false)
+                    , 'url' => $this->url->build(array('admin', $classMethod, $subClassMethod))
+                    , 'current' => ($this->url->getPathPart(2) == strtolower($subClassMethod) ? true : false)
                     , 'children' => array()
                 );
             }
             $finalList[] = array(
                 'title' => ucfirst($classMethod)
-                , 'url' => $this->buildUrl(array('admin', $classMethod))
-    			, 'current' => ($this->config->getUrl(1) == strtolower($classMethod) ? true : false)
+                , 'url' => $this->url->build(array('admin', $classMethod))
+    			, 'current' => ($this->url->getPathPart(1) == strtolower($classMethod) ? true : false)
                 , 'children' => $refinedSubClassMethods
             );
         }
@@ -76,13 +76,13 @@ class Model_Admin_Menu extends Model
 	 */
 	public function adminSub() {
 		$user = new model_user($this);
-		$className = 'Controller_' . ucfirst($this->config->getUrl(0)) . '_' . ucfirst($this->config->getUrl(1));
+		$className = 'Controller_' . ucfirst($this->url->getPathPart(0)) . '_' . ucfirst($this->url->getPathPart(1));
 		if (class_exists($className)) {
 			foreach ($this->getClassMethods($className) as $key => $method) {
 				if (($method !== 'initialise') && ($method !== 'index') && ($method !== 'load') && ($method !== '__construct')) {
 					$this->data['admin_sub'][$key]['name'] = ucfirst($method);
-					$this->data['admin_sub'][$key]['current'] = ($this->config->getUrl(2) == $method ? true : false);
-					$this->data['admin_sub'][$key]['guid'] = $this->config->getUrl('base') . $this->config->getUrl(0) . '/' . $this->config->getUrl(1). '/' . $method . '/';
+					$this->data['admin_sub'][$key]['current'] = ($this->url->getPathPart(2) == $method ? true : false);
+					$this->data['admin_sub'][$key]['guid'] = $this->url->getCache('base') . $this->url->getPathPart(0) . '/' . $this->url->getPathPart(1). '/' . $method . '/';
 				}
 			}
 		}
@@ -152,7 +152,7 @@ class Model_Admin_Menu extends Model
     			$class = '';
     			$class .= 'class="';
     			$class .= 'id_'.$result['id'].' ';
-    			$class .= ($this->config->getUrl(0) == $result['title'] ? ' current' : false);
+    			$class .= ($this->url->getPathPart(0) == $result['title'] ? ' current' : false);
     			$class .= '"';
     			
     			// Append List Item

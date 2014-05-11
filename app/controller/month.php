@@ -18,12 +18,12 @@ class Controller_Month extends Controller
 		$content = new model_content($this);
 		
 		// is the date acceptable
-		if (! $content->readByMonth(array($this->config->getUrl(1)))) {
+		if (! $content->readByMonth(array($this->url->getPathPart(1)))) {
 			$this->route('404');
 		}
 		
 		// make month pretty
-		$monthYear = explode('-', $this->config->getUrl(1));
+		$monthYear = explode('-', $this->url->getPathPart(1));
 		$monthYear = ucfirst(current($monthYear)) . ' ' . next($monthYear);
 
 		// view

@@ -18,10 +18,10 @@ class Controller_Post extends Controller
 		$modelContent = new model_content($this);
 
 		// single
-		if ($this->config->getUrl(1)) {
+		if ($this->url->getPathPart(1)) {
 			if (! $modelContent->read(array(
 				'where' => array(
-					'slug' => $this->config->getUrl(1)
+					'slug' => $this->url->getPathPart(1)
 				)
 			))) {
 				$this->route('base');
@@ -42,7 +42,7 @@ class Controller_Post extends Controller
 			$pagination->initialise('content');
 			$modelContent->read(array(
 				'where' => array(
-					'type' => $this->config->getUrl(0)
+					'type' => $this->url->getPathPart(0)
 				),
 				'limit' => $pagination->getLimit(),
 				'order_by' => 'time_published desc'
