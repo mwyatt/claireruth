@@ -1,8 +1,28 @@
-.content-html img {
+.content .medium {
+    display: none;
+}
+
+.contents {
     @extend .clearfix;
-    max-width: 100%;
-    max-height: 100%;
-    margin: 1em auto;
+}
+
+.content-html {
+    display: none;
+}
+
+.content-title {
+    margin-bottom: .5em;
+    font-size: 1.5em;
+}
+
+.content-thumb-background {
+    @include background-size(cover);
+    height: 13em;
+    margin-bottom: 1em;
+}
+
+.tags {
+    margin: 1em 0;
 }
 
 a.tag {
@@ -12,80 +32,45 @@ a.tag {
     color: $color-secondary;
 }
 
-.content-date {
-    // margin: 1em 0;
-    // text-align: right;
-}
-
-.medium-thumb {
-    max-height: 30em;
-    margin-bottom: 1em;
-}
-
-// .content.search .content.is-type-post,
-// .content.tag .content.is-type-post,
-// .content.post .content.is-type-post,
-.content.is-type-post {
+.content {
     position: relative;
-    border-top: 1px dotted $color-secondary;
-    margin-top: 1em;
-    padding-top: 1em;
+}
 
-    &:first-child {
-        margin-top: 0;
-        padding-top: 0;
-        border-top: 0;
+.content-author {
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    font-size: 0.7em;
+    display: none;
+}
+
+@include breakpoint(0 899px) {
+
+    .content-html img {
+        max-width: 100%;
+        max-height: 100%;
+        margin: 1em auto;
     }
 
-    .content-title {
-        margin-bottom: .5em;
-        font-size: 1.5em;
-        letter-spacing: 0;
-    }
+    .content {
+        border-top: 1px dotted $color-secondary;
+        margin-top: 1em;
+        padding-top: 1em;
 
-    .content-html {
-        display: none;
-    }
-
-    .content-author {
-        position: absolute;
-        bottom: 1em;
-        left: 1em;
-        font-size: 0.7em;
-        display: none;
-    }
-
-    .content-date {
-    }
-
-
-
-    .medium {
-        display: none;
-    }
-
-    // .medium-thumb {
-    //     text-align: center;
-    // }
-
-    .content-thumb-background {
-        @include background-size(cover);
-        height: 13em;
-        margin-bottom: 1em;
+        &:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: 0;
+        }
     }
 }
 
-.tags {
-    margin: 1em 0;
-}
-
-@include break-point(900) {
-
-    .contents {
-        @extend .flexbox;
-    }
+@include breakpoint(900px) {
 
     .content.is-type-post {
-        @include flex-wrap(wrap);
+        float: left;
+        width: 29%;
+        min-height: 16em;
+        margin: 2%;
     }
 }

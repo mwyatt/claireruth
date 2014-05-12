@@ -40,41 +40,31 @@ float: left;
     .propos-button.button.primary {}
 }
 
-// .container-footer nav {
-//     display: none;
-//     margin: 0 0 1em;
-//     padding: 0 0 1em;
-//     border-bottom: 1px solid #ECECEC;
+@include breakpoint(0 899px) {
 
-//     a {
-//         border-bottom: 1px solid;
-//         margin: 0 0.7em 1em 0;
-//         font-size: 0.8em;
-//     }
-// }
+    .container-footer {
 
-.container-footer {
+        .menu {
+            margin: 1em 0;
+            // border: 1px solid $color-primary;
+        }
 
-    .menu {
-        margin: 1em 0;
-        // border: 1px solid $color-primary;
-    }
+        .menu-item:first-child {
+            border: 0;
+        }
 
-    .menu-item:first-child {
-        border: 0;
-    }
-
-    .menu-item {
-        display: block;
-        text-align: center;
-        padding: 0.5em;
-        background-color: $color-primary;
-        color: $color-white;
-        border-top: 1px solid $color-white;
-    }
-    
-    .menu-item:first-child {
-        border: 0;
+        .menu-item {
+            display: block;
+            text-align: center;
+            padding: 0.5em;
+            background-color: $color-primary;
+            color: $color-white;
+            border-top: 1px solid $color-white;
+        }
+        
+        .menu-item:first-child {
+            border: 0;
+        }
     }
 }
 
@@ -101,26 +91,5 @@ float: left;
 
     .calling-card-content-description {
         margin-bottom: 1em;
-    }
-}
-
-.container-footer {
-
-    .form-search {
-        margin: 1em 0;
-    }
-
-    .form-search-label {
-        display: none;
-    }
-
-    .form-search-query {
-        width: 70%;
-    }
-
-    .submit.button {
-        float: right;
-        width: 27%;
-        padding: 4px;
     }
 }

@@ -349,7 +349,7 @@ class View extends Model
 	 */
 	public function isAdmin()
 	{
-		return $this->url(0) == 'admin';
+		return $this->url->getPathPart(0) == 'admin';
 	}
 
 

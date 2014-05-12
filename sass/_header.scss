@@ -14,11 +14,6 @@
     }
 }
 
-.container-header .menu,
-.container-header .form-search {
-    display: none;
-}
-
 .container-header {
     @include transition(all 300ms ease);
     position: fixed;
@@ -26,8 +21,7 @@
     left: 0;
     right: 0;
     z-index: 10;
-    background-color: $color-white/* rgba(255, 255, 255, 0.8) */;
-    // border-bottom: 1px solid rgba(255, 255, 255, .5);
+    background-color: $color-white;
     padding: 0.7em;
 }
 
@@ -43,37 +37,26 @@ svg {
     fill: $color-primary;
 }
 
-.header-button-mobile {
-    cursor: pointer;
-    display: block;
-    float: right;
-    width: 2em;
-    height: 2em;
-    margin: 0.3em 0 0 1em;
-    fill: $color-primary;
+@include breakpoint(0 899px) {
+    
+    .container-header .menu {
+        display: none;
+    }
+
+    .header-button-mobile {
+        cursor: pointer;
+        display: block;
+        float: right;
+        width: 2em;
+        height: 2em;
+        margin: 0.3em 0 0 1em;
+        fill: $color-primary;
+    }
 }
 
-.container-header .menu,
-.header-search,
-.header-button-history,
-.propos {
-    display: none;
+@include breakpoint(900px) {
+
+    .header-button-mobile {
+        display: none;
+    }
 }
-
-// @include break-point(400) {
-//     .container { 
-//         background: red !important;
-//     }
-// }
-
-// @include break-point(500) {
-//     .container { 
-//         background: blue !important;
-//     }
-// }
-
-// @include break-point(800) {
-//     .container { 
-//         background: yellow !important;
-//     }
-// }

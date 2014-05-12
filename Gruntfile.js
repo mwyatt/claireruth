@@ -31,6 +31,7 @@ module.exports = function(grunt) {
         options: {
           // httpPath = '/claireruth/',
           httpPath: '/',
+          require: 'breakpoint',
           cssDir: 'asset',
           sassDir: 'sass',
           javascriptsDir: 'js',

@@ -1,0 +1,39 @@
+.form-search-label {
+    display: none;
+}
+
+@include breakpoint(0 899px) {
+
+	.container-header .form-search {
+	    display: none;
+	}
+
+	.container-footer .form-search {
+	    margin: 1em 0;
+	}
+
+	.container-footer {
+
+	    .form-search-query {
+	        width: 70%;
+	    }
+
+	    .submit.button {
+	        float: right;
+	        width: 27%;
+	        padding: 4px;
+	    }
+	}
+}
+
+@include breakpoint(900px) {
+	
+	.container-header .form-search {
+	    float: right;
+	}
+
+	.container-footer .form-search {
+	    display: none;
+	}
+}
+

@@ -2,7 +2,7 @@
 <?php if ($contents): ?>
 	<?php foreach ($contents as $content): ?>
 		
-<div class="content content-single is-type-<?php echo $content->type ?> clearfix" data-id="<?php echo $content->id ?>">
+<div class="content-single is-type-<?php echo $content->type ?> clearfix" data-id="<?php echo $content->id ?>">
 	<div class="content-date"><?php echo date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?></div>
 	<h1 class="h1 content-single-title"><?php echo $content->title ?></h1>
 

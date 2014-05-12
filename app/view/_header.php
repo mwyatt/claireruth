@@ -34,12 +34,12 @@
             <a href="#" class="button tertiary header-button-history">l'histoire complète</a>
         -->
 
-    <?php include($this->pathView('_search')) ?>
 
         <a href="#menu" class="js-smooth-scroll header-button-mobile header-button-mobile-menu js-header-button-mobile-menu"><?php include($this->getPath('media/menu.svg')) ?></a>
         <a href="#search" class="js-smooth-scroll header-button-mobile header-button-mobile-search js-header-button-mobile-search"><?php include($this->getPath('media/search.svg')) ?></a>
 
     <?php $menu = $mainMenu; ?>
     <?php include($this->pathView('_menu')) ?>
+    <?php include($this->pathView('_search')) ?>
 
     </header>
