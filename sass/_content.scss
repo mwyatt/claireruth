@@ -79,8 +79,20 @@ a.tag {
     margin: 1em 0;
 }
 
+@include break-point(900) {
 
+    .contents {
+        @include display-box;
+        // @include box-orient(horizontal);
+        @include box-align(start);
+        @include box-direction(row);
+        // @include box-wrap(wrap);
+    }
 
-
-
-
+    .content.is-type-post {
+        @include box-flex(1);
+        width: 300px;
+        border: 0;
+        position: static;
+    }
+}

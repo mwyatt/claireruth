@@ -1550,6 +1550,34 @@ a.tag {
   margin: 1em 0;
 }
 
+@media screen and (min-width: 900px) {
+  /* line 84, ../sass/_content.scss */
+  .contents {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-box;
+    display: box;
+    -webkit-box-align: start;
+    -moz-box-align: start;
+    -ms-box-align: start;
+    box-align: start;
+    -webkit-box-direction: row;
+    -moz-box-direction: row;
+    -ms-box-direction: row;
+    box-direction: row;
+  }
+
+  /* line 92, ../sass/_content.scss */
+  .content.is-type-post {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -ms-box-flex: 1;
+    box-flex: 1;
+    width: 300px;
+    border: 0;
+    position: static;
+  }
+}
 /* line 1, ../sass/content/_single.scss */
 .content-single-title {
   font-size: 2.2em;
