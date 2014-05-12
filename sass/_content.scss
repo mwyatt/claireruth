@@ -22,10 +22,10 @@ a.tag {
     margin-bottom: 1em;
 }
 
-.content.search .content.is-type-post,
-.content.tag .content.is-type-post,
-.content.post .content.is-type-post,
-.content.home .content.is-type-post {
+// .content.search .content.is-type-post,
+// .content.tag .content.is-type-post,
+// .content.post .content.is-type-post,
+.content.is-type-post {
     position: relative;
     border-top: 1px dotted $color-secondary;
     margin-top: 1em;
@@ -82,17 +82,10 @@ a.tag {
 @include break-point(900) {
 
     .contents {
-        @include display-box;
-        // @include box-orient(horizontal);
-        @include box-align(start);
-        @include box-direction(row);
-        // @include box-wrap(wrap);
+        @extend .flexbox;
     }
 
     .content.is-type-post {
-        @include box-flex(1);
-        width: 300px;
-        border: 0;
-        position: static;
+        @include flex-wrap(wrap);
     }
 }

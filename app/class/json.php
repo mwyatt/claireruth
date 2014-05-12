@@ -54,8 +54,8 @@ class Json extends Model
 	 * @param  array $data 
 	 * @return bool       
 	 */
-	public function create($data)
-	{
+	// public function create($data)
+	// {
 
 		// // file must not already exist
 		// if ($this->fileExists($this->getKey())) {
@@ -69,7 +69,7 @@ class Json extends Model
 		// if (file_put_contents($this->getPath($this->getKey()), $data)) {
 		// 	return true;
 		// }
-	}
+	// }
 
 
 	/**
@@ -78,7 +78,7 @@ class Json extends Model
 	 * @param  string $key example-file-name
 	 * @return bool      
 	 */
-	public function read($key)
+	public function read($key = array())
 	{
 
 		// quickly check if a file exists
@@ -97,7 +97,7 @@ class Json extends Model
 	 * @param  string $key 
 	 * @return bool      
 	 */
-	public function delete($key)
+	public function delete($key = array())
 	{
 		
 		// nothing to delete

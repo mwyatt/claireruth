@@ -103,46 +103,6 @@ class System extends Helper
 
 
 	/**
-	 * get data
-	 * @param  string $key 
-	 * @return array      
-	 */
-	public function getData($key = '')
-	{		
-		if ($key) {
-			if (array_key_exists($key, $this->data)) {
-				return $this->data[$key];
-			}
-			return;
-		}
-		return $this->data;
-	}	
-
-
-	/**
-	 * retrieves the first row of data, if there is any
-	 * @return object, array, bool       
-	 */
-	public function getDataFirst()
-	{
-		$data = $this->getData();
-		if (! $data) {
-			return;
-		}
-		return reset($data);
-	}
-
-
-	/**
-	 * set data
-	 */
-	public function setData($value = false)
-	{		
-		return $this->data = $value;
-	}
-
-
-	/**
 	 * common settings for a php app
 	 * @return object chain
 	 */
