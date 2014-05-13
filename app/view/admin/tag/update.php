@@ -1,6 +1,6 @@
 <?php require_once($this->pathView('admin/_header')) ?>
 
-<div class="content <?php echo $this->url(2) ?>">
+<div class="content <?php echo $this->url->getPathPart(2) ?>">
 	<a href="<?php echo $this->url('back') ?>" class="button back">Back</a>
 	<h1>Update <?php echo $tag['title'] ?></h1>
 	<form method="post" enctype="multipart/form-data">

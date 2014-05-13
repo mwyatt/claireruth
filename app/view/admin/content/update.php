@@ -1,6 +1,6 @@
 <?php require_once($this->pathView() . 'admin/_header.php') ?>
 
-<div class="content <?php echo $this->url(2) ?> <?php echo ($content ? 'update' : 'create') ?> content-create-update" data-id="<?php echo $content->id ?>">
+<div class="content <?php echo $this->url->getPathPart(2) ?> <?php echo ($content ? 'update' : 'create') ?> content-create-update" data-id="<?php echo $content->id ?>">
 
 
 <?php if ($content->status == 'visible'): ?>
@@ -9,7 +9,7 @@
 
 <?php endif ?>
 
-	<h1 class="h3 mb1"><?php echo ($content ? 'Update ' . ucfirst($this->url(2)) . ' ' . $content->title : 'Create new ' . ucfirst($this->url(2))) ?></h1>
+	<h1 class="h3 mb1"><?php echo ($content ? 'Update ' . ucfirst($this->url->getPathPart(2)) . ' ' . $content->title : 'Create new ' . ucfirst($this->url->getPathPart(2))) ?></h1>
 	<form class="main" method="post" enctype="multipart/form-data">
 		<div class="frame">
 		    <div class="bit-2">
@@ -62,7 +62,7 @@
 
 		<div class="clearfix">
 			<input name="time_published" type="hidden" value="<?php echo $content->time_published ?>">
-			<input name="type" type="hidden" value="<?php echo $this->url(2) ?>">
+			<input name="type" type="hidden" value="<?php echo $this->url->getPathPart(2) ?>">
 			<input name="<?php echo ($content ? 'update' : 'create') ?>" type="hidden" value="true">
 			<span class="submit button right">Save</span>
 			<input type="submit">

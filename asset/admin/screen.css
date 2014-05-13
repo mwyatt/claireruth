@@ -764,7 +764,7 @@ table.basic td {
 }
 
 /* line 143, ../../sass/_reusable.scss */
-.text-ellipsis, .content-action,
+.text-ellipsis, .content-status,
 .content-link,
 .content-date {
   overflow: hidden;
@@ -1456,27 +1456,45 @@ label {
 }
 
 /* line 1, ../../sass/admin/_list.scss */
-.list-container, .content.is-type-post.clearfix, .content.is-type-post.lightbox {
+.list-container, .content {
   overflow: hidden;
   height: 2em;
   border-top: 1px dashed;
   padding: .2em;
 }
 /* line 7, ../../sass/admin/_list.scss */
-.list-container:first-child, .content.is-type-post.clearfix:first-child, .content.is-type-post.lightbox:first-child {
+.list-container:first-child, .content:first-child {
   border-top: 0;
 }
 
 /* line 12, ../../sass/admin/_list.scss */
-.list-cell, .content-action,
+.list-cell-20, .list-cell-left, .content-status,
 .content-link,
-.content-date {
-  float: left;
-  margin-right: 1em;
+.content-date, .list-cell-right, .content-action {
   width: 20%;
 }
 
-/* line 18, ../../sass/admin/_list.scss */
+/* line 16, ../../sass/admin/_list.scss */
+.list-cell-30, .content-link {
+  width: 30%;
+}
+
+/* line 20, ../../sass/admin/_list.scss */
+.list-cell-left, .content-status,
+.content-link,
+.content-date {
+  margin-right: 1em;
+  float: left;
+}
+
+/* line 26, ../../sass/admin/_list.scss */
+.list-cell-right, .content-action {
+  margin-left: 1em;
+  float: right;
+  text-align: right;
+}
+
+/* line 33, ../../sass/admin/_list.scss */
 .content-html {
   display: none;
 }

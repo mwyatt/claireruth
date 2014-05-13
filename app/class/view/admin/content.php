@@ -12,24 +12,6 @@ class View_Admin_Content extends Config
 {
 
 
-	// public function create()
-	// {
-	// 	$modelLog = new model_log($this);
-	// 	$modelContent = new model_content($this);
-	// 	$sessionFeedback = new session_feedback($this);
-	// 	if ($modelContent->create($_POST)) {
-	// 		$createOrUpdateId = $this->database->dbh->lastInsertId();
-	// 		$modelLog->log('admin', 'post created');
-	// 		$sessionFeedback->set(ucfirst($_POST['type']) . ' "' . $_POST['title'] . '" created. <a href="' . $this->url->getCache('back') . '">Back to list</a>');
-
-	// 		$this->route('base', 'admin/content/' . $this->url->getPathPart(2) . '/?edit=' . $lastInsertId);
-	// 	} else {
-	// 		$sessionFeedback->set('Problem while creating ' . ucfirst($_POST['type']));
-	// 		$this->route('base', 'admin/content/' . $this->url->getPathPart(2) . '/');
-	// 	}
-	// }
-
-
 	/**
 	 * removes all meta assigned to the current content item and reassigns
 	 * the new meta bindings
@@ -91,8 +73,8 @@ class View_Admin_Content extends Config
 		$modelContent = new model_content($this);
 		$sessionFeedback = new session_feedback($this);
 		if ($modelContent->update(
-			array('status' => 'archive')
-			, array('id' => $_GET['archive'])
+			array('status' => 'archive'), 
+			array('id' => $_GET['archive'])
 		)) {
 			$sessionFeedback->set('Content archived successfully');
 			$modelLog->log('admin', 'post archived');
@@ -111,7 +93,7 @@ class View_Admin_Content extends Config
 		if ($modelContent->delete(array(
 			'id' => $_GET['delete']
 		))) {
-			$sessionFeedback->set('Content deleted successfully');
+			$sessionFeedback->set('Content deleted permanently');
 			$modelLog->log('admin', 'post deleted');
 		} else {
 			$sessionFeedback->set('Problem deleting content');

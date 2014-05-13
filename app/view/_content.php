@@ -17,6 +17,11 @@
 <?php echo $content->html ?>
 
 	</div>
+	<div class="content-status">
+
+<?php echo ucfirst($content->status) ?>
+
+	</div>
 
 <?php $tags = $content->tag ?>
 <?php include($this->pathView('_tags')) ?>
