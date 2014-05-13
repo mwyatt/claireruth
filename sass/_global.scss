@@ -3,7 +3,7 @@
  */
 @import "compass/reset";
 @import "compass/css3";
-	@import "compass/css3/flexbox";
+	@import "compass/css3/box";
 	@import "compass/css3/images";
 @import "compass/utilities/sprites";
 @import "breakpoint";
@@ -44,7 +44,7 @@
  */
 // @import "vendor/smart-grid";
 @import "vendor/lemonade";
-@import "vendor/flex";
+@import "vendor/flexbox";
 
 
 /**

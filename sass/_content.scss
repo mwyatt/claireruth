@@ -67,10 +67,17 @@ a.tag {
 
 @include breakpoint(900px) {
 
+    .contents {
+        @include flexcontainer($display: flex, $flexdirection: false, $flexwrap: wrap, $justifycontent: false, $alignitems: false, $aligncontent: false);
+    }
+
     .content.is-type-post {
-        float: left;
-        width: 29%;
-        min-height: 16em;
-        margin: 2%;
+        @include flexchild();
+        width: 30%;
+        margin: 1%;
+        // float: left;
+        // width: 29%;
+        // min-height: 16em;
+        // margin: 2%;
     }
 }
