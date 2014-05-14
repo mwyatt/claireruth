@@ -31,7 +31,8 @@
 	<?php require_once($this->pathView('admin/header/_nav')) ?>
 
 			</div>
-
+			<div class="clearfix"></div>
+			
 	<?php $feedback = $sessionFeedback ?>
 	<?php require_once($this->pathView('_feedback')) ?>
 

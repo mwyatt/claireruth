@@ -1,7 +1,6 @@
 .container-footer {
     margin-top: 2em;
     padding-top: 2em;
-    border-top: 1px dotted $color-tertiary;
 
     .book-stack {
         display: none;
@@ -78,7 +77,10 @@ float: left;
         float: left;
         margin-right: 1em;
         margin-bottom: 1em;
-        width: 40%;
+        width: 9em;
+        border-radius: 99em;
+        overflow: hidden;
+        height: 9em;
     }
 
     .calling-card-content-title {

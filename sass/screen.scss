@@ -28,6 +28,16 @@ body {
     padding: 1em;
 }
 
+@include breakpoint(1000px) {
+
+    .container-site {
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
 .wrap-full-width {
 }
 
@@ -35,14 +45,17 @@ body {
     @include button($color-primary);
 }
 
+.button-primary,
 .button.primary {
     @include button($color-primary);
 }
 
+.button-secondary,
 .button.secondary {
     @include button($color-secondary);
 }
 
+.button-tertiary,
 .button.tertiary {
     @include button($color-tertiary);
 }

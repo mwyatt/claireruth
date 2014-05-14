@@ -34,7 +34,8 @@ class Controller extends Route
 			$modelContent = new model_content($this);
 			$modelContent->read(array(
 				'where' => array(
-					'type' => 'post'
+					'type' => 'post',
+					'status' => 'visible'
 				),
 				'limit' => array(0, 3),
 				'order_by' => 'time_published desc'

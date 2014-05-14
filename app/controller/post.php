@@ -42,7 +42,8 @@ class Controller_Post extends Controller
 			$pagination->initialise('content');
 			$modelContent->read(array(
 				'where' => array(
-					'type' => $this->url->getPathPart(0)
+					'type' => $this->url->getPathPart(0),
+					'status' => 'visible'
 				),
 				'limit' => $pagination->getLimit(),
 				'order_by' => 'time_published desc'

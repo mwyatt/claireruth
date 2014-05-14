@@ -147,4 +147,14 @@ exit;
 		echo '</pre>';
 		exit;
 	}
+
+
+	public function updateContent()
+	{
+		$modelContent = new model_content($this);
+		
+		$modelContent->update(
+			array('status' => 'visible')
+		);
+	}
 }

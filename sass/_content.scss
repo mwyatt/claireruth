@@ -1,4 +1,4 @@
-.content .medium {
+.content.element .medium {
     display: none;
 }
 
@@ -6,7 +6,8 @@
     @extend .clearfix;
 }
 
-.content-html {
+.content-status,
+.content.element .content-html {
     display: none;
 }
 
@@ -32,8 +33,10 @@ a.tag {
     color: $color-secondary;
 }
 
-.content {
+.content.element {
     position: relative;
+    min-height: 13em;
+
 }
 
 .content-author {
@@ -52,16 +55,9 @@ a.tag {
         margin: 1em auto;
     }
 
-    .content {
-        border-top: 1px dotted $color-secondary;
-        margin-top: 1em;
-        padding-top: 1em;
-
-        &:first-child {
-            margin-top: 0;
-            padding-top: 0;
-            border-top: 0;
-        }
+    .content.element {
+        border-bottom: 1px dashed $color-tertiary;
+        margin-bottom: 2em;
     }
 }
 
@@ -71,7 +67,7 @@ a.tag {
         @include flexcontainer($display: flex, $flexdirection: false, $flexwrap: wrap, $justifycontent: false, $alignitems: false, $aligncontent: false);
     }
 
-    .content.is-type-post {
+    .content.element {
         @include flexchild();
         width: 30%;
         margin: 1%;

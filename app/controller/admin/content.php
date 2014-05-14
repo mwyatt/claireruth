@@ -64,9 +64,9 @@ class Controller_Admin_Content extends Controller
 		}
 
 		// delete
-		if (array_key_exists('delete', $_GET)) {
-			$viewAdminContent->delete();
-		}
+		// if (array_key_exists('delete', $_GET)) {
+		// 	$viewAdminContent->delete();
+		// }
 
 		// edit
 		if (array_key_exists('edit', $_GET)) {
@@ -89,11 +89,23 @@ class Controller_Admin_Content extends Controller
 
 	public function post() {
 		$content = new model_content($this);
+		$statuses = $content->getStatus();
+		$where = array(
+			'type' => $this->url->getPathPart(2)
+		);
+		if (array_key_exists('status', $_GET)) {
+			if (in_array($_GET['status'], $statuses)) {
+				$where['status'] = $_GET['status'];
+			}
+		} else {
+			$where['status'] = 'visible';
+		}
 		$content->read(array(
-			'where' => array('type' => $this->url->getPathPart(2)),
+			'where' => $where,
 			'order_by' => 'time_published desc'
 		));
 		$this->view
+			->setObject('statuses', $statuses)
 			->setObject('contents', $content)
 			->renderTemplate('admin/content/list');
 	}

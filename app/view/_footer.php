@@ -11,7 +11,7 @@
     <?php include($this->pathView('_menu')) ?>
 
 					</div>
-					<div class="calling-card">
+					<div id="calling-card" class="typography">
 						
     <?php include($this->pathView('_calling-card')) ?>
 

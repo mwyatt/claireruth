@@ -23,23 +23,25 @@
 <div class="container container-site">
     <a href="#top" class="to-top js-smooth-scroll"><?php include($this->getPath('media/arrow-up.svg')) ?></a>
     <header class="container-header row js-container-header clearfix js-fixed-bar">
+        <div class="container-header-inner">
     
     <?php include($this->pathView('_logo')) ?>
 
-<!--             <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
-                <span class="propos-lettering">á propos de moi</span>
-                <span class="propos-flower"><img src="<?php echo $this->url() ?>media/sprite/flower.png" alt="Flower"></span>
-            </a> 
+    <!--             <a href="<?php echo $this->url() ?>page/about-me/" class="propos">
+                    <span class="propos-lettering">á propos de moi</span>
+                    <span class="propos-flower"><img src="<?php echo $this->url() ?>media/sprite/flower.png" alt="Flower"></span>
+                </a> 
 
-            <a href="#" class="button tertiary header-button-history">l'histoire complète</a>
-        -->
+                <a href="#" class="button tertiary header-button-history">l'histoire complète</a>
+            -->
 
 
-        <a href="#menu" class="js-smooth-scroll header-button-mobile header-button-mobile-menu js-header-button-mobile-menu"><?php include($this->getPath('media/menu.svg')) ?></a>
-        <a href="#search" class="js-smooth-scroll header-button-mobile header-button-mobile-search js-header-button-mobile-search"><?php include($this->getPath('media/search.svg')) ?></a>
+            <a href="#menu" class="js-smooth-scroll header-button-mobile header-button-mobile-menu js-header-button-mobile-menu"><?php include($this->getPath('media/menu.svg')) ?></a>
+            <a href="#search" class="js-smooth-scroll header-button-mobile header-button-mobile-search js-header-button-mobile-search"><?php include($this->getPath('media/search.svg')) ?></a>
 
     <?php $menu = $mainMenu; ?>
     <?php include($this->pathView('_menu')) ?>
     <?php include($this->pathView('_search')) ?>
 
+        </div>
     </header>

@@ -1,7 +1,8 @@
 /**
  * compass
  */
-/* line 5, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800);
+/* line 5, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -23,45 +24,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
@@ -80,12 +81,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
  */
 /**
  * functions
- */
-/**
- * accepts a point key and uses the correct breakpoint
- */
-/**
- * accepts a path and sets 
  */
 /**
  * $duration: 300ms, $delay: 0, $ease: ease
@@ -243,64 +238,43 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
  */
 /* line 5, ../../sass/_typography.scss */
 ::selection {
-  background: #ffb7b7;
+  color: white;
+  /* Safari */
+  background: #ca3566;
   /* Safari */
 }
 
-/* line 9, ../../sass/_typography.scss */
+/* line 10, ../../sass/_typography.scss */
 ::-moz-selection {
-  background: #ffb7b7;
+  color: white;
   /* Firefox */
-}
-
-/**
- * placeholder
- */
-/* line 17, ../../sass/_typography.scss */
-::-webkit-input-placeholder {
-  color: #e5673c;
-}
-
-/* line 21, ../../sass/_typography.scss */
-:-moz-placeholder {
-  /* Firefox 18- */
-  color: #e5673c;
-}
-
-/* line 25, ../../sass/_typography.scss */
-::-moz-placeholder {
-  /* Firefox 19+ */
-  color: #e5673c;
-}
-
-/* line 29, ../../sass/_typography.scss */
-:-ms-input-placeholder {
-  color: #e5673c;
+  background: #ca3566;
+  /* Firefox */
 }
 
 /**
  * links
  */
-/* line 37, ../../sass/_typography.scss */
+/* line 19, ../../sass/_typography.scss */
 a,
 a:visited {
   color: #ca3566;
   text-decoration: none;
 }
 
-/* line 43, ../../sass/_typography.scss */
+/* line 25, ../../sass/_typography.scss */
 a.hover,
 a:hover,
 a:focus {
   color: #cf4975;
 }
 
-/* line 53, ../../sass/_typography.scss */
+/* line 35, ../../sass/_typography.scss */
 a:link {
   -webkit-tap-highlight-color: #e5673c;
 }
 
-/* line 57, ../../sass/_typography.scss */
+/* line 39, ../../sass/_typography.scss */
 *:focus {
   outline: none;
 }
@@ -308,7 +282,7 @@ a:link {
 /**
  * headings, spacing
  */
-/* line 65, ../../sass/_typography.scss */
+/* line 47, ../../sass/_typography.scss */
 .h1, .typography h1,
 .h2,
 .typography h2,
@@ -324,71 +298,71 @@ a:link {
   font-weight: 400;
 }
 
-/* line 75, ../../sass/_typography.scss */
+/* line 57, ../../sass/_typography.scss */
 .h1, .typography h1,
 .h2,
 .typography h2 {
   line-height: 1.1;
 }
 
-/* line 80, ../../sass/_typography.scss */
+/* line 62, ../../sass/_typography.scss */
 .h3, .typography h3, .h4, .typography h4 {
   line-height: 1.3;
 }
 
-/* line 84, ../../sass/_typography.scss */
+/* line 66, ../../sass/_typography.scss */
 .h1, .typography h1 {
   font-size: 400%;
 }
 
-/* line 88, ../../sass/_typography.scss */
+/* line 70, ../../sass/_typography.scss */
 .h2, .typography h2 {
   font-size: 250%;
 }
 
-/* line 92, ../../sass/_typography.scss */
+/* line 74, ../../sass/_typography.scss */
 .h3, .typography h3 {
   font-size: 200%;
 }
 
-/* line 96, ../../sass/_typography.scss */
+/* line 78, ../../sass/_typography.scss */
 .h4, .typography h4 {
   font-size: 180%;
 }
 
-/* line 100, ../../sass/_typography.scss */
+/* line 82, ../../sass/_typography.scss */
 .h5, .typography h5 {
   font-size: 130%;
 }
 
-/* line 104, ../../sass/_typography.scss */
+/* line 86, ../../sass/_typography.scss */
 .fixed, .typography pre,
 .typography code {
   font-weight: inherit;
 }
 
-/* line 109, ../../sass/_typography.scss */
+/* line 91, ../../sass/_typography.scss */
 .quiet {
   font-weight: inherit;
 }
 
-/* line 113, ../../sass/_typography.scss */
+/* line 95, ../../sass/_typography.scss */
 .loud, .bold, .typography b, .typography strong {
   font-weight: inherit;
 }
 
-/* line 117, ../../sass/_typography.scss */
+/* line 99, ../../sass/_typography.scss */
 .italic, .typography i,
 .typography em {
   font-style: italic;
 }
 
-/* line 121, ../../sass/_typography.scss */
+/* line 103, ../../sass/_typography.scss */
 .bold, .typography b, .typography strong {
   font-weight: 700;
 }
 
-/* line 126, ../../sass/_typography.scss */
+/* line 108, ../../sass/_typography.scss */
 .block-margins, .typography p,
 .typography ul,
 .typography ol,
@@ -396,37 +370,37 @@ a:link {
   margin: 1em 0;
 }
 
-/* line 130, ../../sass/_typography.scss */
+/* line 112, ../../sass/_typography.scss */
 .unordered-list, .typography ul {
   list-style-type: disc;
 }
 
-/* line 134, ../../sass/_typography.scss */
+/* line 116, ../../sass/_typography.scss */
 .ordered-list, .typography ol {
   list-style: decimal;
 }
 
-/* line 149, ../../sass/_typography.scss */
+/* line 131, ../../sass/_typography.scss */
 .typography h1 {
   margin: 1em 0 0.5em;
 }
-/* line 154, ../../sass/_typography.scss */
+/* line 136, ../../sass/_typography.scss */
 .typography h2 {
   margin: 1em 0 0.5em;
 }
-/* line 159, ../../sass/_typography.scss */
+/* line 141, ../../sass/_typography.scss */
 .typography h3 {
   margin: 1em 0 0.5em;
 }
-/* line 164, ../../sass/_typography.scss */
+/* line 146, ../../sass/_typography.scss */
 .typography h4 {
   margin: 1em 0 0.5em;
 }
-/* line 169, ../../sass/_typography.scss */
+/* line 151, ../../sass/_typography.scss */
 .typography h5 {
   margin: 1em 0 0.5em;
 }
-/* line 174, ../../sass/_typography.scss */
+/* line 156, ../../sass/_typography.scss */
 .typography h6 {
   margin: 1em 0 0.5em;
 }
@@ -703,7 +677,7 @@ a:link {
 
 /* line 86, ../../sass/_reusable.scss */
 .spinner {
-  background: url('../../media/ajax.gif?1375373606') 50% 50% no-repeat;
+  background: url('../../media/ajax.gif?1368257192') 50% 50% no-repeat;
 }
 /* line 89, ../../sass/_reusable.scss */
 .spinner.is-tall {
@@ -1309,7 +1283,7 @@ table.basic td {
 /**
  * where to put this?
  */
-/* line 69, ../../sass/_global.scss */
+/* line 71, ../../sass/_global.scss */
 body {
   line-height: 1.5;
 }
@@ -1456,14 +1430,14 @@ label {
 }
 
 /* line 1, ../../sass/admin/_list.scss */
-.list-container, .content {
+.list-container, .content.element {
   overflow: hidden;
   height: 2em;
   border-top: 1px dashed;
   padding: .2em;
 }
 /* line 7, ../../sass/admin/_list.scss */
-.list-container:first-child, .content:first-child {
+.list-container:first-child, .content.element:first-child {
   border-top: 0;
 }
 
@@ -1622,7 +1596,7 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
-/* line 115, ../../sass/_mixin.scss */
+/* line 51, ../../sass/_mixin.scss */
 .button.primary:hover,
 .button.secondary:hover,
 .button.tertiary:hover,
@@ -1637,7 +1611,7 @@ body {
   color: #4d4d4d;
   text-decoration: none;
 }
-/* line 123, ../../sass/_mixin.scss */
+/* line 59, ../../sass/_mixin.scss */
 .button.primary:active,
 .button.secondary:active,
 .button.tertiary:active,

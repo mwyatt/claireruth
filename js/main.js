@@ -15,4 +15,5 @@ $(document).ready(function() {
 		scrollSpeed: 500
 	});
 	var modelFixedBar = new Model_Fixed_Bar();
+	setSubmit();
 });

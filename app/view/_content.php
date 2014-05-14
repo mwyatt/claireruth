@@ -1,6 +1,6 @@
 <?php $theDate = date('jS', $content->time_published) . ' of ' . date('F o', $content->time_published) ?>
 
-<div class="content is-type-<?php echo $content->type ?> clearfix<?php echo ($content->media ? ' has-thumb' : '') ?>" data-id="<?php echo $content->id ?>">
+<div class="content element is-type-<?php echo $content->type ?> clearfix<?php echo ($content->media ? ' has-thumb' : '') ?>" data-id="<?php echo $content->id ?>">
 
 <?php $medium = reset($content->media) ?>
 <?php if ($medium): ?>

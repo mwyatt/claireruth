@@ -61,7 +61,10 @@
 <?php endif ?>
 
 		<div class="clearfix">
-			<input name="time_published" type="hidden" value="<?php echo $content->time_published ?>">
+			<label for="time_published">Time Published</label>
+			<input name="time_published" type="text" value="<?php echo $content->time_published ?>">
+		</div>
+		<div class="clearfix">
 			<input name="type" type="hidden" value="<?php echo $this->url->getPathPart(2) ?>">
 			<input name="<?php echo ($content ? 'update' : 'create') ?>" type="hidden" value="true">
 			<span class="submit button right">Save</span>

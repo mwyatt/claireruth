@@ -1,19 +1,3 @@
-.container-header.is-scrolling {
-    padding: .3em .5em;
-    @include box-shadow(0 -2em 80px $color-black);
-
-    .logo {
-        width: 4.9em;
-        fill: $color-secondary;
-    }
-
-    .header-button-mobile {
-        width: 1.4em;
-        height: 1.4em;
-        fill: $color-secondary;
-    }
-}
-
 .container-header {
     @include transition(all 300ms ease);
     position: fixed;
@@ -21,8 +5,22 @@
     left: 0;
     right: 0;
     z-index: 10;
-    background-color: $color-white;
     padding: 0.7em;
+    background-color: $color-primary;
+}
+
+.container-header.is-scrolling {
+    padding: .3em .5em;
+    // @include box-shadow(0 -2em 80px $color-black);
+
+    .logo {
+        width: 4.9em;
+    }
+
+    .header-button-mobile {
+        width: 1.4em;
+        height: 1.4em;
+    }
 }
 
 svg {
@@ -34,7 +32,7 @@ svg {
     display: block;
     float: left;
     width: 6.8em;
-    fill: $color-primary;
+    fill: $color-white;
 }
 
 @include breakpoint(0 899px) {
@@ -50,7 +48,7 @@ svg {
         width: 2em;
         height: 2em;
         margin: 0.3em 0 0 1em;
-        fill: $color-primary;
+        fill: $color-white;
     }
 }
 
@@ -58,5 +56,26 @@ svg {
 
     .header-button-mobile {
         display: none;
+    }
+
+    .container-header .menu {
+        margin-top: 0.6%;
+        width: 37%;
+        text-align: right;
+    }
+
+    .container-header a.menu-item {
+        color: $color-white;
+        font-weight: 600;
+        margin-left: 3%;
+    }
+}
+
+@include breakpoint(1000px) {
+
+    .container-header-inner {
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }

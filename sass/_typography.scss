@@ -3,31 +3,13 @@
  */
 
 ::selection {
-	background: #ffb7b7; /* Safari */
+    color: $color-white; /* Safari */
+	background: $color-primary; /* Safari */
 }
 
 ::-moz-selection {
-	background: #ffb7b7; /* Firefox */
-}
-
-
-/**
- * placeholder
- */
-::-webkit-input-placeholder {
-   color: $color-secondary; 
-}
-
-:-moz-placeholder { /* Firefox 18- */
-   color: $color-secondary;  
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
-   color: $color-secondary;  
-} 
- 
-:-ms-input-placeholder {  
-   color: $color-secondary;  
+    color: $color-white; /* Firefox */
+	background: $color-primary; /* Firefox */
 }
 
 

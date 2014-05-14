@@ -72,34 +72,39 @@ class View_Admin_Content extends Config
 		$modelLog = new model_log($this);
 		$modelContent = new model_content($this);
 		$sessionFeedback = new session_feedback($this);
-		if ($modelContent->update(
-			array('status' => 'archive'), 
-			array('id' => $_GET['archive'])
-		)) {
-			$sessionFeedback->set('Content archived successfully');
-			$modelLog->log('admin', 'post archived');
-		} else {
-			$sessionFeedback->set('Problem archiving content');
+		if (! $modelContent->read(array('where' => array('id' => $_GET['archive'])))) {
+			return $sessionFeedback->set('Problem archiving content');
 		}
-		$this->route('current_noquery');
-	}
-
-
-	public function delete()
-	{
-		$modelLog = new model_log($this);
-		$modelContent = new model_content($this);
-		$sessionFeedback = new session_feedback($this);
-		if ($modelContent->delete(array(
-			'id' => $_GET['delete']
+		$mold = $modelContent->getDataFirst();
+		$mold->status = 'archive';
+		if (! $modelContent->update($mold, array(
+			'where' => array(
+				'id' => $_GET['archive']
+			)
 		))) {
-			$sessionFeedback->set('Content deleted permanently');
-			$modelLog->log('admin', 'post deleted');
-		} else {
-			$sessionFeedback->set('Problem deleting content');
+			return $sessionFeedback->set('Problem archiving content');
 		}
-		$this->route('current_noquery');
+		$sessionFeedback->set('Content archived successfully');
+		$modelLog->log('admin', 'post archived');
+		$this->route('current_sans_query');
 	}
+
+
+	// public function delete()
+	// {
+	// 	$modelLog = new model_log($this);
+	// 	$modelContent = new model_content($this);
+	// 	$sessionFeedback = new session_feedback($this);
+	// 	if ($modelContent->delete(array(
+	// 		'id' => $_GET['delete']
+	// 	))) {
+	// 		$sessionFeedback->set('Content deleted permanently');
+	// 		$modelLog->log('admin', 'post deleted');
+	// 	} else {
+	// 		$sessionFeedback->set('Problem deleting content');
+	// 	}
+	// 	$this->route('current_sans_query');
+	// }
 
 
 	public function edit()
@@ -114,7 +119,7 @@ class View_Admin_Content extends Config
 		$modelContent->bindMeta('media');
 		$modelContent->bindMeta('tag');
 		if (! $modelContent->getData()) {
-			$this->route('current_noquery');
+			$this->route('current_sans_query');
 		}
 		return $modelContent->getDataFirst();
 	}
@@ -130,11 +135,11 @@ class View_Admin_Content extends Config
 		$mold->title = 'Untitled';
 		$mold->slug = '';
 		$mold->html = '';
-		$mold->type = 'post';
+		$mold->type = $this->url->getPathPart(2);
 		$mold->time_published = time();
 		$mold->user_id = 0;
 		$mold->status = 'draft';
 		$modelContent->create(array($mold));
-		$this->route($sessionHistory->getLast() . '?edit=' . $modelContent->getLastInsertId());
+		$this->route($this->url->getCache('admin') . $this->url->getPathPart(1) . '/' . $this->url->getPathPart(2) . '/?edit=' . $modelContent->getLastInsertId());
 	}
 } 

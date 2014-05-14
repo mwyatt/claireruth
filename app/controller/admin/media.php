@@ -43,7 +43,7 @@ class Controller_Admin_Media extends Controller
 					->setObject('model_media', $modelMedia->getDataFirst())
 					->getTemplate('admin/media/update');
 			} else {
-				$this->route('current_noquery');
+				$this->route('current_sans_query');
 			}
 		}
 
@@ -56,7 +56,7 @@ class Controller_Admin_Media extends Controller
 			} else {
 				$sessionFeedback->set('Problem deleting ' . $this->url->getPathPart(1));
 			}
-			$this->route('current_noquery');
+			$this->route('current_sans_query');
 		}
 	}
 

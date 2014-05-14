@@ -49,7 +49,7 @@
     @extend .text-ellipsis;
 }
 
-.content {
+.content.element {
     @extend .list-container;
 }
 
