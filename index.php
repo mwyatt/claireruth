@@ -10,21 +10,76 @@
 
 
 /**
- * definitions
+ * directory seperator
  */
 define('DS', DIRECTORY_SEPARATOR);
+
+
+/**
+ * url seperator
+ */
 define('US', '/');
+
+
+/**
+ * ?
+ */
 define('ENV', getenv('APP_ENV'));
-define('VERSION', '0.0.1');
+
+
+/**
+ * base filepath
+ */
 define('BASE_PATH', (string) (__DIR__ . '/'));
+
+
+/**
+ * app core dir
+ */
 define('PATH_APP', BASE_PATH . 'app' . DS);
+
+
+/**
+ * class core dir
+ */
 define('PATH_CLASS', PATH_APP . 'class' . DS);
+
+
+/**
+ * common extension for classes
+ */
 define('EXT', '.php');
+
+
+/**
+ * site profile
+ */
+define('SITE', '');
+
+
+/**
+ * autoloader include and register function
+ */
+require PATH_CLASS . 'autoloader' . EXT;
+spl_autoload_register(array('Autoloader', 'call'));
+
+
+/**
+ * get core config object
+ */
+$json = new Json();
+$json->read('config');
+
+
+/**
+ * definitions based on config object
+ * (for autoloader only at present..)
+ */
+
+
 
 
 /**
  * initialise app
  */
-require BASE_PATH . 'config' . EXT;
 require PATH_APP . 'initialise' . EXT;
-$error = new error($errorReporting);

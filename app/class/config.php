@@ -6,7 +6,7 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */ 
-class Config extends System
+class Config extends Data
 {
 
 
@@ -103,5 +103,12 @@ class Config extends System
 		ignore_user_abort(true);
 
 		return $this;
+	}
+
+
+	public function getDataSite()
+	{
+		$data = $this->getData();
+		return $data->site;
 	}
 }

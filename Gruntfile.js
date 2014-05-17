@@ -1,12 +1,14 @@
 module.exports = function(grunt) {
   grunt.registerTask('default', ['watch']);
   grunt.initConfig({
+    config: grunt.file.readJSON('app/json/config.json'),
     concat: {
 	    js: {
         options: {
           separator: ';'
         },
         src: [
+          'js/site/<%= config.site %>/*.js',
           'js/vendor/*.js',
           'js/global/*.js',
           'js/*.js'
@@ -56,6 +58,7 @@ module.exports = function(grunt) {
     watch: {
       js: {
         files: [
+          'js/site/<%= config.site %>/*.js',
           'js/vendor/*.js',
           'js/global/*.js',
           'js/*.js'

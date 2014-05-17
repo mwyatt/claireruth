@@ -95,6 +95,20 @@ class Url extends Helper
 
 
 	/**
+	 * probes the host portion of url for localhost
+	 * if found returns true
+	 * @return boolean 
+	 */
+	public function isLocal()
+	{
+		if (strpos($this->getHost(), 'localhost') === false) {
+			return;
+		}
+		return true;
+	}
+
+
+	/**
 	 * @return string 
 	 */
 	public function getQuery()

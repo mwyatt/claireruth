@@ -11,23 +11,36 @@
  * @version	0.1
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
-class Error
+class Error extends System
 {
 
 	
     private $reporting;
 	
-	
-    public function __construct($reporting = false) {
-        $this->reporting = $reporting;
-        if ($this->reporting == 'yes') {
+
+    public function setReporting($value)
+    {
+    	$this->reporting = $value;
+    }
+
+
+    public function getReporting()
+    {
+    	return $this->reporting;
+    }
+
+
+    public function initialise()
+    {
+        $this->setReporting($this->url->isLocal());
+        if ($this->getReporting()) {
 	        ini_set('display_errors', 1);
         }
         error_reporting(30711);
 		set_error_handler(array($this, 'handle'));
     }
-	
-	
+
+
     public function handle($errorType, $errorString, $errorFile, $errorLine) {  	
 		switch ($this->reporting) {
 			case false:

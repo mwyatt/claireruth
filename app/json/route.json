@@ -1,0 +1,22 @@
+{
+    "admin/",
+    "admin/ajax/",
+    "admin/ajax/content",
+ //    	"ajax": {},
+ //    	"content": {},
+ //    	"media": {},
+ //    	"tag": {},
+ //    },
+	// "ajax": {},
+	// "month": {},
+	// "post": {},
+	// "tag": {},
+	// "page": {},
+},
+
+
+
+array('action1', 'action2', 'action3')
+
+
+class which 

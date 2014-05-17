@@ -192,13 +192,22 @@ class Route extends System
 	 */
 	public function getClassName()
 	{
-		$classWords = array('controller');
+		$classWords = array(
+			'controller',
+			'site',
+			$this->config->getDataSite()
+		);
 		for ($index = 0; $index <= $this->getUrlKey(); $index++) { 
 			if (! $urlSegment = $this->url->getPathPart($index)) {
 				return;
 			}
 			$classWords[] = $urlSegment;
 		}
+		echo '<pre>';
+		print_r(implode('_', $classWords));
+		echo '</pre>';
+		exit;
+		
 		return implode('_', $classWords);
 	}
 

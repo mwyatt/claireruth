@@ -23,8 +23,9 @@ class Database
 	/**
 	 * connects to the database
 	 */
-	public function __construct($credentials) {
-		$this->credentials = $credentials;
+	public function __construct($config) {
+		$this->credentials = $config->credentials;
+		
 		$this->connect();
 	}
 	
@@ -42,18 +43,18 @@ class Database
 		$credentials = $this->getCredentials();
 		try {
 
-			// Set Data Source Name
-			$dataSourceName = 'mysql:host='.$credentials['host']
-				.';dbname='.$credentials['basename'];
+			// set data source name
+			$dataSourceName = 'mysql:host=' . $credentials->host
+				 . ';dbname=' . $credentials->basename;
 			
-			// Connect
+			// connect
 			$this->dbh = new PDO(
 				$dataSourceName,
-				$credentials['username'],
-				$credentials['password']
+				$credentials->username,
+				$credentials->password
 			);	
 		
-			// Set Error Mode
+			// set error mode
 			$this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $error) {
 			echo '<h1>Unable to Connect to Database</h1>';

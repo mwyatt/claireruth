@@ -15,22 +15,31 @@ class Autoloader {
 
 	/**
 	 * Load classes dynamically
+	 * possible class names:
+	 * 		Class
+	 * 		Controller_
+	 * 		Model_
+	 * 		
+	 * 		
 	 *
+	 * 
 	 * order of operations:
-	 * 		foo_bar
-	 * 		check for app/class/foo_bar.php
+	 * 		classname = foo_bar
+	 * 		app/class/site/sitename/foo_bar.php
+	 * 		app/class/foo_bar.php
 	 * 		app/class/foo/bar.php
-	 * 		appl/foo/bar.php
+	 * 		app/foo/bar.php
 	 * 
 	 * @param  string $title attempted class to load
 	 * @return null            
 	 */
-	public static function load($title) {
-		$lowerTitle = strtolower($title);
+	public static function call($class) {
+		$class = strtolower($class);
+
+		// 
 
 		// check for app/class/foo_bar.php
-		$basePath = BASE_PATH . 'app/';
-		$testPath = $basePath . 'class/' . $lowerTitle . EXT;
+		$testPath = PATH_CLASS . $class . EXT;
 		if (is_file($testPath)) {
 			require_once($testPath);
 			return;
@@ -38,7 +47,7 @@ class Autoloader {
 
 		// app/class/foo/bar.php
 		$titlePath = '';
-		foreach (explode('_', $lowerTitle) as $sliceOfPathPie) {
+		foreach (explode('_', $class) as $sliceOfPathPie) {
 			$titlePath .= strtolower($sliceOfPathPie) . '/';
 		}
 		$titlePath = rtrim($titlePath, '/');
@@ -49,7 +58,7 @@ class Autoloader {
 		}
 
 		// appl/foo/bar.php
-		$testPath = $basePath . $titlePath . EXT;
+		$testPath = PATH_APP . $titlePath . EXT;
 		if (is_file($testPath)) {
 			require_once($testPath);
 			return;

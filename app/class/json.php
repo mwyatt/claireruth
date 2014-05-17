@@ -25,12 +25,34 @@ class Json extends Data
 
 
 	/**
+	 * decides whether the path string should be used, sometimes the json
+	 * file can come from other locations
+	 * @var boolean
+	 */
+	public $usePath = true;
+
+
+	// public $keyCurrent;
+
+
+	/**
 	 * returns the full path for a cached item regardless if it exists
 	 * @param  string $key this-delimiter-space
 	 * @return string      
 	 */
 	public function getPath($key) {
-		return BASE_PATH . $this->path . $key . $this->extension;
+		return BASE_PATH . ($this->getUsePath() ? $this->path : '') . $key . $this->extension;
+	}
+
+
+	public function getUsePath() {
+		return $this->usePath;
+	}
+
+
+	public function setUsePath($value)
+	{
+		$this->usePath = $value;
 	}
 
 
@@ -78,7 +100,7 @@ class Json extends Data
 	 * @param  string $key example-file-name
 	 * @return bool      
 	 */
-	public function read($key = array())
+	public function read($key)
 	{
 
 		// quickly check if a file exists
@@ -93,11 +115,31 @@ class Json extends Data
 
 
 	/**
+	 * updates the specified key with the currently set data
+	 * @param  string $key 
+	 * @return bool      
+	 */
+	public function update($key)
+	{
+
+		// quickly check if a file exists
+		if (! $this->fileExists($key)) {
+			return;
+		}
+
+		// encode
+		// store in file
+		$data = json_encode($this->getData(), JSON_PRETTY_PRINT);
+		file_put_contents($this->getPath($key), $data);
+	}
+
+
+	/**
 	 * removes the file from the cache
 	 * @param  string $key 
 	 * @return bool      
 	 */
-	public function delete($key = array())
+	public function delete($key)
 	{
 		
 		// nothing to delete

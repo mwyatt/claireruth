@@ -1,0 +1,16 @@
+{
+    "notes": [
+      "used by php used by grunt",
+      "this is a sites unique fingerprint",
+      "@todo how will this be used by js? js knows because grunt knows"
+    ],
+    "site": "claireruth",
+    "version": "0.1.0",
+    "credentials": {
+        "host": "localhost",
+        "port": "22",
+        "basename": "claireruth_rev2",
+        "username": "root",
+        "password": "root"
+    }
+}
