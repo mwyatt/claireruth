@@ -1511,21 +1511,32 @@ footer.main {
 .content.login .logo {
   display: block;
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  fill: #ca3566;
   margin-bottom: 2em;
   width: 60%;
-  margin: 0 auto;
 }
-/* line 18, ../../sass/admin/_login.scss */
+/* line 20, ../../sass/admin/_login.scss */
+.content.login svg {
+  width: 100%;
+}
+/* line 24, ../../sass/admin/_login.scss */
 .content.login .logo img {
   width: 100%;
 }
-/* line 22, ../../sass/admin/_login.scss */
+/* line 28, ../../sass/admin/_login.scss */
 .content.login input {
   width: 100%;
 }
-/* line 26, ../../sass/admin/_login.scss */
+/* line 32, ../../sass/admin/_login.scss */
 .content.login label {
   display: block;
+}
+
+/* line 37, ../../sass/admin/_login.scss */
+input.login-input {
+  margin: 1em 0;
 }
 
 /* line 41, ../../sass/admin/_tag.scss */

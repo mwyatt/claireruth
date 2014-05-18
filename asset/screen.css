@@ -2,7 +2,7 @@
  * compass
  */
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800);
-/* line 5, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 5, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -24,45 +24,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
@@ -678,7 +678,7 @@ a:link {
 
 /* line 86, ../sass/_reusable.scss */
 .spinner {
-  background: url('../media/ajax.gif?1375373606') 50% 50% no-repeat;
+  background: url('../media/ajax.gif?1368257192') 50% 50% no-repeat;
 }
 /* line 89, ../sass/_reusable.scss */
 .spinner.is-tall {
@@ -1815,8 +1815,6 @@ a.content-tag {
 
 /* line 1, ../sass/_footer.scss */
 .container-footer {
-  margin-top: 2em;
-  padding-top: 2em;
     /* 
 @include sprite-sprite('bookstack');
 @include image-size('sprite/bookstack.png');
@@ -1825,26 +1823,22 @@ margin: 0 auto;
 float: left;
      */
 }
-/* line 5, ../sass/_footer.scss */
-.container-footer .book-stack {
-  display: none;
-}
-/* line 9, ../sass/_footer.scss */
+/* line 3, ../sass/_footer.scss */
 .container-footer .propos-portrait {
   width: 30%;
 }
-/* line 13, ../sass/_footer.scss */
+/* line 7, ../sass/_footer.scss */
 .container-footer img {
   width: 100%;
 }
 
-/* line 26, ../sass/_footer.scss */
+/* line 20, ../sass/_footer.scss */
 .container-footer .propos {
   margin: 0 0 1em;
   padding: 0 0 0 36%;
   position: relative;
 }
-/* line 33, ../sass/_footer.scss */
+/* line 27, ../sass/_footer.scss */
 .container-footer .propos .propos-description {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1852,15 +1846,15 @@ float: left;
 }
 
 @media (min-width: 0) and (max-width: 899px) {
-  /* line 46, ../sass/_footer.scss */
+  /* line 40, ../sass/_footer.scss */
   .container-footer .menu {
     margin: 1em 0;
   }
-  /* line 51, ../sass/_footer.scss */
+  /* line 45, ../sass/_footer.scss */
   .container-footer .menu-item:first-child {
     border: 0;
   }
-  /* line 55, ../sass/_footer.scss */
+  /* line 49, ../sass/_footer.scss */
   .container-footer .menu-item {
     display: block;
     text-align: center;
@@ -1869,16 +1863,16 @@ float: left;
     color: white;
     border-top: 1px solid white;
   }
-  /* line 64, ../sass/_footer.scss */
+  /* line 58, ../sass/_footer.scss */
   .container-footer .menu-item:first-child {
     border: 0;
   }
 }
-/* line 72, ../sass/_footer.scss */
+/* line 66, ../sass/_footer.scss */
 .container-footer .calling-card {
   margin: 1em 0;
 }
-/* line 76, ../sass/_footer.scss */
+/* line 70, ../sass/_footer.scss */
 .container-footer .calling-card-portrait {
   float: left;
   margin-right: 1em;
@@ -1888,15 +1882,15 @@ float: left;
   overflow: hidden;
   height: 9em;
 }
-/* line 86, ../sass/_footer.scss */
+/* line 80, ../sass/_footer.scss */
 .container-footer .calling-card-content-title {
   font-size: 1.3em;
 }
-/* line 90, ../sass/_footer.scss */
+/* line 84, ../sass/_footer.scss */
 .container-footer .calling-card-content-button.button.primary {
   float: left;
 }
-/* line 94, ../sass/_footer.scss */
+/* line 88, ../sass/_footer.scss */
 .container-footer .calling-card-content-description {
   margin-bottom: 1em;
 }

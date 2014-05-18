@@ -267,6 +267,12 @@ class Url extends Helper
 	}
 
 
+	public function getPathString()
+	{
+		return implode(US, $this->path);
+	}
+
+
 	/**
 	 * returns path single segment
 	 * @param  int $key 0/1/2/3/

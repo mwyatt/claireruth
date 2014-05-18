@@ -1,0 +1,17 @@
+[
+	{
+		"name": "Dashboard",
+		"children": [],
+		"url": ""
+	},
+	{
+		"name": "Post",
+		"children": [],
+		"url": "content/post/"
+	},
+	{
+		"name": "Page",
+		"children": [],
+		"url": "content/page/"
+	}
+]

@@ -11,8 +11,55 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
 
-class Controller_Admin extends Controller
+class Controller_Admin extends Route
 {
+
+
+	public function initialiseView()
+	{
+		$this->checkLogged();
+		$this->setMenu();
+		$this->setUser();
+		$this->setFeedback();
+		return $this->getView();
+	}
+
+
+	public function setUser()
+	{
+		$modelUser = new model_user($this);
+		$sessionAdminUser = new session_admin_user($this);
+		if (! $modelUser->read(array('where' => array('id' => $sessionAdminUser->getData('id'))))) {
+			$this->route('admin');
+		}
+		$this->view->setObject('user', $modelUser->getDataFirst());
+	}
+
+
+	public function checkLogged()
+	{
+		$sessionAdminUser = new session_admin_user($this);
+		if (! $sessionAdminUser->isLogged()) {
+			$this->route('admin');
+		}
+	}
+
+
+	public function setMenu()
+	{
+		$json = new json($this);
+		$json->read('admin/menu');
+		$this->view
+			->setObject('menu', $json->getData());
+	}
+
+
+	public function setFeedback()
+	{
+		$sessionFeedback = new session_feedback($this);
+		$this->view
+			->setObject($sessionFeedback);
+	}
 
 
 	/**
@@ -22,7 +69,6 @@ class Controller_Admin extends Controller
 	 *       url you intend to after logging in
 	 */
 	public function initialise() {
-		$viewContent = new view_content($this);
 		$sessionAdminUser = new session_admin_user($this);
 		$sessionFeedback = new session_feedback($this);
 		$sessionFormfield = new session_formfield($this);
@@ -37,16 +83,12 @@ class Controller_Admin extends Controller
 			$this->route('admin');
 		}
 
-		// common objects
-		$menu = new model_admin_menu($this);
-		$modelUser = new model_user($this);
+		$this->setMenu();
+		$this->setUser();
+		$this->setFeedback();
 
-		// menu and submenu full structure
-		$menu->read();
 		$this->view
-			->setObject($sessionFormfield)
-			->setObject($sessionFeedback)
-			->setObject('menu', $menu);
+			->setObject($sessionFormfield);
 
 		// logging in
 		if (array_key_exists('login', $_POST)) {
@@ -92,45 +134,8 @@ class Controller_Admin extends Controller
 				$sessionHistory->setCaptureUrl($this->url->getCache('current'));
 				$this->route('admin');
 			}
-			$this->view->renderTemplate('admin/login');
+			return $this->view->renderTemplate('admin/login');
 		}
+		return $this->view->getTemplate('admin/dashboard');
 	}
-
-
-	public function index()
-	{
-		$this->view->renderTemplate('admin/dashboard');
-	}
-
-
-	public function content() {
-		$this->view->renderTemplate('admin/dashboard');
-	}
-
-
-	// public function media()
-	// {
-	// 	// for nav menu
-	// }
-
-
-	// public function tag()
-	// {
-	// 	// for nav menu
-	// }
-
-
-	// public function profile() {
-	// 	$sessionFeedback = new session_feedback($this);
-	// 	$modelUser = new model_user($this);
-	// 	$sessionAdminUser = new session_admin_user($this);
-	// 	if (array_key_exists('form_update', $_POST)) {
-	// 		// $modelUser->updateById($sessionAdminUser->getData('id'));
-	// 		// crypt($_POST['password'])
-	// 		$sessionFeedback->set('Profile successfully updated');
-	// 		$this->route('current');
-	// 	}
-	// 	$this->view
-	// 		->getTemplate('admin/profile');
-	// }
 }

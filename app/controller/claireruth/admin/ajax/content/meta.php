@@ -11,7 +11,7 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
 
-class Controller_Admin_Ajax_Content_Meta extends Controller
+class Controller_Admin_Ajax_Content_Meta extends Controller_Admin
 {
 
 

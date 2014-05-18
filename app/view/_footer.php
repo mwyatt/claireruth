@@ -11,11 +11,9 @@
     <?php include($this->pathView('_menu')) ?>
 
 					</div>
-					<div id="calling-card" class="typography">
 						
-    <?php include($this->pathView('_calling-card')) ?>
+    <?php //include($this->pathView('_calling-card')) ?>
 
-					</div>
 				</div>
 			</footer>
         </div>

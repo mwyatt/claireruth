@@ -14,54 +14,42 @@ class Autoloader {
 
 
 	/**
-	 * Load classes dynamically
-	 * possible class names:
-	 * 		Class
-	 * 		Controller_
-	 * 		Model_
-	 * 		
-	 * 		
-	 *
-	 * 
-	 * order of operations:
-	 * 		classname = foo_bar
-	 * 		app/class/site/sitename/foo_bar.php
-	 * 		app/class/foo_bar.php
-	 * 		app/class/foo/bar.php
-	 * 		app/foo/bar.php
-	 * 
-	 * @param  string $title attempted class to load
+	 * possible
+	 * 		app/class/foo.php
+	 * 		app/model/foo.php
+	 * 		app/controller/{site}/foo.php
+	 * @param  string $class attempted class to load
 	 * @return null            
 	 */
 	public static function call($class) {
+		// echo '<pre>';
+		// var_dump($class);
+		// echo '</pre>';
+
+		// normalise for consistency
 		$class = strtolower($class);
 
-		// 
+		// turn into foo/bar.php
+		$path = str_replace(CS, DS, $class) . EXT;
 
-		// check for app/class/foo_bar.php
-		$testPath = PATH_CLASS . $class . EXT;
-		if (is_file($testPath)) {
-			require_once($testPath);
-			return;
+		// app/class/foo.php
+		if (file_exists(PATH_CLASS . $path)) {
+			return require_once(PATH_CLASS . $path);
 		}
-
-		// app/class/foo/bar.php
-		$titlePath = '';
-		foreach (explode('_', $class) as $sliceOfPathPie) {
-			$titlePath .= strtolower($sliceOfPathPie) . '/';
-		}
-		$titlePath = rtrim($titlePath, '/');
-		$testPath = PATH_CLASS . $titlePath . EXT;
-		if (is_file($testPath)) {
-			require_once($testPath);
-			return;
+		
+		// model/foo.php
+		if (file_exists(PATH_APP . $path)) {
+			return require_once(PATH_APP . $path);
 		}
 
-		// appl/foo/bar.php
-		$testPath = PATH_APP . $titlePath . EXT;
-		if (is_file($testPath)) {
-			require_once($testPath);
-			return;
+		// app/controller/{site}/foo.php
+		$path = str_replace('controller' . DS, '', $path);
+		if (file_exists(PATH_CONTROLLER . $path)) {
+			return require_once(PATH_CONTROLLER . $path);
 		}
-	}	
+
+		// no class!
+		// fail silently
+		// exit('autoloader: \'' . $class . '\' does not exist in the app');
+	}
 }

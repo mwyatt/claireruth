@@ -1,0 +1,13 @@
+{
+    "ajax": "controller_ajax",
+    "post": "controller_content",
+    "posts": "controller_content",
+    "page": "controller_content",
+    "tag": "controller_tag",
+    "admin": "controller_admin",
+    "admin/ajax": "controller_admin_ajax",
+    "admin/ajax/content": "controller_admin_ajax_content",
+    "admin/ajax/media": "controller_admin_ajax_media",
+    "admin/ajax/tag": "controller_admin_ajax_tag",
+    "admin/content": "controller_admin_content"
+}

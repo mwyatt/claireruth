@@ -22,6 +22,12 @@ define('US', '/');
 
 
 /**
+ * class seperator
+ */
+define('CS', '_');
+
+
+/**
  * ?
  */
 define('ENV', getenv('APP_ENV'));
@@ -30,7 +36,7 @@ define('ENV', getenv('APP_ENV'));
 /**
  * base filepath
  */
-define('BASE_PATH', (string) (__DIR__ . '/'));
+define('BASE_PATH', (string) (__DIR__ . DS));
 
 
 /**
@@ -46,15 +52,15 @@ define('PATH_CLASS', PATH_APP . 'class' . DS);
 
 
 /**
- * common extension for classes
+ * model core dir
  */
-define('EXT', '.php');
+define('PATH_MODEL', PATH_APP . 'model' . DS);
 
 
 /**
- * site profile
+ * common extension for classes
  */
-define('SITE', '');
+define('EXT', '.php');
 
 
 /**
@@ -69,14 +75,19 @@ spl_autoload_register(array('Autoloader', 'call'));
  */
 $json = new Json();
 $json->read('config');
+$configRaw = $json->getData();
 
 
 /**
- * definitions based on config object
- * (for autoloader only at present..)
+ * model core dir
  */
+define('SITE', $configRaw->site);
 
 
+/**
+ * model core dir
+ */
+define('PATH_CONTROLLER', PATH_APP . 'controller' . DS . SITE . DS);
 
 
 /**

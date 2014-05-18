@@ -11,9 +11,6 @@ class Pagination extends Model
 {
 
 
-	public $tableName;
-
-
 	public $pageCurrent = 1;
 
 
@@ -26,11 +23,11 @@ class Pagination extends Model
 	public $possiblePages;
 	
 
-	public function initialise($tableName)
+	public function initialise()
 	{
-		$this->tableName = $tableName;
-		$cache = new cache($this);
-		$this->totalRows = $cache->read('ceil-content-' . $this->url->getPathPart(0));
+		if (! $this->getTotalRows()) {
+			return;
+		}
 
 		// check validity
 		if (($this->sanitizePage())) {
@@ -40,6 +37,18 @@ class Pagination extends Model
         // setup possible page count and set up the pagination array
         $this->setPossiblePages();
 		$this->setPagination();
+	}
+
+
+	public function getTotalRows()
+	{
+		return $this->totalRows;
+	}
+
+
+	public function setTotalRows($value)
+	{
+		$this->totalRows = $value;
 	}
 
 
@@ -68,19 +77,19 @@ class Pagination extends Model
         $this->data[] = array(
             'name' => 'previous'
             , 'current' => ($this->pageCurrent == $this->pageCurrent - 1 ? true : false)
-            , 'guid' => $this->getUrl($this->pageCurrent - 1)
+            , 'url' => $this->getUrl($this->pageCurrent - 1)
         );
         for ($i = 1; $i <= $this->possiblePages; $i++) { 
             $this->data[] = array(
                 'name' => 'page'
                 , 'current' => ($this->pageCurrent == $i ? true : false)
-                , 'guid' => $this->getUrl($i)
+                , 'url' => $this->getUrl($i)
             );
         }
         $this->data[] = array(
             'name' => 'next'
             , 'current' => ($this->pageCurrent == $this->pageCurrent + 1 ? true : false)
-            , 'guid' => $this->getUrl($this->pageCurrent + 1)
+            , 'url' => $this->getUrl($this->pageCurrent + 1)
         );
         return $this->data;
 	}
@@ -94,7 +103,12 @@ class Pagination extends Model
      */
     public function getUrl($type = false, $name = false, $id = false)
     {
-        return $this->url->getCache('current_sans_query') . ($type ? '?page=' . $type : '');
+
+		// needs to also strip out any previous instances of the page get variable.............
+
+    	$url = $this->url->getCache('current');
+		$prepend = (strpos($url, '?') !== false ? '&' : '?');
+		return $url . ($type ? $prepend . 'page=' . $type : '');
     }
 
 	

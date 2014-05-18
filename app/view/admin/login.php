@@ -6,19 +6,13 @@
 <?php $feedback = $sessionFeedback ?>
 <?php require_once($this->pathView('_feedback')) ?>
 
-        <div class="row">
-            <label class="mb05" for="login_email">Email Address</label>
-            <input id="login_email" type="text" name="login_email" autofocus="autofocus" value="<?php echo $this->get('login_email', $sessionFormfield) ?>">
-        </div>
-        <div class="row">
-            <label class="mb05" for="login_password">Password</label>
-            <input id="login_password" type="password" name="login_password">
-        </div>
-        <div class="row clearfix">
-            <input type="hidden" name="login" value="true">
-            <input type="submit">
-            <a href="#" class="submit button">Login</a>
-        </div>
+        <label class="login-label" for="login_email">Email Address</label>
+        <input id="login_email" class="login-input" type="text" name="login_email" autofocus="autofocus" value="<?php echo $this->get('login_email', $sessionFormfield) ?>">
+        <label class="login-label" for="login_password">Password</label>
+        <input id="login_password" class="login-input" type="password" name="login_password">
+        <input type="hidden" name="login" value="true">
+        <input type="submit">
+        <a href="#" class="submit button login-button">Login</a>
     </form>
 </div>
 

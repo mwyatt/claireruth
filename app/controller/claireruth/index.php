@@ -11,11 +11,28 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
  
-class Controller extends Route
+class Controller_Index extends Route
 {
 
 
+	/**
+	 * return from a controller function to load just one template
+	 * no need for render setting now?
+	 */
 	public function initialise() {
+		$this->setMainMenu();
+		if ($this->url->getPathPart(1)) {
+			$this->route('base');
+		}
+		if (array_key_exists('query', $_GET)) {
+			return $this->search();
+		}
+		return $this->home();
+	}
+
+
+	public function setMainMenu()
+	{
 		$json = new Json();
 		$json->read('main-menu');
 
@@ -24,7 +41,7 @@ class Controller extends Route
 	}
 
 
-	public function index() {
+	public function home() {
 		$cache = new cache($this);
 
 		// latest 3 posts
@@ -61,31 +78,22 @@ class Controller extends Route
 		$modelContent = new model_content($this);
 		$modelContent->readSearch($query);
 		$this->view
+			->setObject('result_count', count($modelContent->getData()));
+
+		// paginate and set slice of data
+		$pagination = new pagination($this);
+		$pagination->setTotalRows(count($modelContent->getData()));
+		$pagination->initialise();
+		$limit = $pagination->getLimit();
+		$modelContent->setData(array_slice($modelContent->getData(), reset($limit), end($limit)));
+		$modelContent->bindMeta('media');
+		$modelContent->bindMeta('tag');
+
+		$this->view
 			->setObject('query', $query)
 			->setObject('contents', $modelContent)
+			->setObject('pagination', $pagination)
 			->getTemplate('search');
-	}
-
-
-	public function page() {
-		if (! $this->url->getPathPart(1)) {
-			$this->route('base');
-		}
-		$modelContent = new model_content($this);
-		if (! $modelContent->read(array(
-			'where' => array(
-				'slug' => $this->url->getPathPart(1),
-				'type' => 'page'
-			)
-		))) {
-			$this->route('base');
-		}
-		$this->view
-			->setMeta(array(		
-				'title' => $modelContent->getData('title')
-			))
-			->setObject('contents', $modelContent)
-			->renderTemplate('content-single');
 	}
 
 
