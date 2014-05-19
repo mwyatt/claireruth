@@ -15,12 +15,19 @@ class Controller_Index extends Route
 {
 
 
+	public function initialiseView()
+	{
+		$this->setMainMenu();
+		return $this->getView();
+	}
+
+
 	/**
 	 * return from a controller function to load just one template
 	 * no need for render setting now?
 	 */
 	public function initialise() {
-		$this->setMainMenu();
+		$this->initialiseView();
 		if ($this->url->getPathPart(1)) {
 			$this->route('base');
 		}
@@ -88,11 +95,11 @@ class Controller_Index extends Route
 		$modelContent->setData(array_slice($modelContent->getData(), reset($limit), end($limit)));
 		$modelContent->bindMeta('media');
 		$modelContent->bindMeta('tag');
-
 		$this->view
 			->setObject('query', $query)
 			->setObject('contents', $modelContent)
 			->setObject('pagination', $pagination)
+			->setObject('pagination_summary', $pagination->getSummary())
 			->getTemplate('search');
 	}
 

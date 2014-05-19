@@ -126,7 +126,7 @@ class Url extends Helper
 	{
 		$scheme = $this->getScheme();
 		$host = $this->getHost();
-		$query = $this->getQuery();
+		$query = '?' . $this->getQuery();
 		$path = implode(US, $this->getPath()) . US;
 		$this->cache = array(
 			'base' => $scheme . $host,
@@ -244,7 +244,7 @@ class Url extends Helper
 		if (! array_key_exists('query', $parsed)) {
 			return;
 		}
-		$this->query = '?' . $parsed['query'];
+		$this->query = $parsed['query'];
 	}
 
 

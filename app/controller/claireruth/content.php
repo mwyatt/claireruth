@@ -16,10 +16,26 @@ class Controller_Content extends Controller_Index
 
 	public function initialise()
 	{
-		$this->setMainMenu();
-		if (! $this->url->getPathPart(1) && $this->url->getPathPart(0)) {
-			$this->route('base');
+		$this->setView($this->initialiseView());
+		if ($this->single()) {
+			return;
 		}
+		if ($this->all()) {
+			return;
+		}
+		$this->route('base');
+	}
+
+
+	public function single()
+	{
+
+		// type/slug/
+		if (! $this->url->getPathPart(1)) {
+			return;
+		}
+
+		// read by slug and type
 		$modelContent = new model_content($this);
 		if (! $modelContent->read(array(
 			'where' => array(
@@ -29,64 +45,53 @@ class Controller_Content extends Controller_Index
 		))) {
 			$this->route('base');
 		}
+		$modelContent->bindMeta('media');
+		$modelContent->bindMeta('tag');
+
+		// set view
 		$this->view
 			->setMeta(array(		
 				'title' => $modelContent->getData('title')
 			))
 			->setObject('contents', $modelContent)
 			->renderTemplate('content-single');
+		return true;
 	}
 
 
-	public function index() {
-		$modelContent = new model_content($this);
+	public function all() {
 
-		// single
+		// post/ only
 		if ($this->url->getPathPart(1)) {
-			if (! $modelContent->read(array(
-				'where' => array(
-					'slug' => $this->url->getPathPart(1)
-				)
-			))) {
-				$this->route('base');
-			}
-			$mold = $modelContent->getDataFirst();
-			$modelContent->bindMeta('media');
-			$modelContent->bindMeta('tag');
-			$this->view
-				->setMeta(array(		
-					'title' => $mold->title
-				))
-				->setObject('contents', $modelContent)
-				->renderTemplate('content-single');
-		} else {
-
-			// all
-
-			$pagination = new pagination($this);
-			$cache = new cache($this);
-			$pagination->setTotalRows($cache->read('ceil-content-' . $this->url->getPathPart(0)));
-			$pagination->initialise();
-			$modelContent->read(array(
-				'where' => array(
-					'type' => $this->url->getPathPart(0),
-					'status' => 'visible'
-				),
-				'limit' => $pagination->getLimit(),
-				'order_by' => 'time_published desc'
-			));
-			$modelContent->bindMeta('media');
-			$modelContent->bindMeta('tag');
-			$firstContent = $modelContent->getData();
-			$this->view
-				->setMeta(array(		
-					'title' => 'All posts'
-				))
-				->setObject('pageCurrent', $pagination->getCurrentPage())
-				->setObject('first_content', current($firstContent))
-				->setObject($pagination)
-				->setObject('contents', $modelContent)
-				->renderTemplate('content');
+			$this->route('base');
 		}
+
+		// load
+		$pagination = new pagination($this);
+		$cache = new cache($this);
+		$pagination->setTotalRows($cache->read('ceil-content-' . $this->url->getPathPart(0)));
+		$pagination->initialise();
+		$modelContent = new model_content($this);
+		$modelContent->read(array(
+			'where' => array(
+				'type' => $this->url->getPathPart(0),
+				'status' => 'visible'
+			),
+			'limit' => $pagination->getLimit(),
+			'order_by' => 'time_published desc'
+		));
+		$modelContent->bindMeta('media');
+		$modelContent->bindMeta('tag');
+		$firstContent = $modelContent->getData();
+		$this->view
+			->setMeta(array(		
+				'title' => 'All posts'
+			))
+			->setObject('pageCurrent', $pagination->getCurrentPage())
+			->setObject('first_content', current($firstContent))
+			->setObject($pagination)
+			->setObject('contents', $modelContent)
+			->renderTemplate('content');
+		return true;
 	}
 }

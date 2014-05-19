@@ -14,7 +14,7 @@ class Pagination extends Model
 	public $pageCurrent = 1;
 
 
-	public $maxPerPage = 5;
+	public $maxPerPage = 6;
 
 
 	public $totalRows;
@@ -66,6 +66,12 @@ class Pagination extends Model
 	}
 
 
+	public function getPossiblePages()
+	{
+		return $this->possiblePages;
+	}
+
+
 	/**
 	 * constructs an array to allow the user to paginate
 	 * possibly have 2 options, one with full pagination
@@ -74,24 +80,39 @@ class Pagination extends Model
 	 */
 	public function setPagination()
 	{
-        $this->data[] = array(
-            'name' => 'previous'
-            , 'current' => ($this->pageCurrent == $this->pageCurrent - 1 ? true : false)
-            , 'url' => $this->getUrl($this->pageCurrent - 1)
-        );
-        for ($i = 1; $i <= $this->possiblePages; $i++) { 
-            $this->data[] = array(
-                'name' => 'page'
-                , 'current' => ($this->pageCurrent == $i ? true : false)
-                , 'url' => $this->getUrl($i)
-            );
+
+		// previous
+        if ($this->pageCurrent + 1 <= $this->getPossiblePages()) {
+			$page = new StdClass();
+			$page->name = 'previous';
+			$page->current = ($this->pageCurrent == $this->pageCurrent - 1 ? true : false);
+			$page->url = $this->urlBuild($this->pageCurrent - 1);
+	        $this->data[] = $page;
+	    }
+		
+		// page 1, 2, 3
+        for ($index = 1; $index <= $this->getPossiblePages(); $index++) { 
+			$page = new StdClass();
+            $page->name = 'page';
+            $page->current = ($this->pageCurrent == $index ? true : false);
+            $page->url = $this->urlBuild($index);
+	        $this->data[] = $page;
         }
-        $this->data[] = array(
-            'name' => 'next'
-            , 'current' => ($this->pageCurrent == $this->pageCurrent + 1 ? true : false)
-            , 'url' => $this->getUrl($this->pageCurrent + 1)
-        );
-        return $this->data;
+
+        // next only if possible
+        if ($this->pageCurrent + 1 <= $this->getPossiblePages()) {
+			$page = new StdClass();
+			$page->name = 'next';
+			$page->current = ($this->pageCurrent == $this->pageCurrent + 1 ? true : false);
+			$page->url = $this->urlBuild($this->pageCurrent + 1);
+	        $this->data[] = $page;
+        }
+	}
+
+
+	public function getSummary()
+	{
+		return 'page ' . $this->getCurrentPage() . ' of ' . $this->getPossiblePages();
 	}
 	
 
@@ -101,14 +122,14 @@ class Pagination extends Model
      * @param  int $pageNumber 
      * @return string             url
      */
-    public function getUrl($type = false, $name = false, $id = false)
+    public function urlBuild($key)
     {
-
-		// needs to also strip out any previous instances of the page get variable.............
-
-    	$url = $this->url->getCache('current');
-		$prepend = (strpos($url, '?') !== false ? '&' : '?');
-		return $url . ($type ? $prepend . 'page=' . $type : '');
+    	$current = $this->url->getCache('current_sans_query');
+    	$query = $this->url->getQuery();
+		parse_str($query, $queryParts);
+		$queryParts['page'] = $key;
+    	$query = '?' . http_build_query($queryParts);
+		return $current . $query;
     }
 
 	
@@ -154,5 +175,11 @@ class Pagination extends Model
 	public function setMaxPerPage($number)
 	{
 		return $this->maxPerPage = $number;
+	}
+
+
+	public function getPageCurrent()
+	{
+		return $this->pageCurrent;
 	}
 }
