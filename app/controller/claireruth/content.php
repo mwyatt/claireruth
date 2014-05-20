@@ -90,6 +90,7 @@ class Controller_Content extends Controller_Index
 			->setObject('pageCurrent', $pagination->getCurrentPage())
 			->setObject('first_content', current($firstContent))
 			->setObject($pagination)
+			->setObject('pagination_summary', $pagination->getSummary())
 			->setObject('contents', $modelContent)
 			->renderTemplate('content');
 		return true;

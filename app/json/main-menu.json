@@ -10,9 +10,5 @@
 	{
 		"name": "Posts",
 		"url": "post/"
-	},
-	{
-		"name": "Contact Me",
-		"url": "page/contact/"
 	}
 ]
