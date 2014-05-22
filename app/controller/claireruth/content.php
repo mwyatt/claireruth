@@ -88,9 +88,9 @@ class Controller_Content extends Controller_Index
 				'title' => 'All posts'
 			))
 			->setObject('pageCurrent', $pagination->getCurrentPage())
+			->setObject('pagination_summary', $pagination->getSummary())
 			->setObject('first_content', current($firstContent))
 			->setObject($pagination)
-			->setObject('pagination_summary', $pagination->getSummary())
 			->setObject('contents', $modelContent)
 			->renderTemplate('content');
 		return true;

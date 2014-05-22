@@ -52,6 +52,11 @@ class Route extends System
 			$current = $class;
 		}
 
+// echo '<pre>';
+// print_r($current);
+// echo '</pre>';
+// exit;
+
 		// does the class exist?
 		if (! class_exists($current)) {
 			exit('class ' . $current . ' does not exist in the routing map');

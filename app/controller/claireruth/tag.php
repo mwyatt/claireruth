@@ -14,7 +14,12 @@ class Controller_Tag extends Controller_Index
 {
 
 
-	public function index() {
+	public function initialise() {
+		
+		// global
+		$this->setView($this->initialiseView());
+
+		// set objects
 		$modelTag = new model_tag($this);
 		$modelContentMeta = new model_content_meta($this);
 		$modelContent = new model_content($this);
@@ -43,6 +48,11 @@ class Controller_Tag extends Controller_Index
 		}
 		$contentIds = $modelContentMeta->getDataProperty('content_id');
 
+		// set pagination
+		$pagination = new pagination($this);
+		$pagination->setTotalRows(count($contentIds));
+		$pagination->initialise();
+
 		// get content
 		$molds = $modelContent->read(array(
 			'where' => array(
@@ -50,7 +60,8 @@ class Controller_Tag extends Controller_Index
 
 				// @todo integrate other types
 				'type' => 'post'
-			)
+			),
+			'limit' => $pagination->getLimit()
 		));
 		$modelContent->bindMeta('media');
 		$modelContent->bindMeta('tag');
@@ -60,6 +71,10 @@ class Controller_Tag extends Controller_Index
 			->setMeta(array(		
 				'title' => 'All posts by tag name ' . $this->url->getPathPart(1)
 			))
+			->setObject('totalContents', count($contentIds))
+			->setObject('pageCurrent', $pagination->getCurrentPage())
+			->setObject('pagination_summary', $pagination->getSummary())
+			->setObject('pagination', $pagination)
 			->setObject('contents', $modelContent)
 			->setObject('firstContent', $modelContent->getDataFirst())
 			->getTemplate('content-tag');

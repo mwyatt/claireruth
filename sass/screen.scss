@@ -64,11 +64,15 @@ body {
     @include transition(all 200ms ease);
     position: fixed;
     bottom: 1em;
-    right: -2em;
-    width: 1.5em;
-    height: 1.5em;
     z-index: 1;
     fill: $color-primary;
+    right: -4em;
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0.5em;
+    background-color: #fff;
+    @include border-radius(99em);
+    @include box-shadow(0 0 10px $color-gray-40);
 
     &.is-active {
         display: block;
