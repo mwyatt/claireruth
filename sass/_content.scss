@@ -36,7 +36,9 @@ a.tag {
 .content.element {
     position: relative;
     min-height: 13em;
-
+    border: 1px solid $color-secondary;
+    padding: 0.7em;
+    -webkit-box-shadow: 0 1px 1px $color-gray-20;
 }
 
 .content-author {
@@ -47,7 +49,7 @@ a.tag {
     display: none;
 }
 
-@include breakpoint(0 899px) {
+@include breakpoint(0 599px) {
 
     .content-html img {
         max-width: 100%;
@@ -56,8 +58,21 @@ a.tag {
     }
 
     .content.element {
-        border-bottom: 1px dashed $color-tertiary;
+        // border-bottom: 1px dashed $color-tertiary;
         margin-bottom: 2em;
+    }
+}
+
+@include breakpoint(600px 899px) {
+
+    .contents {
+        @include flexcontainer($display: flex, $flexdirection: false, $flexwrap: wrap, $justifycontent: false, $alignitems: false, $aligncontent: false);
+    }
+
+    .content.element {
+        @include flexchild();
+        width: 47%;
+        margin: 1%;
     }
 }
 

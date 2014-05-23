@@ -29,6 +29,9 @@ class Controller_Admin extends Route
 	{
 		$modelUser = new model_user($this);
 		$sessionAdminUser = new session_admin_user($this);
+		if (! $sessionAdminUser->isLogged()) {
+			return;
+		}
 		if (! $modelUser->read(array('where' => array('id' => $sessionAdminUser->getData('id'))))) {
 			$this->route('admin');
 		}

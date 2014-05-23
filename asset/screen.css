@@ -1555,9 +1555,12 @@ a.tag {
 .content.element {
   position: relative;
   min-height: 13em;
+  border: 1px solid #e5673c;
+  padding: 0.7em;
+  -webkit-box-shadow: 0 1px 1px #cccccc;
 }
 
-/* line 42, ../sass/_content.scss */
+/* line 44, ../sass/_content.scss */
 .content-author {
   position: absolute;
   bottom: 1em;
@@ -1566,22 +1569,21 @@ a.tag {
   display: none;
 }
 
-@media (min-width: 0) and (max-width: 899px) {
-  /* line 52, ../sass/_content.scss */
+@media (min-width: 0) and (max-width: 599px) {
+  /* line 54, ../sass/_content.scss */
   .content-html img {
     max-width: 100%;
     max-height: 100%;
     margin: 1em auto;
   }
 
-  /* line 58, ../sass/_content.scss */
+  /* line 60, ../sass/_content.scss */
   .content.element {
-    border-bottom: 1px dashed #2a9f67;
     margin-bottom: 2em;
   }
 }
-@media (min-width: 900px) {
-  /* line 66, ../sass/_content.scss */
+@media (min-width: 600px) and (max-width: 899px) {
+  /* line 68, ../sass/_content.scss */
   .contents {
     /*  values:
         $display: flex | inline-flex
@@ -1611,7 +1613,63 @@ a.tag {
     flex-wrap: wrap;
   }
 
-  /* line 70, ../sass/_content.scss */
+  /* line 72, ../sass/_content.scss */
+  .content.element {
+    width: 47%;
+    margin: 1%;
+  }
+  /* line 38, ../sass/vendor/_flexbox.scss */
+  .flexboxlegacy.no-flexbox .content.element {
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -ms-box-flex: 0;
+    box-flex: 0;
+    max-width: auto;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-box;
+    display: box;
+  }
+  /* line 44, ../sass/vendor/_flexbox.scss */
+  .flexbox .content.element {
+    -webkit-flex: 0 1 auto;
+    -moz-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+  }
+}
+@media (min-width: 900px) {
+  /* line 81, ../sass/_content.scss */
+  .contents {
+    /*  values:
+        $display: flex | inline-flex
+        $flexdirection: row(default) | row-reverse | column | column-reverse
+        $flexwrap: nowrap(default) | wrap | wrap-reverse
+        $justifycontent: flex-start(default) | flex-end | center | space-between | space-around
+        $alignitems: flex-start | flex-end | center | baseline | stretch (default)
+        $aligncontent: flex-start | flex-end | center | space-between | space-around | stretch (default)
+    */
+  }
+  /* line 10, ../sass/vendor/_flexbox.scss */
+  .flexboxlegacy.no-flexbox .contents {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-box;
+    display: box;
+  }
+  /* line 16, ../sass/vendor/_flexbox.scss */
+  .flexbox .contents {
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+
+  /* line 85, ../sass/_content.scss */
   .content.element {
     width: 30%;
     margin: 1%;
