@@ -29,14 +29,26 @@ class Pagination extends Model
 			return;
 		}
 
-		// check validity
-		if (($this->sanitizePage())) {
-			$this->pageCurrent = $_GET['page'];
-		}
-
-        // setup possible page count and set up the pagination array
+		// setup possible page count
         $this->setPossiblePages();
+
+		// check validity
+		$this->sanitizeUserPage();
+
+        // set up the pagination array
 		$this->setPagination();
+	}
+
+
+	public function getPageCurrent()
+	{
+		return $this->pageCurrent;
+	}
+
+
+	public function setPageCurrent($value)
+	{
+		$this->pageCurrent = $value;
 	}
 
 
@@ -58,11 +70,19 @@ class Pagination extends Model
 	}
 
 
-	public function getLimit()
+	public function getLimit($end = false)
 	{
 		$bottom = ($this->maxPerPage * ($this->pageCurrent - 1));
 		$top = $this->maxPerPage;
-		return array($bottom, $top);
+		if ($end === false) {
+			return array($bottom, $top);
+		}
+		if ($end === 0) {
+			return $bottom;
+		}
+		if ($end === 1) {
+			return $top;
+		}
 	}
 
 
@@ -81,32 +101,43 @@ class Pagination extends Model
 	public function setPagination()
 	{
 
-		// previous
-        if ($this->pageCurrent + 1 <= $this->getPossiblePages()) {
+		// only 1 page, dont show
+		if ($this->getPossiblePages() < 2) {
+		    return;
+		}
+
+		// structure of object
+		$data = new StdClass();
+		$data->previous = false;
+		$data->pages = array();
+		$data->next = false;
+
+		// previous (if possible)
+	    if ($this->getPageCurrent() > 1) {
 			$page = new StdClass();
-			$page->name = 'previous';
-			$page->current = ($this->pageCurrent == $this->pageCurrent - 1 ? true : false);
-			$page->url = $this->urlBuild($this->pageCurrent - 1);
-	        $this->data[] = $page;
+			$page->url = $this->urlBuild($this->getPageCurrent() - 1);
+	        $data->previous = $page;
 	    }
 		
 		// page 1, 2, 3
-        for ($index = 1; $index <= $this->getPossiblePages(); $index++) { 
+	    for ($index = 1; $index <= $this->getPossiblePages(); $index ++) { 
 			$page = new StdClass();
-            $page->name = 'page';
-            $page->current = ($this->pageCurrent == $index ? true : false);
-            $page->url = $this->urlBuild($index);
-	        $this->data[] = $page;
-        }
+	        $page->current = ($this->getPageCurrent() == $index ? true : false);
+	        $page->url = $this->urlBuild($index);
+	        $data->pages[$index] = $page;
+	    }
 
-        // next only if possible
-        if ($this->pageCurrent + 1 <= $this->getPossiblePages()) {
+	    // next only if possible
+	    if ($this->getPageCurrent() < $this->getPossiblePages()) {
 			$page = new StdClass();
-			$page->name = 'next';
-			$page->current = ($this->pageCurrent == $this->pageCurrent + 1 ? true : false);
-			$page->url = $this->urlBuild($this->pageCurrent + 1);
-	        $this->data[] = $page;
-        }
+			// var_dump($this->getPageCurrent());
+			// exit;
+			$page->url = $this->urlBuild($this->getPageCurrent() + 1);
+	        $data->next = $page;
+	    }
+
+	    // set
+	    $this->setData($data);
 	}
 
 
@@ -156,30 +187,30 @@ class Pagination extends Model
 	 * @todo remove ability to add '-100' perhaps using regex match on '-'?
 	 * @return true|false The page GET value
 	 */	
-	public function sanitizePage($valid = false)
+	public function sanitizeUserPage($valid = false)
 	{
-		if (array_key_exists('page', $_GET)) {
-		
-			// Convert to int
-			$_GET['page'] = (int)$_GET['page'];
-			
-			// Check for Null Value
-			$valid = $_GET['page'] == 0 ? false : true;
-			return $valid;					
-		} else {
-			return $valid;
+
+		// page must exist
+		if (! array_key_exists('page', $_GET)) {
+			return;
 		}
+
+		// convert to int
+		$page = $_GET['page'];
+		$page = (int) $page;
+
+		// under 1 or above possible is invalid
+		if ($page < 1 || $page > $this->getPossiblePages()) {
+			return;
+		}
+
+		// passed all checks
+		$this->setPageCurrent($_GET['page']);
 	}
 
 
 	public function setMaxPerPage($number)
 	{
 		return $this->maxPerPage = $number;
-	}
-
-
-	public function getPageCurrent()
-	{
-		return $this->pageCurrent;
 	}
 }

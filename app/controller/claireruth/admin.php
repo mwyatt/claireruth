@@ -11,57 +11,16 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
 
-class Controller_Admin extends Route
+class Controller_Admin extends Controller
 {
 
 
-	public function initialiseView()
+	public function initialise()
 	{
 		$this->checkLogged();
 		$this->setMenu();
 		$this->setUser();
 		$this->setFeedback();
-		return $this->getView();
-	}
-
-
-	public function setUser()
-	{
-		$modelUser = new model_user($this);
-		$sessionAdminUser = new session_admin_user($this);
-		if (! $sessionAdminUser->isLogged()) {
-			return;
-		}
-		if (! $modelUser->read(array('where' => array('id' => $sessionAdminUser->getData('id'))))) {
-			$this->route('admin');
-		}
-		$this->view->setObject('user', $modelUser->getDataFirst());
-	}
-
-
-	public function checkLogged()
-	{
-		$sessionAdminUser = new session_admin_user($this);
-		if (! $sessionAdminUser->isLogged()) {
-			$this->route('admin');
-		}
-	}
-
-
-	public function setMenu()
-	{
-		$json = new json($this);
-		$json->read('admin/menu');
-		$this->view
-			->setObject('menu', $json->getData());
-	}
-
-
-	public function setFeedback()
-	{
-		$sessionFeedback = new session_feedback($this);
-		$this->view
-			->setObject($sessionFeedback);
 	}
 
 
@@ -71,7 +30,8 @@ class Controller_Admin extends Route
 	 * @todo ensure you build in session_history to visit the
 	 *       url you intend to after logging in
 	 */
-	public function initialise() {
+	public function run() {
+		$modelUser = new model_user($this);
 		$sessionAdminUser = new session_admin_user($this);
 		$sessionFeedback = new session_feedback($this);
 		$sessionFormfield = new session_formfield($this);
@@ -137,8 +97,51 @@ class Controller_Admin extends Route
 				$sessionHistory->setCaptureUrl($this->url->getCache('current'));
 				$this->route('admin');
 			}
-			return $this->view->renderTemplate('admin/login');
+			return $this->view->getTemplate('admin/login');
 		}
 		return $this->view->getTemplate('admin/dashboard');
+	}
+
+
+	public function setUser()
+	{
+		$modelUser = new model_user($this);
+		$sessionAdminUser = new session_admin_user($this);
+		if (! $sessionAdminUser->isLogged()) {
+			return;
+		}
+		if (! $modelUser->read(array('where' => array('id' => $sessionAdminUser->getData('id'))))) {
+			$this->route('admin');
+		}
+		$this->view->setObject('user', $modelUser->getDataFirst());
+	}
+
+
+	public function checkLogged()
+	{
+		if ($this->url->getPathPart(0) == 'admin' && ! $this->url->getPathPart(1)) {
+			return;
+		}
+		$sessionAdminUser = new session_admin_user($this);
+		if (! $sessionAdminUser->isLogged()) {
+			$this->route('admin');
+		}
+	}
+
+
+	public function setMenu()
+	{
+		$json = new json($this);
+		$json->read('admin/menu');
+		$this->view
+			->setObject('menu', $json->getData());
+	}
+
+
+	public function setFeedback()
+	{
+		$sessionFeedback = new session_feedback($this);
+		$this->view
+			->setObject($sessionFeedback);
 	}
 }

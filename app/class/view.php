@@ -305,9 +305,9 @@ class View extends Model
 	 * @param  string $label 
 	 * @return string        
 	 */
-	public function appendS($items = array(), $label = 'item')
+	public function appendS($items)
 	{
-		return count($items) . ' ' . $label . (count($items) > 1 ? 's' : '');
+		return count($items) > 1 ? 's' : '';
 	}
 
 

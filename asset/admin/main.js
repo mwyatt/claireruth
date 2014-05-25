@@ -20251,7 +20251,9 @@ Model_Tag_Browser.prototype.createPossibly = function(data, field) {
 		}
 		, type: 'get'
 		, success: function (result) {
+			$(data.cache.tagInputSearch).val('');
 			$(data.cache.tagAttached).append(result);
+
 		}
 		, error: function (jqXHR, textStatus, errorThrown) {
 			alert(textStatus);
@@ -20389,9 +20391,6 @@ $(document).ready(function() {
 		var modelTagBrowser = new Model_Tag_Browser();
 		var modelContentSlug = new Model_Content_Slug();
 	};
-
-	// header always following on scroll
-	$('.js-header-main').scrollFollow();
 
 	// watch for dismissers
 	var dismiss = new Dismiss();

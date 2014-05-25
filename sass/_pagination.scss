@@ -1,13 +1,17 @@
-.pagination-break-down {
-        text-align: center;
-        font-size: 1em;
-        margin-bottom: 1em;
-    }
+.pagination-summary {
+    text-align: center;
+    font-size: 1em;
+    margin: 0.1em 0;
+}
 
 .pagination {
-        margin: 1em 0;
+    margin: 1em 0;
+    font-size: .8em;
+    border-top: 1px dotted $color-gray-20;
+    padding: 1em 0;
+    border-bottom: 1px dotted $color-gray-20;
 
-    a.page {
+    a.pagination-page {
         display: none;
         border: 1px solid $color-primary;
         margin-right: 0.6em;
@@ -27,24 +31,35 @@
         background: transparent;
     }
 
-    .next,
-    .previous {
-        width: 40%;
-        padding: 0.2em 0.4em;
-        background: $color-secondary;
-        color: $color-white;
-    }
-    
-    .previous {
-        float: left;
-    }
 
-    .next {
-        float: right;
-        text-align: right;
-    }
+}
+
+a.pagination-next,
+a.pagination-previous {
+    width: 30%;
+    padding: 0.2em 0.4em;
+    background: $color-secondary;
+    color: $color-white;
+    border-radius: 5px;
+}
+
+.pagination-previous {
+    float: left;
+}
+
+.pagination-next {
+    float: right;
+    text-align: right;
 }
 
 .pagination-title {
     display: none;
+}
+
+@include breakpoint(600px) {
+
+    a.pagination-next,
+    a.pagination-previous {
+        width: 15%;
+    }
 }

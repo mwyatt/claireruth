@@ -18,9 +18,7 @@ class Controller_Admin_Content extends Controller_Admin
 	/**
 	 * handles crud for all content operations
 	 */
-	public function initialise() {
-		$this->setView($this->initialiseView());
-
+	public function run() {
 		$modelLog = new model_log($this);
 		$modelContent = new model_content($this);
 		$sessionFeedback = new session_feedback($this);
@@ -51,26 +49,23 @@ class Controller_Admin_Content extends Controller_Admin
 
 		// create draft entry and redirect to edit page
 		if ($this->url->getPathPart(3) == 'new') {
-			$this->create();
+			return $this->create();
 		}
 
 		// update
 		if (array_key_exists('update', $_POST)) {
-			$this->update();
+			return $this->update();
 		}
 
 		// archive
 		if (array_key_exists('archive', $_GET)) {
-			$this->archive();
+			return $this->archive();
 		}
 
 		// edit
 		if (array_key_exists('edit', $_GET)) {
-			$this->view
-				->setObject('content', $this->edit())
-				->renderTemplate('admin/content/update');
+			return $this->edit();
 		}
-
 		$this->content();
 	}
 
@@ -95,7 +90,7 @@ class Controller_Admin_Content extends Controller_Admin
 		$this->view
 			->setObject('statuses', $statuses)
 			->setObject('contents', $content)
-			->renderTemplate('admin/content/list');
+			->getTemplate('admin/content/list');
 	}
 
 
@@ -139,7 +134,7 @@ class Controller_Admin_Content extends Controller_Admin
 		$mold->slug = $this->urlFriendly($_POST['slug']);
 		$mold->html = $_POST['html'];
 		$mold->type = $_POST['type'];
-		$mold->time_published = $_POST['time_published'];
+		$mold->time_published = strtotime(implode(' ', $_POST['time_published']));
 		$mold->status = $_POST['status'];
 		$modelContent->update($mold, array(
 			'where' => array(
@@ -191,7 +186,14 @@ class Controller_Admin_Content extends Controller_Admin
 		if (! $modelContent->getData()) {
 			$this->route('current_sans_query');
 		}
-		return $modelContent->getDataFirst();
+
+		// single
+		$content = $modelContent->getDataFirst();
+		$this->view
+			->setObject('contentDate', date('Y-m-d', $content->time_published))
+			->setObject('contentTime', date('G:i', $content->time_published))
+			->setObject('content', $content)
+			->getTemplate('admin/content/update');
 	}
 
 

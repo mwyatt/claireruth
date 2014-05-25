@@ -15,6 +15,12 @@ class Controller_Admin_Ajax_Media extends Controller_Admin
 {
 
 
+	public function run()
+	{
+		$this->runMethod(3);
+	}
+
+
 	/**
 	 * default display for the media browser
 	 */
@@ -23,7 +29,7 @@ class Controller_Admin_Ajax_Media extends Controller_Admin
 		$modelMedia->read();
 		$this->view
 			->setObject('media', $modelMedia)
-			->renderTemplate('_media');
+			->getTemplate('_media');
 	}
 
 

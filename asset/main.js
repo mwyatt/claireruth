@@ -9565,10 +9565,10 @@ Smooth_Scroll.prototype.scrollTo = function(event, target) {
 		button: '.to-top'
 	});
 
-	$('.js-header-button-mobile-menu').on('click', function(event) {
-		event.preventDefault();
-		$(this).closest('.js-container-header').toggleClass('is-menu-open');
-	});
+	// $('.js-header-button-mobile-menu').on('click', function(event) {
+	// 	event.preventDefault();
+	// 	$(this).closest('.js-container-header').toggleClass('is-menu-open');
+	// });
 
 	// smooth scrolling when clicked
 	var smoothScroll = new Smooth_Scroll({
@@ -9578,4 +9578,9 @@ Smooth_Scroll.prototype.scrollTo = function(event, target) {
 	});
 	var modelFixedBar = new Model_Fixed_Bar();
 	setSubmit();
+
+	$('.js-header-button-mobile-search').on('click', function(event) {
+		event.preventDefault();
+		$('.js-form-search-query').focus();
+	});
 });

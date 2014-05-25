@@ -14,6 +14,12 @@
 class Controller_Admin_Ajax_Content extends Controller_Admin
 {
 
+	
+	public function run()
+	{
+		$this->runMethod(3);
+	}
+
 
 	/**
 	 * takes a normal title and returns a unique slug by looking at all other

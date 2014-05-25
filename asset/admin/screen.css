@@ -1283,7 +1283,7 @@ table.basic td {
 /**
  * where to put this?
  */
-/* line 71, ../../sass/_global.scss */
+/* line 70, ../../sass/_global.scss */
 body {
   line-height: 1.5;
 }
@@ -1497,48 +1497,49 @@ footer.main {
   margin-top: 2em;
 }
 
-/* line 1, ../../sass/admin/_login.scss */
-.content.login {
-  margin: 0 auto;
-  padding: 5em 0;
-  width: 15em;
-}
-/* line 6, ../../sass/admin/_login.scss */
-.content.login .submit {
-  float: right;
-}
-/* line 10, ../../sass/admin/_login.scss */
-.content.login .logo {
-  display: block;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  fill: #ca3566;
-  margin-bottom: 2em;
-  width: 60%;
-}
-/* line 20, ../../sass/admin/_login.scss */
-.content.login svg {
-  width: 100%;
-}
-/* line 24, ../../sass/admin/_login.scss */
-.content.login .logo img {
-  width: 100%;
-}
-/* line 28, ../../sass/admin/_login.scss */
-.content.login input {
-  width: 100%;
-}
-/* line 32, ../../sass/admin/_login.scss */
-.content.login label {
-  display: block;
-}
+@media (min-width: 0) and (max-width: 599px) {
+  /* line 3, ../../sass/admin/_login.scss */
+  .content.login {
+    margin: 0 auto;
+    padding: 5em 0;
+    width: 15em;
+  }
+  /* line 8, ../../sass/admin/_login.scss */
+  .content.login .submit {
+    float: right;
+  }
+  /* line 12, ../../sass/admin/_login.scss */
+  .content.login .logo {
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    fill: #ca3566;
+    margin-bottom: 2em;
+    width: 60%;
+  }
+  /* line 22, ../../sass/admin/_login.scss */
+  .content.login svg {
+    width: 100%;
+  }
+  /* line 26, ../../sass/admin/_login.scss */
+  .content.login .logo img {
+    width: 100%;
+  }
+  /* line 30, ../../sass/admin/_login.scss */
+  .content.login input {
+    width: 100%;
+  }
+  /* line 34, ../../sass/admin/_login.scss */
+  .content.login label {
+    display: block;
+  }
 
-/* line 37, ../../sass/admin/_login.scss */
-input.login-input {
-  margin: 1em 0;
+  /* line 39, ../../sass/admin/_login.scss */
+  input.login-input {
+    margin: 1em 0;
+  }
 }
-
 /* line 41, ../../sass/admin/_tag.scss */
 .browser-tag {
   min-height: 7em;
@@ -1547,11 +1548,29 @@ input.login-input {
   margin: 1em 0;
 }
 
+/* line 48, ../../sass/admin/_tag.scss */
+.tag {
+  padding: .2em .5em;
+  background-color: #666;
+  border-radius: 3px;
+  color: white;
+  margin: .2em;
+  float: left;
+  font-size: 0.8em;
+}
+
+/* line 57, ../../sass/admin/_tag.scss */
+.tag:hover {
+  color: white;
+}
+
+/* line 60, ../../sass/admin/_tag.scss */
+.browser-tag-attached .tag {
+  background-color: pink;
+}
+
 /* line 1, ../../sass/admin/_feedback.scss */
 .feedback-container {
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
   -moz-box-shadow: 0 1px 3px green;
   -webkit-box-shadow: 0 1px 3px green;
   box-shadow: 0 1px 3px green;
@@ -1563,7 +1582,7 @@ input.login-input {
   color: green;
   cursor: default;
 }
-/* line 12, ../../sass/admin/_feedback.scss */
+/* line 11, ../../sass/admin/_feedback.scss */
 .feedback-container:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
   opacity: 0.5;

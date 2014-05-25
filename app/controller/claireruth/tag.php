@@ -14,10 +14,7 @@ class Controller_Tag extends Controller_Index
 {
 
 
-	public function initialise() {
-		
-		// global
-		$this->setView($this->initialiseView());
+	public function run() {
 
 		// set objects
 		$modelTag = new model_tag($this);
@@ -40,7 +37,7 @@ class Controller_Tag extends Controller_Index
 		$molds = $modelContentMeta->read(array(
 			'where' => array(
 				'name' => 'tag',
-				'value' => $mold->id
+				'value' => $mold->id,
 			)
 		));
 		if (! $molds) {
@@ -48,21 +45,24 @@ class Controller_Tag extends Controller_Index
 		}
 		$contentIds = $modelContentMeta->getDataProperty('content_id');
 
-		// set pagination
-		$pagination = new pagination($this);
-		$pagination->setTotalRows(count($contentIds));
-		$pagination->initialise();
-
-		// get content
+		// get all content
 		$molds = $modelContent->read(array(
 			'where' => array(
 				'id' => $contentIds,
 
 				// @todo integrate other types
-				'type' => 'post'
-			),
-			'limit' => $pagination->getLimit()
+				'type' => 'post',
+				'status' => 'visible'
+			)
 		));
+
+		// set pagination
+		$pagination = new pagination($this);
+		$pagination->setTotalRows(count($molds));
+		$pagination->initialise();
+
+		// set only a slice
+		$modelContent->setData(array_slice($modelContent->getData(), $pagination->getLimit(0), $pagination->getLimit(1)));
 		$modelContent->bindMeta('media');
 		$modelContent->bindMeta('tag');
 
@@ -71,7 +71,7 @@ class Controller_Tag extends Controller_Index
 			->setMeta(array(		
 				'title' => 'All posts by tag name ' . $this->url->getPathPart(1)
 			))
-			->setObject('totalContents', count($contentIds))
+			->setObject('totalContents', count($molds))
 			->setObject('pageCurrent', $pagination->getCurrentPage())
 			->setObject('pagination_summary', $pagination->getSummary())
 			->setObject('pagination', $pagination)

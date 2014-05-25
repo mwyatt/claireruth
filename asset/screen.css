@@ -1284,7 +1284,7 @@ table.basic td {
 /**
  * where to put this?
  */
-/* line 71, ../sass/_global.scss */
+/* line 70, ../sass/_global.scss */
 body {
   line-height: 1.5;
 }
@@ -1435,19 +1435,20 @@ svg {
     margin-top: 0.6%;
     width: 37%;
     text-align: right;
+    font-size: 1.1em;
   }
 
-  /* line 67, ../sass/_header.scss */
+  /* line 68, ../sass/_header.scss */
   .container-header a.menu-item {
     color: white;
     font-weight: 600;
-    margin-left: 3%;
+    margin-left: 6%;
   }
 }
-@media (min-width: 1000px) {
-  /* line 76, ../sass/_header.scss */
+@media (min-width: 800px) {
+  /* line 77, ../sass/_header.scss */
   .container-header-inner {
-    width: 1000px;
+    width: 800px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -1499,14 +1500,53 @@ svg {
   /* line 31, ../sass/_search.scss */
   .container-header .form-search {
     float: right;
+    margin-top: 0.3em;
   }
 
-  /* line 35, ../sass/_search.scss */
+  /* line 36, ../sass/_search.scss */
+  .is-scrolling .form-search {
+    margin-top: 0;
+  }
+
+  /* line 40, ../sass/_search.scss */
   .container-footer .form-search {
     display: none;
   }
+
+  /* line 44, ../sass/_search.scss */
+  .container-header .form-search-submit {
+    border-radius: 3px;
+  }
+
+  /* line 48, ../sass/_search.scss */
+  .container-header .form-search-query {
+    background-color: #cf4975;
+    border-width: 0;
+    color: white;
+    margin-right: .5em;
+    padding: 4px 0.6em;
+  }
+
+  /* line 58, ../sass/_search.scss */
+  .container-header ::-webkit-input-placeholder {
+    color: white;
+  }
+  /* line 62, ../sass/_search.scss */
+  .container-header :-moz-placeholder {
+    /* Firefox 18- */
+    color: white;
+  }
+  /* line 66, ../sass/_search.scss */
+  .container-header ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: white;
+  }
+  /* line 70, ../sass/_search.scss */
+  .container-header :-ms-input-placeholder {
+    color: white;
+  }
 }
-/* line 40, ../sass/_search.scss */
+/* line 76, ../sass/_search.scss */
 .form-search-submit {
   height: 35px;
 }
@@ -1547,11 +1587,17 @@ svg {
 a.tag {
   margin-right: .5em;
   margin-bottom: .5em;
-  text-decoration: underline;
-  color: #e5673c;
+  color: white;
+  background-color: #2a9f67;
+  padding: .4em;
+  margin: .2em;
+  float: left;
+  line-height: 1.1;
+  font-size: .8em;
+  border-radius: 5px;
 }
 
-/* line 36, ../sass/_content.scss */
+/* line 42, ../sass/_content.scss */
 .content.element {
   position: relative;
   min-height: 13em;
@@ -1560,7 +1606,7 @@ a.tag {
   -webkit-box-shadow: 0 1px 1px #cccccc;
 }
 
-/* line 44, ../sass/_content.scss */
+/* line 50, ../sass/_content.scss */
 .content-author {
   position: absolute;
   bottom: 1em;
@@ -1570,130 +1616,50 @@ a.tag {
 }
 
 @media (min-width: 0) and (max-width: 599px) {
-  /* line 54, ../sass/_content.scss */
+  /* line 60, ../sass/_content.scss */
   .content-html img {
     max-width: 100%;
     max-height: 100%;
     margin: 1em auto;
   }
 
-  /* line 60, ../sass/_content.scss */
+  /* line 66, ../sass/_content.scss */
   .content.element {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
+  }
+}
+@media (min-width: 600px) {
+  /* line 74, ../sass/_content.scss */
+  .content.element {
+    float: left;
   }
 }
 @media (min-width: 600px) and (max-width: 899px) {
-  /* line 68, ../sass/_content.scss */
-  .contents {
-    /*  values:
-        $display: flex | inline-flex
-        $flexdirection: row(default) | row-reverse | column | column-reverse
-        $flexwrap: nowrap(default) | wrap | wrap-reverse
-        $justifycontent: flex-start(default) | flex-end | center | space-between | space-around
-        $alignitems: flex-start | flex-end | center | baseline | stretch (default)
-        $aligncontent: flex-start | flex-end | center | space-between | space-around | stretch (default)
-    */
-  }
-  /* line 10, ../sass/vendor/_flexbox.scss */
-  .flexboxlegacy.no-flexbox .contents {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-box;
-    display: box;
-  }
-  /* line 16, ../sass/vendor/_flexbox.scss */
-  .flexbox .contents {
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    -moz-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-  }
-
-  /* line 72, ../sass/_content.scss */
+  /* line 81, ../sass/_content.scss */
   .content.element {
     width: 47%;
     margin: 1%;
   }
-  /* line 38, ../sass/vendor/_flexbox.scss */
-  .flexboxlegacy.no-flexbox .content.element {
-    -webkit-box-flex: 0;
-    -moz-box-flex: 0;
-    -ms-box-flex: 0;
-    box-flex: 0;
-    max-width: auto;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-box;
-    display: box;
-  }
-  /* line 44, ../sass/vendor/_flexbox.scss */
-  .flexbox .content.element {
-    -webkit-flex: 0 1 auto;
-    -moz-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
-    flex: 0 1 auto;
-  }
 }
 @media (min-width: 900px) {
-  /* line 81, ../sass/_content.scss */
-  .contents {
-    /*  values:
-        $display: flex | inline-flex
-        $flexdirection: row(default) | row-reverse | column | column-reverse
-        $flexwrap: nowrap(default) | wrap | wrap-reverse
-        $justifycontent: flex-start(default) | flex-end | center | space-between | space-around
-        $alignitems: flex-start | flex-end | center | baseline | stretch (default)
-        $aligncontent: flex-start | flex-end | center | space-between | space-around | stretch (default)
-    */
-  }
-  /* line 10, ../sass/vendor/_flexbox.scss */
-  .flexboxlegacy.no-flexbox .contents {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-box;
-    display: box;
-  }
-  /* line 16, ../sass/vendor/_flexbox.scss */
-  .flexbox .contents {
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    -moz-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-  }
-
-  /* line 85, ../sass/_content.scss */
+  /* line 89, ../sass/_content.scss */
   .content.element {
-    width: 30%;
+    width: 31%;
     margin: 1%;
-  }
-  /* line 38, ../sass/vendor/_flexbox.scss */
-  .flexboxlegacy.no-flexbox .content.element {
-    -webkit-box-flex: 0;
-    -moz-box-flex: 0;
-    -ms-box-flex: 0;
-    box-flex: 0;
-    max-width: auto;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-box;
-    display: box;
-  }
-  /* line 44, ../sass/vendor/_flexbox.scss */
-  .flexbox .content.element {
-    -webkit-flex: 0 1 auto;
-    -moz-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
-    flex: 0 1 auto;
+    float: left;
   }
 }
+/* line 96, ../sass/_content.scss */
+.content-single .content-date {
+  display: none;
+}
+
+/* line 100, ../sass/_content.scss */
+.content-single.is-type-post .content-date {
+  text-align: right;
+  display: block;
+}
+
 /* line 1, ../sass/content/_single.scss */
 .content-single-title {
   font-size: 2.2em;
@@ -1823,18 +1789,22 @@ a.content-tag {
 }
 
 /* line 1, ../sass/_pagination.scss */
-.pagination-break-down {
+.pagination-summary {
   text-align: center;
   font-size: 1em;
-  margin-bottom: 1em;
+  margin: 0.1em 0;
 }
 
 /* line 7, ../sass/_pagination.scss */
 .pagination {
   margin: 1em 0;
+  font-size: .8em;
+  border-top: 1px dotted #cccccc;
+  padding: 1em 0;
+  border-bottom: 1px dotted #cccccc;
 }
-/* line 10, ../sass/_pagination.scss */
-.pagination a.page {
+/* line 14, ../sass/_pagination.scss */
+.pagination a.pagination-page {
   display: none;
   border: 1px solid #ca3566;
   margin-right: 0.6em;
@@ -1846,36 +1816,47 @@ a.content-tag {
   width: 13%;
   line-height: 1.6;
 }
-/* line 23, ../sass/_pagination.scss */
+/* line 27, ../sass/_pagination.scss */
 .pagination a.is-current {
   cursor: default;
   color: #e5673c;
   border-color: #e5673c;
   background: transparent;
 }
-/* line 30, ../sass/_pagination.scss */
-.pagination .next,
-.pagination .previous {
-  width: 40%;
+
+/* line 37, ../sass/_pagination.scss */
+a.pagination-next,
+a.pagination-previous {
+  width: 30%;
   padding: 0.2em 0.4em;
   background: #e5673c;
   color: white;
+  border-radius: 5px;
 }
-/* line 38, ../sass/_pagination.scss */
-.pagination .previous {
+
+/* line 46, ../sass/_pagination.scss */
+.pagination-previous {
   float: left;
 }
-/* line 42, ../sass/_pagination.scss */
-.pagination .next {
+
+/* line 50, ../sass/_pagination.scss */
+.pagination-next {
   float: right;
   text-align: right;
 }
 
-/* line 48, ../sass/_pagination.scss */
+/* line 55, ../sass/_pagination.scss */
 .pagination-title {
   display: none;
 }
 
+@media (min-width: 600px) {
+  /* line 61, ../sass/_pagination.scss */
+  a.pagination-next,
+  a.pagination-previous {
+    width: 15%;
+  }
+}
 /* line 1, ../sass/_footer.scss */
 .container-footer {
     /* 
@@ -1908,16 +1889,42 @@ float: left;
   white-space: nowrap;
 }
 
+@media (min-width: 900px) {
+  /* line 38, ../sass/_footer.scss */
+  .container-footer {
+    border-top: 1px dotted #2a9f67;
+    margin-top: 1.5em;
+    padding-top: 1.5em;
+    padding-bottom: 6em;
+  }
+
+  /* line 45, ../sass/_footer.scss */
+  .container-footer-inner {
+    width: 800px;
+    margin: 0px auto;
+  }
+
+  /* line 50, ../sass/_footer.scss */
+  .container-footer .menu-item {
+    margin-right: 1em;
+    font-weight: 600;
+    border-bottom: 1px solid;
+  }
+}
 @media (min-width: 0) and (max-width: 899px) {
-  /* line 40, ../sass/_footer.scss */
+  /* line 59, ../sass/_footer.scss */
+  .container-footer {
+    padding: 1em;
+  }
+  /* line 62, ../sass/_footer.scss */
   .container-footer .menu {
     margin: 1em 0;
   }
-  /* line 45, ../sass/_footer.scss */
+  /* line 67, ../sass/_footer.scss */
   .container-footer .menu-item:first-child {
     border: 0;
   }
-  /* line 49, ../sass/_footer.scss */
+  /* line 71, ../sass/_footer.scss */
   .container-footer .menu-item {
     display: block;
     text-align: center;
@@ -1926,16 +1933,16 @@ float: left;
     color: white;
     border-top: 1px solid white;
   }
-  /* line 58, ../sass/_footer.scss */
+  /* line 80, ../sass/_footer.scss */
   .container-footer .menu-item:first-child {
     border: 0;
   }
 }
-/* line 66, ../sass/_footer.scss */
+/* line 88, ../sass/_footer.scss */
 .container-footer .calling-card {
   margin: 1em 0;
 }
-/* line 70, ../sass/_footer.scss */
+/* line 92, ../sass/_footer.scss */
 .container-footer .calling-card-portrait {
   float: left;
   margin-right: 1em;
@@ -1945,15 +1952,15 @@ float: left;
   overflow: hidden;
   height: 9em;
 }
-/* line 80, ../sass/_footer.scss */
+/* line 102, ../sass/_footer.scss */
 .container-footer .calling-card-content-title {
   font-size: 1.3em;
 }
-/* line 84, ../sass/_footer.scss */
+/* line 106, ../sass/_footer.scss */
 .container-footer .calling-card-content-button.button.primary {
   float: left;
 }
-/* line 88, ../sass/_footer.scss */
+/* line 110, ../sass/_footer.scss */
 .container-footer .calling-card-content-description {
   margin-bottom: 1em;
 }
@@ -2020,21 +2027,23 @@ body {
   font-family: "Open Sans", "sans-serif";
 }
 
-/* line 26, ../sass/screen.scss */
-.container-site {
-  margin-top: 4.1em;
-  padding: 1em;
-}
-
-@media (min-width: 1000px) {
-  /* line 33, ../sass/screen.scss */
+@media (min-width: 0) and (max-width: 899px) {
+  /* line 28, ../sass/screen.scss */
   .container-site {
-    width: 1000px;
+    margin-top: 4.1em;
+    padding: 1em;
+  }
+}
+@media (min-width: 800px) {
+  /* line 36, ../sass/screen.scss */
+  .container-site {
+    margin-top: 5.1em;
+    width: 800px;
     margin-left: auto;
     margin-right: auto;
   }
 }
-/* line 44, ../sass/screen.scss */
+/* line 48, ../sass/screen.scss */
 .button {
   text-shadow: 0 -1px 0 #b6305c;
   background-color: #ca3566;
@@ -2056,7 +2065,7 @@ body {
   border-bottom-color: #79203d;
 }
 
-/* line 48, ../sass/screen.scss */
+/* line 52, ../sass/screen.scss */
 .button-primary,
 .button.primary {
   text-shadow: 0 -1px 0 #b6305c;
@@ -2081,7 +2090,7 @@ body {
   border-bottom-color: #79203d;
 }
 
-/* line 53, ../sass/screen.scss */
+/* line 57, ../sass/screen.scss */
 .button-secondary,
 .button.secondary {
   text-shadow: 0 -1px 0 #e25525;
@@ -2106,7 +2115,7 @@ body {
   border-bottom-color: #a53a16;
 }
 
-/* line 58, ../sass/screen.scss */
+/* line 62, ../sass/screen.scss */
 .button-tertiary,
 .button.tertiary {
   text-shadow: 0 -1px 0 #258b5a;
@@ -2131,7 +2140,7 @@ body {
   border-bottom-color: #154e33;
 }
 
-/* line 63, ../sass/screen.scss */
+/* line 67, ../sass/screen.scss */
 .to-top {
   -moz-transition: all 200ms ease;
   -o-transition: all 200ms ease;
@@ -2153,13 +2162,13 @@ body {
   -webkit-box-shadow: 0 0 10px #999999;
   box-shadow: 0 0 10px #999999;
 }
-/* line 77, ../sass/screen.scss */
+/* line 81, ../sass/screen.scss */
 .to-top.is-active {
   display: block;
   right: 1em;
 }
 
-/* line 83, ../sass/screen.scss */
+/* line 87, ../sass/screen.scss */
 .core-h1 {
   text-shadow: 1px 1px #745e56;
   text-align: center;
@@ -2171,7 +2180,7 @@ body {
   margin-bottom: 1em;
 }
 
-/* line 94, ../sass/screen.scss */
+/* line 98, ../sass/screen.scss */
 .search-result-description {
   margin-bottom: 1em;
 }

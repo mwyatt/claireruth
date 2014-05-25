@@ -20,9 +20,6 @@ $(document).ready(function() {
 		var modelContentSlug = new Model_Content_Slug();
 	};
 
-	// header always following on scroll
-	$('.js-header-main').scrollFollow();
-
 	// watch for dismissers
 	var dismiss = new Dismiss();
 });

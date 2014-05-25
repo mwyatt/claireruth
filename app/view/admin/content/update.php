@@ -62,7 +62,8 @@
 
 		<div class="clearfix">
 			<label for="time_published">Time Published</label>
-			<input name="time_published" type="text" value="<?php echo $content->time_published ?>">
+			<input name="time_published[date]" type="date" value="<?php echo $contentDate ?>">
+			<input name="time_published[time]" type="time" value="<?php echo $contentTime ?>">
 		</div>
 		<div class="clearfix">
 			<input name="type" type="hidden" value="<?php echo $this->url->getPathPart(2) ?>">

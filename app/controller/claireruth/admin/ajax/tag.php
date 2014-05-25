@@ -15,6 +15,12 @@ class Controller_Admin_Ajax_Tag extends Controller_Admin
 {
 
 
+	public function run()
+	{
+		$this->runMethod(3);
+	}
+
+
 	/**
 	 * default display for the tag browser
 	 */

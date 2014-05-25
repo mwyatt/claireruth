@@ -30,6 +30,48 @@ class Route extends System
 	public $map;
 
 
+	public $default = 'controller_index';
+
+
+	public $current;
+
+
+	public function getDefault()
+	{
+		return $this->default;
+	}
+
+
+	public function setDefault($value)
+	{
+		$this->default = $value;
+	}
+
+
+	public function getCurrent()
+	{
+		return $this->current;
+	}
+
+
+	public function setCurrent($value)
+	{
+		$this->current = $value;
+	}
+
+
+	/**
+	 * detect a route which does not exist
+	 * @return boolean 
+	 */
+	public function isInvalid()
+	{
+		if ($this->url->getPathPart(0) && $this->getDefault() == $this->getCurrent()) {
+			return true;
+		}
+	}
+
+
 	/**
 	 * compare the current url path to a site specific map of routes
 	 * if one is found it is loaded up. once its processes are complete
@@ -44,28 +86,41 @@ class Route extends System
 		$path = $url->getPathString();
 
 		// find a matching map property
-		$current = 'controller_index';
+		$this->setCurrent($this->getDefault());
 		foreach ($this->getMap() as $mapPath => $class) {
 			if (strpos($path, $mapPath) !== 0) {
 				continue;
 			}
-			$current = $class;
+			$this->setCurrent($class);
 		}
-
-// echo '<pre>';
-// print_r($current);
-// echo '</pre>';
+		
+// 		echo '<pre>';
+// // var_dump($path);
+// // var_dump($mapPath);
+// // var_dump($this->getMap());
+// var_dump($this->isInvalid());
+// var_dump($this->getCurrent());
+// 		echo '</pre>';
 // exit;
 
+		// trying to access a route but it does not exist
+		if ($this->isInvalid()) {
+			$this->route('base', 'not-found/');
+		}
+
 		// does the class exist?
-		if (! class_exists($current)) {
-			exit('class ' . $current . ' does not exist in the routing map');
+		if (! class_exists($this->getCurrent())) {
+			exit('class ' . $this->getCurrent() . ' does not exist in the routing map');
 		}
 
 		// boot class
+		$current = $this->getCurrent();
 		$controller = new $current($this);
 		$controller->setView(new view($this));
+
+		// initialise + run
 		$controller->initialise();
+		$controller->run();
 
 		// render the data
 		$controller->view->render();

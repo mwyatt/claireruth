@@ -11,23 +11,22 @@
  * @license http://www.php.net/license/3_01.txt PHP License 3.01
  */
  
-class Controller_Index extends Route
+class Controller_Index extends Controller
 {
 
 
-	public function initialiseView()
+	public function initialise()
 	{
-		$this->setMainMenu();
-		return $this->getView();
+
+		// main nav
+		$json = new Json();
+		$json->read('main-menu');
+		$this->view->setObject('mainMenu', $json->getData());
 	}
 
 
-	/**
-	 * return from a controller function to load just one template
-	 * no need for render setting now?
-	 */
-	public function initialise() {
-		$this->initialiseView();
+	public function run()
+	{
 		if ($this->url->getPathPart(1)) {
 			$this->route('base');
 		}
@@ -35,16 +34,6 @@ class Controller_Index extends Route
 			return $this->search();
 		}
 		return $this->home();
-	}
-
-
-	public function setMainMenu()
-	{
-		$json = new Json();
-		$json->read('main-menu');
-
-		// main navigation
-		$this->view->setObject('mainMenu', $json->getData());
 	}
 
 
@@ -61,7 +50,7 @@ class Controller_Index extends Route
 					'type' => 'post',
 					'status' => 'visible'
 				),
-				'limit' => array(0, 3),
+				'limit' => array(0, 6),
 				'order_by' => 'time_published desc'
 			));
 			$modelContent->bindMeta('media');
@@ -70,37 +59,6 @@ class Controller_Index extends Route
 			$cache->create($modelContent->getData());
 		}
 		$this->view->getTemplate('home');
-	}
-
-
-	public function search() {
-		if (! array_key_exists('query', $_GET)) {
-			$this->route('base');
-		}
-		$query = $_GET['query'];
-		$query = htmlspecialchars($query);
-		if (! $query) {
-			$this->route('base');
-		}
-		$modelContent = new model_content($this);
-		$modelContent->readSearch($query);
-		$this->view
-			->setObject('result_count', count($modelContent->getData()));
-
-		// paginate and set slice of data
-		$pagination = new pagination($this);
-		$pagination->setTotalRows(count($modelContent->getData()));
-		$pagination->initialise();
-		$limit = $pagination->getLimit();
-		$modelContent->setData(array_slice($modelContent->getData(), reset($limit), end($limit)));
-		$modelContent->bindMeta('media');
-		$modelContent->bindMeta('tag');
-		$this->view
-			->setObject('query', $query)
-			->setObject('contents', $modelContent)
-			->setObject('pagination', $pagination)
-			->setObject('pagination_summary', $pagination->getSummary())
-			->getTemplate('search');
 	}
 
 

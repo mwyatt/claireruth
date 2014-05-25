@@ -33,9 +33,31 @@ float: left;
     .propos-button.button.primary {}
 }
 
+@include breakpoint(900px) {
+
+    .container-footer {
+        border-top: 1px dotted $color-tertiary;
+        margin-top: 1.5em;
+        padding-top: 1.5em;
+        padding-bottom: 6em;
+    }
+
+    .container-footer-inner {
+        width: 800px;
+        margin: 0px auto;
+    }
+
+    .container-footer .menu-item {
+        margin-right: 1em;
+        font-weight: 600;
+        border-bottom: 1px solid;
+    }
+}
+
 @include breakpoint(0 899px) {
 
     .container-footer {
+        padding: 1em;
 
         .menu {
             margin: 1em 0;

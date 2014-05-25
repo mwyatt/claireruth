@@ -14,9 +14,8 @@ class Controller_Content extends Controller_Index
 {
 
 
-	public function initialise()
+	public function run()
 	{
-		$this->setView($this->initialiseView());
 		if ($this->single()) {
 			return;
 		}
@@ -54,7 +53,7 @@ class Controller_Content extends Controller_Index
 				'title' => $modelContent->getData('title')
 			))
 			->setObject('contents', $modelContent)
-			->renderTemplate('content-single');
+			->getTemplate('content-single');
 		return true;
 	}
 
@@ -92,7 +91,7 @@ class Controller_Content extends Controller_Index
 			->setObject('first_content', current($firstContent))
 			->setObject($pagination)
 			->setObject('contents', $modelContent)
-			->renderTemplate('content');
+			->getTemplate('content');
 		return true;
 	}
 }

@@ -29,8 +29,14 @@
 a.tag {
     margin-right: .5em;
     margin-bottom: .5em;
-    text-decoration: underline;
-    color: $color-secondary;
+    color: $color-white;
+    background-color: $color-tertiary;
+    padding: .4em;
+    margin: .2em;
+    float: left;
+    line-height: 1.1;
+    font-size: .8em;
+    border-radius: 5px;
 }
 
 .content.element {
@@ -59,18 +65,20 @@ a.tag {
 
     .content.element {
         // border-bottom: 1px dashed $color-tertiary;
-        margin-bottom: 2em;
+        margin-bottom: 1em;
+    }
+}
+
+@include breakpoint(600px) {
+
+    .content.element {
+        float: left;
     }
 }
 
 @include breakpoint(600px 899px) {
 
-    .contents {
-        @include flexcontainer($display: flex, $flexdirection: false, $flexwrap: wrap, $justifycontent: false, $alignitems: false, $aligncontent: false);
-    }
-
     .content.element {
-        @include flexchild();
         width: 47%;
         margin: 1%;
     }
@@ -78,13 +86,18 @@ a.tag {
 
 @include breakpoint(900px) {
 
-    .contents {
-        @include flexcontainer($display: flex, $flexdirection: false, $flexwrap: wrap, $justifycontent: false, $alignitems: false, $aligncontent: false);
-    }
-
     .content.element {
-        @include flexchild();
-        width: 30%;
+        width: 31%;
         margin: 1%;
+        float: left;
     }
+}
+
+.content-single .content-date {
+    display: none;
+}
+
+.content-single.is-type-post .content-date {
+    text-align: right;
+    display: block;
 }

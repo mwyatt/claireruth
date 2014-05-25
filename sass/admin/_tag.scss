@@ -44,3 +44,19 @@
     background-color: #eee;
     margin: 1em 0;
 }
+
+.tag {
+    padding: .2em .5em;
+    background-color: #666;
+    border-radius: 3px;
+    color: white;
+    margin: .2em;
+    float: left;
+    font-size: 0.8em;
+}
+.tag:hover {
+    color: white;
+}
+.browser-tag-attached .tag {
+    background-color: pink;
+}
